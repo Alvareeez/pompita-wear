@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('foto_perfil')->nullable();
             // RELACIONES ROLES
             $table->integer('id_rol')->nullable();
             $table->foreign('id_rol')->references('id_rol')->on('roles');
