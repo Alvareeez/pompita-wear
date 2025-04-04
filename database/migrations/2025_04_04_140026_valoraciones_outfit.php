@@ -8,16 +8,19 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('favoritos_prendas', function (Blueprint $table) {
-            $table->foreignId('id_prenda')->constrained('prendas', 'id_prenda');
+        Schema::create('valoraciones_outfits', function (Blueprint $table) {
+            $table->id('id_valoracion');
+            $table->foreignId('id_outfit')->constrained('outfits', 'id_outfit');
             $table->foreignId('id_usuario')->constrained('usuarios', 'id_usuario');
-            $table->primary(['id_prenda', 'id_usuario']);
+            $table->integer('puntuacion')->checkBetween(1, 5);
             $table->timestamps();
+
+            $table->unique(['id_outfit', 'id_usuario']);
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('favoritos_prendas');
+        Schema::dropIfExists('valoraciones_outfits');
     }
 };

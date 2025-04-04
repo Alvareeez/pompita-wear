@@ -6,28 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::disableForeignKeyConstraints();
-
-        Schema::create('outfit', function (Blueprint $table) {
-            $table->integer('id_outfit')->primary()->autoIncrement();
-            $table->integer('id_usuario')->nullable();
-            $table->foreign('id_usuario')->references('id_usuario')->on('usuarios');
-            $table->integer('likes')->nullable();
+        Schema::create('outfits', function (Blueprint $table) {
+            $table->id('id_outfit');
+            $table->foreignId('id_usuario')->nullable()->constrained('usuarios', 'id_usuario');
+            $table->integer('likes')->nullable()->default(0);
+            $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('outfit');
+        Schema::dropIfExists('outfits');
     }
 };

@@ -6,26 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::disableForeignKeyConstraints();
-
         Schema::create('etiquetas', function (Blueprint $table) {
-            $table->integer('id_etiqueta')->primary()->autoIncrement();
-            $table->string('nombre', 50);
+            $table->id('id_etiqueta');
+            $table->string('nombre', 50)->unique();
             $table->text('descripcion')->nullable();
+            $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('etiquetas');
     }

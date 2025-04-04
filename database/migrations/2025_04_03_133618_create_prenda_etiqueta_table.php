@@ -6,28 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::disableForeignKeyConstraints();
-
-        Schema::create('prenda_etiqueta', function (Blueprint $table) {
-            $table->integer('id_prenda')->nullable();
-            $table->foreign('id_prenda')->references('id_prenda')->on('prenda');
-            $table->integer('id_etiqueta')->nullable();
-            $table->foreign('id_etiqueta')->references('id_etiqueta')->on('etiquetas');
+        Schema::create('prenda_etiquetas', function (Blueprint $table) {
+            $table->foreignId('id_prenda')->constrained('prendas', 'id_prenda');
+            $table->foreignId('id_etiqueta')->constrained('etiquetas', 'id_etiqueta');
+            $table->primary(['id_prenda', 'id_etiqueta']);
+            $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('prenda_etiqueta');
+        Schema::dropIfExists('prenda_etiquetas');
     }
 };

@@ -6,27 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
-        Schema::disableForeignKeyConstraints();
-
         Schema::create('prenda_colores', function (Blueprint $table) {
-            $table->integer('id_prenda')->nullable();
-            $table->foreign('id_prenda')->references('id_prenda')->on('prenda');
-            $table->integer('id_color')->nullable();
-            $table->foreign('id_color')->references('id_color')->on('colores');
+            $table->foreignId('id_prenda')->constrained('prendas', 'id_prenda');
+            $table->foreignId('id_color')->constrained('colores', 'id_color');
+            $table->primary(['id_prenda', 'id_color']);
+            $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('prenda_colores');
     }
