@@ -21,12 +21,17 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <input type="text" name="email" placeholder="Correo electrónico" required />
+                <p id="email-error" style="color: red; font-size: 12px;"></p> <!-- Error debajo del email -->
+
                 <input type="password" name="password" placeholder="Contraseña" required />
+                <p id="password-error" style="color: red; font-size: 12px;"></p> <!-- Error debajo de la contraseña -->
+
                 <button type="submit">Iniciar Sesión</button>
             </form>
 
             <p>¿No tienes una cuenta? <a href="{{ route('register') }}">Regístrate aquí</a></p>
         </div>
     </div>
+    <script src="{{ asset('js/valiLogin.js') }}"></script>
 </body>
 </html>
