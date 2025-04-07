@@ -11,7 +11,7 @@ Route::get('/', function () {
 Route::view('/login', 'login.login')->name('login')->middleware('guest');
 Route::view('/registro', 'registro.registro')->middleware('guest');
 
-Route::post('/registro', [AuthController::class, 'register']);
+Route::post('/registro', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
