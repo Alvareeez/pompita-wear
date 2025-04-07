@@ -25,13 +25,29 @@
     <main class="admin-container">
         <div class="tabs">
             <button class="active">Usuarios</button>
-            <button>Ropa</button>
+            <a href="{{ route('admin.ropa.index') }}"><button>Ropa</button></a>
             <button>Outfits</button>
         </div>
 
         <div class="actions-container">
             <a href="{{ route('admin.usuarios.create') }}" class="create-btn">+ Crear Usuario</a>
         </div>
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <div class="table-container">
             <table>
@@ -48,7 +64,7 @@
                         <tr>
                             <td>{{ $usuario->nombre }}</td>
                             <td>{{ $usuario->email }}</td>
-                            <td>{{ $usuario->rol->nombre }}</td>
+                            <td>{{ $usuario->rol ? $usuario->rol->nombre : 'Sin rol' }}</td>
                             <td>
                                 <a href="{{ route('admin.usuarios.edit', $usuario->id_usuario) }}" class="edit-btn">✏️</a>
                                 <a class="delete-btn" onclick="confirmDelete({{ $usuario->id_usuario }})">🗑️</a>

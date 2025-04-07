@@ -1,28 +1,31 @@
+{{-- filepath: c:\wamp64\www\M12\pompita-wear\resources\views\cliente\index.blade.php --}}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Principal - Pompita Wear</title>
+    <title>Pompita Wear - Inicio</title>
     <link rel="stylesheet" href="{{ asset('css/stylesIndex.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
+    <header class="main-header">
         <div class="logo">
             <img src="{{ asset('img/pompitaLogo.png') }}" alt="Pompita Wear">
         </div>
         <nav>
-            <a href="/">Inicio</a>
-            <a href="/logout">Cerrar sesión</a>
-            @if (Auth::check() && Auth::user()->rol->nombre === 'admin')
-                <a href="{{ route('admin.usuarios.index') }}" class="admin-btn">Admin</a>
+            @if (Auth::check())
+                <a href="/">Inicio</a>
+                @if (Auth::user()->rol && Auth::user()->rol->nombre === 'admin')
+                    <a href="{{ route('admin.usuarios.index') }}">Admin</a>
+                @endif
+                <a href="/logout">Cerrar sesión</a>
+            @else
+                <a href="/login">Login</a>
+                <a href="/registro">Registrar</a>
             @endif
         </nav>
     </header>
 
-    <main>
-        <h1>Bienvenido a Pompita Wear</h1>
-        <p>Explora nuestros productos y crea tu estilo único.</p>
-    </main>
 </body>
 </html>

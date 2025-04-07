@@ -34,21 +34,21 @@
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre Completo</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo" >
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" placeholder="Correo Electrónico" >
+                    <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" placeholder="Contraseña" >
+                    <input type="password" id="password" name="password" placeholder="Contraseña" required>
                 </div>
                 <div class="form-group">
                     <label for="id_rol">Rol</label>
-                    <select id="id_rol" name="id_rol" >
+                    <select id="id_rol" name="id_rol" required>
                         @foreach ($roles as $rol)
-                            <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
+                            <option value="{{ $rol->id_rol }}">{{ $rol->nombre }}</option>
                         @endforeach
                     </select>
                 </div>

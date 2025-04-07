@@ -24,7 +24,7 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
-        DB::beginTransaction(); // Inicia la transacción
+        DB::beginTransaction();
 
         try {
             $request->validate([
@@ -41,10 +41,10 @@ class UsuarioController extends Controller
                 'id_rol' => $request->id_rol,
             ]);
 
-            DB::commit(); // Confirma la transacción
+            DB::commit();
             return redirect()->route('admin.usuarios.index')->with('success', 'Usuario creado correctamente.');
         } catch (\Exception $e) {
-            DB::rollBack(); // Revierte la transacción en caso de error
+            DB::rollBack();
             return back()->withErrors(['error' => 'Ocurrió un error al crear el usuario.']);
         }
     }
@@ -63,17 +63,24 @@ class UsuarioController extends Controller
         try {
             $usuario = Usuario::findOrFail($id);
 
+            // Validar los datos enviados
             $request->validate([
-                'nombre' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:usuarios,email,' . $usuario->id_usuario,
-                'id_rol' => 'required|exists:roles,id',
+                'nombre' => 'nullable|string|max:255',
+                'email' => 'nullable|string|email|max:255|unique:usuarios,email,' . $usuario->id_usuario,
+                'id_rol' => 'nullable|exists:roles,id_rol',
+                'password' => 'nullable|string|min:8|confirmed',
             ]);
 
-            $usuario->update([
-                'nombre' => $request->nombre,
-                'email' => $request->email,
-                'id_rol' => $request->id_rol,
-            ]);
+            // Obtener los datos enviados
+            $data = $request->only(['nombre', 'email', 'id_rol']);
+
+            // Si se proporciona una nueva contraseña, encriptarla y agregarla a los datos
+            if ($request->filled('password')) {
+                $data['password'] = bcrypt($request->password);
+            }
+
+            // Actualizar el usuario
+            $usuario->update($data);
 
             DB::commit();
             return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado correctamente.');

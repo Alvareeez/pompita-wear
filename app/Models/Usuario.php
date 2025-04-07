@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;  // Cambiar a esto
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Usuario extends Authenticatable  // Extiende de Authenticatable
+class Usuario extends Authenticatable
 {
     use HasFactory;
 
@@ -19,7 +18,7 @@ class Usuario extends Authenticatable  // Extiende de Authenticatable
         'email',
         'password',
         'id_rol',
-        'foto_perfil'
+        'foto_perfil',
     ];
 
     protected $hidden = [
@@ -28,7 +27,7 @@ class Usuario extends Authenticatable  // Extiende de Authenticatable
 
     public function rol()
     {
-        return $this->belongsTo(Rol::class, 'id_rol');
+        return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
     }
 
     public function outfits()
