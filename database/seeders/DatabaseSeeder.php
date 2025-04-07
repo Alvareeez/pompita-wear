@@ -17,6 +17,9 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             UsuariosSeeder::class,
             TipoPrendasSeeder::class,
+            EstilosSeeder::class,
+            ColoresSeeder::class,
+            UsuariosSeeder::class,
         ]);
     }
     
