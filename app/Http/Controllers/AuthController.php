@@ -22,6 +22,7 @@ class AuthController extends Controller
             'nombre' => $request->nombre,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'id_rol' => 2,
         ]);
 
         return redirect('/login')->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
