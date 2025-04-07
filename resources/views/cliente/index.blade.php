@@ -19,8 +19,11 @@
                 @if (Auth::user()->rol && Auth::user()->rol->nombre === 'admin')
                     <a href="{{ route('admin.usuarios.index') }}">Admin</a>
                 @endif
-                <a href="/logout">Cerrar sesión</a>
-            @else
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="text-white">Cerrar sesión</button>
+                </form>            
+                @else
                 <a href="/login">Login</a>
                 <a href="/registro">Registrar</a>
             @endif

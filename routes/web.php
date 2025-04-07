@@ -16,7 +16,7 @@ Route::view('/registro', 'registro.registro')->middleware('guest');
 
 Route::post('/registro', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 
 // RUTAS DE SEGURIZADAS ---------------------------------------------------------------------------
