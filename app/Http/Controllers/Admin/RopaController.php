@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Prenda;
 use App\Models\TipoPrenda;
 use Illuminate\Http\Request;
+use DB;
 
 class RopaController extends Controller
 {
@@ -55,8 +56,17 @@ class RopaController extends Controller
 
     public function destroy($id)
     {
-        $prenda = Prenda::findOrFail($id);
-        $prenda->delete();
-        return redirect()->route('admin.ropa.index')->with('success', 'Prenda eliminada correctamente.');
+        DB::beginTransaction();
+
+        try {
+            $prenda = Prenda::findOrFail($id);
+            $prenda->delete();
+
+            DB::commit();
+            return redirect()->route('admin.ropa.index')->with('success', 'Prenda eliminada correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al eliminar la prenda.']);
+        }
     }
 }

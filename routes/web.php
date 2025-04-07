@@ -32,4 +32,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/ropa/create', [RopaController::class, 'create'])->name('admin.ropa.create');
     Route::post('/ropa', [RopaController::class, 'store'])->name('admin.ropa.store');
     Route::get('/ropa/{id}/edit', [RopaController::class, 'edit'])->name('admin.ropa.edit');
+    Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
+    Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
 });
