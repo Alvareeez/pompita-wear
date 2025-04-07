@@ -26,6 +26,12 @@
                 <input type="password" name="password" placeholder="Contraseña" required />
                 <p id="password-error" style="color: red; font-size: 12px;"></p> <!-- Error debajo de la contraseña -->
 
+                @if ($errors->any())
+                <div style="color: red; font-size: 14px; margin-bottom: 10px; text-align:center">
+                    {{ $errors->first() }}
+                </div>
+                @endif
+
                 <button type="submit">Iniciar Sesión</button>
             </form>
 
