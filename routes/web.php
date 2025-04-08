@@ -66,3 +66,7 @@ Route::middleware(['auth'])->group(
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
     }
 );
+
+Route::get('/perfil', function () {
+    return view('perfil');
+})->middleware('auth');
