@@ -14,7 +14,7 @@ Route::get('/', function () {
     return view('outfit');
 })->middleware('auth');
 
-// RUTAS DE INICIO ---------------------------------------------------------------------------
+// RUTAS DE INICIO --------------------------------------------------------------------------------------------
 Route::view('/login', 'login.login')->name('login')->middleware('guest');
 Route::view('/registro', 'registro.registro')->middleware('guest');
 
