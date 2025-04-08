@@ -61,4 +61,10 @@ class Prenda extends Model
     {
         return $this->hasMany(ValoracionPrenda::class, 'id_prenda');
     }
+
+    // Relación con el modelo TipoPrenda
+    public function tipo()
+    {
+        return $this->belongsTo(TipoPrenda::class, 'id_tipoPrenda', 'id_tipoPrenda');
+    }
 }

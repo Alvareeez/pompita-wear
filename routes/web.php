@@ -5,9 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RopaController;
 use App\Http\Controllers\PrendaController;
-use App\Http\Controllers\HomeController;
 
-
+use App\Http\Controllers\Admin\EstiloController;
+use App\Http\Controllers\Admin\EtiquetaController;
 
 
 
@@ -36,14 +36,37 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/ropa/create', [RopaController::class, 'create'])->name('admin.ropa.create');
     Route::post('/ropa', [RopaController::class, 'store'])->name('admin.ropa.store');
     Route::get('/ropa/{id}/edit', [RopaController::class, 'edit'])->name('admin.ropa.edit');
+    Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
+    Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
+
+    Route::get('/estilos', [EstiloController::class, 'index'])->name('admin.estilos.index');
+    Route::get('/estilos/create', [EstiloController::class, 'create'])->name('admin.estilos.create');
+    Route::post('/estilos', [EstiloController::class, 'store'])->name('admin.estilos.store');
+    Route::get('/estilos/{id}/edit', [EstiloController::class, 'edit'])->name('admin.estilos.edit');
+    Route::put('/estilos/{id}', [EstiloController::class, 'update'])->name('admin.estilos.update');
+    Route::delete('/estilos/{id}', [EstiloController::class, 'destroy'])->name('admin.estilos.destroy');
+
+    Route::get('/etiquetas', [EtiquetaController::class, 'index'])->name('admin.etiquetas.index');
+    Route::get('/etiquetas/create', [EtiquetaController::class, 'create'])->name('admin.etiquetas.create');
+    Route::post('/etiquetas', [EtiquetaController::class, 'store'])->name('admin.etiquetas.store');
+    Route::get('/etiquetas/{id}/edit', [EtiquetaController::class, 'edit'])->name('admin.etiquetas.edit');
+    Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
+    Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
 });
-
-
+Route::get('/outfit', function () {
+    return view('outfit');
+})->middleware('auth');
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(
+    function () {
 
-    Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
-    Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
 
-});
+        Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
+        Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
+    }
+);
+
+Route::get('/perfil', function () {
+    return view('perfil');
+})->middleware('auth');

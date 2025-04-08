@@ -1,4 +1,3 @@
-{{-- filepath: c:\wamp64\www\M12\pompita-wear\resources\views\Admin\ropa.blade.php --}}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,24 +15,28 @@
         </div>
         <nav>
             <a href="/">Inicio</a>
-            <a href="/logout">Cerrar sesión</a>
-            <div class="profile-photo">
-                <img src="{{ asset('img/profile.png') }}" alt="Foto de perfil">
-            </div>
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                @csrf
+                <button type="submit" class="text-white logout-btn">Cerrar sesión</button>
+            </form>
         </nav>
     </header>
 
     <main class="admin-container">
         <div class="tabs">
-            <a href="{{ route('admin.usuarios.index') }}"><button>Usuarios</button></a>
-            <button class="active">Ropa</button>
-            <button>Outfits</button>
+            <a href="{{ route('admin.usuarios.index') }}">
+                <button>Usuarios</button>
+            </a>
+            <a href="{{ route('admin.ropa.index') }}">
+                <button class="active">Ropa</button>
+            </a>
+            <a href="{{ route('admin.estilos.index') }}">
+                <button>Estilos</button>
+            </a>
+            <a href="{{ route('admin.etiquetas.index') }}">
+                <button>Etiquetas</button>
+            </a>
         </div>
-
-        <div class="actions-container">
-            <a href="{{ route('admin.ropa.create') }}" class="create-btn">+ Crear Prenda</a>
-        </div>
-
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -49,7 +52,9 @@
                 </ul>
             </div>
         @endif
-
+        <div class="actions-container">
+            <a href="{{ route('admin.ropa.create') }}" class="create-btn">+ Crear Ropa</a>
+        </div>
         <div class="table-container">
             <table>
                 <thead>

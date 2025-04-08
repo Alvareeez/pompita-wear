@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración de Usuarios</title>
+    <title>Administración de Estilos</title>
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
@@ -25,13 +24,13 @@
     <main class="admin-container">
         <div class="tabs">
             <a href="{{ route('admin.usuarios.index') }}">
-                <button class="active">Usuarios</button>
+                <button>Usuarios</button>
             </a>
             <a href="{{ route('admin.ropa.index') }}">
                 <button>Ropa</button>
             </a>
             <a href="{{ route('admin.estilos.index') }}">
-                <button>Estilos</button>
+                <button class="active">Estilos</button>
             </a>
             <a href="{{ route('admin.etiquetas.index') }}">
                 <button>Etiquetas</button>
@@ -39,7 +38,7 @@
         </div>
 
         <div class="actions-container">
-            <a href="{{ route('admin.usuarios.create') }}" class="create-btn">+ Crear Usuario</a>
+            <a href="{{ route('admin.estilos.create') }}" class="create-btn">+ Crear Estilo</a>
         </div>
 
         @if (session('success'))
@@ -48,36 +47,24 @@
             </div>
         @endif
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($usuarios as $usuario)
+                    @foreach ($estilos as $estilo)
                         <tr>
-                            <td>{{ $usuario->nombre }}</td>
-                            <td>{{ $usuario->email }}</td>
-                            <td>{{ $usuario->rol ? $usuario->rol->nombre : 'Sin rol' }}</td>
+                            <td>{{ $estilo->id_estilo }}</td>
+                            <td>{{ $estilo->nombre }}</td>
                             <td>
-                                <a href="{{ route('admin.usuarios.edit', $usuario->id_usuario) }}" class="edit-btn">✏️</a>
-                                <a class="delete-btn" onclick="confirmDelete({{ $usuario->id_usuario }})">🗑️</a>
-                                <form id="delete-form-{{ $usuario->id_usuario }}" action="{{ route('admin.usuarios.destroy', $usuario->id_usuario) }}" method="POST" style="display: none;">
+                                <a href="{{ route('admin.estilos.edit', $estilo->id_estilo) }}" class="edit-btn">✏️</a>
+                                <a class="delete-btn" onclick="confirmDelete({{ $estilo->id_estilo }})">🗑️</a>
+                                <form id="delete-form-{{ $estilo->id_estilo }}" action="{{ route('admin.estilos.destroy', $estilo->id_estilo) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
