@@ -10,7 +10,7 @@ use App\Http\Controllers\Admin\EstiloController;
 
 
 Route::get('/', function () {
-    return view('outfit');
+    return view('cliente.index');
 })->middleware('auth');
 
 // RUTAS DE INICIO ---------------------------------------------------------------------------
