@@ -45,9 +45,12 @@ class RopaController extends Controller
                 'colores' => 'array|exists:colores,id_color',
             ]);
 
-            // Subir imágenes
-            $imgFrontalPath = $request->file('img_frontal')->store('img/prendas', 'public');
-            $imgTraseraPath = $request->file('img_trasera')->store('img/prendas', 'public');
+            // Subir imágenes directamente a public/img/prendas
+            $imgFrontalName = time() . '_frontal.' . $request->file('img_frontal')->getClientOriginalExtension();
+            $request->file('img_frontal')->move(public_path('img/prendas'), $imgFrontalName);
+
+            $imgTraseraName = time() . '_trasera.' . $request->file('img_trasera')->getClientOriginalExtension();
+            $request->file('img_trasera')->move(public_path('img/prendas'), $imgTraseraName);
 
             // Crear la prenda
             $prenda = Prenda::create([
@@ -55,8 +58,8 @@ class RopaController extends Controller
                 'descripcion' => $request->descripcion,
                 'id_tipoPrenda' => $request->id_tipoPrenda,
                 'precio' => $request->precio,
-                'img_frontal' => $imgFrontalPath,
-                'img_trasera' => $imgTraseraPath,
+                'img_frontal' => $imgFrontalName, // Guardar solo el nombre del archivo
+                'img_trasera' => $imgTraseraName, // Guardar solo el nombre del archivo
             ]);
 
             // Sincronizar relaciones
@@ -121,6 +124,13 @@ class RopaController extends Controller
 
         try {
             $prenda = Prenda::findOrFail($id);
+
+            // Eliminar relaciones manualmente
+            $prenda->estilos()->detach();
+            $prenda->etiquetas()->detach();
+            $prenda->colores()->detach();
+
+            // Eliminar la prenda
             $prenda->delete();
 
             DB::commit();

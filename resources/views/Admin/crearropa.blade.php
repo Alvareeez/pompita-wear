@@ -71,7 +71,6 @@
                         @endforeach
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="etiquetas">Etiquetas</label>
                     <select id="etiquetas" name="etiquetas[]" multiple>
@@ -80,7 +79,6 @@
                         @endforeach
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="colores">Colores</label>
                     <select id="colores" name="colores[]" multiple>
