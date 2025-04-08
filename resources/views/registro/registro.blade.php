@@ -18,14 +18,35 @@
             </div>
             <form action="{{ route('register') }}" method="POST">
             @csrf
-                <input type="text" name="nombre" placeholder="Nombre Completo" required>
-                <input type="email" name="email" placeholder="Correo" required>
-                <input type="password" name="password" placeholder="Contraseña" required>
-                <input type="password" name="password_confirmation" placeholder="Repetir contraseña" required>
+                <input type="text" name="nombre" placeholder="Nombre Completo">
+                <span class="error"></span> <!-- Mensaje de error para nombre -->
+                
+                <input type="text" name="email" placeholder="Correo">
+                <span class="error"></span> <!-- Mensaje de error para email -->
+
+                <input type="password" name="password" placeholder="Contraseña">
+                <span class="error"></span> <!-- Mensaje de error para contraseña -->
+
+                <input type="password" name="password_confirmation" placeholder="Repetir contraseña">
+                <span class="error"></span> <!-- Mensaje de error para confirmación de contraseña -->
+
+                <!-- Mostrar errores generales antes del formulario -->
+                @if ($errors->any())
+                    <div style="color: red; font-size: 14px; margin-bottom: 10px; text-align:center">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <button type="submit">CREAR USUARIO</button>
             </form>
             <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
         </div>
     </div>
+
+    <script src="{{ asset('js/valiRegistro.js') }}"></script>
 </body>
 </html>
