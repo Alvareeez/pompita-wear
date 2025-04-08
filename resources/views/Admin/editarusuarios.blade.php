@@ -24,22 +24,32 @@
     <main class="admin-container">
         <div class="form-container">
             <h2>Editar Usuario</h2>
+            @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
             <form action="{{ route('admin.usuarios.update', $usuario->id_usuario) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
                     <label for="nombre">Nombre Completo</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ $usuario->nombre }}" placeholder="Nombre Completo">
+                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre', $usuario->nombre) }}" placeholder="Nombre Completo" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" value="{{ $usuario->email }}" placeholder="Correo Electrónico">
+                    <input type="email" id="email" name="email" value="{{ old('email', $usuario->email) }}" placeholder="Correo Electrónico" required>
                 </div>
                 <div class="form-group">
                     <label for="id_rol">Rol</label>
-                    <select id="id_rol" name="id_rol">
+                    <select id="id_rol" name="id_rol" required>
                         @foreach ($roles as $rol)
-                            <option value="{{ $rol->id_rol }}" {{ $usuario->id_rol == $rol->id_rol ? 'selected' : '' }}>
+                            <option value="{{ $rol->id_rol }}" {{ old('id_rol', $usuario->id_rol) == $rol->id_rol ? 'selected' : '' }}>
                                 {{ $rol->nombre }}
                             </option>
                         @endforeach

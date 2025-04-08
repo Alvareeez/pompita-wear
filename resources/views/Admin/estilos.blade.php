@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administración de Estilos</title>
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header class="admin-header">
@@ -30,6 +31,9 @@
             </a>
             <a href="{{ route('admin.estilos.index') }}">
                 <button class="active">Estilos</button>
+            </a>
+            <a href="{{ route('admin.etiquetas.index') }}">
+                <button>Etiquetas</button>
             </a>
         </div>
 
