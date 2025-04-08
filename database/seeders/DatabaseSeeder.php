@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Etiqueta;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
             EstilosSeeder::class,
             ColoresSeeder::class,
             PrendaSeeder::class,
+            EtiquetasSeeder::class,
         ]);
     }
     
