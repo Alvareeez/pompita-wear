@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -8,8 +9,7 @@ use App\Models\Estilo;
 use App\Models\Etiqueta;
 use App\Models\Color;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\Facade\Pdf;
+use DB;
 
 class RopaController extends Controller
 {
