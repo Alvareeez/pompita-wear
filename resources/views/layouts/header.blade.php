@@ -27,7 +27,7 @@
                     <a href="/">Buscar Outfits</a>
                     @auth
                     @if(auth()->user()->rol->nombre === 'admin') 
-                        <a href="/admin/dashboard">Panel Admin</a>
+                        <a href="/admin/usuarios">Panel Admin</a>
                     @endif
                     @endauth
                 </div>
