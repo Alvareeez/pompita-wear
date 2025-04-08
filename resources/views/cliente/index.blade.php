@@ -28,24 +28,46 @@
             <button class="action-button">Botón 3</button>
         </div>
 
-        <!-- Fila de contenido -->
         <div class="content-row">
-            <!-- Columna izquierda -->
             <div class="content-column left-column">
-                <h2 class="section-title">Título de la sección</h2>
-                <div>
-                    <img src="{{ asset('img/sample1.jpg') }}" alt="Imagen pequeña 1" class="small-image">
-                    <img src="{{ asset('img/sample2.jpg') }}" alt="Imagen pequeña 2" class="small-image">
-                    <img src="{{ asset('img/sample3.jpg') }}" alt="Imagen pequeña 3" class="small-image">
+                <h2 class="section-title">Tendencias En Prendas 🔥</h2>
+                <div class="image-row">
+                    @foreach($prendasPopulares->take(3) as $prenda)
+                        <div class="prenda-item">
+                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" 
+                                 alt="Prendas más likes" 
+                                 class="small-image">
+                            <div class="prenda-info">
+                                <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
+                                <span class="likes">❤️ {{ $prenda->likes }}</span>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="image-row">
+                    @foreach($prendasPopulares->slice(3, 2) as $prenda)
+                        <div class="prenda-item">
+                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" 
+                                 alt="Prendas más likes" 
+                                 class="small-image">
+                            <div class="prenda-info">
+                                <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
+                                <span class="likes">❤️ {{ $prenda->likes }}</span>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
 
-            <!-- Columna derecha -->
-            <div class="content-column right-column">
-                <img src="{{ asset('img/sample4.jpg') }}" alt="Imagen grande 1" class="large-image">
-                <img src="{{ asset('img/sample5.jpg') }}" alt="Imagen grande 2" class="large-image">
-                <img src="{{ asset('img/sample6.jpg') }}" alt="Imagen grande 3" class="large-image">
-            </div>
+    <!-- Columna derecha -->
+    <div class="content-column right-column">
+        <h2 class="section-title">Tendencias En Outfits 🔥</h2>
+        <div class="image-container">
+            <img src="{{ asset('img/sample4.jpg') }}" alt="Imagen grande 1" class="large-image">
+            <img src="{{ asset('img/sample5.jpg') }}" alt="Imagen grande 2" class="large-image">
+            <img src="{{ asset('img/sample6.jpg') }}" alt="Imagen grande 3" class="large-image">
         </div>
+    </div>
+</div>
     </div>
 @endsection
