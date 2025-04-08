@@ -63,9 +63,10 @@
                         <th>Tipo</th>
                         <th>Precio</th>
                         <th>Descripción</th>
-                        <th>Likes</th>
-                        <th>Imagen Frontal</th>
-                        <th>Imagen Trasera</th>
+                        <th>Estilos</th>
+                        <th>Etiquetas</th>
+                        <th>Colores</th>
+                        <th>Imágenes</th> <!-- Nueva columna para las imágenes -->
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -76,9 +77,13 @@
                             <td>{{ $prenda->tipo->tipo }}</td>
                             <td>{{ $prenda->precio }} €</td>
                             <td>{{ $prenda->descripcion }}</td>
-                            <td>{{ $prenda->likes }}</td>
-                            <td><img src="{{ asset($prenda->img_frontal) }}" alt="Imagen Frontal" style="width: 50px; height: auto;"></td>
-                            <td><img src="{{ asset($prenda->img_trasera) }}" alt="Imagen Trasera" style="width: 50px; height: auto;"></td>
+                            <td>{{ $prenda->estilos->pluck('nombre')->join(', ') }}</td>
+                            <td>{{ $prenda->etiquetas->pluck('nombre')->join(', ') }}</td>
+                            <td>{{ $prenda->colores->pluck('nombre')->join(', ') }}</td>
+                            <td>
+                                <img src="{{ asset($prenda->img_frontal) }}" alt="Imagen Frontal" style="width: 50px; height: auto; margin-right: 5px;">
+                                <img src="{{ asset($prenda->img_trasera) }}" alt="Imagen Trasera" style="width: 50px; height: auto;">
+                            </td>
                             <td>
                                 <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
                                 <a class="delete-btn" onclick="confirmDelete({{ $prenda->id_prenda }})">🗑️</a>

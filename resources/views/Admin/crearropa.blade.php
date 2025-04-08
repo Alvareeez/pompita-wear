@@ -59,6 +59,32 @@
                     <label for="img_trasera">Imagen Trasera</label>
                     <input type="file" id="img_trasera" name="img_trasera" accept="image/*">
                 </div>
+                <div class="form-group">
+                    <label for="estilos">Estilos</label>
+                    <select id="estilos" name="estilos[]" multiple>
+                        @foreach ($estilos as $estilo)
+                            <option value="{{ $estilo->id_estilo }}">{{ $estilo->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="etiquetas">Etiquetas</label>
+                    <select id="etiquetas" name="etiquetas[]" multiple>
+                        @foreach ($etiquetas as $etiqueta)
+                            <option value="{{ $etiqueta->id_etiqueta }}">{{ $etiqueta->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="colores">Colores</label>
+                    <select id="colores" name="colores[]" multiple>
+                        @foreach ($colores as $color)
+                            <option value="{{ $color->id_color }}">{{ $color->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <button type="submit"><span>Crear Prenda</span></button>
             </form>
         </div>

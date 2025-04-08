@@ -55,6 +55,36 @@
                     <input type="number" id="precio" name="precio" value="{{ $prenda->precio }}" placeholder="Precio de la prenda" step="0.01" >
                 </div>
                 <div class="form-group">
+                    <label for="estilos">Estilos</label>
+                    <select id="estilos" name="estilos[]" multiple>
+                        @foreach ($estilos as $estilo)
+                            <option value="{{ $estilo->id_estilo }}" {{ $prenda->estilos->contains($estilo->id_estilo) ? 'selected' : '' }}>
+                                {{ $estilo->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="etiquetas">Etiquetas</label>
+                    <select id="etiquetas" name="etiquetas[]" multiple>
+                        @foreach ($etiquetas as $etiqueta)
+                            <option value="{{ $etiqueta->id_etiqueta }}" {{ $prenda->etiquetas->contains($etiqueta->id_etiqueta) ? 'selected' : '' }}>
+                                {{ $etiqueta->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="colores">Colores</label>
+                    <select id="colores" name="colores[]" multiple>
+                        @foreach ($colores as $color)
+                            <option value="{{ $color->id_color }}" {{ $prenda->colores->contains($color->id_color) ? 'selected' : '' }}>
+                                {{ $color->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="img_frontal">Imagen Frontal (opcional)</label>
                     <input type="file" id="img_frontal" name="img_frontal" accept="image/*">
                     <img src="{{ asset($prenda->img_frontal) }}" alt="Imagen Frontal Actual" style="width: 100px; height: auto; margin-top: 10px;">

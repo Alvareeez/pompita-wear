@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const tipoPrendaSelect = document.getElementById("id_tipoPrenda");
     const imgFrontalInput = document.getElementById("img_frontal");
     const imgTraseraInput = document.getElementById("img_trasera");
+    const estilosSelect = document.getElementById("estilos");
+    const etiquetasSelect = document.getElementById("etiquetas");
+    const coloresSelect = document.getElementById("colores");
 
     form.addEventListener("submit", function (event) {
         let isValid = true;
@@ -49,13 +52,30 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         }
 
+        // Validar estilos
+        if (estilosSelect && estilosSelect.selectedOptions.length === 0) {
+            showError(estilosSelect, "Debes seleccionar al menos un estilo.");
+            isValid = false;
+        }
+
+        // Validar etiquetas
+        if (etiquetasSelect && etiquetasSelect.selectedOptions.length === 0) {
+            showError(etiquetasSelect, "Debes seleccionar al menos una etiqueta.");
+            isValid = false;
+        }
+
+        // Validar colores
+        if (coloresSelect && coloresSelect.selectedOptions.length === 0) {
+            showError(coloresSelect, "Debes seleccionar al menos un color.");
+            isValid = false;
+        }
+
         // Si hay errores, prevenir el envío del formulario
         if (!isValid) {
             event.preventDefault();
         }
     });
 
-    // Validar descripción al perder el foco
     descripcionInput.addEventListener("blur", function () {
         clearError(descripcionInput);
         if (descripcionInput.value.trim() === "") {
@@ -65,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Validar precio al perder el foco
     precioInput.addEventListener("blur", function () {
         clearError(precioInput);
         if (precioInput.value.trim() === "") {
@@ -75,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Validar tipo de prenda al perder el foco
     tipoPrendaSelect.addEventListener("blur", function () {
         clearError(tipoPrendaSelect);
         if (tipoPrendaSelect.value === "") {
@@ -83,19 +101,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Validar imagen frontal al perder el foco
-    imgFrontalInput.addEventListener("blur", function () {
-        clearError(imgFrontalInput);
-        if (imgFrontalInput.files.length === 0) {
-            showError(imgFrontalInput, "Debes subir una imagen frontal.");
+    estilosSelect.addEventListener("blur", function () {
+        clearError(estilosSelect);
+        if (estilosSelect.selectedOptions.length === 0) {
+            showError(estilosSelect, "Debes seleccionar al menos un estilo.");
         }
     });
 
-    // Validar imagen trasera al perder el foco
-    imgTraseraInput.addEventListener("blur", function () {
-        clearError(imgTraseraInput);
-        if (imgTraseraInput.files.length === 0) {
-            showError(imgTraseraInput, "Debes subir una imagen trasera.");
+    etiquetasSelect.addEventListener("blur", function () {
+        clearError(etiquetasSelect);
+        if (etiquetasSelect.selectedOptions.length === 0) {
+            showError(etiquetasSelect, "Debes seleccionar al menos una etiqueta.");
+        }
+    });
+
+    coloresSelect.addEventListener("blur", function () {
+        clearError(coloresSelect);
+        if (coloresSelect.selectedOptions.length === 0) {
+            showError(coloresSelect, "Debes seleccionar al menos un color.");
         }
     });
 
