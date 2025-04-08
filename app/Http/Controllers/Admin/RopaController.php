@@ -6,6 +6,7 @@ use App\Models\Prenda;
 use App\Models\TipoPrenda;
 use Illuminate\Http\Request;
 use DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RopaController extends Controller
 {
@@ -68,5 +69,18 @@ class RopaController extends Controller
             DB::rollBack();
             return back()->withErrors(['error' => 'Ocurrió un error al eliminar la prenda.']);
         }
+    }
+
+    // Función para generar el PDF
+    public function descargarPDF(Request $request)
+    {
+        // Obtener las prendas seleccionadas
+        $prendas = Prenda::whereIn('id_prenda', $request->prendas)->get();
+
+        // Generar el PDF
+        $pdf = Pdf::loadView('Admin.pdf_ropa', compact('prendas'));
+
+        // Descargar el PDF
+        return $pdf->download('ropa_seleccionada.pdf');
     }
 }

@@ -92,6 +92,18 @@
                 </tbody>
             </table>
         </div>
+        <form action="{{ route('admin.ropa.pdf') }}" method="POST">
+            @csrf
+            <div class="form-group">
+                <label for="prendas">Selecciona las prendas:</label>
+                <select id="prendas" name="prendas[]" multiple required>
+                    @foreach ($prendas as $prenda)
+                        <option value="{{ $prenda->id_prenda }}">{{ $prenda->descripcion }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit" class="download-btn">Descargar PDF</button>
+        </form>
     </main>
 
     <script>
