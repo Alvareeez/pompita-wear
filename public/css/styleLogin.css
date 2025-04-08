@@ -7,6 +7,12 @@ body {
     min-height: 100vh;
 }
 
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
 .container {
     display: flex;
     align-items: center;
@@ -65,6 +71,7 @@ body {
     border-bottom: 2px solid #ddd;
     background-color: transparent;
     font-size: 16px;
+    font-family: 'Ubuntu', sans-serif; /* Agregado Ubuntu aquí */
     box-sizing: border-box;
     transition: all 0.3s ease;
     animation: fadeIn 1s ease-out;

@@ -17,7 +17,9 @@ class Prenda extends Model
         'id_tipoPrenda',
         'precio',
         'descripcion',
-        'likes'
+        'likes',
+        'img_frontal',
+        'img_trasera'
     ];
 
     public function tipoPrenda()

@@ -1,0 +1,54 @@
+/* Estilos para la página de prendas por estilos */
+
+.prendas {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: start;
+    margin-bottom: 30px;
+}
+
+.prenda {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+    width: 220px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: white;
+}
+
+.prenda:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.prenda img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 2px solid black;
+    margin-bottom: 10px;
+}
+
+.prenda p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.estilos {
+    margin-top: 20px;
+}
+
+.estilos a button {
+    margin: 5px;
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.estilos a button:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+}
