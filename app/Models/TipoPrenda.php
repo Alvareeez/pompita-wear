@@ -10,15 +10,8 @@ class TipoPrenda extends Model
     use HasFactory;
 
     protected $table = 'tipo_prendas';
-    protected $primaryKey = 'id_tipoPrenda';
-    public $timestamps = true;
 
     protected $fillable = [
-        'tipo'
+        'tipo',
     ];
-
-    public function prendas()
-    {
-        return $this->hasMany(Prenda::class, 'id_tipoPrenda');
-    }
 }

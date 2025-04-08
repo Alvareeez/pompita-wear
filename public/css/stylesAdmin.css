@@ -38,17 +38,29 @@ body {
     margin-bottom: 20px;
 }
 
+.tabs a {
+    flex: 1; /* Hace que todos los enlaces tengan el mismo tamaño */
+    text-decoration: none; /* Elimina el subrayado de los enlaces */
+}
+
 .tabs button {
+    width: 100%; /* Asegura que el botón ocupe todo el ancho del enlace */
     background-color: #002f6c;
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    margin-right: 5px;
+    text-align: center;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .tabs button.active {
     background-color: #00509e;
+}
+
+.tabs button:hover {
+    background-color: #003f8c;
 }
 
 .table-container {
@@ -197,4 +209,24 @@ button span {
     font-weight: bold;
     transition: all 0.3s ease-in;
     text-transform: uppercase;
+}
+
+/* Estilos para el botón de cerrar sesión */
+.logout-form {
+    display: inline-block;
+}
+
+.logout-btn {
+    background-color: #d9534f;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c;
 }

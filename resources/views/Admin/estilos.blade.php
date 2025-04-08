@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración de Ropa</title>
+    <title>Administración de Estilos</title>
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header class="admin-header">
@@ -28,58 +26,41 @@
                 <button>Usuarios</button>
             </a>
             <a href="{{ route('admin.ropa.index') }}">
-                <button class="active">Ropa</button>
+                <button>Ropa</button>
             </a>
             <a href="{{ route('admin.estilos.index') }}">
-                <button>Estilos</button>
+                <button class="active">Estilos</button>
             </a>
         </div>
+
+        <div class="actions-container">
+            <a href="{{ route('admin.estilos.create') }}" class="create-btn">+ Crear Estilo</a>
+        </div>
+
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        <div class="actions-container">
-            <a href="{{ route('admin.ropa.create') }}" class="create-btn">+ Crear Ropa</a>
-        </div>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Tipo</th>
-                        <th>Precio</th>
-                        <th>Descripción</th>
-                        <th>Likes</th>
-                        <th>Imagen Frontal</th>
-                        <th>Imagen Trasera</th>
+                        <th>Nombre</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($prendas as $prenda)
+                    @foreach ($estilos as $estilo)
                         <tr>
-                            <td>{{ $prenda->id_prenda }}</td>
-                            <td>{{ $prenda->tipo->tipo }}</td>
-                            <td>{{ $prenda->precio }} €</td>
-                            <td>{{ $prenda->descripcion }}</td>
-                            <td>{{ $prenda->likes }}</td>
-                            <td><img src="{{ asset($prenda->img_frontal) }}" alt="Imagen Frontal" style="width: 50px; height: auto;"></td>
-                            <td><img src="{{ asset($prenda->img_trasera) }}" alt="Imagen Trasera" style="width: 50px; height: auto;"></td>
+                            <td>{{ $estilo->id_estilo }}</td>
+                            <td>{{ $estilo->nombre }}</td>
                             <td>
-                                <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
-                                <a class="delete-btn" onclick="confirmDelete({{ $prenda->id_prenda }})">🗑️</a>
-                                <form id="delete-form-{{ $prenda->id_prenda }}" action="{{ route('admin.ropa.destroy', $prenda->id_prenda) }}" method="POST" style="display: none;">
+                                <a href="{{ route('admin.estilos.edit', $estilo->id_estilo) }}" class="edit-btn">✏️</a>
+                                <a class="delete-btn" onclick="confirmDelete({{ $estilo->id_estilo }})">🗑️</a>
+                                <form id="delete-form-{{ $estilo->id_estilo }}" action="{{ route('admin.estilos.destroy', $estilo->id_estilo) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
