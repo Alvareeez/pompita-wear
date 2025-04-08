@@ -19,7 +19,7 @@ class Prenda extends Model
         'descripcion',
         'likes',
         'img_frontal',
-        'img_trasera',
+        'img_trasera'
     ];
 
     public function tipoPrenda()

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RopaController;
+use App\Http\Controllers\PrendaController;
+
 use App\Http\Controllers\Admin\EstiloController;
 
 
@@ -20,7 +22,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 
-// RUTAS DE SEGURIZADAS ---------------------------------------------------------------------------
+// RUTAS DE SEGURIZADAS COMO ADMIN ---------------------------------------------------------------------------
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
     Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('admin.usuarios.create');
@@ -46,3 +48,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 Route::get('/outfit', function () {
     return view('outfit');
 })->middleware('auth');
+// RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
+    Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
