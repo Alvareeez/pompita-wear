@@ -22,7 +22,7 @@ class AuthController extends Controller
             'nombre' => $request->nombre,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'id_rol' => 2,
+            'id_rol' => 2, // Asignamos el rol de cliente por defecto
         ]);
 
         return redirect('/login')->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
@@ -31,16 +31,22 @@ class AuthController extends Controller
     // Login de usuario
     public function login(Request $request)
     {
+        // Validación de los campos de login
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        // Intentamos autenticar al usuario con los datos proporcionados
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Si es exitoso, redirigimos a la página principal
             return redirect('/')->with('success', 'Sesión iniciada correctamente.');
         }
 
-        return back()->withErrors(['email' => 'Credenciales incorrectas.']);
+        // Si las credenciales son incorrectas, devolvemos un error
+        return back()->withErrors([
+            'email' => 'Las credenciales proporcionadas son incorrectas.',
+        ]);
     }
 
     // Logout de usuario

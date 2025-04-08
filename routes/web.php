@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\UsuarioController;
+use App\Http\Controllers\Admin\RopaController;
+use App\Http\Controllers\Admin\EstiloController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -13,11 +17,32 @@ Route::view('/registro', 'registro.registro')->middleware('guest');
 
 Route::post('/registro', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 
 // RUTAS DE SEGURIZADAS ---------------------------------------------------------------------------
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
+    Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('admin.usuarios.create');
+    Route::post('/usuarios', [UsuarioController::class, 'store'])->name('admin.usuarios.store');
+    Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('admin.usuarios.edit');
+    Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('admin.usuarios.update');
+    Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('admin.usuarios.destroy');
 
-Route::get('/outfit', function () {
-    return view('outfit');
-})->middleware('auth');
+    Route::get('/ropa', [RopaController::class, 'index'])->name('admin.ropa.index');
+    Route::get('/ropa/create', [RopaController::class, 'create'])->name('admin.ropa.create');
+    Route::post('/ropa', [RopaController::class, 'store'])->name('admin.ropa.store');
+    Route::get('/ropa/{id}/edit', [RopaController::class, 'edit'])->name('admin.ropa.edit');
+    Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
+    Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
+
+    Route::get('/estilos', [EstiloController::class, 'index'])->name('admin.estilos.index');
+    Route::get('/estilos/create', [EstiloController::class, 'create'])->name('admin.estilos.create');
+    Route::post('/estilos', [EstiloController::class, 'store'])->name('admin.estilos.store');
+    Route::get('/estilos/{id}/edit', [EstiloController::class, 'edit'])->name('admin.estilos.edit');
+    Route::put('/estilos/{id}', [EstiloController::class, 'update'])->name('admin.estilos.update');
+    Route::delete('/estilos/{id}', [EstiloController::class, 'destroy'])->name('admin.estilos.destroy');
+    Route::get('/outfit', function () {
+        return view('outfit');
+    })->middleware('auth');
+});
