@@ -12,7 +12,7 @@
     <div class="prendas">
         @foreach ($prendasPopulares as $prenda)
             <div class="prenda">
-                <img src="{{ asset('storage/' . $prenda->img_frontal) }}" alt="Imagen de {{ $prenda->descripcion }}">
+                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen de {{ $prenda->descripcion }}">
                 <p><strong>Precio:</strong> {{ $prenda->precio }}€</p>
                 <p><strong>Likes:</strong> {{ $prenda->likes }}</p>
             </div>
