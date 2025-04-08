@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Etiqueta</title>
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
+    <script src="{{ asset('js/validacionetiquetas.js') }}"></script>
 </head>
 <body>
     <header class="admin-header">
@@ -28,7 +29,7 @@
                 @method('PUT')
                 <div class="form-group">
                     <label for="nombre">Nombre de la Etiqueta</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ $etiqueta->nombre }}" required>
+                    <input type="text" id="nombre" name="nombre" value="{{ $etiqueta->nombre }}">
                 </div>
                 <button type="submit"><span>Actualizar Etiqueta</span></button>
             </form>

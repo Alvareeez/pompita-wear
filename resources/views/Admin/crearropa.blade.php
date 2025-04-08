@@ -37,11 +37,11 @@
                 @csrf
                 <div class="form-group">
                     <label for="descripcion">Descripción</label>
-                    <input type="text" id="descripcion" name="descripcion" placeholder="Descripción de la prenda" required>
+                    <input type="text" id="descripcion" name="descripcion" placeholder="Descripción de la prenda">
                 </div>
                 <div class="form-group">
                     <label for="id_tipoPrenda">Tipo de Prenda</label>
-                    <select id="id_tipoPrenda" name="id_tipoPrenda" required>
+                    <select id="id_tipoPrenda" name="id_tipoPrenda">
                         @foreach ($tipos as $tipo)
                             <option value="{{ $tipo->id_tipoPrenda }}">{{ $tipo->tipo }}</option>
                         @endforeach
@@ -49,19 +49,20 @@
                 </div>
                 <div class="form-group">
                     <label for="precio">Precio (€)</label>
-                    <input type="number" id="precio" name="precio" placeholder="Precio de la prenda" step="0.01" required>
+                    <input type="number" id="precio" name="precio" placeholder="Precio de la prenda" step="0.01">
                 </div>
                 <div class="form-group">
                     <label for="img_frontal">Imagen Frontal</label>
-                    <input type="file" id="img_frontal" name="img_frontal" accept="image/*" required>
+                    <input type="file" id="img_frontal" name="img_frontal" accept="image/*">
                 </div>
                 <div class="form-group">
                     <label for="img_trasera">Imagen Trasera</label>
-                    <input type="file" id="img_trasera" name="img_trasera" accept="image/*" required>
+                    <input type="file" id="img_trasera" name="img_trasera" accept="image/*">
                 </div>
                 <button type="submit"><span>Crear Prenda</span></button>
             </form>
         </div>
     </main>
+    <script src="{{ asset('js/validacionropa.js') }}"></script>
 </body>
 </html>

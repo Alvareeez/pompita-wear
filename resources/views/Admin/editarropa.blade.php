@@ -38,11 +38,11 @@
                 @method('PUT')
                 <div class="form-group">
                     <label for="descripcion">Descripción</label>
-                    <input type="text" id="descripcion" name="descripcion" value="{{ $prenda->descripcion }}" placeholder="Descripción de la prenda" required>
+                    <input type="text" id="descripcion" name="descripcion" value="{{ $prenda->descripcion }}" placeholder="Descripción de la prenda" >
                 </div>
                 <div class="form-group">
                     <label for="id_tipoPrenda">Tipo de Prenda</label>
-                    <select id="id_tipoPrenda" name="id_tipoPrenda" required>
+                    <select id="id_tipoPrenda" name="id_tipoPrenda" >
                         @foreach ($tipos as $tipo)
                             <option value="{{ $tipo->id_tipoPrenda }}" {{ $prenda->id_tipoPrenda == $tipo->id_tipoPrenda ? 'selected' : '' }}>
                                 {{ $tipo->tipo }}
@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group">
                     <label for="precio">Precio (€)</label>
-                    <input type="number" id="precio" name="precio" value="{{ $prenda->precio }}" placeholder="Precio de la prenda" step="0.01" required>
+                    <input type="number" id="precio" name="precio" value="{{ $prenda->precio }}" placeholder="Precio de la prenda" step="0.01" >
                 </div>
                 <div class="form-group">
                     <label for="img_frontal">Imagen Frontal (opcional)</label>
@@ -68,5 +68,6 @@
             </form>
         </div>
     </main>
+    <script src="{{ asset('js/validacionropa.js') }}"></script>
 </body>
 </html>

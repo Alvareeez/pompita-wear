@@ -28,9 +28,11 @@ class RopaController extends Controller
 
         try {
             $request->validate([
-                'descripcion' => 'required|string|max:255',
+                'descripcion' => 'required|string|min:10|max:255',
                 'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
                 'precio' => 'required|numeric|min:0',
+                'img_frontal' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'img_trasera' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
             Prenda::create($request->all());
@@ -39,8 +41,7 @@ class RopaController extends Controller
             return redirect()->route('admin.ropa.index')->with('success', 'Prenda creada correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al crear la prenda.']);
-        }
+            return back()->withErrors(['error' => 'Ocurrió un error al crear la prenda.']);}
     }
 
     public function edit($id)

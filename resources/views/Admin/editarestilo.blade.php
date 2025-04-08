@@ -33,5 +33,6 @@
             </form>
         </div>
     </main>
+    <script src="{{ asset('js/validacionestilo.js') }}"></script>
 </body>
 </html>

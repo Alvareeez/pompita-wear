@@ -59,5 +59,6 @@
             </form>
         </div>
     </main>
+    <script src="{{ asset('js/validacionusuarios.js') }}"></script>
 </body>
 </html>
