@@ -19,7 +19,11 @@ class DatabaseSeeder extends Seeder
             TipoPrendasSeeder::class,
             EstilosSeeder::class,
             ColoresSeeder::class,
+            EtiquetasSeeder::class,
             PrendaSeeder::class,
+            PrendaColoresSeeder::class,
+            PrendaEstilosSeeder::class,
+            PrendaEtiquetasSeeder::class,
         ]);
     }
     
