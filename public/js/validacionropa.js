@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const estilosSelect = document.getElementById("estilos");
     const etiquetasSelect = document.getElementById("etiquetas");
     const coloresSelect = document.getElementById("colores");
+    const nombreInput = document.getElementById("nombre");
 
     form.addEventListener("submit", function (event) {
         let isValid = true;
@@ -70,6 +71,15 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         }
 
+        // Validar nombre
+        if (nombreInput.value.trim() === "") {
+            showError(nombreInput, "El nombre es obligatorio.");
+            isValid = false;
+        } else if (nombreInput.value.trim().length < 3) {
+            showError(nombreInput, "El nombre debe tener al menos 3 caracteres.");
+            isValid = false;
+        }
+
         // Si hay errores, prevenir el envío del formulario
         if (!isValid) {
             event.preventDefault();
@@ -119,6 +129,15 @@ document.addEventListener("DOMContentLoaded", function () {
         clearError(coloresSelect);
         if (coloresSelect.selectedOptions.length === 0) {
             showError(coloresSelect, "Debes seleccionar al menos un color.");
+        }
+    });
+
+    nombreInput.addEventListener("blur", function () {
+        clearError(nombreInput);
+        if (nombreInput.value.trim() === "") {
+            showError(nombreInput, "El nombre es obligatorio.");
+        } else if (nombreInput.value.trim().length < 3) {
+            showError(nombreInput, "El nombre debe tener al menos 3 caracteres.");
         }
     });
 

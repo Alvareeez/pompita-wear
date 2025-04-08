@@ -15,7 +15,7 @@ class RopaController extends Controller
 {
     public function index()
     {
-        $prendas = Prenda::with('tipo')->get(); // Carga las prendas con su tipo
+        $prendas = Prenda::with('tipo', 'estilos', 'etiquetas', 'colores')->paginate(5); 
         return view('Admin.ropa', compact('prendas'));
     }
 
@@ -34,6 +34,7 @@ class RopaController extends Controller
 
         try {
             $request->validate([
+                'nombre' => 'required|string|max:255',
                 'descripcion' => 'required|string|min:10|max:255',
                 'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
                 'precio' => 'required|numeric|min:0',
@@ -48,7 +49,9 @@ class RopaController extends Controller
             $imgFrontalPath = $request->file('img_frontal')->store('img/prendas', 'public');
             $imgTraseraPath = $request->file('img_trasera')->store('img/prendas', 'public');
 
+            // Crear la prenda
             $prenda = Prenda::create([
+                'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'id_tipoPrenda' => $request->id_tipoPrenda,
                 'precio' => $request->precio,
@@ -87,6 +90,7 @@ class RopaController extends Controller
             $prenda = Prenda::findOrFail($id);
 
             $request->validate([
+                'nombre' => 'required|string|max:255', // Validar el campo nombre
                 'descripcion' => 'required|string|max:255',
                 'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
                 'precio' => 'required|numeric|min:0',
@@ -95,6 +99,7 @@ class RopaController extends Controller
                 'colores' => 'array|exists:colores,id_color',
             ]);
 
+            // Actualizar la prenda
             $prenda->update($request->except(['estilos', 'etiquetas', 'colores']));
 
             // Sincronizar relaciones
@@ -126,7 +131,6 @@ class RopaController extends Controller
         }
     }
 
-    // Función para generar el PDF
     public function descargarPDF(Request $request)
     {
         DB::beginTransaction();
@@ -139,7 +143,6 @@ class RopaController extends Controller
             $pdf = Pdf::loadView('Admin.pdf_ropa', compact('prendas'));
 
             DB::commit();
-            // Descargar el PDF
             return $pdf->download('ropa_seleccionada.pdf');
         } catch (\Exception $e) {
             DB::rollBack();

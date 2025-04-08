@@ -38,7 +38,11 @@
                 @method('PUT')
                 <div class="form-group">
                     <label for="descripcion">Descripción</label>
-                    <input type="text" id="descripcion" name="descripcion" value="{{ $prenda->descripcion }}" placeholder="Descripción de la prenda" >
+                    <textarea id="descripcion" name="descripcion" placeholder="Descripción de la prenda" rows="3">{{ $prenda->descripcion }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" value="{{ $prenda->nombre }}" placeholder="Nombre de la prenda" required>
                 </div>
                 <div class="form-group">
                     <label for="id_tipoPrenda">Tipo de Prenda</label>
@@ -87,17 +91,37 @@
                 <div class="form-group">
                     <label for="img_frontal">Imagen Frontal (opcional)</label>
                     <input type="file" id="img_frontal" name="img_frontal" accept="image/*">
-                    <img src="{{ asset($prenda->img_frontal) }}" alt="Imagen Frontal Actual" style="width: 100px; height: auto; margin-top: 10px;">
+                    <div class="image-preview">
+                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen Frontal Actual">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="img_trasera">Imagen Trasera (opcional)</label>
                     <input type="file" id="img_trasera" name="img_trasera" accept="image/*">
-                    <img src="{{ asset($prenda->img_trasera) }}" alt="Imagen Trasera Actual" style="width: 100px; height: auto; margin-top: 10px;">
+                    <div class="image-preview">
+                        <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Imagen Trasera Actual">
+                    </div>
                 </div>
                 <button type="submit"><span>Actualizar Prenda</span></button>
             </form>
         </div>
     </main>
     <script src="{{ asset('js/validacionropa.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const textareas = document.querySelectorAll("textarea");
+
+            textareas.forEach(textarea => {
+                // Ajustar la altura inicial
+                textarea.style.height = textarea.scrollHeight + "px";
+
+                // Ajustar la altura al escribir
+                textarea.addEventListener("input", function () {
+                    textarea.style.height = "auto"; // Restablecer la altura
+                    textarea.style.height = textarea.scrollHeight + "px"; // Ajustar al contenido
+                });
+            });
+        });
+    </script>
 </body>
 </html>

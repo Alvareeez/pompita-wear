@@ -60,6 +60,7 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Nombre</th> <!-- Nueva columna -->
                         <th>Tipo</th>
                         <th>Precio</th>
                         <th>Descripción</th>
@@ -74,6 +75,7 @@
                     @foreach ($prendas as $prenda)
                         <tr>
                             <td>{{ $prenda->id_prenda }}</td>
+                            <td>{{ $prenda->nombre }}</td> <!-- Mostrar el nombre -->
                             <td>{{ $prenda->tipo->tipo }}</td>
                             <td>{{ $prenda->precio }} €</td>
                             <td>{{ $prenda->descripcion }}</td>
@@ -81,8 +83,8 @@
                             <td>{{ $prenda->etiquetas->pluck('nombre')->join(', ') }}</td>
                             <td>{{ $prenda->colores->pluck('nombre')->join(', ') }}</td>
                             <td>
-                                <img src="{{ asset($prenda->img_frontal) }}" alt="Imagen Frontal" style="width: 50px; height: auto; margin-right: 5px;">
-                                <img src="{{ asset($prenda->img_trasera) }}" alt="Imagen Trasera" style="width: 50px; height: auto;">
+                                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen Frontal" style="width: 50px; height: auto; margin-right: 5px;">
+                                <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Imagen Trasera" style="width: 50px; height: auto;">
                             </td>
                             <td>
                                 <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
@@ -97,6 +99,12 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Paginación -->
+        <div class="pagination-container">
+            {{ $prendas->links('pagination.custom') }}
+        </div>
+
         <form action="{{ route('admin.ropa.pdf') }}" method="POST">
             @csrf
             <div class="form-group">

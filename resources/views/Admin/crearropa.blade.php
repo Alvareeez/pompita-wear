@@ -36,8 +36,12 @@
             <form action="{{ route('admin.ropa.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la prenda" required>
+                </div>
+                <div class="form-group">
                     <label for="descripcion">Descripción</label>
-                    <input type="text" id="descripcion" name="descripcion" placeholder="Descripción de la prenda">
+                    <textarea id="descripcion" name="descripcion" placeholder="Descripción de la prenda" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="id_tipoPrenda">Tipo de Prenda</label>
@@ -90,5 +94,21 @@
         </div>
     </main>
     <script src="{{ asset('js/validacionropa.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const textareas = document.querySelectorAll("textarea");
+
+            textareas.forEach(textarea => {
+                // Ajustar la altura inicial
+                textarea.style.height = textarea.scrollHeight + "px";
+
+                // Ajustar la altura al escribir
+                textarea.addEventListener("input", function () {
+                    textarea.style.height = "auto"; // Restablecer la altura
+                    textarea.style.height = textarea.scrollHeight + "px"; // Ajustar al contenido
+                });
+            });
+        });
+    </script>
 </body>
 </html>
