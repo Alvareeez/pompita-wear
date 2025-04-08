@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Prenda;
 use App\Models\TipoPrenda;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class RopaController extends Controller
@@ -24,14 +24,23 @@ class RopaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'descripcion' => 'required|string|max:255',
-            'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
-            'precio' => 'required|numeric|min:0',
-        ]);
+        DB::beginTransaction();
 
-        Prenda::create($request->all());
-        return redirect()->route('admin.ropa.index')->with('success', 'Prenda creada correctamente.');
+        try {
+            $request->validate([
+                'descripcion' => 'required|string|max:255',
+                'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
+                'precio' => 'required|numeric|min:0',
+            ]);
+
+            Prenda::create($request->all());
+
+            DB::commit();
+            return redirect()->route('admin.ropa.index')->with('success', 'Prenda creada correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al crear la prenda.']);
+        }
     }
 
     public function edit($id)
@@ -43,16 +52,25 @@ class RopaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $prenda = Prenda::findOrFail($id);
+        DB::beginTransaction();
 
-        $request->validate([
-            'descripcion' => 'required|string|max:255',
-            'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
-            'precio' => 'required|numeric|min:0',
-        ]);
+        try {
+            $prenda = Prenda::findOrFail($id);
 
-        $prenda->update($request->all());
-        return redirect()->route('admin.ropa.index')->with('success', 'Prenda actualizada correctamente.');
+            $request->validate([
+                'descripcion' => 'required|string|max:255',
+                'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
+                'precio' => 'required|numeric|min:0',
+            ]);
+
+            $prenda->update($request->all());
+
+            DB::commit();
+            return redirect()->route('admin.ropa.index')->with('success', 'Prenda actualizada correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al actualizar la prenda.']);
+        }
     }
 
     public function destroy($id)
@@ -74,13 +92,21 @@ class RopaController extends Controller
     // Función para generar el PDF
     public function descargarPDF(Request $request)
     {
-        // Obtener las prendas seleccionadas
-        $prendas = Prenda::whereIn('id_prenda', $request->prendas)->get();
+        DB::beginTransaction();
 
-        // Generar el PDF
-        $pdf = Pdf::loadView('Admin.pdf_ropa', compact('prendas'));
+        try {
+            // Obtener las prendas seleccionadas
+            $prendas = Prenda::whereIn('id_prenda', $request->prendas)->get();
 
-        // Descargar el PDF
-        return $pdf->download('ropa_seleccionada.pdf');
+            // Generar el PDF
+            $pdf = Pdf::loadView('Admin.pdf_ropa', compact('prendas'));
+
+            DB::commit();
+            // Descargar el PDF
+            return $pdf->download('ropa_seleccionada.pdf');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al generar el PDF.']);
+        }
     }
 }
