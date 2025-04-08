@@ -1,79 +1,105 @@
-body {
-    font-family: 'Ubuntu', sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-}
-
-.header {
-    background-color: #002D68;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 0.5rem 2rem;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.brand-section {
-    display: flex;
-    align-items: center;
-}
-
-.brand-section h1 {
-    margin: 0 0 0 1rem;
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.logo img {
-    height: 80px;
-}
-
-.user-section {
-    display: flex;
-    align-items: center;
-}
-
-.session-info {
-    margin-right: 3.5rem;
-    color: #ffffff;
-    font-size: 0.9rem;
-}
-
-.session-info a {
-    color: #ffffff;
-    font-size: 1rem;
-    text-decoration: none;
-}
-
-.session-info a+a {
-    margin-left: 3rem;
-}
-
-.user-profile {
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-}
-
-.user-avatar img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 3rem;
-}
-
-main {
-    margin-top: 110px;
-}
+    body {
+        font-family: 'Ubuntu', sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+    
+    .header {
+        background-color: #002D68;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 2rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .brand-section {
+        display: flex;
+        align-items: center;
+    }
+    
+    .brand-section h1 {
+        margin: 0 0 0 1rem;
+        font-size: 1.5rem;
+        color: #333;
+    }
+    
+    .logo img {
+        height: 80px;
+    }
+    
+    .user-section {
+        display: flex;
+        align-items: center;
+    }
+    
+    .session-info {
+        margin-right: 3.5rem;
+        color: #ffffff;
+        font-size: 0.9rem;
+    }
+    
+    .session-info a {
+        color: #ffffff;
+        font-size: 1rem;
+        text-decoration: none;
+    }
+    
+    .session-info a+a {
+        margin-left: 3rem;
+    }
+    
+    .user-profile {
+        display: flex;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .user-avatar img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 3rem;
+    }
+    
+    main {
+        margin-top: 100px;
+    }
+    
+    @media (max-width: 780px) {
+        .user-avatar img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 3rem;
+        }
+        .session-info {
+            margin-right: 2.5rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
+        .session-info a {
+            color: #ffffff;
+            font-size: 0.6rem;
+            text-decoration: none;
+        }
+        .logo img {
+            height: 50px;
+        }
+        main {
+            margin-top: 70px;
+        }
+    }

@@ -5,13 +5,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RopaController;
 use App\Http\Controllers\PrendaController;
+use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Admin\EstiloController;
 
 
-Route::get('/', function () {
-    return view('cliente.index');
-})->middleware('auth');
+
+
+Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
+
 
 // RUTAS DE INICIO ---------------------------------------------------------------------------
 Route::view('/login', 'login.login')->name('login')->middleware('guest');
