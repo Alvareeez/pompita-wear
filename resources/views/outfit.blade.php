@@ -1,46 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.header')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Outfit</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
-    </script>
-    <link rel="stylesheet" href="{{ asset('css/outfit.css') }}">
-</head>
+@section('title', 'Prendas Populares')
 
-<body>
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/prendasEstilos.css') }}">
+@endsection
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar w/ text</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarText">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                </ul>
-                <span class="navbar-text">
-                    Navbar text with an inline element
-                </span>
-            </div>
-        </div>
-    </nav>
+@section('content')
+
 
     <div class="container-fluid mt-4">
         <div class="row">
@@ -127,16 +94,16 @@
                         <div id="carruselPiernas" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img src="https://via.placeholder.com/300x200?text=Piernas+1"
-                                        class="d-block w-100" alt="...">
+                                    <img src="https://via.placeholder.com/300x200?text=Piernas+1" class="d-block w-100"
+                                        alt="...">
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="https://via.placeholder.com/300x200?text=Piernas+2"
-                                        class="d-block w-100" alt="...">
+                                    <img src="https://via.placeholder.com/300x200?text=Piernas+2" class="d-block w-100"
+                                        alt="...">
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="https://via.placeholder.com/300x200?text=Piernas+3"
-                                        class="d-block w-100" alt="...">
+                                    <img src="https://via.placeholder.com/300x200?text=Piernas+3" class="d-block w-100"
+                                        alt="...">
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carruselPiernas"
@@ -346,6 +313,4 @@
         </div>
     </div>
 
-</body>
-
-</html>
+@endsection

@@ -50,7 +50,11 @@ Route::get('/outfit', function () {
 })->middleware('auth');
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(
+    function () {
 
-    Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
-    Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
+
+        Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
+        Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
+    }
+);
