@@ -22,12 +22,12 @@ class PrendaController extends Controller
     public function porEstilo($id)
     {
         $estilo = Estilo::findOrFail($id);
-
-        // Prendas que tienen el estilo seleccionado
+    
         $prendas = Prenda::whereHas('estilos', function ($query) use ($id) {
-            $query->where('id_estilo', $id);
+            $query->where('estilos.id_estilo', $id);
         })->get();
-
+    
         return view('prendas.por_estilo', compact('prendas', 'estilo'));
     }
+    
 }
