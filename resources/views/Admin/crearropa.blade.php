@@ -14,7 +14,10 @@
         </div>
         <nav>
             <a href="{{ route('admin.ropa.index') }}">Volver</a>
-            <a href="/logout">Cerrar sesión</a>
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                @csrf
+                <button type="submit" class="text-white logout-btn">Cerrar sesión</button>
+            </form>
         </nav>
     </header>
 

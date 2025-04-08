@@ -15,18 +15,24 @@
         </div>
         <nav>
             <a href="/">Inicio</a>
-            <a href="/logout">Cerrar sesión</a>
-            <div class="profile-photo">
-                <img src="{{ asset('img/profile.png') }}" alt="Foto de perfil">
-            </div>
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                @csrf
+                <button type="submit" class="text-white logout-btn">Cerrar sesión</button>
+            </form>
         </nav>
     </header>
 
     <main class="admin-container">
         <div class="tabs">
-            <button class="active">Usuarios</button>
-            <a href="{{ route('admin.ropa.index') }}"><button>Ropa</button></a>
-            <button>Outfits</button>
+            <a href="{{ route('admin.usuarios.index') }}">
+                <button class="active">Usuarios</button>
+            </a>
+            <a href="{{ route('admin.ropa.index') }}">
+                <button>Ropa</button>
+            </a>
+            <a href="{{ route('admin.estilos.index') }}">
+                <button>Estilos</button>
+            </a>
         </div>
 
         <div class="actions-container">

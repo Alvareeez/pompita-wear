@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RopaController;
+use App\Http\Controllers\Admin\EstiloController;
 
 
 Route::get('/', function () {
@@ -34,4 +35,11 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/ropa/{id}/edit', [RopaController::class, 'edit'])->name('admin.ropa.edit');
     Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
     Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
+
+    Route::get('/estilos', [EstiloController::class, 'index'])->name('admin.estilos.index');
+    Route::get('/estilos/create', [EstiloController::class, 'create'])->name('admin.estilos.create');
+    Route::post('/estilos', [EstiloController::class, 'store'])->name('admin.estilos.store');
+    Route::get('/estilos/{id}/edit', [EstiloController::class, 'edit'])->name('admin.estilos.edit');
+    Route::put('/estilos/{id}', [EstiloController::class, 'update'])->name('admin.estilos.update');
+    Route::delete('/estilos/{id}', [EstiloController::class, 'destroy'])->name('admin.estilos.destroy');
 });
