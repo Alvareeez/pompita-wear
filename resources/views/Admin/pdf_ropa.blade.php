@@ -8,7 +8,7 @@
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 20px 40px 20px 20px; /* Margen derecho más amplio */
             background-color: #f9f9f9;
             color: #333;
             display: flex;
@@ -32,7 +32,7 @@
         }
         .table-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 850px; /* Ajustar el ancho máximo */
             margin: 0 auto;
         }
         table {

@@ -456,3 +456,63 @@ textarea:focus {
     color: #aaa;
     padding: 8px 12px;
 }
+
+.button {
+    position: relative;
+    width: 200px; /* Aumentar el ancho */
+    height: 60px; /* Aumentar la altura */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #17795E;
+    background-color: #209978;
+    overflow: hidden;
+}
+
+.button, .button__icon, .button__text {
+    transition: all 0.3s;
+}
+
+.button .button__text {
+    transform: translateX(30px); /* Ajustar posición del texto */
+    color: #fff;
+    font-weight: 600;
+    font-size: 18px; /* Aumentar el tamaño del texto */
+}
+
+.button .button__icon {
+    position: absolute;
+    transform: translateX(140px); /* Ajustar posición del ícono */
+    height: 100%;
+    width: 50px; /* Aumentar el ancho del ícono */
+    background-color: #17795E;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button .svg {
+    width: 25px; /* Aumentar el tamaño del ícono */
+    fill: #fff;
+}
+
+.button:hover {
+    background: #17795E;
+}
+
+.button:hover .button__text {
+    color: transparent;
+}
+
+.button:hover .button__icon {
+    width: 198px; /* Ajustar el ancho del ícono al hover */
+    transform: translateX(0);
+}
+
+.button:active .button__icon {
+    background-color: #146c54;
+}
+
+.button:active {
+    border: 1px solid #146c54;
+}
