@@ -65,9 +65,9 @@ class UsuarioController extends Controller
 
             // Validar los datos enviados
             $request->validate([
-                'nombre' => 'nullable|string|max:255',
-                'email' => 'nullable|string|email|max:255|unique:usuarios,email,' . $usuario->id_usuario,
-                'id_rol' => 'nullable|exists:roles,id_rol',
+                'nombre' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:usuarios,email,' . $id . ',id_usuario', // Corregir la validación de unique
+                'id_rol' => 'required|exists:roles,id_rol',
                 'password' => 'nullable|string|min:8|confirmed',
             ]);
 
