@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('prendas', function (Blueprint $table) {
             $table->id('id_prenda');
             $table->foreignId('id_tipoPrenda')->nullable()->constrained('tipo_prendas', 'id_tipoPrenda');
+            $table->string('nombre');
             $table->decimal('precio', 10, 2);
             $table->text('descripcion')->nullable();
             $table->integer('likes')->nullable()->default(0);
