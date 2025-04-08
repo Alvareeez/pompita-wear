@@ -24,7 +24,7 @@
                 <div class="session-info">
                     <a href="/">Buscar Outfits</a>
                     @auth
-                    @if(auth()->user()->rol->nombre === 'Admin') 
+                    @if(auth()->user()->rol->nombre === 'admin') 
                         <a href="/admin/dashboard">Panel Admin</a>
                     @endif
                     @endauth
