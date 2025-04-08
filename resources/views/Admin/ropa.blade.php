@@ -111,7 +111,7 @@
                 <label for="prendas">Selecciona las prendas:</label>
                 <select id="prendas" name="prendas[]" multiple required>
                     @foreach ($prendas as $prenda)
-                        <option value="{{ $prenda->id_prenda }}">{{ $prenda->descripcion }}</option>
+                        <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
                     @endforeach
                 </select>
             </div>

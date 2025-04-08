@@ -147,7 +147,7 @@ class RopaController extends Controller
 
         try {
             // Obtener las prendas seleccionadas
-            $prendas = Prenda::whereIn('id_prenda', $request->prendas)->get();
+            $prendas = Prenda::with(['tipo', 'estilos', 'etiquetas', 'colores'])->whereIn('id_prenda', $request->prendas)->get();
 
             // Generar el PDF
             $pdf = Pdf::loadView('Admin.pdf_ropa', compact('prendas'));
