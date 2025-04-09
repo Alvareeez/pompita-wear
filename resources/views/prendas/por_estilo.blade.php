@@ -16,8 +16,8 @@
                 <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen de {{ $prenda->descripcion }}">
                     <p><strong>{{ $prenda->nombre }}</strong></p>
                     <p><strong>Precio:</strong> {{ $prenda->precio }}€</p>
-                    <p><strong>Likes:</strong> {{ $prenda->likes }}</p>
-                </div>
+                    <p><strong>Likes:</strong> {{ $prenda->likes_count }}</p>
+                    </div>
             @endforeach
         </div>
     @else

@@ -26,11 +26,14 @@ class PrendaController extends Controller
     {
         $estilo = Estilo::findOrFail($id);
     
-        $prendas = Prenda::whereHas('estilos', function ($query) use ($id) {
-            $query->where('estilos.id_estilo', $id);
-        })->get();
+        $prendas = Prenda::withCount('likes')
+            ->whereHas('estilos', function ($query) use ($id) {
+                $query->where('estilos.id_estilo', $id);
+            })
+            ->get();
     
         return view('prendas.por_estilo', compact('prendas', 'estilo'));
     }
+    
     
 }
