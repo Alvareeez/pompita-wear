@@ -49,6 +49,7 @@ class PrendaEtiquetasSeeder extends Seeder
             ['id_prenda' => 26, 'id_etiqueta' => 7], // Botín deportivo Avia - Nylon
             ['id_prenda' => 27, 'id_etiqueta' => 6], // Chancla baño negras - Nylon
             ['id_prenda' => 28, 'id_etiqueta' => 6], // Zapato náutico piel - Piel
+            ['id_prenda' => 29, 'id_etiqueta' => 6], // Zapato náutico piel - Piel
         ]);
     }
 }
