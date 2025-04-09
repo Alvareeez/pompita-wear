@@ -7,9 +7,9 @@ use App\Http\Controllers\Admin\RopaController;
 use App\Http\Controllers\PrendaController;
 use App\Http\Controllers\HomeController;
 
+
 use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
-
 
 
 
@@ -64,8 +64,8 @@ Route::get('/outfit', function () {
 Route::middleware(['auth'])->group(
     function () {
 
-
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
+        Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
     }
 );

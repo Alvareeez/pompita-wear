@@ -12,12 +12,12 @@ body {
 
 /* Contenedor para separar el header y el título */
 .title-container {
-    margin-top: 60px; /* Añade separación entre el header y el título */
+    margin-top: 60px;
+    text-align: center;
 }
 
 /* Centrando los títulos */
 .center-title {
-    text-align: center;
     font-size: 2rem;
     margin-bottom: 20px;
     color: #333;
@@ -25,14 +25,11 @@ body {
 }
 
 .center-title_estilos {
-    text-align: center;
     font-size: 2rem;
     margin-bottom: 20px;
     color: #333;
     padding-bottom: 10vh;
 }
-
-
 
 /* Contenedor para centrar las cartas de las prendas */
 .centered-container {
@@ -81,65 +78,34 @@ body {
     font-size: 14px;
 }
 
-/* Estilo para los botones de explorar estilos */
-.estilos {
-    margin-top: 20px;
+/* Estilo de los botones de Estilos */
+.button-row {
     display: flex;
     justify-content: center;
+    gap: 15px;
     flex-wrap: wrap;
+    margin-bottom: 40px;
 }
 
-/* Botón de cada estilo de prenda */
-.estilos a button {
-    margin: 5px;
+.action-button {
     padding: 12px 30px;
     background-color: #F6A894;
     color: black;
     border: 1px solid black;
     border-radius: 5px;
     font-size: 16px;
-    font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu */
+    font-family: 'Ubuntu', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
 }
 
-.estilos a button:hover {
+.action-button:hover {
     background-color: #fa6843;
     transform: scale(1.05);
 }
 
-/* Diseño para los botones en fila centrados */
-.button-row {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 85px;
-    margin-bottom: 10px;
-    padding: 0 15px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.action-button {
-    padding: 12px 35px;
-    background-color: #F6A894;
-    color: black;
-    border: 1px solid black;
-    border-radius: 5px;
-    font-size: 16px;
-    font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu */
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.action-button:hover {
-    background-color: #fa6843;
-}
-
 /* Estilos responsivos */
-
 @media (max-width: 768px) {
-    /* Modificaciones para tabletas y pantallas pequeñas */
     .prendas {
         justify-content: center;
     }
@@ -149,18 +115,16 @@ body {
         margin-bottom: 15px;
     }
 
-    .estilos a button {
-        padding: 10px 20px;
-        font-size: 14px;
-    }
-
     .center-title {
         font-size: 1.5rem;
+    }
+
+    .button-row {
+        gap: 10px;
     }
 }
 
 @media (max-width: 480px) {
-    /* Modificaciones para pantallas móviles */
     .prendas {
         flex-direction: column;
         align-items: center;
@@ -171,12 +135,11 @@ body {
         margin-bottom: 20px;
     }
 
-    .estilos a button {
-        padding: 8px 15px;
-        font-size: 12px;
-    }
-
     .center-title {
         font-size: 1.2rem;
+    }
+
+    .button-row {
+        gap: 5px;
     }
 }

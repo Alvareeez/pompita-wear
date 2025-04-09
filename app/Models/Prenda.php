@@ -73,4 +73,18 @@ class Prenda extends Model
     {
         return $this->belongsTo(TipoPrenda::class, 'id_tipoPrenda', 'id_tipoPrenda');
     }
+
+
+
+
+    // Funciones recuperar likes
+    public function getLikesCountAttribute()
+{
+    return $this->likes()->count();
+}
+
+public function isLikedByUser($userId)
+{
+    return $this->likes()->where('id_usuario', $userId)->exists();
+}
 }

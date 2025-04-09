@@ -15,7 +15,9 @@
     <div class="prendas">
         @foreach ($prendasPopulares as $prenda)
             <div class="prenda">
-                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen de {{ $prenda->descripcion }}" class="prenda-img">
+                <a href="{{ route('prendas.show', $prenda->id_prenda) }}">
+                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen de {{ $prenda->descripcion }}">
+                </a>
                 <p><strong>{{ $prenda->nombre }}</strong></p>
                 <p><strong>Precio:</strong> {{ $prenda->precio }}€</p>
                 <p><strong>Likes:</strong> {{ $prenda->likes_count }}</p>
@@ -25,7 +27,7 @@
 </div>
 
 <div class="title-container">
-    <h1 class="center-title_estilos">Explora por estilos</h1>
+    <h1 class="center-title_estilos">Explora por Estilos</h1>
 </div>
 
 <div class="button-row">
