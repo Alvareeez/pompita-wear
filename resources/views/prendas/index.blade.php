@@ -25,7 +25,7 @@
 </div>
 
 <div class="title-container">
-    <h1 class="center-title_estilos">Explora por estilos</h1>
+    <h1 class="center-title_estilos">Explora por Estilos</h1>
 </div>
 
 <div class="button-row">
