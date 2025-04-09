@@ -14,9 +14,9 @@
     <div class="container mt-4">
         <div class="carousel-container">
             <div class="carousel">
-                <img src="{{ asset('img/carrousel1.jpg') }}" alt="Imagen 1" class="carousel-image active">
-                <img src="{{ asset('img/carrousel2.png') }}" alt="Imagen 2" class="carousel-image">
-                <img src="{{ asset('img/carrousel3.jpg') }}" alt="Imagen 3" class="carousel-image">
+                <img src="{{ asset('img/carrousel1.png') }}" alt="Imagen 1" class="carousel-image active">
+                <img src="{{ asset('img/carrousel22.png') }}" alt="Imagen 2" class="carousel-image">
+                <img src="{{ asset('img/112.png') }}" alt="Imagen 3" class="carousel-image">
                 <img src="{{ asset('img/carrousel4.png') }}" alt="Imagen 3" class="carousel-image">
             </div>
         </div>
@@ -33,26 +33,30 @@
                 <h2 class="section-title">Tendencias En Prendas 🔥</h2>
                 <div class="image-row">
                     @foreach($prendasPopulares->take(3) as $prenda)
-                        <div class="prenda-item">
-                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" 
-                                 alt="Prendas más likes" 
-                                 class="small-image">
-                            <div class="prenda-info">
-                                <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
-                                <span class="likes">❤️ {{ $prenda->likes }}</span>
-                            </div>
-                        </div>
-                    @endforeach
+    <div class="prenda-item">
+        <a href="{{ route('prendas.show', $prenda->id_prenda) }}">
+            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" 
+                 alt="Prendas más likes" 
+                 class="small-image">
+        </a>
+        <div class="prenda-info">
+            <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
+            <span class="likes">❤️ {{$prenda->likes_count }}</span>
+        </div>
+    </div>
+@endforeach
                 </div>
                 <div class="image-row">
                     @foreach($prendasPopulares->slice(3, 2) as $prenda)
                         <div class="prenda-item">
+                            <a href="{{ route('prendas.show', $prenda->id_prenda) }}">
                             <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" 
                                  alt="Prendas más likes" 
                                  class="small-image">
+                            </a>
                             <div class="prenda-info">
                                 <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
-                                <span class="likes">❤️ {{ $prenda->likes }}</span>
+                                <span class="likes">❤️ {{ $prenda->likes_count }}</span>
                             </div>
                         </div>
                     @endforeach

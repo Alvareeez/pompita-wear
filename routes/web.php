@@ -7,8 +7,9 @@ use App\Http\Controllers\Admin\RopaController;
 use App\Http\Controllers\PrendaController;
 use App\Http\Controllers\HomeController;
 
-use App\Http\Controllers\Admin\EstiloController;
 
+use App\Http\Controllers\Admin\EstiloController;
+use App\Http\Controllers\Admin\EtiquetaController;
 
 
 
@@ -46,6 +47,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/estilos/{id}/edit', [EstiloController::class, 'edit'])->name('admin.estilos.edit');
     Route::put('/estilos/{id}', [EstiloController::class, 'update'])->name('admin.estilos.update');
     Route::delete('/estilos/{id}', [EstiloController::class, 'destroy'])->name('admin.estilos.destroy');
+
+    Route::get('/etiquetas', [EtiquetaController::class, 'index'])->name('admin.etiquetas.index');
+    Route::get('/etiquetas/create', [EtiquetaController::class, 'create'])->name('admin.etiquetas.create');
+    Route::post('/etiquetas', [EtiquetaController::class, 'store'])->name('admin.etiquetas.store');
+    Route::get('/etiquetas/{id}/edit', [EtiquetaController::class, 'edit'])->name('admin.etiquetas.edit');
+    Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
+    Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
 });
 Route::get('/outfit', function () {
     return view('outfit');
@@ -55,8 +63,12 @@ Route::get('/outfit', function () {
 Route::middleware(['auth'])->group(
     function () {
 
-
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
+        Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
     }
 );
+
+Route::get('/perfil', function () {
+    return view('perfil');
+})->middleware('auth');

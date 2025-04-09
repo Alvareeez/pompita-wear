@@ -34,6 +34,10 @@ class PrendaController extends Controller
     
         return view('prendas.por_estilo', compact('prendas', 'estilo'));
     }
-    
-    
+
+    public function show($id)
+{
+    $prenda = Prenda::findOrFail($id);
+    return view('prendas.show', compact('prenda'));
+}
 }
