@@ -47,6 +47,10 @@ class PrendaEstilosSeeder extends Seeder
             ['id_prenda' => 24, 'id_estilo' => 1, 'created_at' => now(), 'updated_at' => now()],
             ['id_prenda' => 24, 'id_estilo' => 5, 'created_at' => now(), 'updated_at' => now()],
             ['id_prenda' => 25, 'id_estilo' => 7, 'created_at' => now(), 'updated_at' => now()],
+            ['id_prenda' => 26, 'id_estilo' => 2, 'created_at' => now(), 'updated_at' => now()],
+            ['id_prenda' => 27, 'id_estilo' => 8, 'created_at' => now(), 'updated_at' => now()],
+            ['id_prenda' => 28, 'id_estilo' => 9, 'created_at' => now(), 'updated_at' => now()],
+            ['id_prenda' => 29, 'id_estilo' => 1, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
