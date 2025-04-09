@@ -1,0 +1,126 @@
+/* Importación de la fuente Ubuntu desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+/* Estilos generales */
+body {
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+/* Título principal */
+.center-title_estilos {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    padding-top: 10vh;
+}
+
+/* Contenedor de las prendas */
+.prendas {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+/* Estilo para cada prenda individual */
+.prenda {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+    width: 220px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: white;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.prenda:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.prenda img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 2px solid black;
+    margin-bottom: 10px;
+}
+
+.prenda p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Enlace para volver atrás */
+.back-link {
+    display: block;
+    text-align: center;
+    margin: 30px 0;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    background-color: #F6A894;
+    border: 1px solid black;
+    padding: 12px 30px;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.back-link:hover {
+    background-color: #fa6843;
+    transform: scale(1.05);
+}
+
+/* Estilos para mensaje de no hay prendas */
+.no-prendas {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin: 40px 0;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .prendas {
+        justify-content: center;
+    }
+
+    .prenda {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .center-title_estilos {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .prendas {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .prenda {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .center-title_estilos {
+        font-size: 1.2rem;
+    }
+
+    .back-link {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
