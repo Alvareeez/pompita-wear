@@ -41,7 +41,7 @@
         </a>
         <div class="prenda-info">
             <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
-            <span class="likes">❤️ {{ $prenda->likes }}</span>
+            <span class="likes">❤️ {{$prenda->likes_count }}</span>
         </div>
     </div>
 @endforeach
@@ -56,7 +56,7 @@
                             </a>
                             <div class="prenda-info">
                                 <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
-                                <span class="likes">❤️ {{ $prenda->likes }}</span>
+                                <span class="likes">❤️ {{ $prenda->likes_count }}</span>
                             </div>
                         </div>
                     @endforeach

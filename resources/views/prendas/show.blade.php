@@ -22,7 +22,7 @@
                 <h1>{{ $prenda->nombre }}</h1>
                 <p class="precio">€{{ number_format($prenda->precio, 2) }}</p>
                 <p class="descripcion">{{ $prenda->descripcion }}</p>
-                <div class="likes">❤️ {{ $prenda->likes }} Likes</div>
+                <div class="likes">❤️ {{ $prenda->likes_count }} Likes</div>
                 
                 <!-- Botones de acción -->
                 <div class="acciones">

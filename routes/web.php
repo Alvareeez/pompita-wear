@@ -63,8 +63,8 @@ Route::get('/outfit', function () {
 Route::middleware(['auth'])->group(
     function () {
 
-        Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
+        Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
     }
 );
