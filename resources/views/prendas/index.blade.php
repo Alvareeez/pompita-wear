@@ -7,25 +7,32 @@
 @endsection
 
 @section('content')
-    <h1>Top 5 Prendas con Más Likes</h1>
+<div class="title-container">
+    <h1 class="center-title">Top 5 Prendas con Más Likes</h1>
+</div>
 
+<div class="centered-container">
     <div class="prendas">
         @foreach ($prendasPopulares as $prenda)
             <div class="prenda">
-                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen de {{ $prenda->descripcion }}">
+                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen de {{ $prenda->descripcion }}" class="prenda-img">
+                <p><strong>{{ $prenda->nombre }}</strong></p>
                 <p><strong>Precio:</strong> {{ $prenda->precio }}€</p>
-                <p><strong>Likes:</strong> {{ $prenda->likes }}</p>
+                <p><strong>Likes:</strong> {{ $prenda->likes_count }}</p>
             </div>
         @endforeach
     </div>
+</div>
 
-    <h2>Explora por Estilos</h2>
+<div class="title-container">
+    <h1 class="center-title_estilos">Explora por estilos</h1>
+</div>
 
-    <div class="estilos">
-        @foreach ($estilos as $estilo)
-            <a href="{{ route('prendas.porEstilo', $estilo->id_estilo) }}">
-                <button>{{ $estilo->nombre }}</button>
-            </a>
-        @endforeach
-    </div>
+<div class="button-row">
+    @foreach ($estilos as $estilo)
+        <a href="{{ route('prendas.porEstilo', $estilo->id_estilo) }}">
+            <button class="action-button">{{ $estilo->nombre }}</button>
+        </a>
+    @endforeach
+</div>
 @endsection
