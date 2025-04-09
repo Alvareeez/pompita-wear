@@ -15,8 +15,8 @@
                 <form action="" enctype="multipart/form-data">
                     <!-- Foto de perfil -->
                     <div class="profile-picture-container" onclick="document.getElementById('profile-picture-input').click()">
-                        <img src="{{ asset('storage/profile_pictures/default.jpg') }}" alt="Foto de perfil"
-                            class="profile-picture" id="profile-picture">
+                        <img src="{{ asset($user->profile_picture ?? 'storage/profile_pictures/default.jpg') }}"
+                            alt="Foto de perfil" class="profile-picture" id="profile-picture">
                         <div class="profile-picture-overlay">
                             <span>Editar foto</span>
                         </div>
@@ -26,17 +26,17 @@
                         <div class="col-md-6">
                             <label for="name">Nombre :</label>
                             <input type="text" name="name" id="name" class="form-control my-3"
-                                placeholder="Introducir nombre">
+                                placeholder="Introducir nombre" value="{{ $user->name ?? '' }}">
                         </div>
                         <div class="col-md-6">
                             <label for="lastname">Apellido :</label>
                             <input type="text" name="lastname" id="lastname" class="form-control my-3"
-                                placeholder="Introducir Apellido">
+                                placeholder="Introducir Apellido" value="{{ $user->lastname ?? '' }}">
                         </div>
                     </div>
                     <label for="email">Email :</label>
                     <input type="email" name="email" id="email" class="form-control my-3"
-                        placeholder="Introducir correo electrónico">
+                        placeholder="Introducir correo electrónico" value="{{ $user->email ?? '' }}">
                     <div class="row">
                         <div class="col-md-6">
                             <label for="psswrd">Contraseña :</label>
@@ -56,74 +56,140 @@
             </div>
             <div class="col-md-6">
                 <h2>Mi Perfil</h2>
-                <div>
+
+                <!-- Slider de Outfits -->
+                <div class="outfit-slider">
                     <h4>Outfits publicados</h4>
-                    <div class="row">
-                        <div class="col-md-4 card">
-                            <img src="{{ asset('storage/outfits/outfit1.jpg') }}" alt="Outfit 1" class="outfit-image">
-                        </div>
-                        <div class="col-md-4 card">
-                            <img src="{{ asset('storage/outfits/outfit2.jpg') }}" alt="Outfit 2" class="outfit-image">
-                        </div>
-                        <div class="col-md-4 card">
-                            <img src="{{ asset('storage/outfits/outfit3.jpg') }}" alt="Outfit 3" class="outfit-image">
-                        </div>
-                    </div>
-                    <div>
-                        <h4>Prendas favoritas</h4>
-                        <div class="row">
-                            <div class="col-md-4 card">
-                                <img src="{{ asset('storage/favorites/favorite1.jpg') }}" alt="Favorito 1"
-                                    class="favorite-image">
+                    {{-- @if ($outfits->count() > 0)
+                        <div id="outfitsCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach ($outfits->chunk(3) as $key => $chunk)
+                                    <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach ($chunk as $outfit)
+                                                <div class="col-md-4">
+                                                    <div class="carousel-card">
+                                                        <img src="{{ asset($outfit->image_path) }}"
+                                                            alt="{{ $outfit->name }}">
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                            <div class="col-md-4 card">
-                                <img src="{{ asset('storage/favorites/favorite2.jpg') }}" alt="Favorito 2"
-                                    class="favorite-image">
-                            </div>
-                            <div class="col-md-4 card">
-                                <img src="{{ asset('storage/favorites/favorite3.jpg') }}" alt="Favorito 3"
-                                    class="favorite-image">
-                            </div>
+                            @if ($outfits->count() > 3)
+                                <button class="carousel-control-prev" type="button" data-bs-target="#outfitsCarousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#outfitsCarousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            @endif
                         </div>
-                    </div>
+                    @else
+                        <div class="alert alert-info">No tienes outfits publicados aún.</div>
+                    @endif --}}
+                </div>
+
+                <!-- Slider de Favoritos -->
+                <div class="favorites-slider">
+                    <h4>Prendas favoritas</h4>
+                    {{-- @if ($favorites->count() > 0)
+                        <div id="favoritesCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach ($favorites->chunk(3) as $key => $chunk)
+                                    <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
+                                        <div class="row">
+                                            @foreach ($chunk as $favorite)
+                                                <div class="col-md-4">
+                                                    <div class="carousel-card">
+                                                        <img src="{{ asset($favorite->image_path) }}"
+                                                            alt="{{ $favorite->name }}">
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            @if ($favorites->count() > 3)
+                                <button class="carousel-control-prev" type="button" data-bs-target="#favoritesCarousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#favoritesCarousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            @endif
+                        </div>
+                    @else
+                        <div class="alert alert-info">No tienes prendas favoritas aún.</div>
+                    @endif --}}
                 </div>
             </div>
+        </div>
+    </div>
 
-            <script>
-                // Mostrar la imagen seleccionada con ajuste de tamaño
-                document.getElementById('profile-picture-input').addEventListener('change', function(e) {
-                    if (e.target.files && e.target.files[0]) {
-                        const reader = new FileReader();
-                        const imgElement = document.getElementById('profile-picture');
+    <script>
+        // Mostrar la imagen seleccionada con ajuste de tamaño
+        document.getElementById('profile-picture-input').addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                const imgElement = document.getElementById('profile-picture');
 
-                        reader.onload = function(event) {
-                            // Crear una imagen temporal para calcular las dimensiones
-                            const tempImg = new Image();
-                            tempImg.src = event.target.result;
+                reader.onload = function(event) {
+                    // Crear una imagen temporal para calcular las dimensiones
+                    const tempImg = new Image();
+                    tempImg.src = event.target.result;
 
-                            tempImg.onload = function() {
-                                const containerWidth = 150; // Ancho del contenedor
-                                const containerHeight = 150; // Alto del contenedor
+                    tempImg.onload = function() {
+                        const containerWidth = 150; // Ancho del contenedor
+                        const containerHeight = 150; // Alto del contenedor
 
-                                // Calcular relación de aspecto
-                                const imgRatio = tempImg.width / tempImg.height;
-                                const containerRatio = containerWidth / containerHeight;
+                        // Calcular relación de aspecto
+                        const imgRatio = tempImg.width / tempImg.height;
+                        const containerRatio = containerWidth / containerHeight;
 
-                                // Ajustar según la relación de aspecto
-                                if (imgRatio > containerRatio) {
-                                    imgElement.style.width = '100%';
-                                    imgElement.style.height = 'auto';
-                                } else {
-                                    imgElement.style.width = 'auto';
-                                    imgElement.style.height = '100%';
-                                }
-
-                                imgElement.src = event.target.result;
-                            };
+                        // Ajustar según la relación de aspecto
+                        if (imgRatio > containerRatio) {
+                            imgElement.style.width = '100%';
+                            imgElement.style.height = 'auto';
+                        } else {
+                            imgElement.style.width = 'auto';
+                            imgElement.style.height = '100%';
                         }
 
-                        reader.readAsDataURL(e.target.files[0]);
-                    }
+                        imgElement.src = event.target.result;
+                    };
+                }
+
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+
+        // Inicializar los carruseles con intervalo
+        document.addEventListener('DOMContentLoaded', function() {
+            @if ($outfits->count() > 0)
+                const outfitCarousel = new bootstrap.Carousel(document.getElementById('outfitsCarousel'), {
+                    interval: 5000,
+                    wrap: true
                 });
-            </script>
-        @endsection
+            @endif
+
+            @if ($favorites->count() > 0)
+                const favoritesCarousel = new bootstrap.Carousel(document.getElementById('favoritesCarousel'), {
+                    interval: 5000,
+                    wrap: true
+                });
+            @endif
+        });
+    </script>
+@endsection
