@@ -17,7 +17,6 @@ class Prenda extends Model
         'id_tipoPrenda',
         'precio',
         'descripcion',
-        'likes',
         'img_frontal',
         'img_trasera'
     ];
@@ -61,6 +60,12 @@ class Prenda extends Model
     {
         return $this->hasMany(ValoracionPrenda::class, 'id_prenda');
     }
+
+    public function likes()
+    {
+        return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')->withTimestamps();
+    }
+
 
     // Relación con el modelo TipoPrenda
     public function tipo()

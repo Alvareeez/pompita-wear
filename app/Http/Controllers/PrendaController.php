@@ -11,11 +11,14 @@ class PrendaController extends Controller
     public function index()
     {
         // Top 5 prendas con más likes
-        $prendasPopulares = Prenda::orderByDesc('likes')->take(5)->get();
-
+        $prendasPopulares = Prenda::withCount('likes')
+            ->orderByDesc('likes_count')
+            ->take(5)
+            ->get();
+    
         // Todos los estilos
         $estilos = Estilo::all();
-
+    
         return view('prendas.index', compact('prendasPopulares', 'estilos'));
     }
 
