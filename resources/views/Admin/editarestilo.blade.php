@@ -27,7 +27,7 @@
                 @method('PUT')
                 <div class="form-group">
                     <label for="nombre">Nombre del Estilo</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ $estilo->nombre }}" required>
+                    <input type="text" id="nombre" name="nombre" value="{{ $estilo->nombre }}" >
                 </div>
                 <button type="submit"><span>Actualizar Estilo</span></button>
             </form>

@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ $prenda->nombre }}" placeholder="Nombre de la prenda" required>
+                    <input type="text" id="nombre" name="nombre" value="{{ $prenda->nombre }}" placeholder="Nombre de la prenda" >
                 </div>
                 <div class="form-group">
                     <label for="id_tipoPrenda">Tipo de Prenda</label>

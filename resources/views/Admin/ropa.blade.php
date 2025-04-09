@@ -109,7 +109,7 @@
             @csrf
             <div class="form-group">
                 <label for="prendas">Selecciona las prendas:</label>
-                <select id="prendas" name="prendas[]" multiple required>
+                <select id="prendas" name="prendas[]" multiple >
                     @foreach ($prendas as $prenda)
                         <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
                     @endforeach

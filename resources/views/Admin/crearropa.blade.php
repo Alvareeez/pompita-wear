@@ -37,7 +37,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la prenda" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la prenda">
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripción</label>
