@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('outfits', function (Blueprint $table) {
             $table->id('id_outfit');
             $table->foreignId('id_usuario')->nullable()->constrained('usuarios', 'id_usuario');
-            $table->integer('likes')->nullable()->default(0);
             $table->timestamps();
         });
     }

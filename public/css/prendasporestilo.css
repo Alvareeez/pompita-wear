@@ -10,34 +10,13 @@ body {
     background-color: #f9f9f9;
 }
 
-/* Contenedor para separar el header y el título */
-.title-container {
-    margin-top: 60px;
+/* Título principal */
+.center-title_estilos {
     text-align: center;
-}
-
-/* Centrando los títulos */
-.center-title {
     font-size: 2rem;
     margin-bottom: 20px;
     color: #333;
     padding-top: 10vh;
-}
-
-.center-title_estilos {
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #333;
-    padding-bottom: 10vh;
-}
-
-/* Contenedor para centrar las cartas de las prendas */
-.centered-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 30px;
 }
 
 /* Contenedor de las prendas */
@@ -45,11 +24,11 @@ body {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    justify-content: center; /* Centrado de las prendas */
+    justify-content: center;
     margin-bottom: 30px;
 }
 
-/* Estilo para cada prenda */
+/* Estilo para cada prenda individual */
 .prenda {
     border: 1px solid black;
     padding: 10px;
@@ -57,7 +36,7 @@ body {
     width: 220px;
     transition: transform 0.3s, box-shadow 0.3s;
     background-color: white;
-    font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu */
+    font-family: 'Ubuntu', sans-serif;
 }
 
 .prenda:hover {
@@ -78,49 +57,50 @@ body {
     font-size: 14px;
 }
 
-/* Estilo de los botones de Estilos */
-.button-row {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-}
-
-.action-button {
-    padding: 12px 30px;
-    background-color: #F6A894;
+/* Enlace para volver atrás */
+.back-link {
+    display: block;
+    text-align: center;
+    margin: 30px 0;
+    text-decoration: none;
     color: black;
+    font-weight: 500;
+    background-color: #F6A894;
     border: 1px solid black;
+    padding: 12px 30px;
     border-radius: 5px;
-    font-size: 16px;
-    font-family: 'Ubuntu', sans-serif;
-    cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.action-button:hover {
+.back-link:hover {
     background-color: #fa6843;
     transform: scale(1.05);
 }
 
-/* Estilos responsivos */
+/* Estilos para mensaje de no hay prendas */
+.no-prendas {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin: 40px 0;
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
     .prendas {
         justify-content: center;
     }
 
     .prenda {
-        width: 100%; /* Ocupa el 100% del ancho */
+        width: 100%;
         margin-bottom: 15px;
     }
 
-    .center-title {
+    .center-title_estilos {
         font-size: 1.5rem;
-    }
-
-    .button-row {
-        gap: 10px;
     }
 }
 
@@ -131,15 +111,16 @@ body {
     }
 
     .prenda {
-        width: 90%; /* Ocupa el 90% del ancho */
+        width: 90%;
         margin-bottom: 20px;
     }
 
-    .center-title {
+    .center-title_estilos {
         font-size: 1.2rem;
     }
 
-    .button-row {
-        gap: 5px;
+    .back-link {
+        padding: 10px 20px;
+        font-size: 14px;
     }
 }
