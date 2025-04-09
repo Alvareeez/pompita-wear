@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Etiqueta</title>
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
+    <script src="{{ asset('js/validacionetiquetas.js') }}"></script>
 </head>
 <body>
     <header class="admin-header">
@@ -27,7 +28,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre de la Etiqueta</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la Etiqueta" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la Etiqueta">
                 </div>
                 <button type="submit"><span>Crear Etiqueta</span></button>
             </form>
