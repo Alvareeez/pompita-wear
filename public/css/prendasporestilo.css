@@ -88,6 +88,75 @@ body {
     margin: 40px 0;
 }
 
+/* Estilos para el formulario de búsqueda */
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    font-family: 'Ubuntu', sans-serif; /* Aplica la fuente Ubuntu aquí también */
+}
+
+/* Input de búsqueda */
+.search-form input[type="text"] {
+    padding: 10px 15px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 250px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-family: 'Ubuntu', sans-serif; /* Aplica la fuente Ubuntu aquí también */
+}
+
+.search-form input[type="text"]:focus {
+    border-color: #fa6843;
+    box-shadow: 0 0 5px rgba(250, 104, 67, 0.5);
+    outline: none;
+}
+
+/* Selector de orden */
+.search-form select {
+    padding: 10px 15px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 200px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: white;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    font-family: 'Ubuntu', sans-serif; /* Aplica la fuente Ubuntu aquí también */
+}
+
+.search-form select:focus {
+    border-color: #fa6843;
+    box-shadow: 0 0 5px rgba(250, 104, 67, 0.5);
+    outline: none;
+}
+
+/* Botón de búsqueda */
+.search-form button {
+    padding: 10px 20px;
+    background-color: #F6A894;
+    border: 1px solid black;
+    border-radius: 5px;
+    color: black;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: 'Ubuntu', sans-serif; /* Aplica la fuente Ubuntu aquí también */
+}
+
+.search-form button:hover {
+    background-color: #fa6843;
+    transform: scale(1.05);
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
     .prendas {
@@ -101,6 +170,15 @@ body {
 
     .center-title_estilos {
         font-size: 1.5rem;
+    }
+
+    .search-form input[type="text"],
+    .search-form select {
+        width: 100%;
+    }
+
+    .search-form button {
+        width: 100%;
     }
 }
 
@@ -120,6 +198,16 @@ body {
     }
 
     .back-link {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .search-form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .search-form button {
         padding: 10px 20px;
         font-size: 14px;
     }
