@@ -31,6 +31,16 @@ class ComentarioPrenda extends Model
 
     public function likes()
     {
-        return $this->hasMany(LikeComentarioPrenda::class, 'id_comentario');
+        return $this->belongsToMany(Usuario::class, 'likes_comentarios_prendas', 'id_comentario', 'id_usuario')
+                   ->withTimestamps();
+    }
+    public function isLikedByUser($userId)
+    {
+        return $this->likes()->where('likes_comentarios_prendas.id_usuario', $userId)->exists();
+    }
+
+    public function likesCount()
+    {
+        return $this->likes()->count();
     }
 }

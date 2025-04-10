@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Prenda;
 use App\Models\Estilo;
+use App\Models\ComentarioPrenda;
+use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
 
 class PrendaController extends Controller
 {
@@ -37,7 +40,93 @@ class PrendaController extends Controller
 
     public function show($id)
 {
-    $prenda = Prenda::findOrFail($id);
+    $prenda = Prenda::with(['comentarios.usuario', 'comentarios.likes'])->findOrFail($id);
     return view('prendas.show', compact('prenda'));
+}
+
+    public function isLikedByUser($userId)
+    {
+        return $this->likes()->where('likes_prendas.id_usuario', $userId)->exists();
+    }
+
+    // Busca la prenda por ID o devuelve un error 404 si no se encuentra
+    public function toggleLike(Request $request, $id)
+    {
+        $prenda = Prenda::findOrFail($id);
+        $user = auth()->user();
+    
+        if (!$user) {
+            return response()->json(['error' => 'Debes iniciar sesión'], 401);
+        }
+    
+        // Verificar si ya existe el like usando la tabla pivot directamente
+        $likeExists = DB::table('likes_prendas')
+                      ->where('id_prenda', $prenda->id_prenda)
+                      ->where('id_usuario', $user->id_usuario)
+                      ->exists();
+    
+        if ($likeExists) {
+            DB::table('likes_prendas')
+              ->where('id_prenda', $prenda->id_prenda)
+              ->where('id_usuario', $user->id_usuario)
+              ->delete();
+            $liked = false;
+        } else {
+            DB::table('likes_prendas')->insert([
+                'id_prenda' => $prenda->id_prenda,
+                'id_usuario' => $user->id_usuario,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $liked = true;
+        }
+    
+        // Obtener el nuevo conteo de likes
+        $likesCount = DB::table('likes_prendas')
+                      ->where('id_prenda', $prenda->id_prenda)
+                      ->count();
+    
+        return response()->json([
+            'liked' => $liked,
+            'likes_count' => $likesCount,
+            'message' => $liked ? 'Prenda liked successfully' : 'Prenda unliked successfully'
+        ]);
+    }
+    public function storeComment(Request $request, $id)
+{
+    $request->validate([
+        'comentario' => 'required|string|max:500'
+    ]);
+
+    $comentario = new ComentarioPrenda();
+    $comentario->id_prenda = $id;
+    $comentario->id_usuario = auth()->id();
+    $comentario->comentario = $request->comentario;
+    $comentario->save();
+
+    return back()->with('success', 'Comentario añadido');
+}
+
+public function toggleCommentLike(Request $request, $id)
+{
+    $comentario = ComentarioPrenda::findOrFail($id);
+    $user = auth()->user();
+
+    if (!$user) {
+        return response()->json(['error' => 'Debes iniciar sesión'], 401);
+    }
+
+    if ($comentario->isLikedByUser($user->id_usuario)) {
+        $comentario->likes()->detach($user->id_usuario);
+        $liked = false;
+    } else {
+        $comentario->likes()->attach($user->id_usuario);
+        $liked = true;
+    }
+
+    return response()->json([
+        'liked' => $liked,
+        'likes_count' => $comentario->likesCount()
+    ]);
 }
 }
