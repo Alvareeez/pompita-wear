@@ -17,46 +17,51 @@
         <div class="row">
             <div class="col-md-6">
                 <h2>Editar Perfil</h2>
-                <form action="" enctype="multipart/form-data">
+                <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
                     <!-- Foto de perfil -->
                     <div class="profile-picture-container"
                         onclick="document.getElementById('profile-picture-input').click()">
-                        <img src="{{ asset($user->profile_picture ?? 'storage/profile_pictures/default.jpg') }}"
+                        <img src="{{ asset($user->foto_perfil ?? 'storage/profile_pictures/default.jpg') }}"
                             alt="Foto de perfil" class="profile-picture" id="profile-picture">
                         <div class="profile-picture-overlay">
                             <span>Editar foto</span>
                         </div>
                     </div>
-                    <input type="file" name="profile_picture" id="profile-picture-input" accept="image/*">
+                    <input type="file" name="foto_perfil" id="profile-picture-input" accept="image/*">
+
+                    <!-- Nombre (único campo en tu BD) -->
                     <div class="row">
-                        <div class="col-md-6">
-                            <label for="name">Nombre :</label>
-                            <input type="text" name="name" id="name" class="form-control my-3"
-                                placeholder="Introducir nombre" value="{{ $user->name ?? '' }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="lastname">Apellido :</label>
-                            <input type="text" name="lastname" id="lastname" class="form-control my-3"
-                                placeholder="Introducir Apellido" value="{{ $user->lastname ?? '' }}">
+                        <div class="col-md-12">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control my-3"
+                                placeholder="Introducir nombre" value="{{ $user->nombre ?? '' }}">
                         </div>
                     </div>
-                    <label for="email">Email :</label>
+
+                    <!-- Email -->
+                    <label for="email">Email:</label>
                     <input type="email" name="email" id="email" class="form-control my-3"
                         placeholder="Introducir correo electrónico" value="{{ $user->email ?? '' }}">
+
+                    <!-- Contraseña (opcional para edición) -->
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="psswrd">Contraseña :</label>
-                            <input type="password" name="psswrd" id="psswrd" class="form-control my-3"
-                                placeholder="Introducir contraseña">
+                            <label for="password">Nueva contraseña:</label>
+                            <input type="password" name="password" id="password" class="form-control my-3"
+                                placeholder="Dejar en blanco para no cambiar">
                         </div>
                         <div class="col-md-6">
-                            <label for="repPsswrd">Repetir contraseña :</label>
-                            <input type="password" name="repPsswrd" id="repPsswrd" class="form-control my-3"
-                                placeholder="Repetir contraseña">
+                            <label for="password_confirmation">Repetir contraseña:</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                class="form-control my-3" placeholder="Repetir contraseña">
                         </div>
                     </div>
+
                     <div class="d-flex justify-content-center">
-                        <button class="btn btn-outline-dark w-75">Guardar cambios</button>
+                        <button type="submit" class="btn btn-outline-dark w-75">Guardar cambios</button>
                     </div>
                 </form>
             </div>
@@ -66,10 +71,10 @@
                 <!-- Slider de Outfits -->
                 <div class="outfit-slider">
                     <h4>Outfits publicados</h4>
-                    {{-- @if ($outfits->count() > 0)
+                    @if ($outfitsPublicados->count() > 0)
                         <div id="outfitsCarousel" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                @foreach ($outfits->chunk(3) as $key => $chunk)
+                                @foreach ($outfitsPublicados->chunk(3) as $key => $chunk)
                                     <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                                         <div class="row">
                                             @foreach ($chunk as $outfit)
@@ -84,7 +89,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            @if ($outfits->count() > 3)
+                            @if ($outfitsPublicados->count() > 3)
                                 <button class="carousel-control-prev" type="button" data-bs-target="#outfitsCarousel"
                                     data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -99,13 +104,13 @@
                         </div>
                     @else
                         <div class="alert alert-info">No tienes outfits publicados aún.</div>
-                    @endif --}}
+                    @endif
                 </div>
 
                 <!-- Slider de Favoritos -->
                 <div class="favorites-slider">
                     <h4>Prendas favoritas</h4>
-                    {{-- @if ($favorites->count() > 0)
+                    @if ($favorites->count() > 0)
                         <div id="favoritesCarousel" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                                 @foreach ($favorites->chunk(3) as $key => $chunk)
@@ -114,8 +119,13 @@
                                             @foreach ($chunk as $favorite)
                                                 <div class="col-md-4">
                                                     <div class="carousel-card">
-                                                        <img src="{{ asset($favorite->image_path) }}"
-                                                            alt="{{ $favorite->name }}">
+                                                        <img src="{{ asset('img/prendas/' . $favorite->img_frontal) }}"
+                                                            alt="{{ $favorite->nombre }}" class="d-block w-100">
+                                                        <p class="text-center mt-2">
+                                                            <strong>{{ $favorite->nombre }}</strong>
+                                                        </p>
+                                                        <p class="text-center">€{{ number_format($favorite->precio, 2) }}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -138,7 +148,7 @@
                         </div>
                     @else
                         <div class="alert alert-info">No tienes prendas favoritas aún.</div>
-                    @endif --}}
+                    @endif
                 </div>
             </div>
         </div>
@@ -183,7 +193,7 @@
 
         // Inicializar los carruseles con intervalo
         document.addEventListener('DOMContentLoaded', function() {
-            @if ($outfits->count() > 0)
+            @if ($outfitsPublicados->count() > 0)
                 const outfitCarousel = new bootstrap.Carousel(document.getElementById('outfitsCarousel'), {
                     interval: 5000,
                     wrap: true
