@@ -20,6 +20,25 @@
             <div class="col-md-4 mb-4">
                 <h5>Prendas</h5>
 
+                <!-- Filtro de Color para Torso -->
+                <div class="mb-4">
+                    <form action="{{ route('outfit.index') }}" method="GET">
+                        <div class="mb-3">
+                            <label for="color_id" class="form-label">Selecciona un color para Torso</label>
+                            <select id="color_id" name="color_id" class="form-select">
+                                <option value="">Todos los colores</option>
+                                @foreach($colores as $color)
+                                    <option value="{{ $color->id_color }}" 
+                                        @if(request()->get('color_id') == $color->id_color) selected @endif>
+                                        {{ $color->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </form>
+                </div>
+
                 <!-- Prenda de Cabeza -->
                 <div class="mb-4">
                     <h6>Cabeza</h6>
