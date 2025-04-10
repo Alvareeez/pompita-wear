@@ -18,6 +18,12 @@
             font-weight: 600;
             margin-bottom: 10px;
         }
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        .badge-filter {
+            font-size: 0.75rem;
+        }
     </style>
 @endsection
 
@@ -28,64 +34,130 @@
         <!-- Formulario de Filtros -->
         <form method="GET" action="{{ route('outfit.index') }}" class="mb-4">
             <div class="filter-section">
-                <div class="filter-title">Filtrar por colores</div>
-                <div class="row g-3">
-                    <!-- Filtro para Cabeza -->
-                    <div class="col-md-3">
-                        <label for="color_cabeza" class="form-label">Color Cabeza</label>
-                        <select name="color_cabeza" id="color_cabeza" class="form-select">
-                            <option value="">Todos</option>
-                            @foreach($colores as $color)
-                                <option value="{{ $color->id_color }}" 
-                                    {{ request('color_cabeza') == $color->id_color ? 'selected' : '' }}>
-                                    {{ $color->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                <!-- Filtros por Color -->
+                <div class="filter-group">
+                    <div class="filter-title">Filtrar por colores</div>
+                    <div class="row g-3">
+                        <!-- Filtro para Cabeza -->
+                        <div class="col-md-3">
+                            <label for="color_cabeza" class="form-label">Color Cabeza</label>
+                            <select name="color_cabeza" id="color_cabeza" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($colores as $color)
+                                    <option value="{{ $color->id_color }}" 
+                                        {{ request('color_cabeza') == $color->id_color ? 'selected' : '' }}>
+                                        {{ $color->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                    <!-- Filtro para Torso -->
-                    <div class="col-md-3">
-                        <label for="color_torso" class="form-label">Color Torso</label>
-                        <select name="color_torso" id="color_torso" class="form-select">
-                            <option value="">Todos</option>
-                            @foreach($colores as $color)
-                                <option value="{{ $color->id_color }}" 
-                                    {{ request('color_torso') == $color->id_color ? 'selected' : '' }}>
-                                    {{ $color->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <!-- Filtro para Torso -->
+                        <div class="col-md-3">
+                            <label for="color_torso" class="form-label">Color Torso</label>
+                            <select name="color_torso" id="color_torso" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($colores as $color)
+                                    <option value="{{ $color->id_color }}" 
+                                        {{ request('color_torso') == $color->id_color ? 'selected' : '' }}>
+                                        {{ $color->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                    <!-- Filtro para Piernas -->
-                    <div class="col-md-3">
-                        <label for="color_piernas" class="form-label">Color Piernas</label>
-                        <select name="color_piernas" id="color_piernas" class="form-select">
-                            <option value="">Todos</option>
-                            @foreach($colores as $color)
-                                <option value="{{ $color->id_color }}" 
-                                    {{ request('color_piernas') == $color->id_color ? 'selected' : '' }}>
-                                    {{ $color->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                        <!-- Filtro para Piernas -->
+                        <div class="col-md-3">
+                            <label for="color_piernas" class="form-label">Color Piernas</label>
+                            <select name="color_piernas" id="color_piernas" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($colores as $color)
+                                    <option value="{{ $color->id_color }}" 
+                                        {{ request('color_piernas') == $color->id_color ? 'selected' : '' }}>
+                                        {{ $color->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                    <!-- Filtro para Pies -->
-                    <div class="col-md-3">
-                        <label for="color_pies" class="form-label">Color Pies</label>
-                        <select name="color_pies" id="color_pies" class="form-select">
-                            <option value="">Todos</option>
-                            @foreach($colores as $color)
-                                <option value="{{ $color->id_color }}" 
-                                    {{ request('color_pies') == $color->id_color ? 'selected' : '' }}>
-                                    {{ $color->nombre }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <!-- Filtro para Pies -->
+                        <div class="col-md-3">
+                            <label for="color_pies" class="form-label">Color Pies</label>
+                            <select name="color_pies" id="color_pies" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($colores as $color)
+                                    <option value="{{ $color->id_color }}" 
+                                        {{ request('color_pies') == $color->id_color ? 'selected' : '' }}>
+                                        {{ $color->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Filtros por Estilo -->
+                <div class="filter-group">
+                    <div class="filter-title">Filtrar por estilos</div>
+                    <div class="row g-3">
+                        <!-- Filtro para Cabeza -->
+                        <div class="col-md-3">
+                            <label for="estilo_cabeza" class="form-label">Estilo Cabeza</label>
+                            <select name="estilo_cabeza" id="estilo_cabeza" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($estilos as $estilo)
+                                    <option value="{{ $estilo->id_estilo }}" 
+                                        {{ request('estilo_cabeza') == $estilo->id_estilo ? 'selected' : '' }}>
+                                        {{ $estilo->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Filtro para Torso -->
+                        <div class="col-md-3">
+                            <label for="estilo_torso" class="form-label">Estilo Torso</label>
+                            <select name="estilo_torso" id="estilo_torso" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($estilos as $estilo)
+                                    <option value="{{ $estilo->id_estilo }}" 
+                                        {{ request('estilo_torso') == $estilo->id_estilo ? 'selected' : '' }}>
+                                        {{ $estilo->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Filtro para Piernas -->
+                        <div class="col-md-3">
+                            <label for="estilo_piernas" class="form-label">Estilo Piernas</label>
+                            <select name="estilo_piernas" id="estilo_piernas" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($estilos as $estilo)
+                                    <option value="{{ $estilo->id_estilo }}" 
+                                        {{ request('estilo_piernas') == $estilo->id_estilo ? 'selected' : '' }}>
+                                        {{ $estilo->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Filtro para Pies -->
+                        <div class="col-md-3">
+                            <label for="estilo_pies" class="form-label">Estilo Pies</label>
+                            <select name="estilo_pies" id="estilo_pies" class="form-select">
+                                <option value="">Todos</option>
+                                @foreach($estilos as $estilo)
+                                    <option value="{{ $estilo->id_estilo }}" 
+                                        {{ request('estilo_pies') == $estilo->id_estilo ? 'selected' : '' }}>
+                                        {{ $estilo->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
                     <a href="{{ route('outfit.index') }}" class="btn btn-outline-secondary">Limpiar</a>
@@ -102,9 +174,14 @@
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6>Cabeza</h6>
-                        @if(request('color_cabeza'))
-                            <span class="badge bg-info">Filtrado</span>
-                        @endif
+                        <div>
+                            @if(request('color_cabeza'))
+                                <span class="badge bg-info badge-filter">Color</span>
+                            @endif
+                            @if(request('estilo_cabeza'))
+                                <span class="badge bg-warning text-dark badge-filter">Estilo</span>
+                            @endif
+                        </div>
                     </div>
                     <div id="carouselCabeza" class="carousel slide">
                         <div class="carousel-inner">
@@ -129,9 +206,14 @@
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6>Torso</h6>
-                        @if(request('color_torso'))
-                            <span class="badge bg-info">Filtrado</span>
-                        @endif
+                        <div>
+                            @if(request('color_torso'))
+                                <span class="badge bg-info badge-filter">Color</span>
+                            @endif
+                            @if(request('estilo_torso'))
+                                <span class="badge bg-warning text-dark badge-filter">Estilo</span>
+                            @endif
+                        </div>
                     </div>
                     <div id="carouselTorso" class="carousel slide">
                         <div class="carousel-inner">
@@ -156,9 +238,14 @@
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6>Piernas</h6>
-                        @if(request('color_piernas'))
-                            <span class="badge bg-info">Filtrado</span>
-                        @endif
+                        <div>
+                            @if(request('color_piernas'))
+                                <span class="badge bg-info badge-filter">Color</span>
+                            @endif
+                            @if(request('estilo_piernas'))
+                                <span class="badge bg-warning text-dark badge-filter">Estilo</span>
+                            @endif
+                        </div>
                     </div>
                     <div id="carouselPiernas" class="carousel slide">
                         <div class="carousel-inner">
@@ -183,9 +270,14 @@
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <h6>Pies</h6>
-                        @if(request('color_pies'))
-                            <span class="badge bg-info">Filtrado</span>
-                        @endif
+                        <div>
+                            @if(request('color_pies'))
+                                <span class="badge bg-info badge-filter">Color</span>
+                            @endif
+                            @if(request('estilo_pies'))
+                                <span class="badge bg-warning text-dark badge-filter">Estilo</span>
+                            @endif
+                        </div>
                     </div>
                     <div id="carouselPies" class="carousel slide">
                         <div class="carousel-inner">
