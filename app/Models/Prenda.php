@@ -14,6 +14,7 @@ class Prenda extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'nombre',
         'id_tipoPrenda',
         'precio',
         'descripcion',

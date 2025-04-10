@@ -16,7 +16,7 @@ use App\Http\Controllers\Admin\EtiquetaController;
 Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
 
-// RUTAS DE INICIO ---------------------------------------------------------------------------
+// RUTAS DE INICIO --------------------------------------------------------------------------------------------
 Route::view('/login', 'login.login')->name('login')->middleware('guest');
 Route::view('/registro', 'registro.registro')->middleware('guest');
 
@@ -40,6 +40,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/ropa/{id}/edit', [RopaController::class, 'edit'])->name('admin.ropa.edit');
     Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
     Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
+    Route::post('/ropa/pdf', [RopaController::class, 'descargarPDF'])->name('admin.ropa.pdf');
 
     Route::get('/estilos', [EstiloController::class, 'index'])->name('admin.estilos.index');
     Route::get('/estilos/create', [EstiloController::class, 'create'])->name('admin.estilos.create');
