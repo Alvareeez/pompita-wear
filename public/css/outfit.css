@@ -1,17 +1,14 @@
 body {
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
     background-color: #f0f0f0;  /* Fondo gris claro */
     font-family: Arial, sans-serif;  /* Fuente Arial */
     margin: 0;
     padding: 20px;
 }
-}
 
 /* Ajustar las imágenes del carrusel */
 .carousel-inner img {
     max-width: 100%;    /* Asegurarse de que las imágenes no se salgan del contenedor */
-    max-height: 200px;  /* Limitar la altura de las imágenes para hacerlas más pequeñas */
+    max-height: 80px;   /* Limitar la altura de las imágenes para hacerlas más pequeñas */
     object-fit: cover;  /* Recortar la imagen de manera apropiada */
     margin: 0 auto;     /* Centrar la imagen */
 }
@@ -21,8 +18,8 @@ body {
 .carousel-control-next-icon {
     background-color: black; /* Color negro para las flechas */
     border-radius: 50%; /* Hacer que las flechas tengan forma circular */
-    width: 30px; /* Ancho de las flechas */
-    height: 30px; /* Alto de las flechas */
+    width: 15px; /* Reducir aún más el tamaño de las flechas */
+    height: 15px; /* Reducir aún más el tamaño de las flechas */
 }
 
 /* Asegurarse que las flechas tengan un buen contraste y sean visibles */
@@ -33,7 +30,7 @@ body {
 
 /* Estilo para los contenedores del carrusel */
 .carousel-item img {
-    max-height: 200px;   /* Tamaño más pequeño de las imágenes */
+    max-height: 80px;   /* Tamaño aún más pequeño de las imágenes */
     object-fit: cover;   /* Recorte adecuado para las imágenes */
 }
 
@@ -68,5 +65,6 @@ h6 {
 .carousel-control-next-icon {
     background-color: black;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 15px; /* Reducido aún más */
+    height: 15px; /* Reducido aún más */
+}
