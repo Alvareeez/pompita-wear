@@ -59,9 +59,15 @@ class Prenda extends Model
 
     public function valoraciones()
     {
-        return $this->hasMany(ValoracionPrenda::class, 'id_prenda');
+    return $this->hasMany(ValoracionPrenda::class, 'id_prenda')
+               ->with('usuario')
+               ->orderBy('created_at', 'desc');
     }
-
+    
+    public function promedioValoraciones()
+    {
+    return $this->valoraciones()->avg('puntuacion');
+    }
     public function likes()
     {
         return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')

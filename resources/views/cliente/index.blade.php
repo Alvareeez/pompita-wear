@@ -15,7 +15,7 @@
         <div class="carousel-container">
             <div class="carousel">
                 <img src="{{ asset('img/carrousel1.png') }}" alt="Imagen 1" class="carousel-image active">
-                <img src="{{ asset('img/carrousel22.png') }}" alt="Imagen 2" class="carousel-image">
+                <img src="{{ asset('img/carrousel2.png') }}" alt="Imagen 2" class="carousel-image">
                 <img src="{{ asset('img/112.png') }}" alt="Imagen 3" class="carousel-image">
                 <img src="{{ asset('img/carrousel4.png') }}" alt="Imagen 3" class="carousel-image">
             </div>

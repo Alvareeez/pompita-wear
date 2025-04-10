@@ -35,6 +35,20 @@
     color: #333;
 }
 
+.valoracion-media {
+    margin-bottom: 10px;
+}
+
+.valoracion-media .stars {
+    font-size: 1.2rem;
+}
+
+.valoracion-media .stars span {
+    font-size: 1rem;
+    color: #666;
+    margin-left: 5px;
+}
+
 .precio {
     font-size: 1.5rem;
     font-weight: bold;
@@ -57,41 +71,21 @@
     border-radius: 5px;
     margin-bottom: 25px;
     border: none;
+    cursor: pointer;
+}
+
+.btn-like:hover {
+    background-color: #fa6843;
+}
+
+.btn-like.liked {
+    background-color: #dc3545;
 }
 
 .acciones {
     display: flex;
     gap: 15px;
-}
-
-
-/* Estilos para comentarios */
-
-.comentarios-section {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.comentario-card {
-    background-color: #f8f9fa;
-}
-
-.btn-like-comentario {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #6c757d;
-    padding: 0;
-}
-
-.btn-like-comentario.liked {
-    color: #dc3545;
-}
-
-.comentario-acciones {
-    display: flex;
-    justify-content: flex-end;
+    margin-bottom: 20px;
 }
 
 .btn-comprar,
@@ -102,26 +96,190 @@
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s;
-}
-
-.btn-comprar {
     background-color: #F6A894;
     color: white;
 }
 
-.btn-favorito {
-    background-color: #f1faee;
-    border: 1px solid #e63946;
-    color: #fa6843;
-}
-
-.btn-comprar:hover {
-    background-color: #c1121f;
-}
-
+.btn-comprar:hover,
 .btn-favorito:hover {
-    background-color: #e63946;
+    background-color: #fa6843;
+}
+
+
+/* Estilos mejorados para comentarios */
+
+.comentario-card {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.foto-comentario-container {
+    flex-shrink: 0;
+}
+
+.foto-perfil-comentario {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #F6A894;
+}
+
+.foto-perfil-default {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #F6A894;
     color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.contenido-comentario {
+    flex-grow: 1;
+    margin-top: 15px;
+    margin-left: 7px;
+}
+
+.cabecera-comentario {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.cabecera-comentario strong {
+    font-size: 1rem;
+    color: #333;
+}
+
+.tiempo-comentario {
+    font-size: 0.8rem;
+    color: #999;
+    margin-left: 10px;
+}
+
+.texto-comentario {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #444;
+}
+
+.acciones-comentario {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 50px;
+}
+
+.btn-like-comentario {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.btn-like-comentario:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-like-comentario.liked {
+    color: #e74c3c;
+}
+
+.btn-like-comentario.liked:hover {
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+
+/* Estilos para valoraciones */
+
+.valorar-form {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    color: #ddd;
+    font-size: 1.8rem;
+    padding: 0 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rating input:checked~label,
+.rating label:hover,
+.rating label:hover~label {
+    color: #ffc107;
+}
+
+.text-warning {
+    color: #ffc107;
+}
+
+.text-secondary {
+    color: #ddd;
+}
+
+
+/* Contenedor de columnas */
+
+.comentarios-valoraciones-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.comentarios-columna {
+    flex: 1;
+    min-width: 0;
+}
+
+.valoraciones-columna {
+    flex: 1;
+    min-width: 0;
+}
+
+
+/* Secciones internas */
+
+.comentarios-section,
+.valoraciones-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    height: 100%;
+}
+
+.valoracion-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    padding: 15px;
 }
 
 
@@ -134,8 +292,31 @@
     .imagenes-container {
         flex-direction: column;
         align-items: center;
+        margin-left: 0;
     }
     .imagen-detalle {
-        width: 150px;
+        width: 100%;
+        max-width: 300px;
+    }
+    .acciones {
+        flex-direction: column;
+    }
+    .btn-comprar,
+    .btn-favorito {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .comentarios-valoraciones-container {
+        flex-direction: column;
+    }
+    .comentarios-columna,
+    .valoraciones-columna {
+        width: 100%;
+    }
+    .comentario-card {
+        flex-direction: column;
+    }
+    .foto-comentario-container {
+        margin-bottom: 10px;
     }
 }

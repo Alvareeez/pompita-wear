@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Prenda;
 use App\Models\Estilo;
+use App\Models\ValoracionPrenda;
 use App\Models\ComentarioPrenda;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\DB;
@@ -39,10 +40,18 @@ class PrendaController extends Controller
     }
 
     public function show($id)
-{
-    $prenda = Prenda::with(['comentarios.usuario', 'comentarios.likes'])->findOrFail($id);
-    return view('prendas.show', compact('prenda'));
-}
+    {
+    $prenda = Prenda::with(['comentarios.usuario', 'comentarios.likes', 'valoraciones.usuario'])
+                  ->findOrFail($id);
+                  
+    return view('prendas.show', [
+        'prenda' => $prenda,
+        'puntuacionPromedio' => $prenda->promedioValoraciones(),
+        'puntuacionUsuario' => $prenda->valoraciones()
+                                    ->where('id_usuario', auth()->id())
+                                    ->first()
+    ]);
+    }
 
     public function isLikedByUser($userId)
     {
@@ -128,5 +137,23 @@ public function toggleCommentLike(Request $request, $id)
         'liked' => $liked,
         'likes_count' => $comentario->likesCount()
     ]);
+}
+public function storeValoracion(Request $request, $id)
+{
+    $request->validate([
+        'puntuacion' => 'required|integer|between:1,5'
+    ]);
+
+    $valoracion = ValoracionPrenda::updateOrCreate(
+        [
+            'id_prenda' => $id,
+            'id_usuario' => auth()->id()
+        ],
+        [
+            'puntuacion' => $request->puntuacion
+        ]
+    );
+
+    return back()->with('success', 'Valoración guardada');
 }
 }
