@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RopaController;
 use App\Http\Controllers\PrendaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OutfitController;
 
 
 use App\Http\Controllers\Admin\EstiloController;
@@ -56,17 +57,19 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
     Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
 });
-Route::get('/outfit', function () {
-    return view('outfit');
-})->middleware('auth');
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
 
 
-// Ruta AJAX para filtrar por estilo SIN AUTH
-Route::get('/prendas/estilo/{id}/filtrar', [PrendaController::class, 'filtrarPorEstilo'])->name('prendas.filtrarPorEstilo');
 
 Route::middleware(['auth'])->group(
     function () {
+
+        Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index'); // Ruta para la página principal
+
+
+        // Ruta AJAX para filtrar por estilo SIN AUTH
+        Route::get('/prendas/estilo/{id}/filtrar', [PrendaController::class, 'filtrarPorEstilo'])->name('prendas.filtrarPorEstilo');
+
 
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
         Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
