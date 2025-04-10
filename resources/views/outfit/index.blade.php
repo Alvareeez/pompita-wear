@@ -4,44 +4,108 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/prendasEstilos.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
-    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+    </style>
 @endsection
 
 @section('content')
     <div class="container mt-4">
         <h1 class="text-center mb-4">Crea tu Outfit</h1>
 
+        <!-- Formulario de Filtros -->
+        <form method="GET" action="{{ route('outfit.index') }}" class="mb-4">
+            <div class="filter-section">
+                <div class="filter-title">Filtrar por colores</div>
+                <div class="row g-3">
+                    <!-- Filtro para Cabeza -->
+                    <div class="col-md-3">
+                        <label for="color_cabeza" class="form-label">Color Cabeza</label>
+                        <select name="color_cabeza" id="color_cabeza" class="form-select">
+                            <option value="">Todos</option>
+                            @foreach($colores as $color)
+                                <option value="{{ $color->id_color }}" 
+                                    {{ request('color_cabeza') == $color->id_color ? 'selected' : '' }}>
+                                    {{ $color->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Filtro para Torso -->
+                    <div class="col-md-3">
+                        <label for="color_torso" class="form-label">Color Torso</label>
+                        <select name="color_torso" id="color_torso" class="form-select">
+                            <option value="">Todos</option>
+                            @foreach($colores as $color)
+                                <option value="{{ $color->id_color }}" 
+                                    {{ request('color_torso') == $color->id_color ? 'selected' : '' }}>
+                                    {{ $color->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Filtro para Piernas -->
+                    <div class="col-md-3">
+                        <label for="color_piernas" class="form-label">Color Piernas</label>
+                        <select name="color_piernas" id="color_piernas" class="form-select">
+                            <option value="">Todos</option>
+                            @foreach($colores as $color)
+                                <option value="{{ $color->id_color }}" 
+                                    {{ request('color_piernas') == $color->id_color ? 'selected' : '' }}>
+                                    {{ $color->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Filtro para Pies -->
+                    <div class="col-md-3">
+                        <label for="color_pies" class="form-label">Color Pies</label>
+                        <select name="color_pies" id="color_pies" class="form-select">
+                            <option value="">Todos</option>
+                            @foreach($colores as $color)
+                                <option value="{{ $color->id_color }}" 
+                                    {{ request('color_pies') == $color->id_color ? 'selected' : '' }}>
+                                    {{ $color->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                    <a href="{{ route('outfit.index') }}" class="btn btn-outline-secondary">Limpiar</a>
+                </div>
+            </div>
+        </form>
+
         <div class="row">
             <!-- Columna izquierda: prendas organizadas por tipo -->
             <div class="col-md-4 mb-4">
                 <h5>Prendas</h5>
 
-                <!-- Filtro de Color para Torso -->
-                <div class="mb-4">
-                    <form action="{{ route('outfit.index') }}" method="GET">
-                        <div class="mb-3">
-                            <label for="color_id" class="form-label">Selecciona un color para Torso</label>
-                            <select id="color_id" name="color_id" class="form-select">
-                                <option value="">Todos los colores</option>
-                                @foreach($colores as $color)
-                                    <option value="{{ $color->id_color }}" 
-                                        @if(request()->get('color_id') == $color->id_color) selected @endif>
-                                        {{ $color->nombre }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Filtrar</button>
-                    </form>
-                </div>
-
                 <!-- Prenda de Cabeza -->
                 <div class="mb-4">
-                    <h6>Cabeza</h6>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6>Cabeza</h6>
+                        @if(request('color_cabeza'))
+                            <span class="badge bg-info">Filtrado</span>
+                        @endif
+                    </div>
                     <div id="carouselCabeza" class="carousel slide">
                         <div class="carousel-inner">
                             @foreach($prendasCabeza as $prenda)
@@ -63,7 +127,12 @@
 
                 <!-- Prenda de Torso -->
                 <div class="mb-4">
-                    <h6>Torso</h6>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6>Torso</h6>
+                        @if(request('color_torso'))
+                            <span class="badge bg-info">Filtrado</span>
+                        @endif
+                    </div>
                     <div id="carouselTorso" class="carousel slide">
                         <div class="carousel-inner">
                             @foreach($prendasTorso as $prenda)
@@ -85,7 +154,12 @@
 
                 <!-- Prenda de Piernas -->
                 <div class="mb-4">
-                    <h6>Piernas</h6>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6>Piernas</h6>
+                        @if(request('color_piernas'))
+                            <span class="badge bg-info">Filtrado</span>
+                        @endif
+                    </div>
                     <div id="carouselPiernas" class="carousel slide">
                         <div class="carousel-inner">
                             @foreach($prendasPiernas as $prenda)
@@ -107,7 +181,12 @@
 
                 <!-- Prenda de Pies -->
                 <div class="mb-4">
-                    <h6>Pies</h6>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6>Pies</h6>
+                        @if(request('color_pies'))
+                            <span class="badge bg-info">Filtrado</span>
+                        @endif
+                    </div>
                     <div id="carouselPies" class="carousel slide">
                         <div class="carousel-inner">
                             @foreach($prendasPies as $prenda)

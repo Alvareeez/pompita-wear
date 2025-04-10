@@ -3,7 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Prenda;
 use App\Models\Color;
-use App\Models\PrendaColor;
 use Illuminate\Http\Request;
 
 class OutfitController extends Controller
@@ -13,24 +12,24 @@ class OutfitController extends Controller
         // Obtener todos los colores disponibles
         $colores = Color::all();
         
-        // Recuperar prendas de torso (tipo 2) con posibilidad de filtrar por color
-        $queryTorso = Prenda::where('id_tipoPrenda', 2);
-        
-        // Aplicar filtro por color si se ha seleccionado uno
-        if ($request->has('color_id') && $request->color_id != '') {
-            $colorId = $request->color_id;
+        // Función para filtrar prendas por tipo y color
+        $filterByTypeAndColor = function($typeId, $colorParam) use ($request) {
+            $query = Prenda::where('id_tipoPrenda', $typeId);
             
-            $queryTorso->whereHas('colores', function($q) use ($colorId) {
-                $q->where('colores.id_color', $colorId); // Especificamos la tabla
-            });
-        }
+            if ($request->has($colorParam) && $request->$colorParam != '') {
+                $query->whereHas('colores', function($q) use ($request, $colorParam) {
+                    $q->where('colores.id_color', $request->$colorParam);
+                });
+            }
+            
+            return $query->get();
+        };
         
-        $prendasTorso = $queryTorso->get();
-        
-        // Obtener las demás prendas sin filtro
-        $prendasCabeza = Prenda::where('id_tipoPrenda', 1)->get();
-        $prendasPiernas = Prenda::where('id_tipoPrenda', 3)->get();
-        $prendasPies = Prenda::where('id_tipoPrenda', 4)->get();
+        // Obtener prendas con filtros aplicados
+        $prendasCabeza = $filterByTypeAndColor(1, 'color_cabeza');
+        $prendasTorso = $filterByTypeAndColor(2, 'color_torso');
+        $prendasPiernas = $filterByTypeAndColor(3, 'color_piernas');
+        $prendasPies = $filterByTypeAndColor(4, 'color_pies');
 
         return view('outfit.index', compact(
             'prendasCabeza',
