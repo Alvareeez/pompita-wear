@@ -20,25 +20,30 @@
             <div class="col-md-4 mb-4">
                 <h5>Prendas</h5>
 
+                <!-- Filtro por Color para cada tipo de prenda -->
+                <form id="filter-form">
+                    <div class="mb-3">
+                        <label for="color" class="form-label">Filtrar por color</label>
+                        <select class="form-select" id="color" name="color_id">
+                            <option value="">Selecciona un color</option>
+                            @foreach($colores as $color)
+                                <option value="{{ $color->id_color }}">{{ $color->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </form>
+
                 <!-- Prenda de Cabeza -->
                 <div class="mb-4">
                     <h6>Cabeza</h6>
                     <div id="carouselCabeza" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="carousel-cabeza">
                             @foreach($prendasCabeza as $prenda)
                                 <div class="carousel-item @if($loop->first) active @endif">
                                     <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block w-100" alt="{{ $prenda->nombre }}">
                                 </div>
                             @endforeach
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCabeza" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselCabeza" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
 
@@ -46,21 +51,13 @@
                 <div class="mb-4">
                     <h6>Torso</h6>
                     <div id="carouselTorso" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="carousel-torso">
                             @foreach($prendasTorso as $prenda)
                                 <div class="carousel-item @if($loop->first) active @endif">
                                     <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block w-100" alt="{{ $prenda->nombre }}">
                                 </div>
                             @endforeach
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselTorso" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselTorso" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
 
@@ -68,21 +65,13 @@
                 <div class="mb-4">
                     <h6>Piernas</h6>
                     <div id="carouselPiernas" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="carousel-piernas">
                             @foreach($prendasPiernas as $prenda)
                                 <div class="carousel-item @if($loop->first) active @endif">
                                     <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block w-100" alt="{{ $prenda->nombre }}">
                                 </div>
                             @endforeach
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPiernas" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselPiernas" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
 
@@ -90,21 +79,13 @@
                 <div class="mb-4">
                     <h6>Pies</h6>
                     <div id="carouselPies" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
+                        <div class="carousel-inner" id="carousel-pies">
                             @foreach($prendasPies as $prenda)
                                 <div class="carousel-item @if($loop->first) active @endif">
                                     <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block w-100" alt="{{ $prenda->nombre }}">
                                 </div>
                             @endforeach
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselPies" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselPies" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -115,4 +96,37 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Detectar el cambio de color y actualizar el carousel
+        document.getElementById('color').addEventListener('change', function (e) {
+            var colorId = e.target.value;
+            var tipoPrenda = 'CABEZA';  // Cambiar dinámicamente según el tipo de prenda seleccionado
+
+            // Hacer una solicitud AJAX para obtener las prendas filtradas por color
+            fetch('/filtrar-prendas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ color_id: colorId, tipo_prenda: tipoPrenda })
+            })
+            .then(response => response.json())
+            .then(prendas => {
+                // Aquí actualizas los carouseles con las prendas filtradas
+                let carouselContainer = document.getElementById('carousel-cabeza');
+                carouselContainer.innerHTML = ''; // Vaciar el contenido actual
+
+                prendas.forEach(prenda => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('carousel-item');
+                    itemDiv.innerHTML = `
+                        <img src="/img/prendas/${prenda.img_frontal}" class="d-block w-100" alt="${prenda.nombre}">
+                    `;
+                    carouselContainer.appendChild(itemDiv);
+                });
+            });
+        });
+    </script>
 @endsection
