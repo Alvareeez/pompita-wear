@@ -39,7 +39,7 @@
     margin-bottom: 10px;
 }
 
-.valoracion-media .stars {
+.valoracion-media .starss {
     font-size: 1.2rem;
 }
 
@@ -175,8 +175,6 @@
 
 .acciones-comentario {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 50px;
 }
 
 .btn-like-comentario {
@@ -186,8 +184,9 @@
     color: #666;
     font-size: 0.9rem;
     padding: 2px 8px;
-    border-radius: 12px;
+    border-radius: 8px;
     transition: all 0.2s;
+    margin-left: 20px;
 }
 
 .btn-like-comentario:hover {
@@ -199,23 +198,88 @@
 }
 
 .btn-like-comentario.liked:hover {
-    background-color: rgba(231, 76, 60, 0.1);
+    background-color: #f6a89480;
 }
 
 
-/* Estilos para valoraciones */
+/* ========== VALORACIONES SECTION ========== */
 
-.valorar-form {
-    margin-bottom: 30px;
+.valoraciones-section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.valoracion-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.valoracion-header h2 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.valoracion-promedio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.promedio-numero {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #F6A894;
+    line-height: 1;
+}
+
+.stars-promedio {
+    margin: 8px 0;
+}
+
+.stars-promedio i {
+    font-size: 1.3rem;
+    margin: 0 2px;
+}
+
+.total-valoraciones {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+
+/* Formulario de valoración */
+
+.tu-valoracion {
+    background-color: #f9f9f9;
     padding: 15px;
-    background-color: #f8f9fa;
     border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.tu-valoracion h3 {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.rating-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .rating {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: flex-start;
+    justify-content: center;
+    margin-bottom: 12px;
 }
 
 .rating input {
@@ -225,7 +289,7 @@
 .rating label {
     color: #ddd;
     font-size: 1.8rem;
-    padding: 0 5px;
+    padding: 0 4px;
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -236,12 +300,75 @@
     color: #ffc107;
 }
 
-.text-warning {
-    color: #ffc107;
+.btn-valorar {
+    background-color: #F6A894;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
 }
 
-.text-secondary {
-    color: #ddd;
+.btn-valorar:hover {
+    background-color: #e69580;
+}
+
+.btn-valorar i {
+    margin-right: 6px;
+}
+
+
+/* Lista de valoraciones */
+
+.lista-valoraciones h3 {
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.valoracion-card {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.valoracion-card:last-child {
+    border-bottom: none;
+}
+
+.valoracion-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.foto-perfil-valoracion {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #F6A894;
+    margin-right: 10px;
+}
+
+.user-info {
+    flex-grow: 1;
+}
+
+.user-info strong {
+    display: block;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.user-info small {
+    font-size: 0.75rem;
+    color: #888;
 }
 
 
@@ -254,38 +381,201 @@
 }
 
 .comentarios-columna {
-    flex: 1;
-    min-width: 0;
+    padding-right: 30px;
+    width: 100%;
+    /* Ajusta según tu gap */
 }
 
 .valoraciones-columna {
-    flex: 1;
-    min-width: 0;
+    padding-left: 30px;
+    border-right: 1px solid #000;
+    /* Ajusta según tu gap */
 }
 
 
-/* Secciones internas */
+/* Estilos para el formulario de comentarios */
 
-.comentarios-section,
-.valoraciones-section {
-    background-color: #f8f9fa;
+.form-group {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.form-control {
+    width: 90%;
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #495057;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-control:focus {
+    border-color: #F6A894;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(246, 168, 148, 0.25);
+}
+
+
+/* Estilo para el botón de enviar comentario */
+
+.btn-comentar {
+    background-color: #F6A894;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-comentar:hover {
+    background-color: #e69580;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(246, 168, 148, 0.3);
+}
+
+.btn-comentar:active {
+    transform: translateY(0);
+}
+
+
+/* Estilo para el contenedor del formulario */
+
+.comentario-form-container {
     padding: 20px;
-    border-radius: 8px;
-    height: 100%;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    resize: none;
 }
 
-.valoracion-card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.comentario-form-container h2 {
     margin-bottom: 15px;
+    color: #333;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+
+/* Estilo para el placeholder del textarea */
+
+.form-control::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+
+/* Estilo para el contador de caracteres (opcional) */
+
+.contador-caracteres {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 5px;
+}
+
+
+/* Efecto de hover para el textarea */
+
+.form-control:hover {
+    border-color: #a3a3a3;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+    /* Amarillo para estrellas activas */
+}
+
+.text-secondary {
+    color: #ddd !important;
+    /* Gris para estrellas inactivas */
+}
+
+.valoracion-stars {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+
+/* Estilos mejorados para el textarea */
+
+.custom-textarea {
+    width: 100%;
     padding: 15px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    resize: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    min-height: 120px;
+}
+
+.custom-textarea:focus {
+    border-color: #F6A894;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(246, 168, 148, 0.25);
+    background-color: #fef9f8;
+}
+
+.custom-textarea::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+
+/* Contador de caracteres mejorado */
+
+.contador-caracteres {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.caracteres-restantes {
+    font-weight: bold;
+    color: #F6A894;
+}
+
+
+/* Efecto hover suave */
+
+.custom-textarea:hover {
+    border-color: #ced4da;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 
 /* Responsive */
 
 @media (max-width: 768px) {
+    .form-control {
+        padding: 10px 12px;
+        min-height: 80px;
+    }
+    .btn-comentar {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+    .comentario-form-container {
+        padding: 15px;
+    }
     .prenda-detalle {
         flex-direction: column;
     }
@@ -318,5 +608,17 @@
     }
     .foto-comentario-container {
         margin-bottom: 10px;
+    }
+    .valoraciones-section {
+        padding: 15px;
+    }
+    .rating label {
+        font-size: 1.5rem;
+    }
+    .promedio-numero {
+        font-size: 2rem;
+    }
+    .stars-promedio i {
+        font-size: 1.1rem;
     }
 }

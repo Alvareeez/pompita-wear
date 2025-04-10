@@ -84,3 +84,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+//Contador comentarios
+document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.querySelector('textarea[name="comentario"]');
+    const contador = document.querySelector('.contador-caracteres');
+
+    if (textarea && contador) {
+        const maxCaracteres = 500;
+
+        textarea.addEventListener('input', function() {
+            const caracteresRestantes = maxCaracteres - this.value.length;
+            contador.textContent = `${caracteresRestantes} caracteres restantes`;
+
+            if (caracteresRestantes < 0) {
+                contador.style.color = 'red';
+                this.value = this.value.substring(0, maxCaracteres);
+            } else {
+                contador.style.color = '#6c757d';
+            }
+        });
+    }
+});
