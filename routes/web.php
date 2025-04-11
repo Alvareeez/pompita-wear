@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RopaController;
 use App\Http\Controllers\PrendaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PerfilController;
 
 
 use App\Http\Controllers\Admin\EstiloController;
@@ -16,7 +17,7 @@ use App\Http\Controllers\Admin\EtiquetaController;
 Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
 
-// RUTAS DE INICIO ---------------------------------------------------------------------------
+// RUTAS DE INICIO --------------------------------------------------------------------------------------------
 Route::view('/login', 'login.login')->name('login')->middleware('guest');
 Route::view('/registro', 'registro.registro')->middleware('guest');
 
@@ -77,6 +78,5 @@ Route::middleware(['auth'])->group(
     }
 );
 
-Route::get('/perfil', function () {
-    return view('perfil');
-})->middleware('auth');
+Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
+Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
