@@ -33,6 +33,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('admin.usuarios.edit');
     Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('admin.usuarios.update');
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('admin.usuarios.destroy');
+    Route::get('/usuarios/filtrar', [UsuarioController::class, 'filtrar'])->name('admin.usuarios.filtrar');
 
     Route::get('/ropa', [RopaController::class, 'index'])->name('admin.ropa.index');
     Route::get('/ropa/create', [RopaController::class, 'create'])->name('admin.ropa.create');
@@ -41,6 +42,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
     Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
     Route::post('/ropa/pdf', [RopaController::class, 'descargarPDF'])->name('admin.ropa.pdf');
+    
 
     Route::get('/estilos', [EstiloController::class, 'index'])->name('admin.estilos.index');
     Route::get('/estilos/create', [EstiloController::class, 'create'])->name('admin.estilos.create');
