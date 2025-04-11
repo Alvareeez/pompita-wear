@@ -69,6 +69,10 @@ Route::middleware(['auth'])->group(
 
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
         Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
+        Route::post('/prendas/{id}/comentarios', [PrendaController::class, 'storeComment'])->name('prendas.storeComment');
+        Route::post('/comentarios/{id}/like', [PrendaController::class, 'toggleCommentLike'])    ->name('comentarios.toggleLike');
+        Route::post('/prendas/{prenda}/like', [PrendaController::class, 'toggleLike'])->name('prendas.like');
+        Route::post('/prendas/{id}/valoraciones', [PrendaController::class, 'storeValoracion'])->name('prendas.storeValoracion');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
     }
 );

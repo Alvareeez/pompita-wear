@@ -74,4 +74,9 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany(LikeComentarioPrenda::class, 'id_usuario');
     }
+    public function likes()
+{
+    return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
+                ->withTimestamps();
+}
 }
