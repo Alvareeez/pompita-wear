@@ -50,6 +50,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/estilos/{id}/edit', [EstiloController::class, 'edit'])->name('admin.estilos.edit');
     Route::put('/estilos/{id}', [EstiloController::class, 'update'])->name('admin.estilos.update');
     Route::delete('/estilos/{id}', [EstiloController::class, 'destroy'])->name('admin.estilos.destroy');
+    Route::get('/admin/estilos/buscar', [EstiloController::class, 'buscar'])->name('admin.estilos.buscar');
 
     Route::get('/etiquetas', [EtiquetaController::class, 'index'])->name('admin.etiquetas.index');
     Route::get('/etiquetas/create', [EtiquetaController::class, 'create'])->name('admin.etiquetas.create');

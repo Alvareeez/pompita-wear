@@ -8,11 +8,23 @@ use Illuminate\Support\Facades\DB;
 
 class EstiloController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $estilos = Estilo::all();
-        return view('Admin.estilos', compact('estilos'));
+        $query = Estilo::query();
+    
+        if ($request->ajax()) {
+            if ($request->filled('nombre')) {
+                $query->where('nombre', 'like', '%' . $request->nombre . '%');
+            }
+    
+            $estilos = $query->get();
+            return view('admin.partials.tabla-estilos', compact('estilos'));
+        }
+    
+        $estilos = $query->get();
+        return view('admin.estilos', compact('estilos'));
     }
+    
 
     public function create()
     {
