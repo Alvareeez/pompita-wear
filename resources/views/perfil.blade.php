@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 @endsection
 
 @section('content')
@@ -119,13 +120,11 @@
                                             @foreach ($chunk as $favorite)
                                                 <div class="col-md-4">
                                                     <div class="carousel-card">
-                                                        <img src="{{ asset('img/prendas/' . $favorite->img_frontal) }}"
-                                                            alt="{{ $favorite->nombre }}" class="d-block w-100">
-                                                        <p class="text-center mt-2">
-                                                            <strong>{{ $favorite->nombre }}</strong>
-                                                        </p>
-                                                        <p class="text-center">€{{ number_format($favorite->precio, 2) }}
-                                                        </p>
+                                                        <a href="{{ route('prendas.show', $favorite->id_prenda) }}">
+
+                                                            <img src="{{ asset('img/prendas/' . $favorite->img_frontal) }}"
+                                                                alt="{{ $favorite->nombre }}" class="d-block w-100">
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -155,43 +154,154 @@
     </div>
 
     <script>
-        // Mostrar la imagen seleccionada con ajuste de tamaño
+        // Función para mostrar el SweetAlert con opciones
+        function showImageSourceSelector(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Cambiar foto de perfil',
+                text: '¿Cómo quieres cambiar tu foto de perfil?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Subir desde dispositivo',
+                denyButtonText: 'Tomar una foto',
+                cancelButtonText: 'Cancelar',
+                icon: 'question'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('profile-picture-input').click();
+                } else if (result.isDenied) {
+                    openCamera();
+                }
+            });
+        }
+
+        // Función para abrir la cámara
+        function openCamera() {
+            const video = document.createElement('video');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Configurar SweetAlert con vista previa de cámara
+            Swal.fire({
+                title: 'Toma tu foto',
+                html: `
+                    <video id="camera-preview" autoplay playsinline style="width: 100%; max-height: 300px;"></video>
+                    <button id="capture-btn" class="btn btn-primary mt-3">Capturar</button>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Usar esta foto',
+                cancelButtonText: 'Cancelar',
+                didOpen: () => {
+                    const preview = document.getElementById('camera-preview');
+
+                    // Acceder a la cámara
+                    navigator.mediaDevices.getUserMedia({
+                            video: true,
+                            audio: false
+                        })
+                        .then((stream) => {
+                            preview.srcObject = stream;
+
+                            // Configurar botón de captura
+                            document.getElementById('capture-btn').addEventListener('click', () => {
+                                // Ajustar el canvas al tamaño del video
+                                canvas.width = preview.videoWidth;
+                                canvas.height = preview.videoHeight;
+                                ctx.drawImage(preview, 0, 0, canvas.width, canvas.height);
+
+                                // Detener la cámara
+                                stream.getTracks().forEach(track => track.stop());
+
+                                // Mostrar vista previa de la foto capturada
+                                Swal.fire({
+                                    title: 'Vista previa',
+                                    imageUrl: canvas.toDataURL('image/jpeg'),
+                                    imageAlt: 'Foto capturada',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Usar esta foto',
+                                    cancelButtonText: 'Volver a tomar',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Convertir la imagen a Blob y crear un archivo
+                                        canvas.toBlob((blob) => {
+                                            const file = new File([blob],
+                                                'profile-photo.jpg', {
+                                                    type: 'image/jpeg'
+                                                });
+
+                                            // Crear un DataTransfer para simular un input file
+                                            const dataTransfer = new DataTransfer();
+                                            dataTransfer.items.add(file);
+
+                                            // Asignar el archivo al input
+                                            const input = document.getElementById(
+                                                'profile-picture-input');
+                                            input.files = dataTransfer.files;
+
+                                            // Mostrar vista previa
+                                            updateProfilePreview(canvas.toDataURL(
+                                                'image/jpeg'));
+                                        }, 'image/jpeg', 0.9);
+                                    } else {
+                                        // Volver a abrir la cámara
+                                        openCamera();
+                                    }
+                                });
+                            });
+                        })
+                        .catch((error) => {
+                            Swal.fire('Error', 'No se pudo acceder a la cámara: ' + error.message, 'error');
+                        });
+                },
+                willClose: () => {
+                    // Detener la cámara si está abierta
+                    const preview = document.getElementById('camera-preview');
+                    if (preview && preview.srcObject) {
+                        preview.srcObject.getTracks().forEach(track => track.stop());
+                    }
+                }
+            });
+        }
+
+        // Función para actualizar la vista previa de la foto de perfil
+        function updateProfilePreview(imageSrc) {
+            const imgElement = document.getElementById('profile-picture');
+            const tempImg = new Image();
+            tempImg.src = imageSrc;
+
+            tempImg.onload = function() {
+                const containerWidth = 150;
+                const containerHeight = 150;
+                const imgRatio = tempImg.width / tempImg.height;
+                const containerRatio = containerWidth / containerHeight;
+
+                if (imgRatio > containerRatio) {
+                    imgElement.style.width = '100%';
+                    imgElement.style.height = 'auto';
+                } else {
+                    imgElement.style.width = 'auto';
+                    imgElement.style.height = '100%';
+                }
+
+                imgElement.src = imageSrc;
+            };
+        }
+
+        // Evento para el contenedor de la foto de perfil
+        document.querySelector('.profile-picture-container').addEventListener('click', showImageSourceSelector);
+
+        // Evento para cuando se selecciona un archivo manualmente
         document.getElementById('profile-picture-input').addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
-                const imgElement = document.getElementById('profile-picture');
-
                 reader.onload = function(event) {
-                    // Crear una imagen temporal para calcular las dimensiones
-                    const tempImg = new Image();
-                    tempImg.src = event.target.result;
-
-                    tempImg.onload = function() {
-                        const containerWidth = 150; // Ancho del contenedor
-                        const containerHeight = 150; // Alto del contenedor
-
-                        // Calcular relación de aspecto
-                        const imgRatio = tempImg.width / tempImg.height;
-                        const containerRatio = containerWidth / containerHeight;
-
-                        // Ajustar según la relación de aspecto
-                        if (imgRatio > containerRatio) {
-                            imgElement.style.width = '100%';
-                            imgElement.style.height = 'auto';
-                        } else {
-                            imgElement.style.width = 'auto';
-                            imgElement.style.height = '100%';
-                        }
-
-                        imgElement.src = event.target.result;
-                    };
-                }
-
+                    updateProfilePreview(event.target.result);
+                };
                 reader.readAsDataURL(e.target.files[0]);
             }
         });
 
-        // Inicializar los carruseles con intervalo
+        // Inicializar los carruseles (código existente)
         document.addEventListener('DOMContentLoaded', function() {
             @if ($outfitsPublicados->count() > 0)
                 const outfitCarousel = new bootstrap.Carousel(document.getElementById('outfitsCarousel'), {
@@ -208,4 +318,8 @@
             @endif
         });
     </script>
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @endpush
+
 @endsection
