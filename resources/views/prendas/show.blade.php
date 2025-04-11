@@ -12,7 +12,6 @@
         <div class="prenda-detalle">
             <div class="prenda-imagenes">
                 <div class="imagenes-container">
-    
                          <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" 
                          alt="Vista trasera" 
                          class="imagen-detalle">
@@ -44,7 +43,11 @@
                 <!-- Botones de acción -->
                 <div class="acciones">
                     <button class="btn-comprar">Comprar ahora</button>
-                    <button class="btn-favorito">Añadir a favoritos</button>
+                    <button id="favorite-button" 
+        class="btn-favorito {{ $prenda->isFavoritedByUser(auth()->id() ?? 0) ? 'favorited' : '' }}" 
+        data-prenda-id="{{ $prenda->id_prenda }}">
+    {{ $prenda->isFavoritedByUser(auth()->id() ?? 0) ? '😈 En favoritos' : 'Añadir a favoritos' }}
+</button>
                 </div>
                 
                 <!-- Display styles -->

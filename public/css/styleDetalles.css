@@ -105,6 +105,14 @@
     background-color: #fa6843;
 }
 
+.btn-favorito.favorited {
+    background-color: #dc3545;
+}
+
+.btn-favorito.favorited:hover {
+    background-color: #c82333;
+}
+
 
 /* Estilos mejorados para comentarios */
 

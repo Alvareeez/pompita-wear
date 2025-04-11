@@ -156,4 +156,61 @@ public function storeValoracion(Request $request, $id)
 
     return back()->with('success', 'Valoración guardada');
 }
+public function toggleFavorite($id)
+{
+    DB::beginTransaction();
+    try {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+
+        $prenda = Prenda::findOrFail($id);
+
+        // Consulta directa para verificar existencia
+        $exists = DB::table('favoritos_prendas')
+                  ->where('id_prenda', $prenda->id_prenda)
+                  ->where('id_usuario', $user->id_usuario) // Asegúrate que coincida con tu DB
+                  ->exists();
+
+        if ($exists) {
+            DB::table('favoritos_prendas')
+              ->where('id_prenda', $prenda->id_prenda)
+              ->where('id_usuario', $user->id_usuario)
+              ->delete();
+            $favorited = false;
+        } else {
+            DB::table('favoritos_prendas')->insert([
+                'id_prenda' => $prenda->id_prenda,
+                'id_usuario' => $user->id_usuario,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $favorited = true;
+        }
+
+        // Conteo directo desde la base de datos
+        $count = DB::table('favoritos_prendas')
+                 ->where('id_prenda', $prenda->id_prenda)
+                 ->count();
+
+        DB::commit();
+
+        return response()->json([
+            'favorited' => $favorited,
+            'count' => $count,
+            'debug' => [ // Datos para depuración
+                'prenda_id' => $prenda->id_prenda,
+                'user_id' => $user->id_usuario
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'error' => 'Error del servidor',
+            'details' => config('app.debug') ? $e->getMessage() : null
+        ], 500);
+    }
+}
 }
