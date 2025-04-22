@@ -28,4 +28,10 @@ class FavoritoPrenda extends Model
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
+    public function favoritos()
+{
+    return $this->belongsToMany(Usuario::class, 'favoritos_prendas', 'id_prenda', 'id_usuario')
+                ->withTimestamps()
+                ->using(FavoritoPrenda::class);
+}
 }

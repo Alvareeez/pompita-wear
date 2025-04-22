@@ -106,3 +106,47 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const button = document.getElementById('favorite-button');
+
+    if (button) {
+        button.addEventListener('click', function() {
+            const prendaId = this.getAttribute('data-prenda-id');
+            const token = document.querySelector('meta[name="csrf-token"]').content;
+
+            // Cambio visual 
+            this.classList.toggle('favorited');
+            this.textContent = this.classList.contains('favorited') ? '😈 En favoritos' : 'Añadir a favoritos';
+
+            fetch(`/prendas/${prendaId}/favorito`, {
+                    method: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': (token),
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.error) {
+                        // Revertir cambios si hay error
+                        this.classList.toggle('favorited');
+                        this.textContent = this.classList.contains('favorited') ? '😈 En favoritos' : 'Añadir a favoritos';
+                        alert(data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Revertir cambios por error de conexión
+                    this.classList.toggle('favorited');
+                    this.textContent = this.classList.contains('favorited') ? '😈 En favoritos' : 'Añadir a favoritos';
+                });
+        });
+    }
+});
