@@ -13,12 +13,51 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class RopaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $prendas = Prenda::with('tipo', 'estilos', 'etiquetas', 'colores')->paginate(5); 
+        // Definir la consulta base para las prendas
+        $query = Prenda::with('tipo', 'estilos', 'etiquetas', 'colores');
+        
+        // Filtros
+        if ($request->has('estilos')) {
+            $query->whereHas('estilos', function($q) use ($request) {
+                $q->whereIn('id_estilo', $request->estilos);
+            });
+        }
+    
+        if ($request->has('etiquetas')) {
+            $query->whereHas('etiquetas', function($q) use ($request) {
+                $q->whereIn('id_etiqueta', $request->etiquetas);
+            });
+        }
+    
+        if ($request->has('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+    
+        if ($request->has('precio_min') && is_numeric($request->precio_min)) {
+            $query->where('precio', '>=', $request->precio_min);  // Filtro de precio mínimo
+        }
+    
+        if ($request->has('precio_max') && is_numeric($request->precio_max)) {
+            $query->where('precio', '<=', $request->precio_max);  // Filtro de precio máximo
+        }
+    
+        if ($request->has('descripcion')) {
+            $query->where('descripcion', 'like', '%' . $request->descripcion . '%');
+        }
+    
+        // Paginar los resultados
+        $prendas = $query->paginate(5);
+    
+        if ($request->ajax()) {
+            // Retornar vista parcial para AJAX
+            return view('admin.partials.partial_ropa', compact('prendas'));
+        }
+    
         return view('Admin.ropa', compact('prendas'));
     }
-
+    
     public function create()
     {
         $tipos = TipoPrenda::all();

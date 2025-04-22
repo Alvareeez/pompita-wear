@@ -48,43 +48,54 @@ class Prenda extends Model
     }
 
     public function favoritos()
+{
+    return $this->belongsToMany(Usuario::class, 'favoritos_prendas', 'id_prenda', 'id_usuario')
+                ->withTimestamps()
+                ->using(FavoritoPrenda::class);
+}
+    public function isFavoritedByUser($userId)
     {
-        return $this->belongsToMany(Usuario::class, 'favoritos_prendas', 'id_prenda', 'id_usuario');
+        return $this->favoritos()
+                   ->where('favoritos_prendas.id_usuario', $userId)
+                   ->exists();
     }
 
     public function comentarios()
     {
-        return $this->hasMany(ComentarioPrenda::class, 'id_prenda');
+        return $this->hasMany(ComentarioPrenda::class, 'id_prenda')->with(['usuario', 'likes'])
+        ->orderBy('created_at', 'desc');
     }
 
     public function valoraciones()
     {
-        return $this->hasMany(ValoracionPrenda::class, 'id_prenda');
+    return $this->hasMany(ValoracionPrenda::class, 'id_prenda')
+               ->with('usuario')
+               ->orderBy('created_at', 'desc');
     }
-
+    
+    public function promedioValoraciones()
+    {
+    return $this->valoraciones()->avg('puntuacion');
+    }
     public function likes()
     {
-        return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')->withTimestamps();
+        return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
+               ->withPivot('created_at', 'updated_at');
     }
 
+        public function isLikedByUser($userId)
+     {
+        return $this->likes()->where('likes_prendas.id_usuario', $userId)->exists();
+        }
 
     // Relación con el modelo TipoPrenda
     public function tipo()
     {
         return $this->belongsTo(TipoPrenda::class, 'id_tipoPrenda', 'id_tipoPrenda');
     }
-
-
-
-
     // Funciones recuperar likes
     public function getLikesCountAttribute()
 {
     return $this->likes()->count();
-}
-
-public function isLikedByUser($userId)
-{
-    return $this->likes()->where('id_usuario', $userId)->exists();
 }
 }

@@ -9,6 +9,7 @@
     <title>@yield('title')</title>
     <link rel="stylesheet" href="{{ asset('css/styleHeader.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     @yield('css')
     @yield('scripts')
 </head>
@@ -34,8 +35,7 @@
                 <div class="user-avatar">
                     <a href="perfil">
                         @if (Auth::check() && Auth::user()->foto_perfil)
-                            <img src="{{ asset('img/' . Auth::user()->foto_perfil) }}" alt="Foto perfil"
-                                class="profile-photo">
+                            <img src="{{ asset('img/' . Auth::user()->foto_perfil) }}" alt="Foto perfil" class="profile-photo">
                         @else
                             <img src="{{ asset('img/predeterminada.png') }}" alt="Foto perfil" class="profile-photo">
                         @endif
