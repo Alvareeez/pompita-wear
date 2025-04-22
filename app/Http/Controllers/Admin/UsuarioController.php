@@ -10,11 +10,36 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
-    public function index()
-    {
-        $usuarios = Usuario::with('rol')->get(); // Carga los usuarios con sus roles
-        return view('Admin.usuarios', compact('usuarios'));
+    public function index(Request $request)
+{
+    $query = Usuario::with('rol');
+
+    if ($request->ajax()) {
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'LIKE', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('correo')) {
+            $query->where('email', 'LIKE', '%' . $request->correo . '%');
+        }
+
+        if ($request->filled('rol')) {
+            $query->whereHas('rol', function ($q) use ($request) {
+                $q->where('nombre', $request->rol);
+            });
+        }
+
+        $usuarios = $query->get();
+
+        return view('admin.partials.tabla-usuarios', compact('usuarios'))->render();
     }
+
+    $usuarios = $query->get();
+    $roles = Rol::all();
+
+    return view('admin.usuarios', compact('usuarios', 'roles'));
+}
+
 
     public function create()
     {

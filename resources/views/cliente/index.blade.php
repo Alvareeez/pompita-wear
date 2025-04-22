@@ -21,12 +21,13 @@
             </div>
         </div>
 
-        <!-- Fila de botones -->
-        <div class="button-row">
-            <button class="action-button">Prendas</button>
-            <button class="action-button">Crea tu outfit</button>
-            <button class="action-button">Outfits</button>
-        </div>
+<!-- Fila de botones -->
+<div class="button-row">
+    <a href="{{ route('prendas.index') }}" class="action-button">Prendas</a>
+    <a href="{{ route('outfit.index') }}" class="action-button">Crea tu outfit</a>
+    {{-- <a href="{{ route('outfits.index') }}" class="action-button">Outfits</a> --}}
+</div>
+
 
         <div class="content-row">
             <div class="content-column left-column">

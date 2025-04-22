@@ -8,11 +8,24 @@ use Illuminate\Support\Facades\DB;
 
 class EtiquetaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $etiquetas = Etiqueta::all();
-        return view('Admin.etiquetas', compact('etiquetas'));
+        $query = Etiqueta::query();
+
+        if ($request->ajax()) {
+            if ($request->filled('nombre')) {
+                $query->where('nombre', 'like', '%' . $request->nombre . '%');
+            }
+
+            $etiquetas = $query->get();
+            return view('admin.partials.tabla-etiquetas', compact('etiquetas'));
+        }
+
+        $etiquetas = $query->get();
+        return view('admin.etiquetas', compact('etiquetas'));
     }
+    
+    
 
     public function create()
     {

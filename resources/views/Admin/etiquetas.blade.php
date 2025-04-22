@@ -47,6 +47,10 @@
             </div>
         @endif
 
+        <div class="filter-container">
+            <input type="text" id="filtro-nombre" placeholder="Buscar por nombre..." class="filter-input">
+        </div>
+
         <div class="table-container">
             <table>
                 <thead>
@@ -56,21 +60,8 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach ($etiquetas as $etiqueta)
-                        <tr>
-                            <td>{{ $etiqueta->id_etiqueta }}</td>
-                            <td>{{ $etiqueta->nombre }}</td>
-                            <td>
-                                <a href="{{ route('admin.etiquetas.edit', $etiqueta->id_etiqueta) }}" class="edit-btn">✏️</a>
-                                <a class="delete-btn" onclick="confirmDelete({{ $etiqueta->id_etiqueta }})">🗑️</a>
-                                <form id="delete-form-{{ $etiqueta->id_etiqueta }}" action="{{ route('admin.etiquetas.destroy', $etiqueta->id_etiqueta) }}" method="POST" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
+                <tbody id="tabla-etiquetas">
+                    @include('admin.partials.tabla-etiquetas', ['etiquetas' => $etiquetas])
                 </tbody>
             </table>
         </div>
@@ -106,23 +97,37 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            const links = document.querySelectorAll(".tabs a, .logout-form button"); // Selecciona los enlaces y el botón de cerrar sesión
+            const links = document.querySelectorAll(".tabs a, .logout-form button");
             const spinner = document.getElementById("loading-spinner");
 
             links.forEach(link => {
                 link.addEventListener("click", function (event) {
-                    event.preventDefault(); // Evita la navegación inmediata
-                    spinner.style.display = "flex"; // Muestra el spinner
+                    event.preventDefault();
+                    spinner.style.display = "flex";
 
-                    const href = link.tagName === "A" ? link.href : link.closest("form").action; // Obtén la URL o acción del formulario
+                    const href = link.tagName === "A" ? link.href : link.closest("form").action;
 
                     setTimeout(() => {
                         if (link.tagName === "A") {
-                            window.location.href = href; // Navega a la URL después de 1 segundo
+                            window.location.href = href;
                         } else {
-                            link.closest("form").submit(); // Envía el formulario después de 1 segundo
+                            link.closest("form").submit();
                         }
                     }, 1000); 
+                });
+            });
+
+            document.getElementById('filtro-nombre').addEventListener('input', function () {
+                const nombre = this.value;
+
+                fetch(`{{ route('admin.etiquetas.index') }}?nombre=${encodeURIComponent(nombre)}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('tabla-etiquetas').innerHTML = data;
                 });
             });
         });

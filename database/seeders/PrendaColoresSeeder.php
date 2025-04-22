@@ -45,6 +45,10 @@ class PrendaColoresSeeder extends Seeder
             ['id_prenda' => 24, 'id_color' => 10, 'created_at' => now(), 'updated_at' => now()],
             ['id_prenda' => 23, 'id_color' => 19, 'created_at' => now(), 'updated_at' => now()],
             ['id_prenda' => 25, 'id_color' => 17, 'created_at' => now(), 'updated_at' => now()],
+            ['id_prenda' => 26, 'id_color' => 11, 'created_at' => now(), 'updated_at' => now()],
+            ['id_prenda' => 27, 'id_color' => 12, 'created_at' => now(), 'updated_at' => now()],
+            ['id_prenda' => 28, 'id_color' => 13, 'created_at' => now(), 'updated_at' => now()],
+            ['id_prenda' => 29, 'id_color' => 14, 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

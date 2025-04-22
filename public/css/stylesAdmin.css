@@ -18,6 +18,31 @@ body {
     color: white;
 }
 
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.filter-container input,
+.filter-container select {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.filter-container input:focus,
+.filter-container select:focus {
+    border-color: #1e90ff;
+}
+
+
 .admin-header .logo img {
     height: 40px;
 }
@@ -110,6 +135,9 @@ table th, table td {
 .create-btn:hover {
     background-color: #218838;
 }
+
+
+
 
 /* Estilos generales para el formulario */
 .form-container {

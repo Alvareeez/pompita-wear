@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <header class="admin-header">
@@ -42,6 +43,18 @@
             <a href="{{ route('admin.usuarios.create') }}" class="create-btn">+ Crear Usuario</a>
         </div>
 
+        <!-- FILTROS AJAX -->
+        <div class="filter-container">
+            <input type="text" id="filtro-nombre" placeholder="Filtrar por nombre...">
+            <input type="text" id="filtro-correo" placeholder="Filtrar por correo...">
+            <select id="filtro-rol">
+                <option value="">Todos los roles</option>
+                @foreach ($roles as $rol)
+                    <option value="{{ $rol->nombre }}">{{ $rol->nombre }}</option>
+                @endforeach
+            </select>
+        </div>
+
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -58,34 +71,9 @@
             </div>
         @endif
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($usuarios as $usuario)
-                        <tr>
-                            <td>{{ $usuario->nombre }}</td>
-                            <td>{{ $usuario->email }}</td>
-                            <td>{{ $usuario->rol ? $usuario->rol->nombre : 'Sin rol' }}</td>
-                            <td>
-                                <a href="{{ route('admin.usuarios.edit', $usuario->id_usuario) }}" class="edit-btn">✏️</a>
-                                <a class="delete-btn" onclick="confirmDelete({{ $usuario->id_usuario }})">🗑️</a>
-                                <form id="delete-form-{{ $usuario->id_usuario }}" action="{{ route('admin.usuarios.destroy', $usuario->id_usuario) }}" method="POST" style="display: none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <!-- Tabla dinámica con AJAX -->
+        <div class="table-container" id="tabla-usuarios">
+            @include('admin.partials.tabla-usuarios', ['usuarios' => $usuarios])
         </div>
 
         <div id="loading-spinner" class="dot-spinner" style="display: none;">
@@ -117,29 +105,33 @@
                 }
             });
         }
-        
-    </script>
-    <script>
+
+        // AJAX de filtros
         document.addEventListener("DOMContentLoaded", function () {
-            const links = document.querySelectorAll(".tabs a, .logout-form button"); // Selecciona los enlaces y el botón de cerrar sesión
             const spinner = document.getElementById("loading-spinner");
 
-            links.forEach(link => {
-                link.addEventListener("click", function (event) {
-                    event.preventDefault(); // Evita la navegación inmediata
-                    spinner.style.display = "flex"; // Muestra el spinner
+            function filtrarUsuarios() {
+                const nombre = document.getElementById("filtro-nombre").value;
+                const correo = document.getElementById("filtro-correo").value;
+                const rol = document.getElementById("filtro-rol").value;
 
-                    const href = link.tagName === "A" ? link.href : link.closest("form").action; // Obtén la URL o acción del formulario
+                spinner.style.display = "flex";
 
-                    setTimeout(() => {
-                        if (link.tagName === "A") {
-                            window.location.href = href; // Navega a la URL después de 1 segundo
-                        } else {
-                            link.closest("form").submit(); // Envía el formulario después de 1 segundo
-                        }
-                    }, 1000); 
+                fetch(`{{ route('admin.usuarios.index') }}?nombre=${nombre}&correo=${correo}&rol=${rol}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("tabla-usuarios").innerHTML = data;
+                    spinner.style.display = "none";
                 });
-            });
+            }
+
+            document.getElementById("filtro-nombre").addEventListener("keyup", filtrarUsuarios);
+            document.getElementById("filtro-correo").addEventListener("keyup", filtrarUsuarios);
+            document.getElementById("filtro-rol").addEventListener("change", filtrarUsuarios);
         });
     </script>
 </body>
