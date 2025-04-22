@@ -15,18 +15,19 @@
         <div class="carousel-container">
             <div class="carousel">
                 <img src="{{ asset('img/carrousel1.png') }}" alt="Imagen 1" class="carousel-image active">
-                <img src="{{ asset('img/carrousel22.png') }}" alt="Imagen 2" class="carousel-image">
+                <img src="{{ asset('img/carrousel2.png') }}" alt="Imagen 2" class="carousel-image">
                 <img src="{{ asset('img/112.png') }}" alt="Imagen 3" class="carousel-image">
                 <img src="{{ asset('img/carrousel4.png') }}" alt="Imagen 3" class="carousel-image">
             </div>
         </div>
 
-        <!-- Fila de botones -->
-        <div class="button-row">
-            <button class="action-button">Botón 1</button>
-            <button class="action-button">Botón 2</button>
-            <button class="action-button">Botón 3</button>
-        </div>
+<!-- Fila de botones -->
+<div class="button-row">
+    <a href="{{ route('prendas.index') }}" class="action-button">Prendas</a>
+    <a href="{{ route('outfit.index') }}" class="action-button">Crea tu outfit</a>
+    {{-- <a href="{{ route('outfits.index') }}" class="action-button">Outfits</a> --}}
+</div>
+
 
         <div class="content-row">
             <div class="content-column left-column">

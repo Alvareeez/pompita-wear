@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\RopaController;
 use App\Http\Controllers\PrendaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OutfitController;
-
+use App\Http\Controllers\PerfilController;
 
 use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
@@ -34,6 +34,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('admin.usuarios.edit');
     Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('admin.usuarios.update');
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('admin.usuarios.destroy');
+    Route::get('/usuarios/filtrar', [UsuarioController::class, 'filtrar'])->name('admin.usuarios.filtrar');
 
     Route::get('/ropa', [RopaController::class, 'index'])->name('admin.ropa.index');
     Route::get('/ropa/create', [RopaController::class, 'create'])->name('admin.ropa.create');
@@ -42,6 +43,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
     Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
     Route::post('/ropa/pdf', [RopaController::class, 'descargarPDF'])->name('admin.ropa.pdf');
+    
 
     Route::get('/estilos', [EstiloController::class, 'index'])->name('admin.estilos.index');
     Route::get('/estilos/create', [EstiloController::class, 'create'])->name('admin.estilos.create');
@@ -49,6 +51,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/estilos/{id}/edit', [EstiloController::class, 'edit'])->name('admin.estilos.edit');
     Route::put('/estilos/{id}', [EstiloController::class, 'update'])->name('admin.estilos.update');
     Route::delete('/estilos/{id}', [EstiloController::class, 'destroy'])->name('admin.estilos.destroy');
+    Route::get('/admin/estilos/buscar', [EstiloController::class, 'buscar'])->name('admin.estilos.buscar');
 
     Route::get('/etiquetas', [EtiquetaController::class, 'index'])->name('admin.etiquetas.index');
     Route::get('/etiquetas/create', [EtiquetaController::class, 'create'])->name('admin.etiquetas.create');
@@ -69,6 +72,11 @@ Route::middleware(['auth'])->group(
 
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
         Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
+        Route::post('/prendas/{id}/comentarios', [PrendaController::class, 'storeComment'])->name('prendas.storeComment');
+        Route::post('/comentarios/{id}/like', [PrendaController::class, 'toggleCommentLike'])    ->name('comentarios.toggleLike');
+        Route::get('/prendas/{prenda}/favorito', [PrendaController::class, 'toggleFavorite'])  ->name('prendas.toggleFavorite');
+        Route::post('/prendas/{prenda}/like', [PrendaController::class, 'toggleLike'])->name('prendas.like');
+        Route::post('/prendas/{id}/valoraciones', [PrendaController::class, 'storeValoracion'])->name('prendas.storeValoracion');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
 
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
@@ -76,6 +84,7 @@ Route::middleware(['auth'])->group(
     }
 );
 
-Route::get('/perfil', function () {
-    return view('perfil');
-})->middleware('auth');
+
+
+Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
+Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
