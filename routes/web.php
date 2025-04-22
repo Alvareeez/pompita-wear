@@ -84,5 +84,7 @@ Route::middleware(['auth'])->group(
     }
 );
 
+
+
 Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
 Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
