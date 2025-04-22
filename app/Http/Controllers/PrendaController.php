@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\DB;
 
 class PrendaController extends Controller
 {
-    // Mostrar la página principal de prendas destacadas
     public function index()
     {
         // Top 5 prendas con más likes
@@ -20,52 +19,47 @@ class PrendaController extends Controller
             ->orderByDesc('likes_count')
             ->take(5)
             ->get();
-
-        // Todos los estilos disponibles
+    
+        // Todos los estilos
         $estilos = Estilo::all();
-
+    
         return view('prendas.index', compact('prendasPopulares', 'estilos'));
     }
 
-    // Mostrar las prendas por estilo con filtros
-    public function porEstilo(Request $request, $id)
+    public function porEstilo($id)
     {
         $estilo = Estilo::findOrFail($id);
-
-        // Comenzamos la query base
-        $query = Prenda::withCount('likes')
-            ->whereHas('estilos', function ($q) use ($id) {
-                $q->where('estilos.id_estilo', $id);
-            });
-
-        // Filtro por nombre si se proporciona
-        if ($request->filled('nombre')) {
-            $query->where('nombre', 'like', '%' . $request->nombre . '%');
-        }
-
-        // Filtro por orden si se proporciona
-        if ($request->filled('orden')) {
-            switch ($request->orden) {
-                case 'mas_likes':
-                    $query->orderByDesc('likes_count');
-                    break;
-                case 'precio_asc':
-                    $query->orderBy('precio', 'asc');
-                    break;
-                case 'precio_desc':
-                    $query->orderBy('precio', 'desc');
-                    break;
-            }
-        }
-
-        // Ejecutamos la consulta
-        $prendas = $query->get();
-
+    
+        $prendas = Prenda::withCount('likes')
+            ->whereHas('estilos', function ($query) use ($id) {
+                $query->where('estilos.id_estilo', $id);
+            })
+            ->get();
+    
         return view('prendas.por_estilo', compact('prendas', 'estilo'));
     }
 
-    // Mostrar detalle de una prenda
     public function show($id)
+    {
+    $prenda = Prenda::with(['comentarios.usuario', 'comentarios.likes', 'valoraciones.usuario'])
+                  ->findOrFail($id);
+                  
+    return view('prendas.show', [
+        'prenda' => $prenda,
+        'puntuacionPromedio' => $prenda->promedioValoraciones(),
+        'puntuacionUsuario' => $prenda->valoraciones()
+                                    ->where('id_usuario', auth()->id())
+                                    ->first()
+    ]);
+    }
+
+    public function isLikedByUser($userId)
+    {
+        return $this->likes()->where('likes_prendas.id_usuario', $userId)->exists();
+    }
+
+    // Busca la prenda por ID o devuelve un error 404 si no se encuentra
+    public function toggleLike(Request $request, $id)
     {
         $prenda = Prenda::findOrFail($id);
         $user = auth()->user();
