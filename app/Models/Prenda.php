@@ -48,8 +48,16 @@ class Prenda extends Model
     }
 
     public function favoritos()
+{
+    return $this->belongsToMany(Usuario::class, 'favoritos_prendas', 'id_prenda', 'id_usuario')
+                ->withTimestamps()
+                ->using(FavoritoPrenda::class);
+}
+    public function isFavoritedByUser($userId)
     {
-        return $this->belongsToMany(Usuario::class, 'favoritos_prendas', 'id_prenda', 'id_usuario');
+        return $this->favoritos()
+                   ->where('favoritos_prendas.id_usuario', $userId)
+                   ->exists();
     }
 
     public function comentarios()

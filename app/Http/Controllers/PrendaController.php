@@ -68,6 +68,155 @@ class PrendaController extends Controller
     public function show($id)
     {
         $prenda = Prenda::findOrFail($id);
-        return view('prendas.show', compact('prenda'));
+        $user = auth()->user();
+    
+        if (!$user) {
+            return response()->json(['error' => 'Debes iniciar sesión'], 401);
+        }
+    
+        // Verificar si ya existe el like usando la tabla pivot directamente
+        $likeExists = DB::table('likes_prendas')
+                      ->where('id_prenda', $prenda->id_prenda)
+                      ->where('id_usuario', $user->id_usuario)
+                      ->exists();
+    
+        if ($likeExists) {
+            DB::table('likes_prendas')
+              ->where('id_prenda', $prenda->id_prenda)
+              ->where('id_usuario', $user->id_usuario)
+              ->delete();
+            $liked = false;
+        } else {
+            DB::table('likes_prendas')->insert([
+                'id_prenda' => $prenda->id_prenda,
+                'id_usuario' => $user->id_usuario,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $liked = true;
+        }
+    
+        // Obtener el nuevo conteo de likes
+        $likesCount = DB::table('likes_prendas')
+                      ->where('id_prenda', $prenda->id_prenda)
+                      ->count();
+    
+        return response()->json([
+            'liked' => $liked,
+            'likes_count' => $likesCount,
+            'message' => $liked ? 'Prenda liked successfully' : 'Prenda unliked successfully'
+        ]);
     }
+    public function storeComment(Request $request, $id)
+{
+    $request->validate([
+        'comentario' => 'required|string|max:500'
+    ]);
+
+    $comentario = new ComentarioPrenda();
+    $comentario->id_prenda = $id;
+    $comentario->id_usuario = auth()->id();
+    $comentario->comentario = $request->comentario;
+    $comentario->save();
+
+    return back()->with('success', 'Comentario añadido');
+}
+
+public function toggleCommentLike(Request $request, $id)
+{
+    $comentario = ComentarioPrenda::findOrFail($id);
+    $user = auth()->user();
+
+    if (!$user) {
+        return response()->json(['error' => 'Debes iniciar sesión'], 401);
+    }
+
+    if ($comentario->isLikedByUser($user->id_usuario)) {
+        $comentario->likes()->detach($user->id_usuario);
+        $liked = false;
+    } else {
+        $comentario->likes()->attach($user->id_usuario);
+        $liked = true;
+    }
+
+    return response()->json([
+        'liked' => $liked,
+        'likes_count' => $comentario->likesCount()
+    ]);
+}
+public function storeValoracion(Request $request, $id)
+{
+    $request->validate([
+        'puntuacion' => 'required|integer|between:1,5'
+    ]);
+
+    $valoracion = ValoracionPrenda::updateOrCreate(
+        [
+            'id_prenda' => $id,
+            'id_usuario' => auth()->id()
+        ],
+        [
+            'puntuacion' => $request->puntuacion
+        ]
+    );
+
+    return back()->with('success', 'Valoración guardada');
+}
+public function toggleFavorite($id)
+{
+    DB::beginTransaction();
+    try {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'Usuario no autenticado'], 401);
+        }
+
+        $prenda = Prenda::findOrFail($id);
+
+        // Consulta directa para verificar existencia
+        $exists = DB::table('favoritos_prendas')
+                  ->where('id_prenda', $prenda->id_prenda)
+                  ->where('id_usuario', $user->id_usuario) // Asegúrate que coincida con tu DB
+                  ->exists();
+
+        if ($exists) {
+            DB::table('favoritos_prendas')
+              ->where('id_prenda', $prenda->id_prenda)
+              ->where('id_usuario', $user->id_usuario)
+              ->delete();
+            $favorited = false;
+        } else {
+            DB::table('favoritos_prendas')->insert([
+                'id_prenda' => $prenda->id_prenda,
+                'id_usuario' => $user->id_usuario,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $favorited = true;
+        }
+
+        // Conteo directo desde la base de datos
+        $count = DB::table('favoritos_prendas')
+                 ->where('id_prenda', $prenda->id_prenda)
+                 ->count();
+
+        DB::commit();
+
+        return response()->json([
+            'favorited' => $favorited,
+            'count' => $count,
+            'debug' => [ // Datos para depuración
+                'prenda_id' => $prenda->id_prenda,
+                'user_id' => $user->id_usuario
+            ]
+        ]);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json([
+            'error' => 'Error del servidor',
+            'details' => config('app.debug') ? $e->getMessage() : null
+        ], 500);
+    }
+}
 }

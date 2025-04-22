@@ -23,9 +23,9 @@
 
         <!-- Fila de botones -->
         <div class="button-row">
-            <button class="action-button">Botón 1</button>
-            <button class="action-button">Botón 2</button>
-            <button class="action-button">Botón 3</button>
+            <button class="action-button">Prendas</button>
+            <button class="action-button">Crea tu outfit</button>
+            <button class="action-button">Outfits</button>
         </div>
 
         <div class="content-row">
