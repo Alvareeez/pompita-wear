@@ -6,9 +6,8 @@ use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RopaController;
 use App\Http\Controllers\PrendaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OutfitController;
 use App\Http\Controllers\PerfilController;
-
-
 use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
 
@@ -62,12 +61,18 @@ Route::get('/outfit', function () {
 })->middleware('auth');
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
 
+// Ruta AJAX para filtrar por estilo SIN AUTH
+Route::get('/prendas/estilo/{id}/filtrar', [PrendaController::class, 'filtrarPorEstilo'])->name('prendas.filtrarPorEstilo');
+
 Route::middleware(['auth'])->group(
     function () {
 
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
         Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
+
+        Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
+
     }
 );
 
