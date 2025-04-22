@@ -87,6 +87,17 @@
                 </tbody>
             </table>
         </div>
+
+        <div id="loading-spinner" class="dot-spinner" style="display: none;">
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+        </div>
     </main>
 
     <script>
@@ -106,6 +117,30 @@
                 }
             });
         }
+        
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".tabs a, .logout-form button"); // Selecciona los enlaces y el botón de cerrar sesión
+            const spinner = document.getElementById("loading-spinner");
+
+            links.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault(); // Evita la navegación inmediata
+                    spinner.style.display = "flex"; // Muestra el spinner
+
+                    const href = link.tagName === "A" ? link.href : link.closest("form").action; // Obtén la URL o acción del formulario
+
+                    setTimeout(() => {
+                        if (link.tagName === "A") {
+                            window.location.href = href; // Navega a la URL después de 1 segundo
+                        } else {
+                            link.closest("form").submit(); // Envía el formulario después de 1 segundo
+                        }
+                    }, 1000); 
+                });
+            });
+        });
     </script>
 </body>
 </html>

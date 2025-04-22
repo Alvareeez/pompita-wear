@@ -39,15 +39,15 @@
                 @method('PUT')
                 <div class="form-group">
                     <label for="nombre">Nombre Completo</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre', $usuario->nombre) }}" placeholder="Nombre Completo" required>
+                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre', $usuario->nombre) }}" placeholder="Nombre Completo" >
                 </div>
                 <div class="form-group">
                     <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" value="{{ old('email', $usuario->email) }}" placeholder="Correo Electrónico" required>
+                    <input type="email" id="email" name="email" value="{{ old('email', $usuario->email) }}" placeholder="Correo Electrónico" >
                 </div>
                 <div class="form-group">
                     <label for="id_rol">Rol</label>
-                    <select id="id_rol" name="id_rol" required>
+                    <select id="id_rol" name="id_rol" >
                         @foreach ($roles as $rol)
                             <option value="{{ $rol->id_rol }}" {{ old('id_rol', $usuario->id_rol) == $rol->id_rol ? 'selected' : '' }}>
                                 {{ $rol->nombre }}
@@ -67,5 +67,6 @@
             </form>
         </div>
     </main>
+    <script src="{{ asset('js/validacionusuarios.js') }}"></script>
 </body>
 </html>

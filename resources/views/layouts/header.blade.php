@@ -28,12 +28,12 @@
                     <a href="/">Buscar Outfits</a>
                     @auth
                     @if(auth()->user()->rol->nombre === 'admin') 
-                        <a href="/admin/dashboard">Panel Admin</a>
+                        <a href="/admin/usuarios">Panel Admin</a>
                     @endif
                     @endauth
                 </div>
                 <div class="user-avatar">
-                    <a href="{{ url('perfil') }}">
+                    <a href="perfil">
                         @if (Auth::check() && Auth::user()->foto_perfil)
                             <img src="{{ asset('img/' . Auth::user()->foto_perfil) }}" alt="Foto perfil" class="profile-photo">
                         @else

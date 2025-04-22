@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Etiqueta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EtiquetaController extends Controller
 {
@@ -20,12 +21,21 @@ class EtiquetaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:50|unique:etiquetas',
-        ]);
+        DB::beginTransaction();
 
-        Etiqueta::create($request->all());
-        return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta creada correctamente.');
+        try {
+            $request->validate([
+                'nombre' => 'required|string|max:50|unique:etiquetas',
+            ]);
+
+            Etiqueta::create($request->all());
+
+            DB::commit();
+            return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta creada correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al crear la etiqueta.']);
+        }
     }
 
     public function edit($id)
@@ -36,19 +46,37 @@ class EtiquetaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:50|unique:etiquetas,nombre,' . $id . ',id_etiqueta',
-        ]);
+        DB::beginTransaction();
 
-        $etiqueta = Etiqueta::findOrFail($id);
-        $etiqueta->update($request->all());
-        return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta actualizada correctamente.');
+        try {
+            $request->validate([
+                'nombre' => 'required|string|max:50|unique:etiquetas,nombre,' . $id . ',id_etiqueta',
+            ]);
+
+            $etiqueta = Etiqueta::findOrFail($id);
+            $etiqueta->update($request->all());
+
+            DB::commit();
+            return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta actualizada correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al actualizar la etiqueta.']);
+        }
     }
 
     public function destroy($id)
     {
-        $etiqueta = Etiqueta::findOrFail($id);
-        $etiqueta->delete();
-        return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta eliminada correctamente.');
+        DB::beginTransaction();
+
+        try {
+            $etiqueta = Etiqueta::findOrFail($id);
+            $etiqueta->delete();
+
+            DB::commit();
+            return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta eliminada correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al eliminar la etiqueta.']);
+        }
     }
 }

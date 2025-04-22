@@ -1,9 +1,10 @@
 <?php
-
+// filepath: c:\wamp64\www\pompita-wear\app\Models\Usuario.php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Usuario extends Authenticatable
 {
@@ -22,7 +23,7 @@ class Usuario extends Authenticatable
     ];
 
     protected $hidden = [
-        'password'
+        'password',
     ];
 
     public function rol()
@@ -35,12 +36,12 @@ class Usuario extends Authenticatable
         return $this->hasMany(Outfit::class, 'id_usuario');
     }
 
-    public function favoritosOutfits()
+    public function favoritosOutfits(): BelongsToMany
     {
         return $this->belongsToMany(Outfit::class, 'favoritos_outfits', 'id_usuario', 'id_outfit');
     }
 
-    public function favoritosPrendas()
+    public function favoritosPrendas(): BelongsToMany
     {
         return $this->belongsToMany(Prenda::class, 'favoritos_prendas', 'id_usuario', 'id_prenda');
     }

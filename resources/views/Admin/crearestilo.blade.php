@@ -27,11 +27,12 @@
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre del Estilo</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Estilo" required>
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Estilo">
                 </div>
                 <button type="submit"><span>Crear Estilo</span></button>
             </form>
         </div>
     </main>
+    <script src="{{ asset('js/validacionestilo.js') }}"></script>
 </body>
 </html>

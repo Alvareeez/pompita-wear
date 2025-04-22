@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Estilo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EstiloController extends Controller
 {
@@ -20,12 +21,21 @@ class EstiloController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255|unique:estilos',
-        ]);
+        DB::beginTransaction();
 
-        Estilo::create($request->all());
-        return redirect()->route('admin.estilos.index')->with('success', 'Estilo creado correctamente.');
+        try {
+            $request->validate([
+                'nombre' => 'required|string|max:255|unique:estilos',
+            ]);
+
+            Estilo::create($request->all());
+
+            DB::commit();
+            return redirect()->route('admin.estilos.index')->with('success', 'Estilo creado correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al crear el estilo.']);
+        }
     }
 
     public function edit($id)
@@ -36,19 +46,37 @@ class EstiloController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255|unique:estilos,nombre,' . $id . ',id_estilo',
-        ]);
+        DB::beginTransaction();
 
-        $estilo = Estilo::findOrFail($id);
-        $estilo->update($request->all());
-        return redirect()->route('admin.estilos.index')->with('success', 'Estilo actualizado correctamente.');
+        try {
+            $request->validate([
+                'nombre' => 'required|string|max:255|unique:estilos,nombre,' . $id . ',id_estilo',
+            ]);
+
+            $estilo = Estilo::findOrFail($id);
+            $estilo->update($request->all());
+
+            DB::commit();
+            return redirect()->route('admin.estilos.index')->with('success', 'Estilo actualizado correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al actualizar el estilo.']);
+        }
     }
 
     public function destroy($id)
     {
-        $estilo = Estilo::findOrFail($id);
-        $estilo->delete();
-        return redirect()->route('admin.estilos.index')->with('success', 'Estilo eliminado correctamente.');
+        DB::beginTransaction();
+
+        try {
+            $estilo = Estilo::findOrFail($id);
+            $estilo->delete();
+
+            DB::commit();
+            return redirect()->route('admin.estilos.index')->with('success', 'Estilo eliminado correctamente.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocurrió un error al eliminar el estilo.']);
+        }
     }
 }
