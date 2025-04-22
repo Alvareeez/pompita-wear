@@ -14,10 +14,12 @@ class Prenda extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'nombre',
         'id_tipoPrenda',
         'precio',
         'descripcion',
-        'likes'
+        'img_frontal',
+        'img_trasera'
     ];
 
     public function tipoPrenda()
@@ -52,11 +54,40 @@ class Prenda extends Model
 
     public function comentarios()
     {
-        return $this->hasMany(ComentarioPrenda::class, 'id_prenda');
+        return $this->hasMany(ComentarioPrenda::class, 'id_prenda')->with(['usuario', 'likes'])
+        ->orderBy('created_at', 'desc');
     }
 
     public function valoraciones()
     {
-        return $this->hasMany(ValoracionPrenda::class, 'id_prenda');
+    return $this->hasMany(ValoracionPrenda::class, 'id_prenda')
+               ->with('usuario')
+               ->orderBy('created_at', 'desc');
     }
+    
+    public function promedioValoraciones()
+    {
+    return $this->valoraciones()->avg('puntuacion');
+    }
+    public function likes()
+    {
+        return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
+               ->withPivot('created_at', 'updated_at');
+    }
+
+        public function isLikedByUser($userId)
+     {
+        return $this->likes()->where('likes_prendas.id_usuario', $userId)->exists();
+        }
+
+    // Relación con el modelo TipoPrenda
+    public function tipo()
+    {
+        return $this->belongsTo(TipoPrenda::class, 'id_tipoPrenda', 'id_tipoPrenda');
+    }
+    // Funciones recuperar likes
+    public function getLikesCountAttribute()
+{
+    return $this->likes()->count();
+}
 }

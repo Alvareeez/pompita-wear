@@ -1,11 +1,12 @@
 <?php
-
+// filepath: c:\wamp64\www\pompita-wear\app\Models\Usuario.php
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
     use HasFactory;
 
@@ -18,16 +19,16 @@ class Usuario extends Model
         'email',
         'password',
         'id_rol',
-        'foto_perfil'
+        'foto_perfil',
     ];
 
     protected $hidden = [
-        'password'
+        'password',
     ];
 
     public function rol()
     {
-        return $this->belongsTo(Rol::class, 'id_rol');
+        return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
     }
 
     public function outfits()
@@ -35,12 +36,12 @@ class Usuario extends Model
         return $this->hasMany(Outfit::class, 'id_usuario');
     }
 
-    public function favoritosOutfits()
+    public function favoritosOutfits(): BelongsToMany
     {
         return $this->belongsToMany(Outfit::class, 'favoritos_outfits', 'id_usuario', 'id_outfit');
     }
 
-    public function favoritosPrendas()
+    public function favoritosPrendas(): BelongsToMany
     {
         return $this->belongsToMany(Prenda::class, 'favoritos_prendas', 'id_usuario', 'id_prenda');
     }
@@ -74,4 +75,9 @@ class Usuario extends Model
     {
         return $this->hasMany(LikeComentarioPrenda::class, 'id_usuario');
     }
+    public function likes()
+{
+    return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
+                ->withTimestamps();
+}
 }
