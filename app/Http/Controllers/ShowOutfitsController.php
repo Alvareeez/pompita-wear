@@ -11,13 +11,13 @@ class ShowOutfitsController extends Controller
     {
         // Recuperar todos los outfits con las prendas asociadas
         $outfits = Outfit::with('prendas', 'usuario')->get();
-    
-        // Ordenar las prendas dentro de cada outfit por id_tipoPrenda (del 1 al 4)
+
+        // Calcular el precio total de cada outfit
         foreach ($outfits as $outfit) {
-            $outfit->prendas = $outfit->prendas->sortBy('id_tipoPrenda');
+            $outfit->prendas = $outfit->prendas->sortBy('id_tipoPrenda'); // Ordenar prendas por tipo
+            $outfit->precio_total = $outfit->prendas->sum('precio'); // Sumar precios de las prendas
         }
-    
+
         return view('outfit.outfits', compact('outfits'));
     }
-    
 }

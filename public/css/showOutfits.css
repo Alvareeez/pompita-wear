@@ -78,6 +78,30 @@ body {
     font-size: 14px;
 }
 
+/* Contenedor para alinear la imagen y el texto */
+.prenda-row {
+    display: flex;
+    align-items: center; /* Centra verticalmente la imagen y el texto */
+    justify-content: space-between; /* Espacio entre la imagen y el texto */
+    margin-bottom: 10px; /* Espaciado entre filas */
+}
+
+/* Ajustar el tamaño de la imagen */
+.prenda-row img {
+    width: 80px; /* Ajusta el tamaño de la imagen */
+    height: 80px; /* Mantén proporciones */
+    object-fit: contain; /* Asegura que la imagen no se deforme */
+    margin-right: 10px; /* Espaciado entre la imagen y el texto */
+}
+
+/* Estilo del texto */
+.prenda-row p {
+    margin: 0;
+    font-size: 14px;
+    text-align: right; /* Alinea el texto a la derecha */
+    flex: 1; /* Permite que el texto ocupe el espacio restante */
+}
+
 /* Estilo de los botones de Estilos */
 .button-row {
     display: flex;
