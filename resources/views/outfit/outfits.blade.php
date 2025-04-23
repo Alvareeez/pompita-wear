@@ -16,7 +16,8 @@
         @foreach($outfits as $outfit)
             <div class="outfit">
                 <div class="card-body">
-                    <h5 class="card-title">Outfit de {{ $outfit->usuario->nombre }}</h5>
+                    <h5 class="card-title">{{ $outfit->nombre }}</h5> <!-- Mostrar el nombre del outfit -->
+                    <p>Creado por: {{ $outfit->usuario->nombre }}</p>
                     
                     {{-- Mostrar las prendas del outfit --}}
                     @foreach($outfit->prendas as $prenda)
