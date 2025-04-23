@@ -253,17 +253,6 @@
                         </div>
                     </div>
 
-                    <!-- Formulario para crear el outfit -->
-                    <div class="text-center create-outfit-btn">
-                        <form id="createOutfitForm" method="POST" action="{{ route('outfit.store') }}">
-                            @csrf
-                            <input type="hidden" name="cabeza_id" id="cabeza_id" value="{{ $prendasCabeza->isNotEmpty() ? $prendasCabeza->first()->id_prenda : '' }}">
-                            <input type="hidden" name="torso_id" id="torso_id" value="{{ $prendasTorso->isNotEmpty() ? $prendasTorso->first()->id_prenda : '' }}">
-                            <input type="hidden" name="piernas_id" id="piernas_id" value="{{ $prendasPiernas->isNotEmpty() ? $prendasPiernas->first()->id_prenda : '' }}">
-                            <input type="hidden" name="pies_id" id="pies_id" value="{{ $prendasPies->isNotEmpty() ? $prendasPies->first()->id_prenda : '' }}">
-                            <button type="submit" class="btn btn-success btn-lg">Crear Outfit</button>
-                        </form>
-                    </div>
                 </div>
 
                 <!-- Columna derecha: Filtros -->

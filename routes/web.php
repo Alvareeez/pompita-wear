@@ -83,6 +83,7 @@ Route::middleware(['auth'])->group(
 
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
+        Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
 
     }
 );

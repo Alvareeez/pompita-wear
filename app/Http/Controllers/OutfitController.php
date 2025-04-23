@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Outfit;
-use App\Models\OutfitPrenda;
 use App\Models\Prenda;
 use App\Models\Color;
 use App\Models\Estilo;
