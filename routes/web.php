@@ -82,8 +82,7 @@ Route::middleware(['auth'])->group(
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
 
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
-        Route::post('/outfit', [OutfitController::class, 'store'])->name('outfit.store');
-        Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfits.index');
+        Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
 
     }
 );

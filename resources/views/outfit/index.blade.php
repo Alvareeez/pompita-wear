@@ -395,31 +395,43 @@
                 </div>
             </div>
         </form>
+
+        <form method="POST" action="{{ route('outfit.store') }}">
+            @csrf
+            <input type="hidden" name="prenda_cabeza" id="prenda_cabeza">
+            <input type="hidden" name="prenda_torso" id="prenda_torso">
+            <input type="hidden" name="prenda_piernas" id="prenda_piernas">
+            <input type="hidden" name="prenda_pies" id="prenda_pies">
+
+            <button type="submit" class="btn btn-success mt-4">Crear Outfit</button>
+        </form>
     </div>
 
-    @section('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Actualizar los IDs de las prendas cuando cambia el carrusel
-            function updatePrendaId(carouselId, inputId) {
-                const carousel = document.getElementById(carouselId);
-                if (carousel) {
-                    carousel.addEventListener('slid.bs.carousel', function() {
-                        const activeItem = this.querySelector('.carousel-item.active');
-                        if (activeItem) {
-                            const prendaId = activeItem.getAttribute('data-prenda-id');
-                            document.getElementById(inputId).value = prendaId;
-                        }
-                    });
-                }
-            }
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.carousel').forEach(carousel => {
+                const activeItem = carousel.querySelector('.carousel-item.active');
+                const prendaId = activeItem.getAttribute('data-prenda-id');
+                const inputId = 'prenda_' + carousel.id.replace('carousel', '').toLowerCase();
+                document.getElementById(inputId).value = prendaId;
+            });
+        });
 
-            // Configurar listeners para cada carrusel
-            updatePrendaId('carouselCabeza', 'cabeza_id');
-            updatePrendaId('carouselTorso', 'torso_id');
-            updatePrendaId('carouselPiernas', 'piernas_id');
-            updatePrendaId('carouselPies', 'pies_id');
+        // Script para capturar la prenda seleccionada en cada carrusel
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            carousel.addEventListener('slid.bs.carousel', function (event) {
+                const activeItem = event.target.querySelector('.carousel-item.active');
+                const prendaId = activeItem.getAttribute('data-prenda-id');
+                const inputId = 'prenda_' + event.target.id.replace('carousel', '').toLowerCase();
+                document.getElementById(inputId).value = prendaId;
+            });
+        });
+
+        document.querySelector('form[action="{{ route('outfit.store') }}"]').addEventListener('submit', function (event) {
+            console.log('Prenda Cabeza:', document.getElementById('prenda_cabeza').value);
+            console.log('Prenda Torso:', document.getElementById('prenda_torso').value);
+            console.log('Prenda Piernas:', document.getElementById('prenda_piernas').value);
+            console.log('Prenda Pies:', document.getElementById('prenda_pies').value);
         });
     </script>
-    @endsection
 @endsection

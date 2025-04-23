@@ -7,6 +7,8 @@ use App\Models\OutfitPrenda;
 use App\Models\Prenda;
 use App\Models\Color;
 use App\Models\Estilo;
+use App\Models\Outfit;
+use App\Models\OutfitPrenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,36 +59,32 @@ class OutfitController extends Controller
 
     public function store(Request $request)
     {
-        // Validar que se hayan seleccionado prendas
-        $request->validate([
-            'cabeza_id' => 'required|exists:prendas,id_prenda',
-            'torso_id' => 'required|exists:prendas,id_prenda',
-            'piernas_id' => 'required|exists:prendas,id_prenda',
-            'pies_id' => 'required|exists:prendas,id_prenda'
-        ]);
-
-        // Crear el outfit
+        // Crear un nuevo outfit
         $outfit = Outfit::create([
-            'id_usuario' => Auth::id(),
-            'likes' => 0
+            'id_usuario' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
-        // Asociar las prendas al outfit
+        // Asociar las prendas seleccionadas al outfit
         $prendas = [
-            $request->cabeza_id,
-            $request->torso_id,
-            $request->piernas_id,
-            $request->pies_id
+            $request->prenda_cabeza,
+            $request->prenda_torso,
+            $request->prenda_piernas,
+            $request->prenda_pies,
         ];
 
         foreach ($prendas as $prendaId) {
-            OutfitPrenda::create([
-                'id_outfit' => $outfit->id_outfit,
-                'id_prenda' => $prendaId
-            ]);
+            if ($prendaId) { // Verifica que el ID de la prenda no sea nulo
+                OutfitPrenda::create([
+                    'id_outfit' => $outfit->id_outfit, // Asigna el ID del outfit recién creado
+                    'id_prenda' => $prendaId,         // Asigna el ID de la prenda seleccionada
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
 
-        return redirect()->route('outfit.index')
-            ->with('success', 'Outfit creado exitosamente!');
+        return redirect()->route('outfit.index')->with('success', 'Outfit creado exitosamente.');
     }
 }
