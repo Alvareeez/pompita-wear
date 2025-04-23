@@ -1,0 +1,145 @@
+/* Importación de la fuente Ubuntu desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+/* Estilos generales */
+body {
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+/* Contenedor para separar el header y el título */
+.title-container {
+    margin-top: 60px;
+    text-align: center;
+}
+
+/* Centrando los títulos */
+.center-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    padding-top: 10vh;
+}
+
+.center-title_outfit {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    padding-bottom: 10vh;
+}
+
+/* Contenedor para centrar las tarjetas de los outfits */
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* Contenedor de los outfits */
+.outfits {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center; /* Centrado de los outfits */
+    margin-bottom: 30px;
+}
+
+/* Estilo para cada outfit */
+.outfit {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+    width: 220px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: white;
+    font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu */
+}
+
+.outfit:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.outfit img {
+    width: 120px;  /* Hace que la imagen sea más pequeña */
+    height: 120px; /* Ajusta la altura proporcionalmente */
+    object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortar ni deformar */
+    margin-bottom: 10px;
+    border: none;  /* Elimina el borde negro */
+}
+
+.outfit p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Estilo de los botones de Estilos */
+.button-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.action-button {
+    padding: 12px 30px;
+    background-color: #F6A894;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.action-button:hover {
+    background-color: #fa6843;
+    transform: scale(1.05);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .outfits {
+        justify-content: center;
+    }
+
+    .outfit {
+        width: 100%; /* Ocupa el 100% del ancho */
+        margin-bottom: 15px;
+    }
+
+    .center-title {
+        font-size: 1.5rem;
+    }
+
+    .button-row {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .outfits {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .outfit {
+        width: 90%; /* Ocupa el 90% del ancho */
+        margin-bottom: 20px;
+    }
+
+    .center-title {
+        font-size: 1.2rem;
+    }
+
+    .button-row {
+        gap: 5px;
+    }
+}

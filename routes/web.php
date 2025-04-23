@@ -8,6 +8,8 @@ use App\Http\Controllers\PrendaController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OutfitController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\ShowOutfitsController;
+
 
 use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
@@ -80,6 +82,8 @@ Route::middleware(['auth'])->group(
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
 
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
+        Route::post('/outfit', [OutfitController::class, 'store'])->name('outfit.store');
+        Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfits.index');
 
     }
 );
