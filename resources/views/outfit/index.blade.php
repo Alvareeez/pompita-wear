@@ -32,7 +32,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .carousel-inner img {
-            max-height: 250px;  /* Imágenes mucho más grandes */
+            max-height: 250px;
             width: auto;
             object-fit: contain;
             margin: 0 auto;
@@ -72,7 +72,7 @@
             font-size: 1rem;
         }
         .carousel-slide-container {
-            height: 280px; /* Altura mucho mayor para las imágenes */
+            height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -84,12 +84,34 @@
             font-size: 2rem;
             margin-bottom: 30px;
         }
+        .create-outfit-btn {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
     </style>
 @endsection
 
 @section('content')
     <div class="container mt-5">
         <h1 class="text-center mb-5">Crea tu Outfit</h1>
+
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <form method="GET" action="{{ route('outfit.index') }}">
             <div class="row row-equal-height">
@@ -98,6 +120,7 @@
                     <!-- Prenda de Cabeza -->
                     <div class="carousel-container">
                         <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="section-title">Prendas de Cabeza</div>
                             <div>
                                 @if(request('color_cabeza'))
                                     <span class="badge bg-info badge-filter">Color</span>
@@ -107,7 +130,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div id="carouselCabeza" class="carousel slide">
+                        <div id="carouselCabeza" class="carousel slide" data-bs-interval="false">
                             <div class="carousel-inner">
                                 @foreach($prendasCabeza as $prenda)
                                     <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
@@ -131,6 +154,7 @@
                     <!-- Prenda de Torso -->
                     <div class="carousel-container">
                         <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="section-title">Prendas de Torso</div>
                             <div>
                                 @if(request('color_torso'))
                                     <span class="badge bg-info badge-filter">Color</span>
@@ -140,7 +164,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div id="carouselTorso" class="carousel slide">
+                        <div id="carouselTorso" class="carousel slide" data-bs-interval="false">
                             <div class="carousel-inner">
                                 @foreach($prendasTorso as $prenda)
                                     <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
@@ -164,6 +188,7 @@
                     <!-- Prenda de Piernas -->
                     <div class="carousel-container">
                         <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="section-title">Prendas de Piernas</div>
                             <div>
                                 @if(request('color_piernas'))
                                     <span class="badge bg-info badge-filter">Color</span>
@@ -173,7 +198,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div id="carouselPiernas" class="carousel slide">
+                        <div id="carouselPiernas" class="carousel slide" data-bs-interval="false">
                             <div class="carousel-inner">
                                 @foreach($prendasPiernas as $prenda)
                                     <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
@@ -197,6 +222,7 @@
                     <!-- Prenda de Pies -->
                     <div class="carousel-container">
                         <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="section-title">Prendas de Pies</div>
                             <div>
                                 @if(request('color_pies'))
                                     <span class="badge bg-info badge-filter">Color</span>
@@ -206,7 +232,7 @@
                                 @endif
                             </div>
                         </div>
-                        <div id="carouselPies" class="carousel slide">
+                        <div id="carouselPies" class="carousel slide" data-bs-interval="false">
                             <div class="carousel-inner">
                                 @foreach($prendasPies as $prenda)
                                     <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
@@ -226,6 +252,7 @@
                             </button>
                         </div>
                     </div>
+
                 </div>
 
                 <!-- Columna derecha: Filtros -->
@@ -350,7 +377,7 @@
                         </div>
 
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                            <button type="submit" form="filterForm" class="btn btn-primary">Aplicar Filtros</button>
                             <a href="{{ route('outfit.index') }}" class="btn btn-outline-secondary">Limpiar</a>
                         </div>
                     </div>

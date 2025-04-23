@@ -25,7 +25,7 @@
 <div class="button-row">
     <a href="{{ route('prendas.index') }}" class="action-button">Prendas</a>
     <a href="{{ route('outfit.index') }}" class="action-button">Crea tu outfit</a>
-    {{-- <a href="{{ route('outfits.index') }}" class="action-button">Outfits</a> --}}
+    <a href="{{ route('outfit.outfits') }}" class="action-button">Outfits</a>
 </div>
 
 
