@@ -37,7 +37,7 @@
                         @if (Auth::check() && Auth::user()->foto_perfil)
                             <img src="{{ asset('img/' . Auth::user()->foto_perfil) }}" alt="Foto perfil" class="profile-photo">
                         @else
-                            <img src="{{ asset('img/predeterminada.png') }}" alt="Foto perfil" class="profile-photo">
+                            <img src="{{ asset('img/default-profile.png') }}" alt="Foto perfil" class="profile-photo">
                         @endif
                     </a>
                 </div>

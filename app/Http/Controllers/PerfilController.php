@@ -25,45 +25,7 @@ class PerfilController extends Controller
 
         return view('perfil', compact('user', 'outfitsPublicados', 'favorites'));
     }
-    // public function update(Request $request, $id)
-    // {
-    //     DB::beginTransaction();
 
-    //     try {
-    //         // Obtener el usuario por ID
-    //         $usuario = Usuario::findOrFail($id);
-    //         // Verificar si el usuario autenticado tiene el rol de administrador
-    //         if (Auth::user()->id_rol != 1) {
-    //             return redirect()->route('admin.usuarios.index')->with('error', 'No tienes permiso para editar este usuario.');
-    //         }
-
-
-    //         // Validar los datos enviados
-    //         $request->validate([
-    //             'nombre' => 'required|string|max:255',
-    //             'email' => 'required|string|email|max:255|unique:usuarios,email,' . $id . ',id_usuario', // Corregir la validación de unique
-    //             'id_rol' => 'required|exists:roles,id_rol',
-    //             'password' => 'nullable|string|min:8|confirmed',
-    //         ]);
-
-    //         // Obtener los datos enviados
-    //         $data = $request->only(['nombre', 'email', 'id_rol']);
-
-    //         // Si se proporciona una nueva contraseña, encriptarla y agregarla a los datos
-    //         if ($request->filled('password')) {
-    //             $data['password'] = bcrypt($request->password);
-    //         }
-
-    //         // Actualizar el usuario
-    //         $usuario->update($data);
-
-    //         DB::commit();
-    //         return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado correctamente.');
-    //     } catch (\Exception $e) {
-    //         DB::rollBack();
-    //         return back()->withErrors(['error' => 'Ocurrió un error al actualizar el usuario.']);
-    //     }
-    // }
     public function update(Request $request)
     {
         // Obtener el usuario por ID
