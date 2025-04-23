@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Prenda;
 use App\Models\Color;
 use App\Models\Estilo;
+use App\Models\Outfit;
+use App\Models\OutfitPrenda;
 use Illuminate\Http\Request;
 
 class OutfitController extends Controller
@@ -49,5 +51,36 @@ class OutfitController extends Controller
             'colores',
             'estilos'
         ));
+    }
+
+    public function store(Request $request)
+    {
+        // Crear un nuevo outfit
+        $outfit = Outfit::create([
+            'id_usuario' => auth()->id(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Asociar las prendas seleccionadas al outfit
+        $prendas = [
+            $request->prenda_cabeza,
+            $request->prenda_torso,
+            $request->prenda_piernas,
+            $request->prenda_pies,
+        ];
+
+        foreach ($prendas as $prendaId) {
+            if ($prendaId) { // Verifica que el ID de la prenda no sea nulo
+                OutfitPrenda::create([
+                    'id_outfit' => $outfit->id_outfit, // Asigna el ID del outfit recién creado
+                    'id_prenda' => $prendaId,         // Asigna el ID de la prenda seleccionada
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        return redirect()->route('outfit.index')->with('success', 'Outfit creado exitosamente.');
     }
 }
