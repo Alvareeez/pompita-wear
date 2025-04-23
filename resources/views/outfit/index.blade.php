@@ -387,6 +387,11 @@
 
         <form method="POST" action="{{ route('outfit.store') }}">
             @csrf
+            <div class="mb-3">
+                <label for="nombre_outfit" class="form-label">Nombre del Outfit</label>
+                <input type="text" name="nombre" id="nombre_outfit" class="form-control" placeholder="Introduce un nombre para tu outfit" required>
+            </div>
+
             <input type="hidden" name="prenda_cabeza" id="prenda_cabeza">
             <input type="hidden" name="prenda_torso" id="prenda_torso">
             <input type="hidden" name="prenda_piernas" id="prenda_piernas">

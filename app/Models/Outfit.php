@@ -15,6 +15,7 @@ class Outfit extends Model
 
     protected $fillable = [
         'id_usuario',
+        'nombre', // Añadir el campo nombre
         'likes'
     ];
 
