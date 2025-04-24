@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 <body>
     <header class="admin-header">
@@ -106,16 +107,33 @@
             });
         }
 
-        // AJAX de filtros
         document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".tabs a, .logout-form button");
             const spinner = document.getElementById("loading-spinner");
+
+            links.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    spinner.style.display = "flex";
+
+                    const href = link.tagName === "A" ? link.href : link.closest("form").action;
+
+                    setTimeout(() => {
+                        if (link.tagName === "A") {
+                            window.location.href = href;
+                        } else {
+                            link.closest("form").submit();
+                        }
+                    }, 1000); 
+                });
+            });
 
             function filtrarUsuarios() {
                 const nombre = document.getElementById("filtro-nombre").value;
                 const correo = document.getElementById("filtro-correo").value;
                 const rol = document.getElementById("filtro-rol").value;
 
-                spinner.style.display = "flex";
+                spinner.style.display = "flex"; // Mostrar el spinner
 
                 fetch(`{{ route('admin.usuarios.index') }}?nombre=${nombre}&correo=${correo}&rol=${rol}`, {
                     headers: {
@@ -125,7 +143,11 @@
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("tabla-usuarios").innerHTML = data;
-                    spinner.style.display = "none";
+                    spinner.style.display = "none"; // Ocultar el spinner
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    spinner.style.display = "none"; // Ocultar el spinner en caso de error
                 });
             }
 
