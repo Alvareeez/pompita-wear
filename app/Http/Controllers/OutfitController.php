@@ -57,9 +57,19 @@ class OutfitController extends Controller
 
     public function store(Request $request)
     {
+        // Validar los datos
+        $request->validate([
+            'nombre' => 'required|string|max:255', // Validar el nombre
+            'prenda_cabeza' => 'nullable|exists:prendas,id_prenda',
+            'prenda_torso' => 'nullable|exists:prendas,id_prenda',
+            'prenda_piernas' => 'nullable|exists:prendas,id_prenda',
+            'prenda_pies' => 'nullable|exists:prendas,id_prenda',
+        ]);
+
         // Crear un nuevo outfit
         $outfit = Outfit::create([
             'id_usuario' => auth()->id(),
+            'nombre' => $request->nombre, // Guardar el nombre del outfit
             'created_at' => now(),
             'updated_at' => now(),
         ]);
