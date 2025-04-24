@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             PrendaColoresSeeder::class,
             PrendaEstilosSeeder::class,
             PrendaEtiquetasSeeder::class,
+            OutfitSeeder::class,
         ]);
     }
     

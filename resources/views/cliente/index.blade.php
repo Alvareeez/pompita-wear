@@ -16,7 +16,7 @@
             <div class="carousel">
                 <img src="{{ asset('img/carrousel1.png') }}" alt="Imagen 1" class="carousel-image active">
                 <img src="{{ asset('img/carrousel2.png') }}" alt="Imagen 2" class="carousel-image">
-                <img src="{{ asset('img/112.png') }}" alt="Imagen 3" class="carousel-image">
+                <img src="{{ asset('img/carrousel3.png') }}" alt="Imagen 3" class="carousel-image">
                 <img src="{{ asset('img/carrousel4.png') }}" alt="Imagen 3" class="carousel-image">
             </div>
         </div>
@@ -27,8 +27,6 @@
     <a href="{{ route('outfit.index') }}" class="action-button">Crea tu outfit</a>
     <a href="{{ route('outfit.outfits') }}" class="action-button">Outfits</a>
 </div>
-
-
         <div class="content-row">
             <div class="content-column left-column">
                 <h2 class="section-title">Tendencias En Prendas 🔥</h2>

@@ -16,6 +16,7 @@ class OutfitSeeder extends Seeder
         // Insertar el outfit
         $outfitId = DB::table('outfits')->insertGetId([
             'id_usuario' => $usuarioId,
+            'nombre'=> 'El mejor outfit de Admin',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
