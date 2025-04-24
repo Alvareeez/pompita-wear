@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Usuario;
+use App\Models\Outfit;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,9 +14,16 @@ class PerfilController extends Controller
     public function show()
     {
         $user = Auth::user();
-        $outfitsPublicados = $user->outfits;
+        // $outfitsPublicados = $user->outfits;
         $favorites = $user->favoritosPrendas;
+        // Recuperar todos los outfits con las prendas asociadas
+        $outfitsPublicados = Outfit::with('prendas', 'usuario')->get();
 
+        // Calcular el precio total de cada outfit
+        foreach ($outfitsPublicados as $outfit) {
+            $outfit->prendas = $outfit->prendas->sortBy('id_tipoPrenda'); // Ordenar prendas por tipo
+            $outfit->precio_total = $outfit->prendas->sum('precio'); // Sumar precios de las prendas
+        }
         return view('perfil', compact('user', 'outfitsPublicados', 'favorites'));
     }
 
