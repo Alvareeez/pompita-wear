@@ -65,7 +65,6 @@
                         <th>Tipo</th>
                         <th>Precio</th>
                         <th>Descripción</th>
-                        <th>Imágenes</th> <!-- Cambiar el encabezado a "Imágenes" -->
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -77,13 +76,6 @@
                             <td>{{ $prenda->tipo->tipo }}</td>
                             <td>{{ $prenda->precio }} €</td>
                             <td>{{ $prenda->descripcion }}</td>
-                            <td>
-                                <!-- Mostrar ambas imágenes -->
-                                <div style="display: flex; gap: 10px;">
-                                    <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
-                                    <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Trasera de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
-                                </div>
-                            </td>
                             <td>
                                 <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
                                 <a class="delete-btn" onclick="confirmDelete({{ $prenda->id_prenda }})">🗑️</a>
@@ -156,35 +148,14 @@
             });
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const links = document.querySelectorAll(".tabs a, .logout-form button");
-            const spinner = document.getElementById("loading-spinner");
-
-            links.forEach(link => {
-                link.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    spinner.style.display = "flex";
-
-                    const href = link.tagName === "A" ? link.href : link.closest("form").action;
-
-                    setTimeout(() => {
-                        if (link.tagName === "A") {
-                            window.location.href = href;
-                        } else {
-                            link.closest("form").submit();
-                        }
-                    }, 1000); 
-                });
-            });
-
+        $(document).ready(function() {
+            // Filtrar prendas cuando se seleccionen opciones
             $('#filtro-nombre, #filtro-precio-min, #filtro-precio-max, #filtro-descripcion').on('input change', function() {
-                const nombre = $('#filtro-nombre').val();
-                const precio_min = $('#filtro-precio-min').val();
-                const precio_max = $('#filtro-precio-max').val();
-                const descripcion = $('#filtro-descripcion').val();
-
-                spinner.style.display = "flex"; // Mostrar el spinner
-
+                let nombre = $('#filtro-nombre').val();
+                let precio_min = $('#filtro-precio-min').val();
+                let precio_max = $('#filtro-precio-max').val();
+                let descripcion = $('#filtro-descripcion').val();
+        
                 $.ajax({
                     url: '{{ route('admin.ropa.index') }}',
                     method: 'GET',
@@ -194,14 +165,17 @@
                         precio_max: precio_max,
                         descripcion: descripcion,
                     },
-                    success: function(response) {
-                        $('#prendas-table').html($(response).find('#prendas-table').html());
-                        $('.pagination-container').html($(response).find('.pagination-container').html());
-                        spinner.style.display = "none"; // Ocultar el spinner
+                    beforeSend: function() {
+                        $('#loading-spinner').show(); // Mostrar el spinner de carga
                     },
-                    error: function(error) {
-                        console.error('Error:', error);
-                        spinner.style.display = "none"; // Ocultar el spinner en caso de error
+                    success: function(response) {
+                        // Reemplazar el contenido de la tabla con la respuesta parcial
+                        $('#prendas-table').html($(response).find('#prendas-table').html());
+                        // Reemplazar la paginación si es necesario
+                        $('.pagination-container').html($(response).find('.pagination-container').html());
+                    },
+                    complete: function() {
+                        $('#loading-spinner').hide(); // Ocultar el spinner de carga
                     }
                 });
             });
