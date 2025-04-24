@@ -32,6 +32,11 @@
         <div class="total-outfit">
             <h4>Precio Total: €{{ number_format($precioTotal, 2) }}</h4>
         </div>
+
+        <!-- Botón de volver -->
+        <div class="volver-btn-container">
+            <a href="{{ route('outfit.outfits') }}" class="volver-btn">← Volver a todos los outfits</a>
+        </div>
     </div>
 </div>
 @endsection

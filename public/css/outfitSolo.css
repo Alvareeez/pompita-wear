@@ -103,6 +103,31 @@ body {
     color: #222;
 }
 
+/* Botón de volver */
+.volver-btn-container {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.volver-btn {
+    display: inline-block;
+    background-color: #F6A894;
+    color: #000;
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    border: 1px solid black;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.volver-btn:hover {
+    background-color: #fa6843;
+    transform: scale(1.05);
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
     .prenda-detalle {
