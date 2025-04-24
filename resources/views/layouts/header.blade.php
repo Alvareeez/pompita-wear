@@ -25,7 +25,9 @@
 
             <div class="user-section">
                 <div class="session-info">
-                    <a href="/">Buscar Outfits</a>
+                    <a href="/carro">
+                        Carro
+                    </a>
                     @auth
                     @if(auth()->user()->rol->nombre === 'admin') 
                         <a href="/admin/usuarios">Panel Admin</a>
@@ -33,13 +35,14 @@
                     @endauth
                 </div>
                 <div class="user-avatar">
-                    <a href="perfil">
+                    <a href="/perfil">
                         @if (Auth::check() && Auth::user()->foto_perfil)
                             <img src="{{ Auth::user()->foto_perfil ? asset(Auth::user()->foto_perfil) : asset('img/default-profile.png') }}" alt="Foto perfil" class="profile-photo">
                         @else
                             <img src="{{ asset('img/default-profile.png') }}" alt="Foto perfil" class="profile-photo">
                         @endif
                     </a>
+                    
                 </div>
             </div>
         </div>
