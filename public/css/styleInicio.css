@@ -57,6 +57,7 @@ body {
     font-family: 'Ubuntu', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-decoration: none;
 }
 
 .action-button:hover {
@@ -160,8 +161,9 @@ body {
         gap: 15px;
     }
     .action-button {
-        flex: 1 1 100%;
-        max-width: 90%;
+        max-width: 80%;
+        justify-content: center;
+        text-decoration: none;
     }
     .small-image {
         width: 100px;
