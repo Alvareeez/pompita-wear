@@ -116,7 +116,7 @@
                             <div class="valoracion-user">
                                 <div class="user-avatar">
                                     @if($valoracion->usuario->foto_perfil)
-                                        <img src="{{ asset('img/' . $valoracion->usuario->foto_perfil) }}" 
+                                        <img src="{{ asset($valoracion->usuario->foto_perfil) }}" 
                                              alt="{{ $valoracion->usuario->nombre }}"
                                              class="foto-perfil-valoracion">
                                     @else
@@ -172,9 +172,9 @@
                             <div class="foto-comentario-container">
                                 <a href="{{ url('perfil')}}">
                                     @if($comentario->usuario->foto_perfil)
-                                        <img src="{{ asset('img/' . $comentario->usuario->foto_perfil) }}" 
-                                            alt="Foto de {{ $comentario->usuario->nombre }}"
-                                            class="foto-perfil-comentario">
+                                    <img src="{{ asset($valoracion->usuario->foto_perfil) }}" 
+                                    alt="{{ $valoracion->usuario->nombre }}"
+                                    class="foto-perfil-valoracion">
                                     @else
                                         <div class="foto-perfil-default">
                                             {{ substr($comentario->usuario->nombre, 0, 1) }}
