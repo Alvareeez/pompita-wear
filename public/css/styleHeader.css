@@ -49,6 +49,22 @@
         font-size: 0.9rem;
     }
     
+    .logout-button {
+        padding: 12px 25px;
+        border-radius: 5px;
+        background-color: red;
+        border: none;
+        color: #ffffff;
+        font-size: 0.9rem;
+        cursor: pointer;
+        text-decoration: none;
+        margin-left: 8px;
+    }
+    
+    .logout-button:hover {
+        background-color: #e03131;
+    }
+    
     .session-info a {
         color: #ffffff;
         font-size: 1rem;

@@ -27,8 +27,6 @@
     <a href="{{ route('outfit.index') }}" class="action-button">Crea tu outfit</a>
     <a href="{{ route('outfit.outfits') }}" class="action-button">Outfits</a>
 </div>
-
-
         <div class="content-row">
             <div class="content-column left-column">
                 <h2 class="section-title">Tendencias En Prendas 🔥</h2>
