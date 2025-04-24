@@ -32,8 +32,17 @@
                     @if(auth()->user()->rol->nombre === 'admin') 
                         <a href="/admin/usuarios">Panel Admin</a>
                     @endif
+            
+                    <!-- Botón Cerrar Sesión -->
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="logout-button">
+                            Cerrar sesión
+                        </button>
+                    </form>
                     @endauth
                 </div>
+            
                 <div class="user-avatar">
                     <a href="/perfil">
                         @if (Auth::check() && Auth::user()->foto_perfil)
@@ -42,7 +51,6 @@
                             <img src="{{ asset('img/default-profile.png') }}" alt="Foto perfil" class="profile-photo">
                         @endif
                     </a>
-                    
                 </div>
             </div>
         </div>
