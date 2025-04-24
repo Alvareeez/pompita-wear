@@ -3,7 +3,7 @@
 @section('title', 'Detalles del Outfit')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/showOutfits.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/outfitSolo.css') }}">
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
 
 <div class="centered-container">
     <div class="outfit-detalle">
-        <h3 class="outfit-title">Outfit #{{ $outfit->id_outfit }}</h3>
+        <h3 class="outfit-title">Outfit: {{ $outfit->nombre }}</h3>
 
         <div class="prendas">
             @foreach ($outfit->prendas->sortBy('tipo.id_tipoPrenda') as $prenda)
