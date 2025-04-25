@@ -8,63 +8,83 @@
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 20px 40px 20px 20px; /* Margen derecho más amplio */
-            background-color: #f9f9f9;
+            padding: 20px;
             color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
-        .logo {
+
+        /* Encabezado */
+        .header {
             text-align: center;
-            margin-bottom: 20px;
-        }
-        .logo img {
-            max-width: 150px;
-            height: auto;
-        }
-        h1 {
-            text-align: center;
-            color: #00509e;
             margin-bottom: 30px;
-            font-size: 24px;
-            text-transform: uppercase;
         }
+
+        .header img {
+            max-width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #0056b3;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        /* Tabla */
         .table-container {
             width: 100%;
-            max-width: 850px; /* Ajustar el ancho máximo */
             margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #ddd;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
+            background-color: #ffffff;
         }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
+
+        table th, table td {
+            padding: 10px;
             text-align: left;
-            vertical-align: top;
-            font-size: 14px;
+            font-size: 12px;
+            border: 1px solid #ddd;
         }
-        th {
-            background-color: #00509e;
-            color: white;
-            text-align: center;
+
+        table th {
+            background-color: #0056b3;
+            color: #ffffff;
             font-weight: bold;
+            text-transform: uppercase;
         }
-        td img {
-            max-width: 80px;
-            height: auto;
+
+        table td {
+            vertical-align: top;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Imágenes */
+        .image-container {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center; /* Centra las imágenes horizontalmente */
+        }
+
+        .image-container img {
+            max-width: 80px; /* Ajusta el ancho máximo */
+            max-height: 80px; /* Ajusta el alto máximo */
+            object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
             border-radius: 5px;
-            display: block;
-            margin: 5px auto;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        /* Pie de página */
         .footer {
             text-align: center;
             font-size: 12px;
@@ -73,32 +93,20 @@
             border-top: 1px solid #ddd;
             padding-top: 10px;
         }
-        .description {
-            font-size: 13px;
-            line-height: 1.5;
-            color: #555;
-        }
-        .highlight {
-            font-weight: bold;
-            color: #00509e;
-        }
     </style>
 </head>
 <body>
-    <!-- Logo -->
-    <div class="logo">
+    <!-- Encabezado -->
+    <div class="header">
         <img src="{{ public_path('img/pompitaLogo.png') }}" alt="Pompita Wear">
+        <h1>Ropa Seleccionada</h1>
     </div>
-
-    <!-- Título -->
-    <h1>Ropa Seleccionada</h1>
 
     <!-- Tabla -->
     <div class="table-container">
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Tipo</th>
                     <th>Precio</th>
@@ -112,17 +120,18 @@
             <tbody>
                 @foreach ($prendas as $prenda)
                     <tr>
-                        <td class="highlight">{{ $prenda->id_prenda }}</td>
                         <td>{{ $prenda->nombre }}</td>
                         <td>{{ $prenda->tipo->tipo }}</td>
                         <td>{{ number_format($prenda->precio, 2) }} €</td>
-                        <td class="description">{{ $prenda->descripcion }}</td>
+                        <td>{{ $prenda->descripcion }}</td>
                         <td>{{ $prenda->estilos->pluck('nombre')->join(', ') }}</td>
                         <td>{{ $prenda->etiquetas->pluck('nombre')->join(', ') }}</td>
                         <td>{{ $prenda->colores->pluck('nombre')->join(', ') }}</td>
                         <td>
-                            <img src="{{ public_path('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen Frontal">
-                            <img src="{{ public_path('img/prendas/' . $prenda->img_trasera) }}" alt="Imagen Trasera">
+                            <div class="image-container">
+                                <img src="{{ public_path('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen Frontal">
+                                <img src="{{ public_path('img/prendas/' . $prenda->img_trasera) }}" alt="Imagen Trasera">
+                            </div>
                         </td>
                     </tr>
                 @endforeach

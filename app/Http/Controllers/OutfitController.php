@@ -21,21 +21,21 @@ class OutfitController extends Controller
         // Función para filtrar prendas por tipo, color y estilo
         $filterByTypeColorAndStyle = function($typeId, $colorParam, $styleParam) use ($request) {
             $query = Prenda::where('id_tipoPrenda', $typeId);
-            
+
             // Filtro por color
             if ($request->has($colorParam) && $request->$colorParam != '') {
                 $query->whereHas('colores', function($q) use ($request, $colorParam) {
                     $q->where('colores.id_color', $request->$colorParam);
                 });
             }
-            
+
             // Filtro por estilo
             if ($request->has($styleParam) && $request->$styleParam != '') {
                 $query->whereHas('estilos', function($q) use ($request, $styleParam) {
                     $q->where('estilos.id_estilo', $request->$styleParam);
                 });
             }
-            
+
             return $query->get();
         };
         

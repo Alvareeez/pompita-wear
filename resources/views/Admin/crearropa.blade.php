@@ -37,7 +37,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la prenda">
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la prenda" required>
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripción</label>
@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group">
                     <label for="id_tipoPrenda">Tipo de Prenda</label>
-                    <select id="id_tipoPrenda" name="id_tipoPrenda">
+                    <select id="id_tipoPrenda" name="id_tipoPrenda" required>
                         @foreach ($tipos as $tipo)
                             <option value="{{ $tipo->id_tipoPrenda }}">{{ $tipo->tipo }}</option>
                         @endforeach
@@ -53,11 +53,11 @@
                 </div>
                 <div class="form-group">
                     <label for="precio">Precio (€)</label>
-                    <input type="number" id="precio" name="precio" placeholder="Precio de la prenda" step="0.01">
+                    <input type="number" id="precio" name="precio" placeholder="Precio de la prenda" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label for="img_frontal">Imagen Frontal</label>
-                    <input type="file" id="img_frontal" name="img_frontal" accept="image/*">
+                    <input type="file" id="img_frontal" name="img_frontal" accept="image/*" required>
                 </div>
                 <div class="form-group">
                     <label for="img_trasera">Imagen Trasera</label>

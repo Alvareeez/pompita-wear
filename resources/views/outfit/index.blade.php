@@ -428,4 +428,6 @@
             console.log('Prenda Pies:', document.getElementById('prenda_pies').value);
         });
     </script>
+    @include('layouts.footer')
+
 @endsection

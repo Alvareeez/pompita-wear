@@ -37,16 +37,16 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" value="{{ $prenda->nombre }}" placeholder="Nombre de la prenda" required>
+                </div>
+                <div class="form-group">
                     <label for="descripcion">Descripción</label>
                     <textarea id="descripcion" name="descripcion" placeholder="Descripción de la prenda" rows="3">{{ $prenda->descripcion }}</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ $prenda->nombre }}" placeholder="Nombre de la prenda" >
-                </div>
-                <div class="form-group">
                     <label for="id_tipoPrenda">Tipo de Prenda</label>
-                    <select id="id_tipoPrenda" name="id_tipoPrenda" >
+                    <select id="id_tipoPrenda" name="id_tipoPrenda" required>
                         @foreach ($tipos as $tipo)
                             <option value="{{ $tipo->id_tipoPrenda }}" {{ $prenda->id_tipoPrenda == $tipo->id_tipoPrenda ? 'selected' : '' }}>
                                 {{ $tipo->tipo }}
@@ -56,7 +56,21 @@
                 </div>
                 <div class="form-group">
                     <label for="precio">Precio (€)</label>
-                    <input type="number" id="precio" name="precio" value="{{ $prenda->precio }}" placeholder="Precio de la prenda" step="0.01" >
+                    <input type="number" id="precio" name="precio" value="{{ $prenda->precio }}" placeholder="Precio de la prenda" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="img_frontal">Imagen Frontal (opcional)</label>
+                    <input type="file" id="img_frontal" name="img_frontal" accept="image/*">
+                    <div class="image-preview">
+                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen Frontal Actual">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="img_trasera">Imagen Trasera (opcional)</label>
+                    <input type="file" id="img_trasera" name="img_trasera" accept="image/*">
+                    <div class="image-preview">
+                        <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Imagen Trasera Actual">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="estilos">Estilos</label>
@@ -87,20 +101,6 @@
                             </option>
                         @endforeach
                     </select>
-                </div>
-                <div class="form-group">
-                    <label for="img_frontal">Imagen Frontal (opcional)</label>
-                    <input type="file" id="img_frontal" name="img_frontal" accept="image/*">
-                    <div class="image-preview">
-                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen Frontal Actual">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="img_trasera">Imagen Trasera (opcional)</label>
-                    <input type="file" id="img_trasera" name="img_trasera" accept="image/*">
-                    <div class="image-preview">
-                        <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Imagen Trasera Actual">
-                    </div>
                 </div>
                 <button type="submit"><span>Actualizar Prenda</span></button>
             </form>

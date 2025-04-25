@@ -65,6 +65,7 @@
                         <th>Tipo</th>
                         <th>Precio</th>
                         <th>Descripción</th>
+                        <th>Imágenes</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -76,6 +77,12 @@
                             <td>{{ $prenda->tipo->tipo }}</td>
                             <td>{{ $prenda->precio }} €</td>
                             <td>{{ $prenda->descripcion }}</td>
+                            <td>
+                                <div style="display: flex; gap: 10px;">
+                                    <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
+                                    <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Trasera de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
+                                </div>
+                            </td>
                             <td>
                                 <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
                                 <a class="delete-btn" onclick="confirmDelete({{ $prenda->id_prenda }})">🗑️</a>
@@ -100,19 +107,18 @@
             @csrf
             <div class="form-group">
                 <label for="prendas">Selecciona las prendas:</label>
-                <select id="prendas" name="prendas[]" multiple >
+                <select id="prendas" name="prendas[]" multiple>
                     @foreach ($prendas as $prenda)
                         <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
                     @endforeach
                 </select>
             </div>
-            <button class="button" type="submit">
-                <span class="button__text">Descargar</span>
-                <span class="button__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" id="bdd05811-e15d-428c-bb53-8661459f9307" data-name="Layer 2" class="svg">
-                        <path d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"></path>
-                        <path d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"></path>
-                        <path d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"></path>
+            <button class="download-btn" type="submit">
+                Descargar PDF
+                <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 16l4-5h-3V4h-2v7H8z"></path>
+                        <path d="M20 18H4v-2h16v2z"></path>
                     </svg>
                 </span>
             </button>
@@ -148,14 +154,35 @@
             });
         }
 
-        $(document).ready(function() {
-            // Filtrar prendas cuando se seleccionen opciones
+        document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".tabs a, .logout-form button");
+            const spinner = document.getElementById("loading-spinner");
+
+            links.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    spinner.style.display = "flex";
+
+                    const href = link.tagName === "A" ? link.href : link.closest("form").action;
+
+                    setTimeout(() => {
+                        if (link.tagName === "A") {
+                            window.location.href = href;
+                        } else {
+                            link.closest("form").submit();
+                        }
+                    }, 1000); 
+                });
+            });
+
             $('#filtro-nombre, #filtro-precio-min, #filtro-precio-max, #filtro-descripcion').on('input change', function() {
-                let nombre = $('#filtro-nombre').val();
-                let precio_min = $('#filtro-precio-min').val();
-                let precio_max = $('#filtro-precio-max').val();
-                let descripcion = $('#filtro-descripcion').val();
-        
+                const nombre = $('#filtro-nombre').val();
+                const precio_min = $('#filtro-precio-min').val();
+                const precio_max = $('#filtro-precio-max').val();
+                const descripcion = $('#filtro-descripcion').val();
+
+                spinner.style.display = "flex"; // Mostrar el spinner
+
                 $.ajax({
                     url: '{{ route('admin.ropa.index') }}',
                     method: 'GET',
@@ -165,17 +192,14 @@
                         precio_max: precio_max,
                         descripcion: descripcion,
                     },
-                    beforeSend: function() {
-                        $('#loading-spinner').show(); // Mostrar el spinner de carga
-                    },
                     success: function(response) {
-                        // Reemplazar el contenido de la tabla con la respuesta parcial
                         $('#prendas-table').html($(response).find('#prendas-table').html());
-                        // Reemplazar la paginación si es necesario
                         $('.pagination-container').html($(response).find('.pagination-container').html());
+                        spinner.style.display = "none"; // Ocultar el spinner
                     },
-                    complete: function() {
-                        $('#loading-spinner').hide(); // Ocultar el spinner de carga
+                    error: function(error) {
+                        console.error('Error:', error);
+                        spinner.style.display = "none"; // Ocultar el spinner en caso de error
                     }
                 });
             });
