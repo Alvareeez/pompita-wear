@@ -148,7 +148,7 @@
             };
 
             window.viewOutfit = function (outfitId) {
-                window.location.href = `/outfits/${outfitId}`;
+                window.location.href = `/outfit/${outfitId}`;
             };
 
             window.replaceOutfit = function (date) {
