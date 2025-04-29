@@ -1,15 +1,21 @@
+/* General */
 body {
     font-family: 'Ubuntu', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f8fb; /* Fondo suave */
+    color: #333;
 }
 
+/* Carrusel */
 .carousel-container {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 450px;
     overflow: hidden;
     margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .carousel {
@@ -26,22 +32,20 @@ body {
     object-fit: cover;
     opacity: 0;
     transition: opacity 1s ease-in-out;
+    border-radius: 10px;
 }
-
-
-/* Imagen activa */
 
 .carousel-image.active {
     opacity: 1;
-    /* Solo la imagen activa es visible */
 }
 
+/* Botones */
 .button-row {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 85px;
-    margin-bottom: 10px;
+    gap: 20px;
+    margin-bottom: 30px;
     padding: 0 15px;
     width: 100%;
     box-sizing: border-box;
@@ -49,76 +53,52 @@ body {
 
 .action-button {
     padding: 12px 35px;
-    background-color: #F6A894;
+    background-color: #0056b3;
     color: white;
     border: none;
     border-radius: 5px;
     font-size: 16px;
     font-family: 'Ubuntu', sans-serif;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
     text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .action-button:hover {
-    background-color: #fa6843;
+    background-color: #003f8c;
+    transform: translateY(-3px);
 }
 
-
-/* Sección de contenido debajo */
-
+/* Sección de contenido */
 .content-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
     width: 100%;
     box-sizing: border-box;
+    margin-bottom: 30px;
 }
 
 .content-column {
     flex: 1;
-    min-width: 0;
-    /* Previene el desbordamiento */
+    min-width: 300px;
     padding: 15px;
     box-sizing: border-box;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
-.left-column,
-.right-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-
-/* Ajustes para las imágenes */
 
 .section-title {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #333;
+    color: #0056b3;
     text-align: center;
+    font-weight: bold;
 }
 
-.small-image {
-    width: 130px;
-    height: 130px;
-    object-fit: cover;
-    margin: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.large-image {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    margin: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
+/* Imágenes */
 .image-row {
     display: flex;
     justify-content: center;
@@ -128,6 +108,37 @@ body {
     width: 100%;
 }
 
+.small-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.small-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.large-image {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    margin: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.large-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Información de prendas */
 .prenda-item {
     display: flex;
     flex-direction: column;
@@ -136,47 +147,48 @@ body {
 }
 
 .prenda-info {
-    margin-left: 50px;
+    margin-top: 10px;
     display: flex;
-    gap: 40px;
-    width: 100%;
+    gap: 10px;
     font-size: 14px;
+    color: #333;
 }
 
 .precio {
     font-weight: bold;
+    color: #28a745;
 }
 
 .likes {
     color: #ff4757;
+    font-weight: bold;
 }
 
+/* Responsividad */
 @media (max-width: 780px) {
     .carousel-container {
-        width: 100%;
-        height: 250px;
+        height: 300px;
     }
+
     .button-row {
-        padding: 0;
-        gap: 15px;
+        gap: 10px;
     }
+
     .action-button {
-        max-width: 80%;
-        justify-content: center;
-        text-decoration: none;
+        padding: 10px 20px;
+        font-size: 14px;
     }
+
     .small-image {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        margin: 10px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-    .large-image {
         width: 120px;
         height: 120px;
     }
+
+    .large-image {
+        width: 180px;
+        height: 180px;
+    }
+
     .section-title {
         font-size: 20px;
     }

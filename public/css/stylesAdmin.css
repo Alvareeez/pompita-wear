@@ -40,7 +40,7 @@ body {
 }
 
 .logout-btn {
-    background-color: #d9534f;
+    background-color: #d9534f !important;
     border: none;
     padding: 10px 20px;
     color: white;

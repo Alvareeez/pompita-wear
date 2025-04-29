@@ -26,6 +26,7 @@
     <a href="{{ route('prendas.index') }}" class="action-button">Prendas</a>
     <a href="{{ route('outfit.index') }}" class="action-button">Crea tu outfit</a>
     <a href="{{ route('outfit.outfits') }}" class="action-button">Outfits</a>
+    <a href="{{ route('calendario') }}" class="action-button">Calendario</a>
 </div>
         <div class="content-row">
             <div class="content-column left-column">
