@@ -22,7 +22,31 @@
                     <a href="/"><img src="{{ asset('img/pompita-negro.png') }}" alt="Logo"></a>
                 </div>
             </div>
-
+            <div class="notifications">
+                <div class="notification-icon" id="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">{{ Auth::user()->unreadNotifications->count() }}</span>
+                </div>
+                <div class="notification-dropdown" id="notification-dropdown">
+                    <div class="notification-header">
+                        <form action="{{ route('notifications.markAllAsRead') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="mark-all-read">Marcar todo como leído</button>
+                        </form>
+                    </div>
+                    <ul>
+                        @foreach (Auth::user()->unreadNotifications as $notification)
+                            <li>
+                                {{ $notification->data['message'] }}
+                                <form action="{{ route('notifications.markAsRead', $notification->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="mark-as-read">Marcar como leída</button>
+                                </form>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
             <div class="user-section">
                 <div class="session-info">
                     @auth
@@ -57,6 +81,28 @@
         @yield('content')
     </main>
 
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+
+        if (notificationIcon && notificationDropdown) {
+            // Alternar la visibilidad del menú al hacer clic en el ícono
+            notificationIcon.addEventListener('click', function () {
+                notificationDropdown.classList.toggle('active');
+            });
+
+            // Cerrar el menú si se hace clic fuera de él
+            document.addEventListener('click', function (event) {
+                if (!notificationIcon.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                    notificationDropdown.classList.remove('active');
+                }
+            });
+        }
+    });
+</script>
+@endsection
 
 </body>
 

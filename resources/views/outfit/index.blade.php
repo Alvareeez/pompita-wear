@@ -91,343 +91,158 @@
     </style>
 @endsection
 
+
 @section('content')
-    <div class="container mt-5">
-        <h1 class="text-center mb-5">Crea tu Outfit</h1>
+<div class="container mt-5">
+    <h1 class="text-center mb-5">Crea tu Outfit</h1>
 
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    {{-- FORMULARIO DE FILTROS --}}
+    <form method="GET" action="{{ route('outfit.index') }}">
+        <div class="row">
+            <div class="col-lg-8">
+
+                {{-- COMPONENTES DE CARRUSEL --}}
+                @php
+                    $partes = ['Cabeza' => $prendasCabeza, 'Torso' => $prendasTorso, 'Piernas' => $prendasPiernas, 'Pies' => $prendasPies];
+                @endphp
+
+                @foreach($partes as $parte => $prendas)
+                    <div class="carousel-container mb-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="section-title">Prendas de {{ $parte }}</div>
+                            <div>
+                                @if(request('color_' . strtolower($parte)))
+                                    <span class="badge bg-info">Color</span>
+                                @endif
+                                @if(request('estilo_' . strtolower($parte)))
+                                    <span class="badge bg-warning text-dark">Estilo</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div id="carousel{{ $parte }}" class="carousel slide" data-bs-interval="false">
+                            <div class="carousel-inner">
+                                @foreach($prendas as $prenda)
+                                    <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
+                                        <div class="carousel-slide-container">
+                                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block img-fluid" alt="{{ $prenda->nombre }}">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ $parte }}" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                                <span class="visually-hidden">Anterior</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ $parte }}" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                                <span class="visually-hidden">Siguiente</span>
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
+
             </div>
-        @endif
 
-        @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
+            {{-- FILTROS --}}
+            <div class="col-lg-4">
+                <div class="filter-panel">
+                    <h5 class="mb-4">Filtros</h5>
+
+                    @foreach($partes as $parte => $_)
+                        @php $parteKey = strtolower($parte); @endphp
+                        <div class="mb-4">
+                            <div class="filter-title">{{ $parte }}</div>
+                            <div class="mb-2">
+                                <label for="color_{{ $parteKey }}" class="form-label">Color</label>
+                                <select name="color_{{ $parteKey }}" id="color_{{ $parteKey }}" class="form-select">
+                                    <option value="">Todos</option>
+                                    @foreach($colores as $color)
+                                        <option value="{{ $color->id_color }}" {{ request("color_$parteKey") == $color->id_color ? 'selected' : '' }}>
+                                            {{ $color->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label for="estilo_{{ $parteKey }}" class="form-label">Estilo</label>
+                                <select name="estilo_{{ $parteKey }}" id="estilo_{{ $parteKey }}" class="form-select">
+                                    <option value="">Todos</option>
+                                    @foreach($estilos as $estilo)
+                                        <option value="{{ $estilo->id_estilo }}" {{ request("estilo_$parteKey") == $estilo->id_estilo ? 'selected' : '' }}>
+                                            {{ $estilo->nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
 
-        <form method="GET" action="{{ route('outfit.index') }}">
-            <div class="row row-equal-height">
-                <!-- Columna izquierda: Carrousels de prendas -->
-                <div class="col-lg-8">
-                    <!-- Prenda de Cabeza -->
-                    <div class="carousel-container">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="section-title">Prendas de Cabeza</div>
-                            <div>
-                                @if(request('color_cabeza'))
-                                    <span class="badge bg-info badge-filter">Color</span>
-                                @endif
-                                @if(request('estilo_cabeza'))
-                                    <span class="badge bg-warning text-dark badge-filter">Estilo</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div id="carouselCabeza" class="carousel slide" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                @foreach($prendasCabeza as $prenda)
-                                    <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
-                                        <div class="carousel-slide-container">
-                                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block img-fluid" alt="{{ $prenda->nombre }}">
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselCabeza" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselCabeza" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Prenda de Torso -->
-                    <div class="carousel-container">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="section-title">Prendas de Torso</div>
-                            <div>
-                                @if(request('color_torso'))
-                                    <span class="badge bg-info badge-filter">Color</span>
-                                @endif
-                                @if(request('estilo_torso'))
-                                    <span class="badge bg-warning text-dark badge-filter">Estilo</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div id="carouselTorso" class="carousel slide" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                @foreach($prendasTorso as $prenda)
-                                    <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
-                                        <div class="carousel-slide-container">
-                                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block img-fluid" alt="{{ $prenda->nombre }}">
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselTorso" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselTorso" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Prenda de Piernas -->
-                    <div class="carousel-container">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="section-title">Prendas de Piernas</div>
-                            <div>
-                                @if(request('color_piernas'))
-                                    <span class="badge bg-info badge-filter">Color</span>
-                                @endif
-                                @if(request('estilo_piernas'))
-                                    <span class="badge bg-warning text-dark badge-filter">Estilo</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div id="carouselPiernas" class="carousel slide" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                @foreach($prendasPiernas as $prenda)
-                                    <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
-                                        <div class="carousel-slide-container">
-                                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block img-fluid" alt="{{ $prenda->nombre }}">
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPiernas" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselPiernas" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Prenda de Pies -->
-                    <div class="carousel-container">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="section-title">Prendas de Pies</div>
-                            <div>
-                                @if(request('color_pies'))
-                                    <span class="badge bg-info badge-filter">Color</span>
-                                @endif
-                                @if(request('estilo_pies'))
-                                    <span class="badge bg-warning text-dark badge-filter">Estilo</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div id="carouselPies" class="carousel slide" data-bs-interval="false">
-                            <div class="carousel-inner">
-                                @foreach($prendasPies as $prenda)
-                                    <div class="carousel-item @if($loop->first) active @endif" data-prenda-id="{{ $prenda->id_prenda }}">
-                                        <div class="carousel-slide-container">
-                                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" class="d-block img-fluid" alt="{{ $prenda->nombre }}">
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPies" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#carouselPies" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Columna derecha: Filtros -->
-                <div class="col-lg-4">
-                    <div class="filter-panel">
-                        <h5 class="mb-4" style="font-size: 1.3rem;">Filtros</h5>
-                        
-                        <!-- Filtros para Cabeza -->
-                        <div class="mb-4">
-                            <div class="filter-title">Cabeza</div>
-                            <div class="mb-3">
-                                <label for="color_cabeza" class="form-label">Color</label>
-                                <select name="color_cabeza" id="color_cabeza" class="form-select">
-                                    <option value="">Todos</option>
-                                    @foreach($colores as $color)
-                                        <option value="{{ $color->id_color }}" 
-                                            {{ request('color_cabeza') == $color->id_color ? 'selected' : '' }}>
-                                            {{ $color->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="estilo_cabeza" class="form-label">Estilo</label>
-                                <select name="estilo_cabeza" id="estilo_cabeza" class="form-select">
-                                    <option value="">Todos</option>
-                                    @foreach($estilos as $estilo)
-                                        <option value="{{ $estilo->id_estilo }}" 
-                                            {{ request('estilo_cabeza') == $estilo->id_estilo ? 'selected' : '' }}>
-                                            {{ $estilo->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Filtros para Torso -->
-                        <div class="mb-4">
-                            <div class="filter-title">Torso</div>
-                            <div class="mb-3">
-                                <label for="color_torso" class="form-label">Color</label>
-                                <select name="color_torso" id="color_torso" class="form-select">
-                                    <option value="">Todos</option>
-                                    @foreach($colores as $color)
-                                        <option value="{{ $color->id_color }}" 
-                                            {{ request('color_torso') == $color->id_color ? 'selected' : '' }}>
-                                            {{ $color->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="estilo_torso" class="form-label">Estilo</label>
-                                <select name="estilo_torso" id="estilo_torso" class="form-select">
-                                    <option value="">Todos</option>
-                                    @foreach($estilos as $estilo)
-                                        <option value="{{ $estilo->id_estilo }}" 
-                                            {{ request('estilo_torso') == $estilo->id_estilo ? 'selected' : '' }}>
-                                            {{ $estilo->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Filtros para Piernas -->
-                        <div class="mb-4">
-                            <div class="filter-title">Piernas</div>
-                            <div class="mb-3">
-                                <label for="color_piernas" class="form-label">Color</label>
-                                <select name="color_piernas" id="color_piernas" class="form-select">
-                                    <option value="">Todos</option>
-                                    @foreach($colores as $color)
-                                        <option value="{{ $color->id_color }}" 
-                                            {{ request('color_piernas') == $color->id_color ? 'selected' : '' }}>
-                                            {{ $color->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="estilo_piernas" class="form-label">Estilo</label>
-                                <select name="estilo_piernas" id="estilo_piernas" class="form-select">
-                                    <option value="">Todos</option>
-                                    @foreach($estilos as $estilo)
-                                        <option value="{{ $estilo->id_estilo }}" 
-                                            {{ request('estilo_piernas') == $estilo->id_estilo ? 'selected' : '' }}>
-                                            {{ $estilo->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Filtros para Pies -->
-                        <div class="mb-4">
-                            <div class="filter-title">Pies</div>
-                            <div class="mb-3">
-                                <label for="color_pies" class="form-label">Color</label>
-                                <select name="color_pies" id="color_pies" class="form-select">
-                                    <option value="">Todos</option>
-                                    @foreach($colores as $color)
-                                        <option value="{{ $color->id_color }}" 
-                                            {{ request('color_pies') == $color->id_color ? 'selected' : '' }}>
-                                            {{ $color->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="estilo_pies" class="form-label">Estilo</label>
-                                <select name="estilo_pies" id="estilo_pies" class="form-select">
-                                    <option value="">Todos</option>
-                                    @foreach($estilos as $estilo)
-                                        <option value="{{ $estilo->id_estilo }}" 
-                                            {{ request('estilo_pies') == $estilo->id_estilo ? 'selected' : '' }}>
-                                            {{ $estilo->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="mt-4">
-                            <button type="submit" form="filterForm" class="btn btn-primary">Aplicar Filtros</button>
-                            <a href="{{ route('outfit.index') }}" class="btn btn-outline-secondary">Limpiar</a>
-                        </div>
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Aplicar Filtros</button>
+                        <a href="{{ route('outfit.index') }}" class="btn btn-outline-secondary">Limpiar</a>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
 
-        <form method="POST" action="{{ route('outfit.store') }}">
-            @csrf
-            <div class="mb-3">
-                <label for="nombre_outfit" class="form-label">Nombre del Outfit</label>
-                <input type="text" name="nombre" id="nombre_outfit" class="form-control" placeholder="Introduce un nombre para tu outfit" required>
-            </div>
+    {{-- FORMULARIO PARA CREAR OUTFIT --}}
+    <form method="POST" action="{{ route('outfit.store') }}" class="mt-5">
+        @csrf
+        <div class="mb-3">
+            <label for="nombre_outfit" class="form-label">Nombre del Outfit</label>
+            <input type="text" name="nombre" id="nombre_outfit" class="form-control" placeholder="Introduce un nombre para tu outfit" required>
+        </div>
 
-            <input type="hidden" name="prenda_cabeza" id="prenda_cabeza">
-            <input type="hidden" name="prenda_torso" id="prenda_torso">
-            <input type="hidden" name="prenda_piernas" id="prenda_piernas">
-            <input type="hidden" name="prenda_pies" id="prenda_pies">
+        <input type="hidden" name="prenda_cabeza" id="prenda_cabeza">
+        <input type="hidden" name="prenda_torso" id="prenda_torso">
+        <input type="hidden" name="prenda_piernas" id="prenda_piernas">
+        <input type="hidden" name="prenda_pies" id="prenda_pies">
 
-            <button type="submit" class="btn btn-success mt-4">Crear Outfit</button>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-success">Crear Outfit</button>
+    </form>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.carousel').forEach(carousel => {
-                const activeItem = carousel.querySelector('.carousel-item.active');
-                const prendaId = activeItem.getAttribute('data-prenda-id');
-                const inputId = 'prenda_' + carousel.id.replace('carousel', '').toLowerCase();
-                document.getElementById(inputId).value = prendaId;
-            });
-        });
-
-        // Script para capturar la prenda seleccionada en cada carrusel
+{{-- SCRIPTS PARA ACTUALIZAR INPUTS HIDDEN CON LOS CARRUSELES --}}
+<script>
+    function actualizarPrendaSeleccionada() {
         document.querySelectorAll('.carousel').forEach(carousel => {
-            carousel.addEventListener('slid.bs.carousel', function (event) {
-                const activeItem = event.target.querySelector('.carousel-item.active');
-                const prendaId = activeItem.getAttribute('data-prenda-id');
-                const inputId = 'prenda_' + event.target.id.replace('carousel', '').toLowerCase();
-                document.getElementById(inputId).value = prendaId;
+            const activeItem = carousel.querySelector('.carousel-item.active');
+            const prendaId = activeItem.dataset.prendaId;
+            const parte = carousel.id.replace('carousel', '').toLowerCase();
+            const input = document.getElementById('prenda_' + parte);
+            if (input) input.value = prendaId;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        actualizarPrendaSeleccionada();
+
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            carousel.addEventListener('slid.bs.carousel', () => {
+                actualizarPrendaSeleccionada();
             });
         });
+    });
+</script>
 
-        document.querySelector('form[action="{{ route('outfit.store') }}"]').addEventListener('submit', function (event) {
-            console.log('Prenda Cabeza:', document.getElementById('prenda_cabeza').value);
-            console.log('Prenda Torso:', document.getElementById('prenda_torso').value);
-            console.log('Prenda Piernas:', document.getElementById('prenda_piernas').value);
-            console.log('Prenda Pies:', document.getElementById('prenda_pies').value);
-        });
-    </script>
-    @include('layouts.footer')
-
+@include('layouts.footer')
 @endsection
