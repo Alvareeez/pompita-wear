@@ -15,6 +15,7 @@ use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
 use App\Http\Controllers\OutfitController2;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -100,3 +101,5 @@ Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calen
 Route::get('/outfits/create-from-calendar', [OutfitController2::class, 'createFromCalendar'])->name('outfits.createFromCalendar');
 Route::post('/outfits/store-from-calendar', [OutfitController2::class, 'storeFromCalendar'])->name('outfits.storeFromCalendar');
 Route::get('/outfits/replace', [OutfitController2::class, 'replaceOutfit'])->name('outfits.replace');
+Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

@@ -37,18 +37,10 @@
             @csrf
             <input type="hidden" name="fecha" value="{{ $fecha }}">
 
-            <label for="outfit_usuario" class="form-label">Seleccionar Outfit Creado por Ti</label>
+            <label for="outfit_usuario" class="form-label">Seleccionar Nuevo Outfit</label>
             <select class="form-select" id="outfit_usuario" name="outfit_usuario">
                 <option value="">Seleccionar</option>
                 @foreach($misOutfits as $outfit)
-                    <option value="{{ $outfit->id_outfit }}">{{ $outfit->nombre }}</option>
-                @endforeach
-            </select>
-
-            <label for="outfit_todos" class="form-label">Seleccionar de Todos los Outfits</label>
-            <select class="form-select" id="outfit_todos" name="outfit_todos">
-                <option value="">Seleccionar</option>
-                @foreach($todosOutfits as $outfit)
                     <option value="{{ $outfit->id_outfit }}">{{ $outfit->nombre }}</option>
                 @endforeach
             </select>

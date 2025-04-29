@@ -22,7 +22,31 @@
                     <a href="/"><img src="{{ asset('img/pompita-negro.png') }}" alt="Logo"></a>
                 </div>
             </div>
-
+            <div class="notifications">
+                <div class="notification-icon" id="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">{{ Auth::user()->unreadNotifications->count() }}</span>
+                </div>
+                <div class="notification-dropdown" id="notification-dropdown">
+                    <div class="notification-header">
+                        <form action="{{ route('notifications.markAllAsRead') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="mark-all-read">Marcar todo como leído</button>
+                        </form>
+                    </div>
+                    <ul>
+                        @foreach (Auth::user()->unreadNotifications as $notification)
+                            <li>
+                                {{ $notification->data['message'] }}
+                                <form action="{{ route('notifications.markAsRead', $notification->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <button type="submit" class="mark-as-read">Marcar como leída</button>
+                                </form>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
             <div class="user-section">
                 <div class="session-info">
                     <a href="/carro">
@@ -60,6 +84,43 @@
         @yield('content')
     </main>
 
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDropdown = document.getElementById('notification-dropdown');
+
+        if (notificationIcon && notificationDropdown) {
+            // Mostrar el menú al pasar el cursor por encima del ícono
+            notificationIcon.addEventListener('mouseover', function () {
+                notificationDropdown.classList.add('active');
+            });
+
+            // Mantener el menú visible mientras el cursor esté dentro del menú
+            notificationDropdown.addEventListener('mouseover', function () {
+                notificationDropdown.classList.add('active');
+            });
+
+            // Ocultar el menú cuando el cursor salga del ícono o del menú
+            notificationIcon.addEventListener('mouseout', function () {
+                setTimeout(() => {
+                    if (!notificationDropdown.matches(':hover')) {
+                        notificationDropdown.classList.remove('active');
+                    }
+                }, 200); // Retraso para evitar parpadeos
+            });
+
+            notificationDropdown.addEventListener('mouseout', function () {
+                setTimeout(() => {
+                    if (!notificationIcon.matches(':hover')) {
+                        notificationDropdown.classList.remove('active');
+                    }
+                }, 200); // Retraso para evitar parpadeos
+            });
+        }
+    });
+</script>
+@endsection
 
 </body>
 

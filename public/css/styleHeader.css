@@ -1,4 +1,4 @@
-    body {
+body {
         font-family: 'Ubuntu', sans-serif;
         margin: 0;
         padding: 0;
@@ -119,3 +119,60 @@
             margin-top: 70px;
         }
     }
+    .notifications {
+    position: relative;
+    display: inline-block;
+}
+
+.notification-icon {
+    cursor: pointer;
+    position: relative;
+}
+
+.notification-count {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+.notification-dropdown {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notification-dropdown.active {
+    display: block;
+}
+
+.notification-header {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: right;
+}
+
+.mark-all-read {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.mark-all-read:hover {
+    background: #0056b3;
+}
