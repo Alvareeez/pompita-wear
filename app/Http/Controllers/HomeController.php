@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\Prenda;
 use App\Models\Estilo;
 use App\Models\Outfit;
+use App\Models\Usuario;
+
 
 class HomeController extends Controller
 {
@@ -23,11 +25,12 @@ class HomeController extends Controller
             ->orderByDesc('likes_count')
             ->take(3)
             ->get();
-    
+
+        $usuariosRecientes = Usuario::take(6)->get();
         // Todos los estilos
         $estilos = Estilo::all();
     
-        return view('cliente.index', compact('prendasPopulares', 'outfitsPopulares', 'estilos'));
+        return view('cliente.index', compact('prendasPopulares', 'outfitsPopulares', 'estilos', 'usuariosRecientes'));
     }
     
 }
