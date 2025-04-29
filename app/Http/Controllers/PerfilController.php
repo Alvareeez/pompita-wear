@@ -56,4 +56,22 @@ class PerfilController extends Controller
 
         return redirect()->back()->with('success', 'Perfil actualizado correctamente.');
     }
+    public function deleteProfilePicture()
+    {
+        $user = Usuario::findOrFail(Auth::user()->id_usuario);
+
+        if ($user->foto_perfil) {
+            // Eliminar la imagen del almacenamiento
+            Storage::disk('public')->delete(str_replace('storage/', '', $user->foto_perfil));
+
+            // Establecer la imagen por defecto
+            $user->foto_perfil = null;
+            $user->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'default_image' => asset('img/default-profile.png')
+        ]);
+    }
 }

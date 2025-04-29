@@ -65,12 +65,32 @@
 
     <!-- Columna derecha -->
     <div class="content-column right-column">
-        <h2 class="section-title">Tendencias En Outfits 🔥</h2>
-        <div class="image-container">
-            <img src="{{ asset('img/sample4.jpg') }}" alt="Imagen grande 1" class="large-image">
-            <img src="{{ asset('img/sample5.jpg') }}" alt="Imagen grande 2" class="large-image">
-            <img src="{{ asset('img/sample6.jpg') }}" alt="Imagen grande 3" class="large-image">
-        </div>
+    <h2 class="section-title">Tendencias En Outfits 🔥</h2>
+
+    @foreach($outfitsPopulares as $outfit)
+        <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
+            <div class="outfit-card">
+                <div class="prenda-column">
+                    <p>{{ $outfit->nombre }}</p>
+                    @foreach($outfit->prendas->sortBy('tipo.id_tipoPrenda') as $prenda)
+                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                             alt="{{ $prenda->nombre }}"
+                             class="vertical-image">
+                    @endforeach
+                </div>
+                <!-- Contenedor para el nombre del creador del outfit -->
+                <div class="outfit-creator-container">
+                    <p class="outfit-creator">Por: {{ $outfit->usuario->nombre }}</p>
+                </div>
+                <div class="likes-footer">
+                    ❤️ {{ $outfit->likes_count }}
+                </div>
+            </div>
+        </a>
+    @endforeach
+</div>
+
+
     </div>
 </div>
     </div>
