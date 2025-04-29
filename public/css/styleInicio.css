@@ -157,6 +157,150 @@ body {
     font-weight: bold;
 }
 
+
+/* Tendencias en outfits - Sin scroll */
+
+.outfits-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* Centramos los outfits */
+    gap: 30px;
+    /* Espacio entre tarjetas */
+}
+
+.outfit-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: auto;
+    flex: 0 0 calc(30% - 10px);
+    /* Hasta 3 por fila */
+    max-width: calc(30% - 10px);
+}
+
+
+/* Cada tarjeta de outfit */
+
+.outfit-card {
+    width: 100%;
+    min-width: 120px;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    background-color: white;
+    border-radius: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.outfit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Columna de prendas dentro del outfit - vertical */
+
+.prenda-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+
+/* Imágenes verticales dentro del outfit */
+
+.vertical-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.vertical-image:hover {
+    transform: scale(1.1);
+}
+
+.outfit-creator-container {
+    text-align: center;
+    margin: 10px 0 5px;
+}
+
+.outfit-creator {
+    font-size: 12px;
+    color: #666;
+}
+
+.likes-footer {
+    text-align: right;
+    font-size: 14px;
+    color: #e63946;
+    font-weight: bold;
+}
+
+
+/* === Estilos Carrusel 3D Usuarios === */
+
+
+/* Carrusel 3D Usuarios */
+
+.carousel-container-3d {
+    padding: 40px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.carousel-3d {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    perspective: 1000px;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.carousel-3d .item-3d {
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: transform 1s ease-in-out;
+    opacity: 0.6;
+    cursor: pointer;
+    text-align: center;
+}
+
+.carousel-3d .item-3d img.profile-img-3d {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-3d .item-3d .profile-name-3d {
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.carousel-3d .item-3d.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+
 /* Responsividad */
 
 @media (max-width: 780px) {
