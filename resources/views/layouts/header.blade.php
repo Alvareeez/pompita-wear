@@ -49,9 +49,6 @@
             </div>
             <div class="user-section">
                 <div class="session-info">
-                    <a href="/carro">
-                        Carro
-                    </a>
                     @auth
                     @if(auth()->user()->rol->nombre === 'admin') 
                         <a href="/admin/usuarios">Panel Admin</a>
