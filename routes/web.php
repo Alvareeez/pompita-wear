@@ -10,6 +10,7 @@ use App\Http\Controllers\OutfitController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
+use App\Http\Controllers\SeguimientoController;
 
 
 use App\Http\Controllers\Admin\EstiloController;
@@ -95,6 +96,13 @@ Route::middleware(['auth'])->group(
         Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
             ->name('perfil.delete-picture')
             ->middleware('auth');
+        Route::middleware('auth')->group(function () {
+            Route::post('/seguimiento/enviar/{idSeguido}', [SeguimientoController::class, 'enviarSolicitud'])->name('seguimiento.enviar');
+            Route::post('/seguimiento/aceptar/{idSeguimiento}', [SeguimientoController::class, 'aceptarSolicitud'])->name('seguimiento.aceptar');
+            Route::post('/seguimiento/rechazar/{idSeguimiento}', [SeguimientoController::class, 'rechazarSolicitud'])->name('seguimiento.rechazar');
+            Route::get('/seguidores', [SeguimientoController::class, 'listarSeguidores'])->name('seguidores.listar');
+            Route::get('/seguidos', [SeguimientoController::class, 'listarSeguidos'])->name('seguidos.listar');
+        });
     }
 );
 

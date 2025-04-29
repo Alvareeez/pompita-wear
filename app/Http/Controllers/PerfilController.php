@@ -13,10 +13,17 @@ class PerfilController extends Controller
     public function show()
     {
         $user = Auth::user();
+
+        // Contar seguidores (usuarios que siguen al usuario actual)
+        $numeroSeguidores = $user->seguidores()->where('estado', 'aceptado')->count();
+
+        // Contar seguidos (usuarios que el usuario actual sigue)
+        $numeroSeguidos = $user->seguidos()->where('estado', 'aceptado')->count();
+
         $outfitsPublicados = $user->outfits;
         $favorites = $user->favoritosPrendas;
 
-        return view('perfil', compact('user', 'outfitsPublicados', 'favorites'));
+        return view('perfil', compact('user', 'numeroSeguidores', 'numeroSeguidos', 'outfitsPublicados', 'favorites'));
     }
 
     public function update(Request $request)
@@ -25,14 +32,12 @@ class PerfilController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'email' => 'required|email|unique:usuarios,email,' . $user->id_usuario . ',id_usuario',
             'password' => 'nullable|confirmed|min:8',
             'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Actualizar datos básicos
         $user->nombre = $request->nombre;
-        $user->email = $request->email;
 
         // Actualizar contraseña si se proporcionó
         if ($request->password) {

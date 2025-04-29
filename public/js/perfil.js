@@ -33,11 +33,12 @@ function showImageSourceSelector(e) {
     }, 100);
 }
 function deleteProfilePicture() {
-    const deleteUrl = window.deleteProfilePictureUrl ||
-        document.querySelector('.profile-picture-container')?.dataset.deleteUrl;
-    const defaultImage = window.defaultProfileImage ||
-        document.querySelector('.profile-picture-container')?.dataset.defaultImage;
+    console.log('URL:', window.deleteProfilePictureUrl); // Verifica en consola
 
+    if (!window.deleteProfilePictureUrl) {
+        console.error('La URL para eliminar la foto no está definida');
+        return;
+    }
     Swal.fire({
         title: '¿Estás seguro?',
         text: "Esta acción eliminará tu foto de perfil actual.",
