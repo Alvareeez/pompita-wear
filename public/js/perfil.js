@@ -3,12 +3,14 @@ function showImageSourceSelector(e) {
     e.preventDefault();
     Swal.fire({
         title: 'Cambiar foto de perfil',
-        text: '¿Cómo quieres cambiar tu foto de perfil?',
+        text: '¿Qué acción deseas realizar?',
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: 'Subir desde dispositivo',
         denyButtonText: 'Tomar una foto',
         cancelButtonText: 'Cancelar',
+        showCloseButton: true,
+        footer: '{{ $user->foto_perfil ? "<button class=\'btn btn-danger\' id=\'swal-delete-button\'>Eliminar foto actual</button>" : "" }}',
         icon: 'question'
     }).then((result) => {
         if (result.isConfirmed) {
@@ -17,8 +19,69 @@ function showImageSourceSelector(e) {
             openCamera();
         }
     });
-}
 
+    // Agregar evento al botón de eliminar dentro del SweetAlert
+    setTimeout(() => {
+        const deleteButton = document.getElementById('swal-delete-button');
+        if (deleteButton) {
+            deleteButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                Swal.close();
+                deleteProfilePicture();
+            });
+        }
+    }, 100);
+}
+function deleteProfilePicture() {
+    const deleteUrl = window.deleteProfilePictureUrl ||
+        document.querySelector('.profile-picture-container')?.dataset.deleteUrl;
+    const defaultImage = window.defaultProfileImage ||
+        document.querySelector('.profile-picture-container')?.dataset.defaultImage;
+
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción eliminará tu foto de perfil actual.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(deleteUrl, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const profileImg = document.getElementById('profile-picture');
+                        if (profileImg) {
+                            profileImg.src = defaultImage;
+                            profileImg.style.width = '100%';
+                            profileImg.style.height = 'auto';
+                        }
+
+                        Swal.fire({
+                            title: '¡Eliminada!',
+                            text: 'Tu foto de perfil ha sido eliminada.',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('Error', 'Ocurrió un error al eliminar la foto.', 'error');
+                });
+        }
+    });
+}
 // Función para abrir la cámara
 function openCamera() {
     Swal.fire({
