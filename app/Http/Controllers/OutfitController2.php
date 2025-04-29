@@ -15,12 +15,8 @@ class OutfitController2 extends Controller
     {
         $userId = Auth::id();
 
-        // Obtener todos los outfits o solo los del usuario
-        $outfits = Outfit::query()
-            ->when($request->query('filter') === 'mine', function ($query) use ($userId) {
-                $query->where('id_usuario', $userId);
-            })
-            ->get();
+        // Obtener los outfits del usuario autenticado
+        $outfits = Outfit::where('id_usuario', $userId)->get();
 
         // Formatear los datos para FullCalendar
         $events = $outfits->map(function ($outfit) {
@@ -45,7 +41,7 @@ class OutfitController2 extends Controller
         // Obtener outfits creados por el usuario
         $misOutfits = Outfit::where('id_usuario', $userId)->get();
 
-        // Obtener todos los outfits
+        // Obtener todos los outfits (si es necesario mostrar todos los outfits disponibles)
         $todosOutfits = Outfit::all();
 
         return view('outfit.create_from_calendar', compact('fecha', 'misOutfits', 'todosOutfits'));
@@ -60,18 +56,24 @@ class OutfitController2 extends Controller
         $request->validate([
             'fecha' => 'required|date',
             'outfit_usuario' => 'nullable|exists:outfits,id_outfit',
-            'outfit_todos' => 'nullable|exists:outfits,id_outfit',
         ]);
 
         // Determinar qué outfit se seleccionó
-        $outfitId = $request->outfit_usuario ?? $request->outfit_todos;
+        $outfitId = $request->outfit_usuario;
 
         if (!$outfitId) {
             return redirect()->back()->withErrors(['error' => 'Debes seleccionar un outfit.']);
         }
 
-        // Buscar el outfit existente en la fecha seleccionada
-        $existingOutfit = Outfit::where('fecha', $request->fecha)->first();
+        // Verificar que el outfit pertenece al usuario autenticado
+        $outfit = Outfit::where('id_outfit', $outfitId)
+            ->where('id_usuario', Auth::id())
+            ->firstOrFail();
+
+        // Verificar si ya existe un outfit en la fecha seleccionada
+        $existingOutfit = Outfit::where('fecha', $request->fecha)
+            ->where('id_usuario', Auth::id())
+            ->first();
 
         if ($existingOutfit) {
             // Eliminar la fecha del outfit existente
@@ -80,11 +82,10 @@ class OutfitController2 extends Controller
         }
 
         // Asignar la fecha al nuevo outfit
-        $outfit = Outfit::findOrFail($outfitId);
         $outfit->fecha = $request->fecha;
         $outfit->save();
 
-        return redirect()->route('calendario')->with('success', 'Outfit sustituido exitosamente.');
+        return redirect()->route('calendario')->with('success', 'Outfit añadido al calendario exitosamente.');
     }
 
     public function deleteOutfit(Request $request)
@@ -95,7 +96,9 @@ class OutfitController2 extends Controller
         ]);
 
         // Buscar el outfit asignado a la fecha
-        $outfit = Outfit::where('fecha', $request->fecha)->first();
+        $outfit = Outfit::where('fecha', $request->fecha)
+            ->where('id_usuario', Auth::id())
+            ->first();
 
         if (!$outfit) {
             return redirect()->route('calendario')->withErrors(['error' => 'No hay ningún outfit asignado para esta fecha.']);
@@ -119,11 +122,13 @@ class OutfitController2 extends Controller
         // Obtener outfits creados por el usuario
         $misOutfits = Outfit::where('id_usuario', $userId)->get();
 
-        // Obtener todos los outfits
+        // Obtener todos los outfits (si es necesario mostrar todos los outfits disponibles)
         $todosOutfits = Outfit::all();
 
         // Buscar el outfit existente en la fecha seleccionada
-        $existingOutfit = Outfit::where('fecha', $fecha)->first();
+        $existingOutfit = Outfit::where('fecha', $fecha)
+            ->where('id_usuario', $userId)
+            ->first();
 
         return view('outfit.replace_outfit', compact('fecha', 'misOutfits', 'todosOutfits', 'existingOutfit'));
     }
