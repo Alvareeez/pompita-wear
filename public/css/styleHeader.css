@@ -141,7 +141,7 @@ body {
 }
 
 .notification-dropdown {
-    display: none;
+    /* display: none; */
     position: absolute;
     top: 40px;
     right: 0;
