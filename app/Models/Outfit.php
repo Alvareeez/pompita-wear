@@ -15,7 +15,7 @@ class Outfit extends Model
 
     protected $fillable = [
         'id_usuario',
-        'nombre', // Añadir el campo nombre
+        'nombre',
         'likes'
     ];
 
@@ -42,5 +42,10 @@ class Outfit extends Model
     public function valoraciones()
     {
         return $this->hasMany(ValoracionOutfit::class, 'id_outfit');
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(LikeOutfit::class, 'id_outfit');
     }
 }
