@@ -39,7 +39,7 @@
 
                     <!-- Email -->
                     <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" class="form-control my-3"
+                    <input disabled type="email" name="email" id="email" class="form-control my-3"
                         placeholder="Introducir correo electrónico" value="{{ old('email', $user->email ?? '') }}">
 
                     <!-- Contraseña -->
@@ -61,83 +61,57 @@
                     </div>
                 </form>
             </div>
+
             <div class="col-md-6">
                 <h2>Mi Perfil</h2>
 
-                <!-- Slider de Outfits -->
-                <div class="outfit-slider">
+                <!-- Outfits publicados -->
+                <div class="outfits-published">
                     <h4>Outfits publicados</h4>
                     @if ($outfitsPublicados->count() > 0)
-                        <div id="outfitsCarousel" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach ($outfitsPublicados->chunk(3) as $key => $chunk)
-                                    <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                                        <div class="row">
-                                            @foreach ($chunk as $outfit)
-                                                <div class="col-md-4">
-                                                    <div class="carousel-card">
-                                                        <img src="{{ asset($outfit->image_path) }}"
-                                                            alt="{{ $outfit->name }}" class="img-fluid">
-                                                    </div>
-                                                </div>
+                        <div class="outfits-container">
+                            @foreach ($outfitsPublicados as $outfit)
+                                <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
+                                    <div class="outfit-card mb-4">
+                                        <div class="prenda-column">
+                                            <p>{{ $outfit->nombre }}</p>
+                                            @foreach($outfit->prendas->sortBy('tipo.id_tipoPrenda') as $prenda)
+                                                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                                                     alt="{{ $prenda->nombre }}"
+                                                     class="vertical-image">
                                             @endforeach
                                         </div>
+
                                     </div>
-                                @endforeach
-                            </div>
-                            @if ($outfitsPublicados->count() > 3)
-                                <button class="carousel-control-prev" type="button" data-bs-target="#outfitsCarousel"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#outfitsCarousel"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            @endif
+                                </a>
+                            @endforeach
                         </div>
                     @else
                         <div class="alert alert-info">No tienes outfits publicados aún.</div>
                     @endif
                 </div>
 
-                <!-- Slider de Favoritos -->
-                <div class="favorites-slider">
+                <!-- Prendas favoritas -->
+                <div class="favorites-slider mt-4">
                     <h4>Prendas favoritas</h4>
                     @if ($favorites->count() > 0)
-                        <div id="favoritesCarousel" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach ($favorites->chunk(3) as $key => $chunk)
-                                    <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                                        <div class="row">
-                                            @foreach ($chunk as $favorite)
-                                                <div class="col-md-4">
-                                                    <div class="carousel-card">
-                                                        <a href="{{ route('prendas.show', $favorite->id_prenda) }}">
-                                                            <img src="{{ asset('img/prendas/' . $favorite->img_frontal) }}"
-                                                                alt="{{ $favorite->nombre }}" class="img-fluid">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            @endforeach
+                        <div class="row">
+                            @foreach ($favorites as $favorite)
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <a href="{{ route('prendas.show', $favorite->id_prenda) }}">
+                                            <img src="{{ asset('img/prendas/' . $favorite->img_frontal) }}"
+                                                 alt="{{ $favorite->nombre }}" class="card-img-top">
+                                        </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $favorite->nombre }}</h5>
+                                            <p class="card-text">Tipo: {{ $favorite->tipo->nombre }}</p>
+                                            <a href="{{ route('prendas.show', $favorite->id_prenda) }}" class="btn btn-primary">Ver
+                                                detalles</a>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
-                            @if ($favorites->count() > 3)
-                                <button class="carousel-control-prev" type="button" data-bs-target="#favoritesCarousel"
-                                    data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#favoritesCarousel"
-                                    data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            @endif
+                                </div>
+                            @endforeach
                         </div>
                     @else
                         <div class="alert alert-info">No tienes prendas favoritas aún.</div>
@@ -146,6 +120,7 @@
             </div>
         </div>
     </div>
+
     <script>
         const deleteProfilePictureUrl = "{{ route('perfil.delete-picture') }}";
         const defaultProfileImage = "{{ asset('img/default-profile.png') }}";
