@@ -164,6 +164,74 @@ body {
     font-weight: bold;
 }
 
+
+.outfit-card {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 10px;
+    width: 200px;
+}
+
+.prenda-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.vertical-image {
+    width: 60px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+
+.likes-footer {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #e63946;
+    font-weight: bold;
+}
+
+.outfit-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.outfit-card {
+    transition: transform 0.2s;
+}
+
+.outfit-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.outfit-creator {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.outfit-creator-container {
+    text-align: center; /* Centra el texto */
+    margin-top: 10px; /* Espacio encima */
+}
+
+.outfit-creator {
+    text-decoration: none; /* Elimina subrayado si lo hay */
+    font-weight: normal; /* Ajusta el peso de la fuente si es necesario */
+    font-size: 14px; /* Ajusta el tamaño de la fuente */
+    color: inherit; /* Hereda el color del texto o el de su contenedor */
+}
+
 /* Responsividad */
 @media (max-width: 780px) {
     .carousel-container {
