@@ -147,8 +147,8 @@
         </div>
     </div>
     <script>
-        const deleteProfilePictureUrl = "{{ route('perfil.delete-picture') }}";
-        const defaultProfileImage = "{{ asset('img/default-profile.png') }}";
+        window.deleteProfilePictureUrl = "{{ route('perfil.delete-picture') }}"; // Corregido
+        window.defaultProfileImage = "{{ asset('img/default-profile.png') }}";
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/perfil.js') }}"></script>
