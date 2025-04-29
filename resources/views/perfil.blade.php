@@ -12,30 +12,18 @@
     <div class="container-fluid mt-4">
         <div class="row">
             <div class="col-md-6">
-                <h2>Editar Perfil</h2>
                 <div class="container">
                     <h2>Seguidores</h2>
-                    @if ($seguidores->count() > 0)
-                        <ul>
-                            @foreach ($seguidores as $seguidor)
-                                <li>{{ $seguidor->seguidor->nombre }}</li>
-                            @endforeach
-                        </ul>
-                    @else
-                        <p>No tienes seguidores aún.</p>
-                    @endif
+                    <div class="container">
+                        <h2>Seguidores</h2>
+                        <p>Tienes {{ $numeroSeguidores }} seguidores.</p>
+                    </div>
                 </div>
                 <div class="container">
-                    <h2>Seguidos</h2>
-                    @if ($seguidos->count() > 0)
-                        <ul>
-                            @foreach ($seguidos as $seguido)
-                                <li>{{ $seguido->seguido->nombre }}</li>
-                            @endforeach
-                        </ul>
-                    @else
-                        <p>No sigues a nadie aún.</p>
-                    @endif
+                    <div class="container">
+                        <h2>Seguidos</h2>
+                        <p>Sigues a {{ $numeroSeguidos }} usuarios.</p>
+                    </div>
                 </div>
                 <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf

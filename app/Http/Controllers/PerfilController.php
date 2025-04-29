@@ -14,20 +14,16 @@ class PerfilController extends Controller
     {
         $user = Auth::user();
 
-        // Obtener seguidores (usuarios que siguen al usuario actual)
-        $seguidores = $user->seguidores()
-            ->wherePivot('estado', 'aceptado')
-            ->get();
+        // Contar seguidores (usuarios que siguen al usuario actual)
+        $numeroSeguidores = $user->seguidores()->where('estado', 'aceptado')->count();
 
-        // Obtener seguidos (usuarios que el usuario actual sigue)
-        $seguidos = $user->seguidos()
-            ->wherePivot('estado', 'aceptado')
-            ->get();
+        // Contar seguidos (usuarios que el usuario actual sigue)
+        $numeroSeguidos = $user->seguidos()->where('estado', 'aceptado')->count();
 
         $outfitsPublicados = $user->outfits;
         $favorites = $user->favoritosPrendas;
 
-        return view('perfil', compact('user', 'seguidores', 'seguidos', 'outfitsPublicados', 'favorites'));
+        return view('perfil', compact('user', 'numeroSeguidores', 'numeroSeguidos', 'outfitsPublicados', 'favorites'));
     }
 
     public function update(Request $request)
