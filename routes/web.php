@@ -47,7 +47,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
     Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
     Route::post('/ropa/pdf', [RopaController::class, 'descargarPDF'])->name('admin.ropa.pdf');
-    
+
 
     Route::get('/estilos', [EstiloController::class, 'index'])->name('admin.estilos.index');
     Route::get('/estilos/create', [EstiloController::class, 'create'])->name('admin.estilos.create');
@@ -78,8 +78,8 @@ Route::middleware(['auth'])->group(
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
         Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
         Route::post('/prendas/{id}/comentarios', [PrendaController::class, 'storeComment'])->name('prendas.storeComment');
-        Route::post('/comentarios/{id}/like', [PrendaController::class, 'toggleCommentLike'])    ->name('comentarios.toggleLike');
-        Route::get('/prendas/{prenda}/favorito', [PrendaController::class, 'toggleFavorite'])  ->name('prendas.toggleFavorite');
+        Route::post('/comentarios/{id}/like', [PrendaController::class, 'toggleCommentLike'])->name('comentarios.toggleLike');
+        Route::get('/prendas/{prenda}/favorito', [PrendaController::class, 'toggleFavorite'])->name('prendas.toggleFavorite');
         Route::post('/prendas/{prenda}/like', [PrendaController::class, 'toggleLike'])->name('prendas.like');
         Route::post('/prendas/{id}/valoraciones', [PrendaController::class, 'storeValoracion'])->name('prendas.storeValoracion');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
@@ -89,13 +89,16 @@ Route::middleware(['auth'])->group(
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
 
+        Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
+        Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+        Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
+            ->name('perfil.delete-picture')
+            ->middleware('auth');
     }
 );
 
 
 
-Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
-Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
 Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
 Route::get('/outfits/create-from-calendar', [OutfitController2::class, 'createFromCalendar'])->name('outfits.createFromCalendar');
 Route::post('/outfits/store-from-calendar', [OutfitController2::class, 'storeFromCalendar'])->name('outfits.storeFromCalendar');
