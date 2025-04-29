@@ -13,6 +13,30 @@
         <div class="row">
             <div class="col-md-6">
                 <h2>Editar Perfil</h2>
+                <div class="container">
+                    <h2>Seguidores</h2>
+                    @if ($seguidores->count() > 0)
+                        <ul>
+                            @foreach ($seguidores as $seguidor)
+                                <li>{{ $seguidor->seguidor->nombre }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>No tienes seguidores aún.</p>
+                    @endif
+                </div>
+                <div class="container">
+                    <h2>Seguidos</h2>
+                    @if ($seguidos->count() > 0)
+                        <ul>
+                            @foreach ($seguidos as $seguido)
+                                <li>{{ $seguido->seguido->nombre }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p>No sigues a nadie aún.</p>
+                    @endif
+                </div>
                 <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -75,10 +99,9 @@
                                     <div class="outfit-card mb-4">
                                         <div class="prenda-column">
                                             <p>{{ $outfit->nombre }}</p>
-                                            @foreach($outfit->prendas->sortBy('tipo.id_tipoPrenda') as $prenda)
+                                            @foreach ($outfit->prendas->sortBy('tipo.id_tipoPrenda') as $prenda)
                                                 <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
-                                                     alt="{{ $prenda->nombre }}"
-                                                     class="vertical-image">
+                                                    alt="{{ $prenda->nombre }}" class="vertical-image">
                                             @endforeach
                                         </div>
 
@@ -101,12 +124,13 @@
                                     <div class="card mb-4">
                                         <a href="{{ route('prendas.show', $favorite->id_prenda) }}">
                                             <img src="{{ asset('img/prendas/' . $favorite->img_frontal) }}"
-                                                 alt="{{ $favorite->nombre }}" class="card-img-top">
+                                                alt="{{ $favorite->nombre }}" class="card-img-top">
                                         </a>
                                         <div class="card-body">
                                             <h5 class="card-title">{{ $favorite->nombre }}</h5>
                                             <p class="card-text">Tipo: {{ $favorite->tipo->nombre }}</p>
-                                            <a href="{{ route('prendas.show', $favorite->id_prenda) }}" class="btn btn-primary">Ver
+                                            <a href="{{ route('prendas.show', $favorite->id_prenda) }}"
+                                                class="btn btn-primary">Ver
                                                 detalles</a>
                                         </div>
                                     </div>
