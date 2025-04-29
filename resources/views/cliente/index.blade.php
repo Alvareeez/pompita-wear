@@ -160,6 +160,8 @@
             @endforeach
         </div>
         
+<<<<<<< HEAD
+=======
     </div>
 
     <!-- Sección de usuarios - Carrusel 3D (ahora debajo de todo) -->
@@ -175,6 +177,7 @@
                 </div>
             @endforeach
         </div>
+>>>>>>> dfc07ec410b34200a057650c20109ceaf22f6fbb
     </div>
 
 </div>

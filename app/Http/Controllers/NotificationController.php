@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    /**
-     * Marca una notificación como leída.
-     */
     public function markAsRead($id)
     {
         $notification = Auth::user()->notifications()->find($id);
@@ -20,9 +17,6 @@ class NotificationController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Marca todas las notificaciones como leídas.
-     */
     public function markAllAsRead()
     {
         Auth::user()->unreadNotifications->markAsRead();

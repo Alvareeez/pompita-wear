@@ -36,7 +36,7 @@
                     </div>
                     <ul>
                         @foreach (Auth::user()->unreadNotifications as $notification)
-                            <li>
+                            <li class="notification-item unread">
                                 {{ $notification->data['message'] }}
                                 <form action="{{ route('notifications.markAsRead', $notification->id) }}" method="POST" style="display: inline;">
                                     @csrf
@@ -49,6 +49,9 @@
             </div>
             <div class="user-section">
                 <div class="session-info">
+                    <a href="/carro">
+                        Carro
+                    </a>
                     @auth
                     @if(auth()->user()->rol->nombre === 'admin') 
                         <a href="/admin/usuarios">Panel Admin</a>
@@ -81,29 +84,44 @@
         @yield('content')
     </main>
 
-@section('scripts')
+    @section('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const notificationIcon = document.getElementById('notification-icon');
         const notificationDropdown = document.getElementById('notification-dropdown');
 
         if (notificationIcon && notificationDropdown) {
-            // Alternar la visibilidad del menú al hacer clic en el ícono
-            notificationIcon.addEventListener('click', function () {
-                notificationDropdown.classList.toggle('active');
+            // Mostrar el menú al pasar el cursor por encima del ícono
+            notificationIcon.addEventListener('mouseenter', function () {
+                notificationDropdown.classList.add('active');
             });
 
-            // Cerrar el menú si se hace clic fuera de él
-            document.addEventListener('click', function (event) {
-                if (!notificationIcon.contains(event.target) && !notificationDropdown.contains(event.target)) {
-                    notificationDropdown.classList.remove('active');
-                }
+            // Mantener el menú visible mientras el cursor esté dentro del menú
+            notificationDropdown.addEventListener('mouseenter', function () {
+                notificationDropdown.classList.add('active');
+            });
+
+            // Ocultar el menú cuando el cursor salga del ícono
+            notificationIcon.addEventListener('mouseleave', function () {
+                setTimeout(() => {
+                    if (!notificationDropdown.matches(':hover')) {
+                        notificationDropdown.classList.remove('active');
+                    }
+                }, 200); // Retraso para evitar parpadeos
+            });
+
+            // Ocultar el menú cuando el cursor salga del menú
+            notificationDropdown.addEventListener('mouseleave', function () {
+                setTimeout(() => {
+                    if (!notificationIcon.matches(':hover')) {
+                        notificationDropdown.classList.remove('active');
+                    }
+                }, 200); // Retraso para evitar parpadeos
             });
         }
     });
 </script>
 @endsection
-
 </body>
 
 </html>
