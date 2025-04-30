@@ -270,6 +270,10 @@ body {
     overflow: visible;
 }
 
+.carousel-3d a {
+    text-decoration: none;
+}
+
 .carousel-3d .item-3d {
     position: absolute;
     transform-origin: 0 50%;

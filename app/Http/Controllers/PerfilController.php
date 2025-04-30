@@ -30,6 +30,13 @@ class PerfilController extends Controller
 
         return view('perfil', compact('user', 'numeroSeguidores', 'numeroSeguidos', 'outfitsPublicados', 'favorites'));
     }
+    public function showPublicProfile($id)
+{
+    // Buscamos al usuario por su ID
+    $user = Usuario::with(['outfits'])->findOrFail($id);
+
+    return view('cliente.perfil_publico', compact('user'));
+}
 
     public function update(Request $request)
     {
