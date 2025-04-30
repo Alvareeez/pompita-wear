@@ -25,45 +25,45 @@
         <div class="form-container">
             <h2>Editar Usuario</h2>
             @if($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="{{ route('admin.usuarios.update', $usuario->id_usuario) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="form-group">
-                    <label for="nombre">Nombre Completo</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ old('nombre', $usuario->nombre) }}" placeholder="Nombre Completo" >
+                <div class="form__group field">
+                    <input type="text" class="form__field" placeholder="Nombre Completo" name="nombre" id="nombre" value="{{ old('nombre', $usuario->nombre) }}"  />
+                    <label for="nombre" class="form__label">Nombre Completo</label>
                 </div>
-                <div class="form-group">
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" value="{{ old('email', $usuario->email) }}" placeholder="Correo Electrónico" >
+                <div class="form__group field">
+                    <input type="email" class="form__field" placeholder="Correo Electrónico" name="email" id="email" value="{{ old('email', $usuario->email) }}"  />
+                    <label for="email" class="form__label">Correo Electrónico</label>
                 </div>
-                <div class="form-group">
-                    <label for="id_rol">Rol</label>
-                    <select id="id_rol" name="id_rol" >
+                <div class="form__group field">
+                    <select class="form__field" name="id_rol" id="id_rol" >
+                        <option value="" disabled>Selecciona un rol</option>
                         @foreach ($roles as $rol)
                             <option value="{{ $rol->id_rol }}" {{ old('id_rol', $usuario->id_rol) == $rol->id_rol ? 'selected' : '' }}>
                                 {{ $rol->nombre }}
                             </option>
                         @endforeach
                     </select>
+                    <label for="id_rol" class="form__label">Rol</label>
                 </div>
-                <div class="form-group">
-                    <label for="password">Nueva Contraseña (opcional)</label>
-                    <input type="password" id="password" name="password" placeholder="Nueva Contraseña">
+                <div class="form__group field">
+                    <input type="password" class="form__field" placeholder="Nueva Contraseña (opcional)" name="password" id="password" />
+                    <label for="password" class="form__label">Nueva Contraseña</label>
                 </div>
-                <div class="form-group">
-                    <label for="password_confirmation">Repetir Contraseña</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Repetir Contraseña">
+                <div class="form__group field">
+                    <input type="password" class="form__field" placeholder="Repetir Contraseña" name="password_confirmation" id="password_confirmation" />
+                    <label for="password_confirmation" class="form__label">Repetir Contraseña</label>
                 </div>
-                <button type="submit">Actualizar Usuario</button>
+                <button type="submit" class="create-btn"><span>Actualizar Usuario</span></button>
             </form>
         </div>
     </main>
