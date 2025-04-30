@@ -38,7 +38,8 @@
                         @foreach (Auth::user()->unreadNotifications as $notification)
                             <li>
                                 {{ $notification->data['message'] }}
-                                <form action="{{ route('notifications.markAsRead', $notification->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('notifications.markAsRead', $notification->id) }}" method="POST"
+                                    style="display: inline;">
                                     @csrf
                                     <button type="submit" class="mark-as-read">Marcar como leída</button>
                                 </form>
@@ -50,24 +51,25 @@
             <div class="user-section">
                 <div class="session-info">
                     @auth
-                    @if(auth()->user()->rol->nombre === 'admin') 
-                        <a href="/admin/usuarios">Panel Admin</a>
-                    @endif
-            
-                    <!-- Botón Cerrar Sesión -->
-                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="logout-button">
-                            Cerrar sesión
-                        </button>
-                    </form>
+                        @if (auth()->user()->rol->nombre === 'admin')
+                            <a href="/admin/usuarios">Panel Admin</a>
+                        @endif
+
+                        <!-- Botón Cerrar Sesión -->
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="logout-button">
+                                Cerrar sesión
+                            </button>
+                        </form>
                     @endauth
                 </div>
-            
+
                 <div class="user-avatar">
                     <a href="/perfil">
                         @if (Auth::check() && Auth::user()->foto_perfil)
-                            <img src="{{ Auth::user()->foto_perfil ? asset(Auth::user()->foto_perfil) : asset('img/default-profile.png') }}" alt="Foto perfil" class="profile-photo">
+                            <img src="{{ Auth::user()->foto_perfil ? asset(Auth::user()->foto_perfil) : asset('img/default-profile.png') }}"
+                                alt="Foto perfil" class="profile-photo">
                         @else
                             <img src="{{ asset('img/default-profile.png') }}" alt="Foto perfil" class="profile-photo">
                         @endif
@@ -81,28 +83,29 @@
         @yield('content')
     </main>
 
-@section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const notificationIcon = document.getElementById('notification-icon');
-        const notificationDropdown = document.getElementById('notification-dropdown');
+    @section('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const notificationIcon = document.getElementById('notification-icon');
+                const notificationDropdown = document.getElementById('notification-dropdown');
 
-        if (notificationIcon && notificationDropdown) {
-            // Alternar la visibilidad del menú al hacer clic en el ícono
-            notificationIcon.addEventListener('click', function () {
-                notificationDropdown.classList.toggle('active');
-            });
+                if (notificationIcon && notificationDropdown) {
+                    // Alternar la visibilidad del menú al hacer clic en el ícono
+                    notificationIcon.addEventListener('click', function() {
+                        notificationDropdown.classList.toggle('active');
+                    });
 
-            // Cerrar el menú si se hace clic fuera de él
-            document.addEventListener('click', function (event) {
-                if (!notificationIcon.contains(event.target) && !notificationDropdown.contains(event.target)) {
-                    notificationDropdown.classList.remove('active');
+                    // Cerrar el menú si se hace clic fuera de él
+                    document.addEventListener('click', function(event) {
+                        if (!notificationIcon.contains(event.target) && !notificationDropdown.contains(event
+                                .target)) {
+                            notificationDropdown.classList.remove('active');
+                        }
+                    });
                 }
             });
-        }
-    });
-</script>
-@endsection
+        </script>
+    @endsection
 
 </body>
 

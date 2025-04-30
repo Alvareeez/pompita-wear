@@ -11,6 +11,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\SeguimientoController;
+use Illuminate\Support\Facades\Auth;
 
 
 use App\Http\Controllers\Admin\EstiloController;
@@ -96,13 +97,26 @@ Route::middleware(['auth'])->group(
         Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
             ->name('perfil.delete-picture')
             ->middleware('auth');
-        Route::middleware('auth')->group(function () {
-            Route::post('/seguimiento/enviar/{idSeguido}', [SeguimientoController::class, 'enviarSolicitud'])->name('seguimiento.enviar');
-            Route::post('/seguimiento/aceptar/{idSeguimiento}', [SeguimientoController::class, 'aceptarSolicitud'])->name('seguimiento.aceptar');
-            Route::post('/seguimiento/rechazar/{idSeguimiento}', [SeguimientoController::class, 'rechazarSolicitud'])->name('seguimiento.rechazar');
-            Route::get('/seguidores', [SeguimientoController::class, 'listarSeguidores'])->name('seguidores.listar');
-            Route::get('/seguidos', [SeguimientoController::class, 'listarSeguidos'])->name('seguidos.listar');
-        });
+        Route::post('/seguimiento/enviar/{idSeguido}', [SeguimientoController::class, 'enviarSolicitud'])->name('seguimiento.enviar');
+        Route::post('/seguimiento/aceptar/{idSeguimiento}', [SeguimientoController::class, 'aceptarSolicitud'])->name('seguimiento.aceptar');
+        Route::post('/seguimiento/rechazar/{idSeguimiento}', [SeguimientoController::class, 'rechazarSolicitud'])->name('seguimiento.rechazar');
+        Route::get('/seguidores', [SeguimientoController::class, 'listarSeguidores'])->name('seguidores.listar');
+        Route::get('/seguidos', [SeguimientoController::class, 'listarSeguidos'])->name('seguidos.listar');
+        Route::post('/seguir', [PerfilController::class, 'follow'])->name('seguir');
+        Route::post('/seguir', [PerfilController::class, 'follow'])->name('seguir');
+        Route::post('/enviar-solicitud', [PerfilController::class, 'enviarSolicitud'])->name('enviar.solicitud');
+        Route::get('/solicitudes', [PerfilController::class, 'solicitudesPendientes'])->name('solicitudes.pendientes');
+        Route::post('/solicitudes/{idSeguimiento}/aceptar', [PerfilController::class, 'aceptarSolicitud'])->name('solicitudes.aceptar');
+        Route::post('/solicitudes/{idSeguimiento}/rechazar', [PerfilController::class, 'rechazarSolicitud'])->name('solicitudes.rechazar');
+        // Ruta para ver cualquier perfil
+        Route::get('/perfil/{nombre}', [PerfilController::class, 'show'])
+            ->middleware('auth')
+            ->name('perfil.show');
+
+        // Ruta para el perfil propio (redirección)
+        Route::get('/mi-perfil', function () {
+            return redirect()->route('perfil.show', ['id_usuario' => Auth::id()]);
+        })->middleware('auth')->name('mi.perfil');
     }
 );
 
