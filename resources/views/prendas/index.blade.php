@@ -25,7 +25,6 @@
 </div>
 @endif
 
-
 <div class="title-container">
     <h1 class="center-title">Todas las Prendas</h1>
 </div>
@@ -49,6 +48,15 @@
             @foreach($colores as $color)
                 <option value="{{ $color->id_color }}" {{ request('id_color') == $color->id_color ? 'selected' : '' }}>
                     {{ $color->nombre }}
+                </option>
+            @endforeach
+        </select>
+
+        <select name="id_tipoPrenda">
+            <option value="">Tipo de prenda</option>
+            @foreach($tiposPrenda as $tipo)
+                <option value="{{ $tipo->id_tipoPrenda }}" {{ request('id_tipoPrenda') == $tipo->id_tipoPrenda ? 'selected' : '' }}>
+                    {{ $tipo->tipo }}
                 </option>
             @endforeach
         </select>
