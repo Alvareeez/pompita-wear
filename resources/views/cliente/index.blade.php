@@ -64,7 +64,6 @@
                     @endforeach
                 </div>
             </div>
-
             <!-- Columna derecha - Outfits -->
             <div class="content-column right-column">
                 <h2 class="section-title">Tendencias En Outfits 🔥</h2>

@@ -173,3 +173,27 @@ body {
         font-size: 24px;
     }
 }
+
+.password-toggle-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-toggle-container input {
+    width: 100%;
+    padding-right: 40px; /* Espacio para el ícono */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
