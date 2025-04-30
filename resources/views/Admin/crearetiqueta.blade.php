@@ -26,11 +26,11 @@
             <h2>Crear Etiqueta</h2>
             <form action="{{ route('admin.etiquetas.store') }}" method="POST">
                 @csrf
-                <div class="form-group">
-                    <label for="nombre">Nombre de la Etiqueta</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre de la Etiqueta">
+                <div class="form__group field">
+                    <input type="text" class="form__field" placeholder="Nombre de la Etiqueta" id="nombre" name="nombre" required />
+                    <label for="nombre" class="form__label">Nombre de la Etiqueta</label>
                 </div>
-                <button type="submit"><span>Crear Etiqueta</span></button>
+                <button type="submit" class="create-btn"><span>Crear Etiqueta</span></button>
             </form>
         </div>
     </main>

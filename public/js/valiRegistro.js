@@ -110,3 +110,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('password');
+
+    const togglePasswordConfirmation = document.getElementById('toggle-password-confirmation');
+    const passwordConfirmationInput = document.getElementById('password_confirmation');
+
+    // Mostrar/Ocultar contraseña principal
+    togglePassword.addEventListener('click', function () {
+        const isPasswordVisible = passwordInput.type === 'text';
+        passwordInput.type = isPasswordVisible ? 'password' : 'text';
+        this.innerHTML = isPasswordVisible
+            ? '<i class="fas fa-eye"></i>' // Ícono de ojo cerrado
+            : '<i class="fas fa-eye-slash"></i>'; // Ícono de ojo abierto
+    });
+
+    // Mostrar/Ocultar confirmación de contraseña
+    togglePasswordConfirmation.addEventListener('click', function () {
+        const isPasswordVisible = passwordConfirmationInput.type === 'text';
+        passwordConfirmationInput.type = isPasswordVisible ? 'password' : 'text';
+        this.innerHTML = isPasswordVisible
+            ? '<i class="fas fa-eye"></i>' // Ícono de ojo cerrado
+            : '<i class="fas fa-eye-slash"></i>'; // Ícono de ojo abierto
+    });
+});

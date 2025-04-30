@@ -36,43 +36,43 @@
             <form action="{{ route('admin.ropa.update', $prenda->id_prenda) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ $prenda->nombre }}" placeholder="Nombre de la prenda" required>
+                <div class="form__group field">
+                    <input type="text" class="form__field" placeholder="Nombre de la prenda" name="nombre" id="nombre" value="{{ $prenda->nombre }}" required />
+                    <label for="nombre" class="form__label">Nombre</label>
                 </div>
-                <div class="form-group">
-                    <label for="descripcion">Descripción</label>
-                    <textarea id="descripcion" name="descripcion" placeholder="Descripción de la prenda" rows="3">{{ $prenda->descripcion }}</textarea>
+                <div class="form__group field">
+                    <textarea class="form__field" placeholder="Descripción de la prenda" name="descripcion" id="descripcion" rows="3" required>{{ $prenda->descripcion }}</textarea>
+                    <label for="descripcion" class="form__label">Descripción</label>
                 </div>
-                <div class="form-group">
-                    <label for="id_tipoPrenda">Tipo de Prenda</label>
-                    <select id="id_tipoPrenda" name="id_tipoPrenda" required>
+                <div class="form__group field">
+                    <select class="form__field" name="id_tipoPrenda" id="id_tipoPrenda" required>
                         @foreach ($tipos as $tipo)
                             <option value="{{ $tipo->id_tipoPrenda }}" {{ $prenda->id_tipoPrenda == $tipo->id_tipoPrenda ? 'selected' : '' }}>
                                 {{ $tipo->tipo }}
                             </option>
                         @endforeach
                     </select>
+                    <label for="id_tipoPrenda" class="form__label">Tipo de Prenda</label>
                 </div>
-                <div class="form-group">
-                    <label for="precio">Precio (€)</label>
-                    <input type="number" id="precio" name="precio" value="{{ $prenda->precio }}" placeholder="Precio de la prenda" step="0.01" required>
+                <div class="form__group field">
+                    <input type="number" class="form__field" placeholder="Precio (€)" name="precio" id="precio" value="{{ $prenda->precio }}" step="0.01" required />
+                    <label for="precio" class="form__label">Precio (€)</label>
                 </div>
-                <div class="form-group">
+                <div class="form__group field">
                     <label for="img_frontal">Imagen Frontal (opcional)</label>
                     <input type="file" id="img_frontal" name="img_frontal" accept="image/*">
                     <div class="image-preview">
                         <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Imagen Frontal Actual">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form__group field">
                     <label for="img_trasera">Imagen Trasera (opcional)</label>
                     <input type="file" id="img_trasera" name="img_trasera" accept="image/*">
                     <div class="image-preview">
                         <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Imagen Trasera Actual">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form__group field">
                     <label for="estilos">Estilos</label>
                     <select id="estilos" name="estilos[]" multiple>
                         @foreach ($estilos as $estilo)
@@ -82,7 +82,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form__group field">
                     <label for="etiquetas">Etiquetas</label>
                     <select id="etiquetas" name="etiquetas[]" multiple>
                         @foreach ($etiquetas as $etiqueta)
@@ -92,7 +92,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form__group field">
                     <label for="colores">Colores</label>
                     <select id="colores" name="colores[]" multiple>
                         @foreach ($colores as $color)
@@ -102,7 +102,7 @@
                         @endforeach
                     </select>
                 </div>
-                <button type="submit"><span>Actualizar Prenda</span></button>
+                <button type="submit" class="create-btn"><span>Actualizar Prenda</span></button>
             </form>
         </div>
     </main>

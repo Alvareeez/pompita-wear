@@ -35,27 +35,28 @@
             @endif
             <form action="{{ route('admin.usuarios.store') }}" method="POST">
                 @csrf
-                <div class="form-group">
-                    <label for="nombre">Nombre Completo</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre Completo" >
+                <div class="form__group field">
+                    <input type="text" class="form__field" placeholder="Nombre Completo" name="nombre" id="nombre"  />
+                    <label for="nombre" class="form__label">Nombre Completo</label>
                 </div>
-                <div class="form-group">
-                    <label for="email">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" placeholder="Correo Electrónico" >
+                <div class="form__group field">
+                    <input type="email" class="form__field" placeholder="Correo Electrónico" name="email" id="email"  />
+                    <label for="email" class="form__label">Correo Electrónico</label>
                 </div>
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" id="password" name="password" placeholder="Contraseña" >
+                <div class="form__group field">
+                    <input type="password" class="form__field" placeholder="Contraseña" name="password" id="password"  />
+                    <label for="password" class="form__label">Contraseña</label>
                 </div>
-                <div class="form-group">
-                    <label for="id_rol">Rol</label>
-                    <select id="id_rol" name="id_rol" >
+                <div class="form__group field">
+                    <select class="form__field" name="id_rol" id="id_rol" >
+                        <option value="" disabled selected>Selecciona un rol</option>
                         @foreach ($roles as $rol)
                             <option value="{{ $rol->id_rol }}">{{ $rol->nombre }}</option>
                         @endforeach
                     </select>
+                    <label for="id_rol" class="form__label">Rol</label>
                 </div>
-                <button type="submit"><span>Crear Usuario</span></button>
+                <button type="submit" class="create-btn"><span>Crear Usuario</span></button>
             </form>
         </div>
     </main>

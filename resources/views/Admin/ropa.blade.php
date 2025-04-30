@@ -44,7 +44,9 @@
                 {{ session('success') }}
             </div>
         @endif
-
+        <div class="actions-container">
+            <a href="{{ route('admin.ropa.create') }}" class="create-btn">+ Crear Ropa</a>
+        </div>
         <div class="filter-container">
             <input type="text" id="filtro-nombre" placeholder="Filtrar por nombre">
             <input type="number" id="filtro-precio-min" placeholder="Precio mínimo">
@@ -52,9 +54,6 @@
             <textarea id="filtro-descripcion" placeholder="Filtrar por descripción"></textarea>
         </div>
 
-        <div class="actions-container">
-            <a href="{{ route('admin.ropa.create') }}" class="create-btn">+ Crear Ropa</a>
-        </div>
 
         <div class="table-container">
             <table>
@@ -65,6 +64,9 @@
                         <th>Tipo</th>
                         <th>Precio</th>
                         <th>Descripción</th>
+                        <th>Etiquetas</th>
+                        <th>Colores</th>
+                        <th>Estilos</th>
                         <th>Imágenes</th>
                         <th>Acciones</th>
                     </tr>
@@ -77,6 +79,21 @@
                             <td>{{ $prenda->tipo->tipo }}</td>
                             <td>{{ $prenda->precio }} €</td>
                             <td>{{ $prenda->descripcion }}</td>
+                            <td>
+                                @foreach ($prenda->etiquetas as $etiqueta)
+                                    <span class="badge">{{ $etiqueta->nombre }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($prenda->colores as $color)
+                                    <span class="badge" style="background-color: {{ $color->hex }}; color: #fff;">{{ $color->nombre }}</span>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($prenda->estilos as $estilo)
+                                    <span class="badge">{{ $estilo->nombre }}</span>
+                                @endforeach
+                            </td>
                             <td>
                                 <div style="display: flex; gap: 10px;">
                                     <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
