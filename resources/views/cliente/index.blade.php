@@ -100,15 +100,15 @@
         <h2 class="section-title">Perfiles 👗✨</h2>
         <div class="carousel-3d">
             @foreach($usuariosRecientes as $usuario)
-                <div class="item-3d">
-                    <img src="{{ asset(($usuario->foto_perfil ?? 'default.png')) }}" 
-                         alt="{{ $usuario->nombre }}" 
-                         class="profile-img-3d">
-                    <p class="profile-name-3d">{{ $usuario->nombre }}</p>
-                </div>
-            @endforeach
+            <a href="{{ route('perfil.publico', $usuario->id_usuario) }}" class="item-3d">        
+            <img src="{{ asset(($usuario->foto_perfil ?? 'default.png')) }}" 
+             alt="{{ $usuario->nombre }}" 
+             class="profile-img-3d">
+        <p class="profile-name-3d">{{ $usuario->nombre }}</p>
+    </a>
+@endforeach
         </div>
-        
+
     </div>
 
 </div>
