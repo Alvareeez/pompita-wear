@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Prenda;
 use App\Models\Estilo;
+use App\Models\Color;
 use App\Models\ValoracionPrenda;
 use App\Models\ComentarioPrenda;
 use App\Models\Usuario;
@@ -12,18 +13,50 @@ use Illuminate\Support\Facades\DB;
 
 class PrendaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Top 5 prendas con más likes
-        $prendasPopulares = Prenda::withCount('likes')
-            ->orderByDesc('likes_count')
-            ->take(5)
-            ->get();
-    
-        // Todos los estilos
+        // Obtener estilos y colores para los filtros
         $estilos = Estilo::all();
-    
-        return view('prendas.index', compact('prendasPopulares', 'estilos'));
+        $colores = Color::all();
+
+        // Query base
+        $query = Prenda::withCount('likes')
+                       ->withAvg('valoraciones', 'puntuacion');
+
+        // Filtro por nombre
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'LIKE', '%' . $request->nombre . '%');
+        }
+
+        // Filtro por estilo
+        if ($request->filled('id_estilo')) {
+            $query->whereHas('estilos', function ($q) use ($request) {
+                $q->where('estilos.id_estilo', $request->id_estilo);
+            });
+        }
+
+        // Filtro por color
+        if ($request->filled('id_color')) {
+            $query->whereHas('colores', function ($q) use ($request) {
+                $q->where('colores.id_color', $request->id_color);
+            });
+        }
+
+        // Ordenación
+        if ($request->orden === 'likes') {
+            $query->orderByDesc('likes_count');
+        } elseif ($request->orden === 'valoracion') {
+            $query->orderByDesc('valoraciones_avg_puntuacion');
+        }
+
+        $prendas = $query->paginate(12);
+
+        $topPrendas = Prenda::withCount('likes')
+        ->orderByDesc('likes_count')
+        ->limit(5)
+        ->get();
+
+        return view('prendas.index', compact('prendas', 'estilos', 'colores', 'topPrendas'));
     }
 
     public function porEstilo($id)
