@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Prenda;
 use App\Models\Estilo;
+use App\Models\Color;
 use App\Models\ValoracionPrenda;
 use App\Models\ComentarioPrenda;
 use App\Models\Usuario;
@@ -12,21 +13,58 @@ use Illuminate\Support\Facades\DB;
 
 class PrendaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Top 5 prendas con más likes
-        $prendasPopulares = Prenda::withCount('likes')
+        // Obtener estilos, colores y tipos de prenda para los filtros
+        $estilos = Estilo::all();
+        $colores = Color::all();
+        $tiposPrenda = \App\Models\TipoPrenda::all(); // Obtener todos los tipos de prenda
+    
+        // Query base
+        $query = Prenda::withCount('likes')
+                       ->withAvg('valoraciones', 'puntuacion');
+    
+        // Filtro por nombre
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'LIKE', '%' . $request->nombre . '%');
+        }
+    
+        // Filtro por estilo
+        if ($request->filled('id_estilo')) {
+            $query->whereHas('estilos', function ($q) use ($request) {
+                $q->where('estilos.id_estilo', $request->id_estilo);
+            });
+        }
+    
+        // Filtro por color
+        if ($request->filled('id_color')) {
+            $query->whereHas('colores', function ($q) use ($request) {
+                $q->where('colores.id_color', $request->id_color);
+            });
+        }
+    
+        // Filtro por tipo de prenda
+        if ($request->filled('id_tipoPrenda')) {
+            $query->where('id_tipoPrenda', $request->id_tipoPrenda); // Filtrar por tipo de prenda
+        }
+    
+        // Ordenación
+        if ($request->orden === 'likes') {
+            $query->orderByDesc('likes_count');
+        } elseif ($request->orden === 'valoracion') {
+            $query->orderByDesc('valoraciones_avg_puntuacion');
+        }
+    
+        $prendas = $query->paginate(12);
+    
+        $topPrendas = Prenda::withCount('likes')
             ->orderByDesc('likes_count')
-            ->take(5)
+            ->limit(5)
             ->get();
     
-        // Todos los estilos
-        $estilos = Estilo::all();
-    
-        return view('prendas.index', compact('prendasPopulares', 'estilos'));
+        return view('prendas.index', compact('prendas', 'estilos', 'colores', 'tiposPrenda', 'topPrendas'));
     }
-
-    public function porEstilo($id)
+        public function porEstilo($id)
     {
         $estilo = Estilo::findOrFail($id);
     

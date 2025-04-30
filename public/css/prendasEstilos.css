@@ -22,6 +22,7 @@ body {
     margin-bottom: 20px;
     color: #333;
     padding-top: 10vh;
+    font-weight: 700;
 }
 
 .center-title_estilos {
@@ -29,6 +30,7 @@ body {
     margin-bottom: 20px;
     color: #333;
     padding-bottom: 10vh;
+    font-weight: 700;
 }
 
 /* Contenedor para centrar las cartas de las prendas */
@@ -45,19 +47,20 @@ body {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    justify-content: center; /* Centrado de las prendas */
+    justify-content: center;
     margin-bottom: 30px;
 }
 
 /* Estilo para cada prenda */
 .prenda {
-    border: 1px solid black;
-    padding: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
     text-align: center;
     width: 220px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s ease;
     background-color: white;
-    font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu */
+    font-family: 'Ubuntu', sans-serif;
+    border-radius: 10px;
 }
 
 .prenda:hover {
@@ -69,8 +72,9 @@ body {
     width: 200px;
     height: 200px;
     object-fit: cover;
-    border: 2px solid black;
+    border: 2px solid #f3f3f3;
     margin-bottom: 10px;
+    border-radius: 5px;
 }
 
 .prenda p {
@@ -91,15 +95,87 @@ body {
     padding: 12px 30px;
     background-color: #F6A894;
     color: black;
-    border: 1px solid black;
+    border: 1px solid #f3f3f3;
     border-radius: 5px;
     font-size: 16px;
     font-family: 'Ubuntu', sans-serif;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
+    text-align: center;
 }
 
 .action-button:hover {
+    background-color: #fa6843;
+    transform: scale(1.05);
+}
+
+/* Contenedor para el Top 5 de prendas con más likes */
+.top-prendas-container {
+    margin: 30px 0;
+    text-align: center;
+}
+
+.top-prendas {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Estilo de los inputs, selects, y filtros */
+.filter-container {
+    max-width: 900px; /* Ancho máximo más grande para más filtros */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap; /* Los elementos de los filtros se envuelven cuando sea necesario */
+    gap: 20px;
+    justify-content: space-between; /* Espaciado entre los filtros */
+}
+
+.filter-container > div {
+    flex: 1; /* Hace que cada filtro ocupe espacio igual */
+    min-width: 200px; /* Ancho mínimo de los filtros */
+}
+
+input[type="text"], input[type="number"], select, input[type="search"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="search"]:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Estilos de botones dentro de los filtros */
+.filter-button {
+    padding: 12px 20px;
+    background-color: #F6A894;
+    color: black;
+    border: 1px solid #f3f3f3;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    text-align: center;
+    display: block;
+    width: 100%;
+}
+
+.filter-button:hover {
     background-color: #fa6843;
     transform: scale(1.05);
 }
@@ -111,7 +187,7 @@ body {
     }
 
     .prenda {
-        width: 100%; /* Ocupa el 100% del ancho */
+        width: 100%;
         margin-bottom: 15px;
     }
 
@@ -122,6 +198,26 @@ body {
     .button-row {
         gap: 10px;
     }
+
+    .action-button {
+        font-size: 14px;
+        padding: 10px 25px;
+    }
+
+    .filter-container {
+        padding: 15px;
+        max-width: 600px;
+    }
+
+    .filter-button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .filter-container > div {
+        flex: 1;
+        min-width: 200px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -131,7 +227,7 @@ body {
     }
 
     .prenda {
-        width: 90%; /* Ocupa el 90% del ancho */
+        width: 90%;
         margin-bottom: 20px;
     }
 
@@ -141,5 +237,20 @@ body {
 
     .button-row {
         gap: 5px;
+    }
+
+    .action-button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .filter-container {
+        padding: 15px;
+        max-width: 350px;
+    }
+
+    .filter-button {
+        font-size: 14px;
+        padding: 10px;
     }
 }
