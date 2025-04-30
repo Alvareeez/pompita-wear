@@ -86,40 +86,25 @@
 
     @section('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const notificationIcon = document.getElementById('notification-icon');
-        const notificationDropdown = document.getElementById('notification-dropdown');
+document.addEventListener('DOMContentLoaded', function () {
+    const notificationIcon = document.getElementById('notification-icon');
+    const notificationDropdown = document.getElementById('notification-dropdown');
 
-        if (notificationIcon && notificationDropdown) {
-            // Mostrar el menú al pasar el cursor por encima del ícono
-            notificationIcon.addEventListener('mouseenter', function () {
-                notificationDropdown.classList.add('active');
-            });
+    if (notificationIcon && notificationDropdown) {
+        // Mostrar/ocultar el menú al hacer clic en el ícono
+        notificationIcon.addEventListener('click', function (event) {
+            event.stopPropagation(); // Evitar que el evento se propague
+            notificationDropdown.classList.toggle('active');
+        });
 
-            // Mantener el menú visible mientras el cursor esté dentro del menú
-            notificationDropdown.addEventListener('mouseenter', function () {
-                notificationDropdown.classList.add('active');
-            });
-
-            // Ocultar el menú cuando el cursor salga del ícono
-            notificationIcon.addEventListener('mouseleave', function () {
-                setTimeout(() => {
-                    if (!notificationDropdown.matches(':hover')) {
-                        notificationDropdown.classList.remove('active');
-                    }
-                }, 200); // Retraso para evitar parpadeos
-            });
-
-            // Ocultar el menú cuando el cursor salga del menú
-            notificationDropdown.addEventListener('mouseleave', function () {
-                setTimeout(() => {
-                    if (!notificationIcon.matches(':hover')) {
-                        notificationDropdown.classList.remove('active');
-                    }
-                }, 200); // Retraso para evitar parpadeos
-            });
-        }
-    });
+        // Cerrar el menú si se hace clic fuera de él
+        document.addEventListener('click', function (event) {
+            if (!notificationIcon.contains(event.target) && !notificationDropdown.contains(event.target)) {
+                notificationDropdown.classList.remove('active');
+            }
+        });
+    }
+});
 </script>
 @endsection
 </body>
