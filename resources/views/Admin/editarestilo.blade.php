@@ -25,11 +25,11 @@
             <form action="{{ route('admin.estilos.update', $estilo->id_estilo) }}" method="POST">
                 @csrf
                 @method('PUT')
-                <div class="form-group">
-                    <label for="nombre">Nombre del Estilo</label>
-                    <input type="text" id="nombre" name="nombre" value="{{ $estilo->nombre }}" >
+                <div class="form__group field">
+                    <input type="text" class="form__field" placeholder="Nombre del Estilo" id="nombre" name="nombre" value="{{ $estilo->nombre }}" required />
+                    <label for="nombre" class="form__label">Nombre del Estilo</label>
                 </div>
-                <button type="submit"><span>Actualizar Estilo</span></button>
+                <button type="submit" class="create-btn"><span>Actualizar Estilo</span></button>
             </form>
         </div>
     </main>

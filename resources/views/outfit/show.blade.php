@@ -18,7 +18,10 @@
         <div class="prendas">
             @foreach ($outfit->prendas->sortBy('tipo.id_tipoPrenda') as $prenda)
                 <div class="prenda-detalle">
-                    <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="{{ $prenda->nombre }}">
+                    <!-- Enlace a la prenda -->
+                    <a href="{{ route('prendas.show', $prenda->id_prenda) }}">
+                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="{{ $prenda->nombre }}">
+                    </a>
                     <div class="info-prenda">
                         <p><strong>{{ $prenda->nombre }}</strong></p>
                         <p>Tipo: {{ $prenda->tipo->nombre }}</p>

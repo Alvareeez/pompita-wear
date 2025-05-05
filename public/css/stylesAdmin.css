@@ -110,10 +110,12 @@ body {
 .filter-container textarea {
     padding: 10px 15px;
     font-size: 16px;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 8px;
     outline: none;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 250px;
 }
 
 .filter-container input:focus,
@@ -121,6 +123,11 @@ body {
 .filter-container textarea:focus {
     border-color: #0056b3;
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
+}
+
+.filter-container textarea {
+    resize: none;
+    height: 100px;
 }
 
 /* Botón de creación */
@@ -435,105 +442,165 @@ table tr:hover {
     font-weight: bold;
 }
 
-.form-group {
+.form__group {
+    position: relative;
+    padding: 20px 0 0;
+    width: 100%;
+    max-width: 400px; /* Ajusta el ancho según sea necesario */
     margin-bottom: 20px;
 }
 
-.form-group label {
-    display: block;
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
+.form__field {
+    font-family: inherit;
     width: 100%;
-    padding: 12px 15px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    border-color: #0056b3;
-    box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
-}
-
-textarea {
-    resize: none;
-}
-
-button[type="submit"] {
-    display: inline-block;
-    background-color: #28a745;
-    color: white;
-    padding: 12px 20px;
     border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 100%;
-    font-size: 16px;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 17px;
+    color: #333;
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
 }
 
-button[type="submit"]:hover {
-    background-color: #218838;
-    transform: translateY(-2px);
+.form__field::placeholder {
+    color: transparent;
 }
 
-/* Vista previa de imágenes */
+.form__field:placeholder-shown ~ .form__label {
+    font-size: 17px;
+    cursor: text;
+    top: 20px;
+    color: #9b9b9b;
+}
+
+.form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: #9b9b9b;
+    pointer-events: none;
+}
+
+.form__field:focus {
+    padding-bottom: 6px;
+    font-weight: 700;
+    border-width: 3px;
+    border-image: linear-gradient(to right, #116399, #38caef);
+    border-image-slice: 1;
+}
+
+.form__field:focus ~ .form__label {
+    position: absolute;
+    top: 0;
+    display: block;
+    transition: 0.2s;
+    font-size: 17px;
+    color: #38caef;
+    font-weight: 700;
+}
+
+/* Reset input */
+.form__field:required, .form__field:invalid {
+    box-shadow: none;
+}
+
+/* Contenedor de vista previa de imágenes */
 .image-preview {
     margin-top: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px dashed #ccc;
-    padding: 10px;
+    border: 1px solid #ddd;
     border-radius: 8px;
+    padding: 10px;
     background-color: #f9f9f9;
+    max-width: 200px;
+    max-height: 200px;
+    overflow: hidden;
 }
 
 .image-preview img {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
     object-fit: cover;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Mensajes de error */
-.alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-    padding: 10px 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
+/* Input de tipo file */
+input[type="file"] {
+    display: block;
+    margin-top: 10px;
     font-size: 14px;
-    font-weight: bold;
+    font-family: 'Ubuntu', sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Botón de descargar */
+input[type="file"]:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
+}
+
+/* Estilo general para los selects */
+select {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    color: #333;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 15px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Select con múltiples opciones */
+select[multiple] {
+    height: auto;
+    min-height: 100px;
+    overflow-y: auto;
+}
+
+/* Hover y focus */
+select:hover {
+    border-color: #0056b3;
+}
+
+select:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
+}
+
+/* Opciones dentro del select */
+select option {
+    padding: 10px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+}
+
 .download-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background-color: #007bff;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+    padding: 12px 20px;
+    border-radius: 8px;
     font-weight: bold;
-    cursor: pointer;
     text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -552,4 +619,30 @@ button[type="submit"]:hover {
     width: 20px;
     height: 20px;
     fill: white;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    white-space: nowrap;
+    color: #fff; /* Color por defecto */
+    background-color: #007bff; /* Fondo por defecto */
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Ajustar el color del texto según el fondo */
+.badge[style*="background-color"] {
+    color: #000; /* Texto oscuro para fondos claros */
+}
+
+.badge[style*="background-color: #000"],
+.badge[style*="background-color: #0056b3"],
+.badge[style*="background-color: #333"] {
+    color: #fff; /* Texto claro para fondos oscuros */
 }

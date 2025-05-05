@@ -126,3 +126,60 @@ body {
 .btn-warning:hover {
     background-color: #e0a800;
 }
+
+.header {
+    background-color: #002D68 !important;
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+}
+
+.notification-panel {
+    position: absolute;
+    top: 50px;
+    right: 100px; /* Mueve el panel más a la izquierda */
+    width: 320px; /* Aumenta el ancho si es necesario */
+    background-color: #0D1117;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    display: none;
+    z-index: 1001;
+}
+
+.notification-panel.active {
+    display: block;
+}
+
+.notification-panel ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #21262C;
+    word-wrap: break-word; /* Permitir que el texto se ajuste */
+}
+
+.notification-panel ul li:last-child {
+    border-bottom: none;
+}
+
+.mark-read-button {
+    background-color: #2F81F7;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap; /* Evitar que el texto se corte */
+}
+
+.mark-read-button:hover {
+    background-color: #1A73E8;
+}
+
+.profile-large {
+    right: 70px !important;
+}

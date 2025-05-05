@@ -13,10 +13,17 @@ class PerfilController extends Controller
     public function show()
     {
         $user = Auth::user();
+
+        // Contar seguidores (usuarios que siguen al usuario actual)
+        $numeroSeguidores = $user->seguidores()->where('estado', 'aceptado')->count();
+
+        // Contar seguidos (usuarios que el usuario actual sigue)
+        $numeroSeguidos = $user->seguidos()->where('estado', 'aceptado')->count();
+
         $outfitsPublicados = $user->outfits;
         $favorites = $user->favoritosPrendas;
 
-        return view('perfil', compact('user', 'outfitsPublicados', 'favorites'));
+        return view('perfil', compact('user', 'numeroSeguidores', 'numeroSeguidos', 'outfitsPublicados', 'favorites'));
     }
     public function showPublicProfile($id)
 {
@@ -32,14 +39,12 @@ class PerfilController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'email' => 'required|email|unique:usuarios,email,' . $user->id_usuario . ',id_usuario',
             'password' => 'nullable|confirmed|min:8',
             'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Actualizar datos básicos
         $user->nombre = $request->nombre;
-        $user->email = $request->email;
 
         // Actualizar contraseña si se proporcionó
         if ($request->password) {
@@ -62,5 +67,23 @@ class PerfilController extends Controller
         $user->save();
 
         return redirect()->back()->with('success', 'Perfil actualizado correctamente.');
+    }
+    public function deleteProfilePicture()
+    {
+        $user = Usuario::findOrFail(Auth::user()->id_usuario);
+
+        if ($user->foto_perfil) {
+            // Eliminar la imagen del almacenamiento
+            Storage::disk('public')->delete(str_replace('storage/', '', $user->foto_perfil));
+
+            // Establecer la imagen por defecto
+            $user->foto_perfil = null;
+            $user->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'default_image' => asset('img/default-profile.png')
+        ]);
     }
 }

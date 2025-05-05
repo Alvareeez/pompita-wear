@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Usuario extends Authenticatable
 {
+    use Notifiable;
     use HasFactory;
-
     protected $table = 'usuarios';
     protected $primaryKey = 'id_usuario';
     public $timestamps = true;
@@ -76,8 +78,23 @@ class Usuario extends Authenticatable
         return $this->hasMany(LikeComentarioPrenda::class, 'id_usuario');
     }
     public function likes()
-{
-    return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
-                ->withTimestamps();
-}
+    {
+        return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
+            ->withTimestamps();
+    }
+    // Relación: usuarios que siguen a este usuario (seguidores)
+    public function seguidores()
+    {
+        return $this->belongsToMany(Usuario::class, 'seguidores', 'id_seguido', 'id_seguidor')
+            ->withPivot('estado')
+            ->using(Seguimiento::class);
+    }
+
+    // Relación: usuarios que este usuario sigue (seguidos)
+    public function seguidos()
+    {
+        return $this->belongsToMany(Usuario::class, 'seguidores', 'id_seguidor', 'id_seguido')
+            ->withPivot('estado')
+            ->using(Seguimiento::class);
+    }
 }

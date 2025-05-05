@@ -10,11 +10,13 @@ use App\Http\Controllers\OutfitController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
+use App\Http\Controllers\SeguimientoController;
 
 
 use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
 use App\Http\Controllers\OutfitController2;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -47,7 +49,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/ropa/{id}', [RopaController::class, 'update'])->name('admin.ropa.update');
     Route::delete('/ropa/{id}', [RopaController::class, 'destroy'])->name('admin.ropa.destroy');
     Route::post('/ropa/pdf', [RopaController::class, 'descargarPDF'])->name('admin.ropa.pdf');
-    
+
 
     Route::get('/estilos', [EstiloController::class, 'index'])->name('admin.estilos.index');
     Route::get('/estilos/create', [EstiloController::class, 'create'])->name('admin.estilos.create');
@@ -78,8 +80,8 @@ Route::middleware(['auth'])->group(
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
         Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
         Route::post('/prendas/{id}/comentarios', [PrendaController::class, 'storeComment'])->name('prendas.storeComment');
-        Route::post('/comentarios/{id}/like', [PrendaController::class, 'toggleCommentLike'])    ->name('comentarios.toggleLike');
-        Route::get('/prendas/{prenda}/favorito', [PrendaController::class, 'toggleFavorite'])  ->name('prendas.toggleFavorite');
+        Route::post('/comentarios/{id}/like', [PrendaController::class, 'toggleCommentLike'])->name('comentarios.toggleLike');
+        Route::get('/prendas/{prenda}/favorito', [PrendaController::class, 'toggleFavorite'])->name('prendas.toggleFavorite');
         Route::post('/prendas/{prenda}/like', [PrendaController::class, 'toggleLike'])->name('prendas.like');
         Route::post('/prendas/{id}/valoraciones', [PrendaController::class, 'storeValoracion'])->name('prendas.storeValoracion');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
@@ -99,3 +101,5 @@ Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calen
 Route::get('/outfits/create-from-calendar', [OutfitController2::class, 'createFromCalendar'])->name('outfits.createFromCalendar');
 Route::post('/outfits/store-from-calendar', [OutfitController2::class, 'storeFromCalendar'])->name('outfits.storeFromCalendar');
 Route::get('/outfits/replace', [OutfitController2::class, 'replaceOutfit'])->name('outfits.replace');
+Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
