@@ -22,7 +22,6 @@
             </form>
         </nav>
     </header>
-
     <main class="admin-container">
         <div class="tabs">
             <a href="{{ route('admin.usuarios.index') }}">

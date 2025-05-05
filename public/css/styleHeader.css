@@ -152,19 +152,36 @@ body {
     width: 300px;
     z-index: 1000;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 .notification-dropdown.active {
-    display: block;
+    display: block; /* Mostrar cuando se active */
 }
 
-.notification-header {
+.notification-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.notification-dropdown li {
     padding: 10px;
     border-bottom: 1px solid #eee;
-    text-align: right;
+    font-size: 14px;
 }
 
-.mark-all-read {
+.notification-dropdown li.unread {
+    background-color: #f9f9f9;
+}
+
+.notification-dropdown li:last-child {
+    border-bottom: none;
+}
+
+.notification-dropdown .mark-as-read {
     background: #007bff;
     color: white;
     border: none;
@@ -172,8 +189,145 @@ body {
     border-radius: 3px;
     cursor: pointer;
     font-size: 12px;
+    margin-top: 5px;
 }
 
-.mark-all-read:hover {
+.notification-dropdown .mark-as-read:hover {
     background: #0056b3;
+}
+
+.notification-panel {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    width: 300px;
+    background-color: #0D1117;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    display: none;
+    z-index: 1001;
+}
+
+.notification-panel.active {
+    display: block;
+}
+
+.notification-panel h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+    border-bottom: 1px solid #21262C;
+    padding-bottom: 5px;
+}
+
+.notification-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.notification-panel ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #21262C;
+}
+
+.notification-panel ul li:last-child {
+    border-bottom: none;
+}
+
+.mark-read-button {
+    background-color: #2F81F7;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.mark-read-button:hover {
+    background-color: #1A73E8;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    background-color: #0D1117;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+.value {
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    color: white;
+    display: flex;
+    position: relative;
+    gap: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.value:not(:active):hover,
+.value:focus {
+    background-color: #21262C;
+}
+
+.value:focus,
+.value:active {
+    background-color: #1A1F24;
+    outline: none;
+}
+
+.value::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    width: 5px;
+    height: 80%;
+    background-color: #2F81F7;
+    border-radius: 5px;
+    opacity: 0;
+}
+
+.value:focus::before,
+.value:active::before {
+    opacity: 1;
+}
+
+.value svg {
+    width: 15px;
+}
+
+.profile-photo {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-large {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-large img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
 }
