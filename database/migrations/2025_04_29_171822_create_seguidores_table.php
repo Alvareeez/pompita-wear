@@ -14,8 +14,7 @@ return new class extends Migration
             $table->foreignId('id_seguido')->constrained('usuarios', 'id_usuario')->onDelete('cascade');
             $table->enum('estado', ['pendiente', 'aceptado', 'rechazado'])->default('pendiente');
             $table->timestamps();
-
-            $table->unique(['id_seguidor', 'id_seguido']); // Evita duplicados
+            $table->unique(['id_seguidor', 'id_seguido']);
         });
     }
 

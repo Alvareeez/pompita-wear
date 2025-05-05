@@ -95,4 +95,44 @@ class OutfitController extends Controller
 
         return redirect()->route('outfit.index')->with('success', 'Outfit creado exitosamente.');
     }
-}
+    public function filterAjax(Request $request)
+    {
+        // Mismo filtrado que en index
+        $filterByTypeColorAndStyle = function($typeId, $colorParam, $styleParam) use ($request) {
+            $query = Prenda::where('id_tipoPrenda', $typeId);
+    
+            if ($request->has($colorParam) && $request->$colorParam != '') {
+                $query->whereHas('colores', function($q) use ($request, $colorParam) {
+                    $q->where('colores.id_color', $request->$colorParam);
+                });
+            }
+    
+            if ($request->has($styleParam) && $request->$styleParam != '') {
+                $query->whereHas('estilos', function($q) use ($request, $styleParam) {
+                    $q->where('estilos.id_estilo', $request->$styleParam);
+                });
+            }
+    
+            return $query->get();
+        };
+    
+        $prendasCabeza = $filterByTypeColorAndStyle(1, 'color_cabeza', 'estilo_cabeza');
+        $prendasTorso = $filterByTypeColorAndStyle(2, 'color_torso', 'estilo_torso');
+        $prendasPiernas = $filterByTypeColorAndStyle(3, 'color_piernas', 'estilo_piernas');
+        $prendasPies = $filterByTypeColorAndStyle(4, 'color_pies', 'estilo_pies');
+    
+        $partes = [
+            'Cabeza' => $prendasCabeza,
+            'Torso' => $prendasTorso,
+            'Piernas' => $prendasPiernas,
+            'Pies' => $prendasPies
+        ];
+    
+        try {
+            $html = view('outfit.partials.carousel', compact('partes'))->render();
+            return response($html, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error interno: ' . $e->getMessage()], 500);
+        }
+    }
+}    
