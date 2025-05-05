@@ -25,11 +25,11 @@
             <h2>Crear Estilo</h2>
             <form action="{{ route('admin.estilos.store') }}" method="POST">
                 @csrf
-                <div class="form-group">
-                    <label for="nombre">Nombre del Estilo</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Nombre del Estilo">
+                <div class="form__group field">
+                    <input type="text" class="form__field" placeholder="Nombre del Estilo" id="nombre" name="nombre" required />
+                    <label for="nombre" class="form__label">Nombre del Estilo</label>
                 </div>
-                <button type="submit"><span>Crear Estilo</span></button>
+                <button type="submit" class="create-btn"><span>Crear Estilo</span></button>
             </form>
         </div>
     </main>

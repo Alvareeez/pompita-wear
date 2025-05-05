@@ -11,9 +11,42 @@ body {
     color: red;
     font-size: 12px;
     margin-top: 5px;
+    display: block;
 }
 
+.password-toggle-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* Espacio entre el campo y el mensaje de error */
+}
 
+.password-toggle-container input {
+    width: 100%;
+    padding-right: 40px; /* Espacio para el ícono */
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%; /* Centrar verticalmente */
+    right: 10px; /* Separación del borde derecho */
+    transform: translateY(-50%); /* Ajustar al centro */
+    cursor: pointer;
+    color: #aaa;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
 .container {
     display: flex;
     align-items: center;

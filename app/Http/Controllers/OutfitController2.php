@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Outfit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\OutfitNotification; // Importar la notificación
 
 class OutfitController2 extends Controller
 {
@@ -70,22 +71,20 @@ class OutfitController2 extends Controller
             ->where('id_usuario', Auth::id())
             ->firstOrFail();
 
-        // Verificar si ya existe un outfit en la fecha seleccionada
-        $existingOutfit = Outfit::where('fecha', $request->fecha)
+        // Eliminar cualquier outfit previamente asignado a la misma fecha
+        Outfit::where('fecha', $request->fecha)
             ->where('id_usuario', Auth::id())
-            ->first();
-
-        if ($existingOutfit) {
-            // Eliminar la fecha del outfit existente
-            $existingOutfit->fecha = null;
-            $existingOutfit->save();
-        }
+            ->update(['fecha' => null]);
 
         // Asignar la fecha al nuevo outfit
         $outfit->fecha = $request->fecha;
         $outfit->save();
 
-        return redirect()->route('calendario')->with('success', 'Outfit añadido al calendario exitosamente.');
+        // Enviar notificación al usuario autenticado
+        $user = Auth::user();
+        $user->notify(new OutfitNotification("El outfit '{$outfit->nombre}' ha sido añadido o sustituido en el calendario para la fecha {$request->fecha}."));
+
+        return redirect()->route('calendario')->with('success', 'Outfit añadido o sustituido exitosamente.');
     }
 
     public function deleteOutfit(Request $request)
