@@ -13,9 +13,8 @@
 
 @section('content')
 <!-- Modal para ver la foto de perfil -->
-<!-- Modal para ver la foto de perfil -->
 <div class="modal fade" id="perfilModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl"> <!-- modal-xl es aún más grande que modal-lg -->
         <div class="modal-content border-0" style="background-color: transparent; box-shadow: none;">
             <div class="modal-body text-center p-0 position-relative">
                 <!-- Botón de cerrar (X) -->
@@ -24,11 +23,12 @@
                 <!-- Imagen ampliada -->
                 <img src="{{ $user->foto_perfil ? asset($user->foto_perfil) : asset('img/default-profile.png') }}"
                      alt="Foto de perfil completa"
-                     class="img-fluid rounded"
-                     style="max-width: 100%; height: auto; max-height: 85vh; object-fit: contain;">
+                     class="img-fluid"
+                     style="width: 500px; max-height: 400px;object-fit: contain; border-radius: 8px;">
             </div>
         </div>
     </div>
+</div>
 </div><div class="container perfil-p">
         <div class="text-center mb-4">
             <div class="profile-picture-container mx-auto" data-bs-toggle="modal" data-bs-target="#perfilModal" style="cursor: pointer;">
