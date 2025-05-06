@@ -172,8 +172,8 @@
                             <div class="foto-comentario-container">
                                 <a href="{{ url('perfil')}}">
                                     @if($comentario->usuario->foto_perfil)
-                                    <img src="{{ asset($valoracion->usuario->foto_perfil) }}" 
-                                    alt="{{ $valoracion->usuario->nombre }}"
+                                    <img src="{{ asset($comentario->usuario->foto_perfil) }}" 
+                                    alt="{{ $comentario->usuario->nombre }}"
                                     class="foto-perfil-valoracion">
                                     @else
                                         <div class="foto-perfil-default">

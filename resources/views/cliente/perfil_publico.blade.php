@@ -49,8 +49,11 @@
         </div>
         <!-- Sección de Outfits - Carrusel 3D -->
         <div class="carousel2">
-            <button class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
-        
+            @if($user->outfits->count() > 0)
+                <button class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
+            @endif
+            
             <ul class="carousel__list">
                 @foreach($user->outfits as $key => $outfit)
                     <li class="carousel__item" data-pos="{{ $key }}">
@@ -64,15 +67,12 @@
                                              class="vertical-image">
                                     @endforeach
                                 </div>
-                                <p class="likes-footer">❤️ {{ $outfit->likes_count }}</p>
                             </div>
                         </a>
                     </li>
                 @endforeach
             </ul>
-        
-            <button class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
-        </div>    
+        </div>
     </div>
 </div>
 

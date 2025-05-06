@@ -4,12 +4,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const elems = Array.from(carouselItems);
     const totalItems = elems.length;
 
-    if (!carouselList || !totalItems) {
-        console.warn("No se encontró el carrusel o las tarjetas.");
+    if (!carouselList || totalItems <= 0) {
+        document.querySelectorAll('.carousel-control').forEach(btn => {
+            btn.style.display = 'none';
+        });
         return;
     }
 
-    // === Paleta de colores predefinidos para los fondos de las tarjetas ===
+    // Paleta de colores predefinidos para los fondos de las tarjetas
     const predefinedColors = [
         'linear-gradient(45deg, #2D35EB 0%, #904ED4 100%)',
         'linear-gradient(45deg, #2D35EB 0%, #fdbb2d 100%)',
@@ -21,94 +23,92 @@ document.addEventListener("DOMContentLoaded", function() {
         'linear-gradient(45deg, #a18cd1 0%, #fbc2eb 100%)'
     ];
 
-    // === Aplicar color aleatorio a cada tarjeta ===
+    // Aplicar color aleatorio a cada tarjeta
     elems.forEach((item, index) => {
         const colorIndex = index % predefinedColors.length;
         item.style.background = predefinedColors[colorIndex];
     });
 
-    // Rango visible: -2, -1, 0, 1, 2
-    const visibleRange = 2;
+    // Rango visible: -1, 0, 1 (solo 3 tarjetas visibles)
+    const visibleRange = 1;
 
     // Distribuye posiciones iniciales
     function setup() {
-        for (let i = 0; i < totalItems; i++) {
-            elems[i].dataset.pos = i - Math.floor(totalItems / 2); // Centrado simétrico
-        }
+        elems.forEach((item, index) => {
+            item.dataset.pos = index - Math.floor(totalItems / 2);
+            item.dataset.index = index;
+        });
         updatePositions();
     }
 
     // Actualiza posición visual según dataset.pos
     function updatePositions() {
-        for (const item of elems) {
+        elems.forEach((item) => {
             const pos = parseInt(item.dataset.pos);
+            const index = parseInt(item.dataset.index);
 
-            if (Math.abs(pos) > visibleRange) {
+            if (Math.abs(pos) > visibleRange || index < 0 || index >= totalItems) {
                 item.style.opacity = "0";
-                item.style.transform = `translateX(${pos * 100}%) scale(0.7)`;
+                item.style.transform = "translateX(0) scale(0.7)";
+                item.style.pointerEvents = "none";
+                item.style.zIndex = "0";
             } else {
-                item.style.opacity = 2 - (Math.abs(pos) * 0.2);
-                item.style.transform = `translateX(${pos * 40}%) scale(${1 - Math.abs(pos) * 0.1})`;
-                item.style.zIndex = visibleRange - Math.abs(pos);
-                item.classList.toggle('carousel__item_active', pos === 0);
+                item.style.opacity = "1";
+                item.style.transform = `translateX(${pos * 120}px) scale(${1 - Math.abs(pos) * 0.1})`;
+                item.style.pointerEvents = "auto";
+                item.style.zIndex = visibleRange - Math.abs(pos) + 1;
             }
-        }
+        });
     }
 
     // Manejador de clics en tarjetas
     carouselList.addEventListener('click', function(event) {
         const clickedItem = event.target.closest('.carousel__item');
-
-        if (!clickedItem || clickedItem.classList.contains('carousel__item_active')) {
-            return;
-        }
+        if (!clickedItem) return;
 
         const clickedPos = parseInt(clickedItem.dataset.pos);
+        if (clickedPos === 0) return;
 
-        // Recalculamos la posición relativa desde la seleccionada
-        for (const item of elems) {
-            let currentPos = parseInt(item.dataset.pos);
-            let newPos = currentPos - clickedPos;
-
-            while (newPos < -visibleRange) newPos += totalItems;
-            while (newPos > visibleRange) newPos -= totalItems;
-
-            item.dataset.pos = newPos;
-        }
-
-        updatePositions();
+        moveCarousel(clickedPos > 0 ? -1 : 1);
     });
 
     // Manejadores de botones
     const btnPrev = document.querySelector('.carousel-control.prev');
     const btnNext = document.querySelector('.carousel-control.next');
 
+    function moveCarousel(direction) {
+        const currentCenterIndex = elems.findIndex(item => parseInt(item.dataset.pos) === 0);
+        if (currentCenterIndex === -1) return;
+
+        const newCenterIndex = currentCenterIndex + direction;
+
+        // Verificar límites
+        if (newCenterIndex < 0 || newCenterIndex >= totalItems) {
+            return;
+        }
+
+        // Actualizar posiciones
+        elems.forEach((item, index) => {
+            item.dataset.pos = index - newCenterIndex;
+        });
+
+        updatePositions();
+    }
+
     if (btnPrev && btnNext) {
         btnPrev.addEventListener('click', () => {
-            moveCarousel(-1);
+            const currentCenterIndex = elems.findIndex(item => parseInt(item.dataset.pos) === 0);
+            if (currentCenterIndex > 0) {
+                moveCarousel(-1);
+            }
         });
 
         btnNext.addEventListener('click', () => {
-            moveCarousel(1);
+            const currentCenterIndex = elems.findIndex(item => parseInt(item.dataset.pos) === 0);
+            if (currentCenterIndex < totalItems - 1) {
+                moveCarousel(1);
+            }
         });
-    }
-
-    // Función auxiliar para mover el carrusel
-    function moveCarousel(direction) {
-        const activeItem = document.querySelector('[data-pos="0"]');
-        const activeIndex = parseInt(activeItem.dataset.pos);
-
-        for (const item of elems) {
-            let currentPos = parseInt(item.dataset.pos);
-            let newPos = currentPos - direction;
-
-            while (newPos < -visibleRange) newPos += totalItems;
-            while (newPos > visibleRange) newPos -= totalItems;
-
-            item.dataset.pos = newPos;
-        }
-
-        updatePositions();
     }
 
     setup();
