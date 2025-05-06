@@ -43,6 +43,20 @@ class Outfit extends Model
     {
         return $this->hasMany(ValoracionOutfit::class, 'id_outfit');
     }
+        public function puntuacionPromedio()
+    {
+        return $this->valoraciones()->avg('puntuacion') ?: 0;
+    }
+
+    public function tieneValoracionUsuario($userId)
+    {
+        return $this->valoraciones()->where('id_usuario', $userId)->exists();
+    }
+
+    public function valoracionUsuario($userId)
+    {
+        return $this->valoraciones()->where('id_usuario', $userId)->first();
+    }
 
     public function likes()
     {
