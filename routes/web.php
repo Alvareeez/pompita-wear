@@ -124,9 +124,6 @@ Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.
         ->name('users.search')
         ->middleware('auth');
         });
-    }
-);
-
 
 
 Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');

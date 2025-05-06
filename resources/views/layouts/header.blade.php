@@ -203,7 +203,7 @@ document.addEventListener('DOMContentLoaded', function(){
           `).join('');
           document.querySelectorAll('.search-item').forEach(item=>{
             item.addEventListener('click', ()=>{
-              window.location.href = `/usuario/${item.dataset.id}`;
+              window.location.href = `/perfil/publico/${item.dataset.id}`;
             });
           });
         });
