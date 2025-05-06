@@ -66,9 +66,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
     Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
 });
-Route::get('/outfit', function () {
-    return view('outfit');
-})->middleware('auth');
+
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
 
 // Ruta AJAX para filtrar por estilo SIN AUTH
@@ -87,6 +85,7 @@ Route::middleware(['auth'])->group(
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
 
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
+        Route::get('/outfit/filter-ajax', [OutfitController::class, 'filterAjax'])->name('outfit.filterAjax');
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
