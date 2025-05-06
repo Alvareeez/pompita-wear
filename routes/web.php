@@ -11,6 +11,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\SeguimientoController;
+use App\Http\Controllers\Auth\SocialController;
 
 
 use App\Http\Controllers\Admin\EstiloController;
@@ -20,6 +21,11 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DonationController;
 
 
+// RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
+Route::get('auth/google/redirect', [SocialController::class, 'redirect'])
+     ->name('google.redirect');
+Route::get('auth/google/callback',  [SocialController::class, 'callback'])
+     ->name('google.callback');
 
 Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
@@ -67,9 +73,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
     Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
 });
-Route::get('/outfit', function () {
-    return view('outfit');
-})->middleware('auth');
+
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
 
 // Ruta AJAX para filtrar por estilo SIN AUTH
@@ -88,12 +92,16 @@ Route::middleware(['auth'])->group(
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
 
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
+        Route::get('/outfit/filter-ajax', [OutfitController::class, 'filterAjax'])->name('outfit.filterAjax');
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
 
-        Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
-        Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+        Route::get('/perfil', [PerfilController::class, 'show'])
+        ->middleware('auth')
+        ->name('perfil');
+        
+           Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
             ->name('perfil.delete-picture')
             ->middleware('auth');
