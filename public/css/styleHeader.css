@@ -208,6 +208,8 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 padding: 15px;
 display: none;
 z-index: 1000;
+max-height: 400px; /* Altura máxima del panel */
+overflow-y: auto; /* Habilitar barra de desplazamiento vertical */
 }
 
 .notification-panel.active {
