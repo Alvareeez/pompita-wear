@@ -8,27 +8,18 @@ class OutfitNotification extends Notification
 {
     use Queueable;
 
-    private $message;
+    protected $message;
 
-    /**
-     * Create a new notification instance.
-     */
     public function __construct($message)
     {
         $this->message = $message;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database']; // Guardar la notificación en la base de datos
     }
 
-    /**
-     * Get the array representation of the notification.
-     */
     public function toArray($notifiable)
     {
         return [
