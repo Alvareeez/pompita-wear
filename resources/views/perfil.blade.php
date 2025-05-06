@@ -13,18 +13,50 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="container">
-                    <h2>Seguidores</h2>
-                    <div class="container">
+                    <div class="container d-flex flex-column align-items-center">
                         <h2>Seguidores</h2>
                         <p>Tienes {{ $numeroSeguidores }} seguidores.</p>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="container">
                         <h2>Seguidos</h2>
                         <p>Sigues a {{ $numeroSeguidos }} usuarios.</p>
                     </div>
                 </div>
+                @if (Auth::check() && Auth::id() != $user->id_usuario)
+                    @php
+                        $isFollowing = Auth::user()
+                            ->seguidos()
+                            ->where('id_seguido', $user->id_usuario)
+                            ->where('estado', 'aceptado')
+                            ->exists();
+
+                        $hasPendingRequest = Auth::user()
+                            ->seguidos()
+                            ->where('id_seguido', $user->id_usuario)
+                            ->where('estado', 'pendiente')
+                            ->exists();
+                    @endphp
+
+                    <form action="{{ route('enviar.solicitud') }}" method="POST" id="follow-form">
+                        @csrf
+                        <input type="hidden" name="id_seguido" value="{{ $user->id_usuario }}">
+                        <button type="submit" class="btn btn-primary follow-btn"
+                            {{ $isFollowing || $hasPendingRequest ? 'disabled' : '' }}>
+                            {{ $isFollowing ? 'Siguiendo' : ($hasPendingRequest ? 'Solicitud Enviada' : 'Seguir') }}
+                        </button>
+                    </form>
+                @endif
+                @if (Auth::check())
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('solicitudes.pendientes') }}">
+                            Solicitudes
+                            @php
+                                $pendingCount = Auth::user()->seguidores()->where('estado', 'pendiente')->count();
+                            @endphp
+                            @if ($pendingCount > 0)
+                                <span class="badge bg-danger">{{ $pendingCount }}</span>
+                            @endif
+                        </a>
+                    </li>
+                @endif
                 <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
@@ -139,4 +171,5 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/perfil.js') }}"></script>
+    <script src="{{ asset('js/seguimiento.js') }}"></script>
 @endsection

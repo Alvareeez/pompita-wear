@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PerfilController extends Controller
 {
-    public function show()
+    public function show($id_usuario = null)
     {
         $user = Auth::user();
         $numeroSeguidores = $user->seguidores()->where('estado','aceptado')->count();
