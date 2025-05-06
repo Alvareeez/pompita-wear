@@ -9,6 +9,7 @@
 
 @section('scripts')
     <script src="{{ asset('js/inicio.js') }}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 @endsection
 
 @section('content')
@@ -104,7 +105,15 @@
                     </div>
                 @endforeach
             </div>
+        </div>
 
+        <!-- Sección de donaciones -->
+        <div class="donation-section">
+            <h2 class="section-title">Apoya Nuestra Página 💖</h2>
+            <div class="donation-container">
+                <p class="donation-description">Haz clic en el botón para realizar tu donación en Stripe.</p>
+                <a href="{{ route('donations.checkout') }}" class="donate-button">Donar Ahora</a>
+            </div>
         </div>
 
     </div>

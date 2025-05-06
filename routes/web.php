@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
 use App\Http\Controllers\OutfitController2;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\DonationController;
 
 
 
@@ -114,3 +115,7 @@ Route::post('/outfits/store-from-calendar', [OutfitController2::class, 'storeFro
 Route::get('/outfits/replace', [OutfitController2::class, 'replaceOutfit'])->name('outfits.replace');
 Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+Route::post('/donations/process', [DonationController::class, 'process'])->name('donations.process');
+Route::get('/donations/checkout', [DonationController::class, 'checkout'])->name('donations.checkout');
+Route::get('/donations/success', [DonationController::class, 'success'])->name('donations.success');
+Route::get('/donations/cancel', [DonationController::class, 'cancel'])->name('donations.cancel');

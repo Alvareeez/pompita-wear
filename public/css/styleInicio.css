@@ -357,6 +357,67 @@ body {
 .profile-large {
     right: 70px !important;
 }
+
+/* Sección de donaciones */
+
+.donation-section {
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.donation-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.payment-methods {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.payment-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.payment-option input {
+    margin-top: 10px;
+}
+
+.donation-amount {
+    margin-bottom: 20px;
+}
+
+.donation-amount input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.donate-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.donate-button:hover {
+    background-color: #0056b3;
+}
+
 /* Responsividad */
 
 @media (max-width: 780px) {
