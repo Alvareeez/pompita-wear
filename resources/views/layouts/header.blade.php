@@ -1,50 +1,88 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title')</title>
-    <link rel="stylesheet" href="{{ asset('css/styleHeader.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    @yield('css')
-    @yield('scripts')
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>@yield('title')</title>
+  <link rel="stylesheet" href="{{ asset('css/styleHeader.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  @yield('css')
+  @yield('scripts')
 
-<style>
+  <style>
+    /* Perfil grande */
     .profile-large {
-        position: absolute;
-        top: 50%;
-        right: 70px;
-        transform: translateY(-50%);
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: absolute;
+      top: 50%;
+      right: 70px;
+      transform: translateY(-50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     .profile-large img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        cursor: pointer;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
     }
-</style>
 
+    /* Buscador AJAX */
+    .search-container {
+      position: relative;
+      margin: 0 20px;
+    }
+    #user-search {
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 200px;
+    }
+    .search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #ddd;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+    .search-item {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .search-item:hover {
+      background: #f5f5f5;
+    }
+    .search-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 8px;
+    }
+  </style>
+</head>
 <body>
 <header class="header">
-    <div class="header-container">
-        <div class="brand-section">
-            <div class="logo">
-                <a href="{{ route('home') }}">
-                    <img src="{{ asset('img/pompita-negro.png') }}" alt="Logo">
-                </a>
-            </div>
-        </div>
+  <div class="header-container">
+
+    <!-- Logo -->
+    <div class="brand-section">
+      <div class="logo">
+        <a href="{{ route('home') }}">
+          <img src="{{ asset('img/pompita-negro.png') }}" alt="Logo">
+        </a>
+      </div>
+    </div>
 
          <!-- Notificaciones, Perfil y Foto de Perfil Grande -->
          <div class="user-section">
@@ -115,25 +153,62 @@
 </header>
 
 <main>
-    @yield('content')
+  @yield('content')
 </main>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const btn = document.getElementById('notification-button');
-        const panel = document.getElementById('notification-panel');
-        if (btn && panel) {
-            btn.addEventListener('click', e => {
-                e.stopPropagation();
-                panel.classList.toggle('active');
-            });
-            document.addEventListener('click', e => {
-                if (!panel.contains(e.target) && !btn.contains(e.target)) {
-                    panel.classList.remove('active');
-                }
-            });
-        }
+document.addEventListener('DOMContentLoaded', function(){
+  // Notificaciones toggle
+  const btn = document.getElementById('notification-button');
+  const panel = document.getElementById('notification-panel');
+  if(btn && panel){
+    btn.addEventListener('click', e=>{
+      e.stopPropagation();
+      panel.classList.toggle('active');
     });
+    document.addEventListener('click', e=>{
+      if(!panel.contains(e.target) && !btn.contains(e.target)){
+        panel.classList.remove('active');
+      }
+    });
+  }
+
+  // AJAX buscador usuarios
+  const input = document.getElementById('user-search');
+  const results = document.getElementById('search-results');
+  let timer;
+  if(input){
+    input.addEventListener('keyup', ()=>{
+      clearTimeout(timer);
+      const q = input.value.trim();
+      if(!q){ results.innerHTML=''; return; }
+      timer = setTimeout(()=>{
+        fetch("{{ route('users.search') }}?query="+encodeURIComponent(q), {
+          headers:{'X-Requested-With':'XMLHttpRequest'}
+        })
+        .then(r=>r.json())
+        .then(users=>{
+          results.innerHTML = users.map(u=>`
+            <div class="search-item" data-id="${u.id_usuario}">
+              <img src="${u.avatar}" class="search-avatar">
+              <span>${u.nombre}</span>
+            </div>
+          `).join('');
+          document.querySelectorAll('.search-item').forEach(item=>{
+            item.addEventListener('click', ()=>{
+              window.location.href = `/usuario/${item.dataset.id}`;
+            });
+          });
+        });
+      },300);
+    });
+    document.addEventListener('click', e=>{
+      if(!input.contains(e.target) && !results.contains(e.target)){
+        results.innerHTML='';
+      }
+    });
+  }
+});
 </script>
 </body>
 </html>

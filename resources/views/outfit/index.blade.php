@@ -185,5 +185,3 @@
 @section('scripts')
     <script src="{{ asset('js/filtroCrearOutfit.js') }}"></script>
 @endsection
-
-@include('layouts.footer')```
