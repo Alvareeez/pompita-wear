@@ -30,14 +30,46 @@
     </div>
 </div>
 </div><div class="container perfil-p">
-        <div class="text-center mb-4">
-            <div class="profile-picture-container mx-auto" data-bs-toggle="modal" data-bs-target="#perfilModal" style="cursor: pointer;">
-                <img src="{{ $user->foto_perfil ? asset($user->foto_perfil) : asset('img/default-profile.png') }}"
-                     alt="Foto de perfil" class="profile-picture" id="profile-picture">
-            </div>
-            <h2 class="mt-3">{{ $user->nombre }}</h2>
-            <p class="text-muted">Este usuario tiene {{ $user->outfits->count() }} outfit(s)</p>
+    <div class="text-center mb-4">
+        <div class="profile-picture-container mx-auto" data-bs-toggle="modal" data-bs-target="#perfilModal" style="cursor: pointer;">
+            <img src="{{ $user->foto_perfil ? asset($user->foto_perfil) : asset('img/default-profile.png') }}"
+                 alt="Foto de perfil" class="profile-picture" id="profile-picture">
         </div>
+        <h2 class="mt-3">{{ $user->nombre }}</h2>
+        <p class="text-muted">Este usuario tiene {{ $user->outfits->count() }} outfit(s)</p>
+        
+        @auth
+        @if(auth()->id() !== $user->id_usuario)
+        @php
+        $followState = '';
+        $followText = 'Seguir';
+        
+        $existingFollow = $user->seguidores()
+            ->where('id_seguidor', auth()->id())
+            ->first();
+        
+        if ($existingFollow) {
+            if ($existingFollow->estado == 'aceptado') {
+                $followState = 'following';
+                $followText = 'Siguiendo';
+            } elseif ($existingFollow->estado == 'pendiente') {
+                $followState = 'pending';
+                $followText = 'Pendiente';
+            }
+        }
+    @endphp
+    
+    <button id="follow-btn" class="follow-btn {{ $followState }}" 
+            data-user-id="{{ $user->id_usuario }}" 
+            data-state="{{ $followState }}">
+        {{ $followText }}
+        <span class="btn-loader d-none"><i class="fas fa-spinner fa-spin"></i></span>
+    </button>
+        @endif
+    @else
+        <a href="{{ route('login') }}" class="btn btn-primary">Inicia sesión para seguir</a>
+    @endauth
+    </div>
 
         <!-- Sección de Outfits - Carrusel 3D -->
         <div>

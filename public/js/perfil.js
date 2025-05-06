@@ -24,7 +24,7 @@ function showImageSourceSelector(e) {
     setTimeout(() => {
         const deleteButton = document.getElementById('swal-delete-button');
         if (deleteButton) {
-            deleteButton.addEventListener('click', function (e) {
+            deleteButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 Swal.close();
                 deleteProfilePicture();
@@ -32,6 +32,7 @@ function showImageSourceSelector(e) {
         }
     }, 100);
 }
+
 function deleteProfilePicture() {
     console.log('URL:', window.deleteProfilePictureUrl); // Verifica en consola
 
@@ -51,13 +52,13 @@ function deleteProfilePicture() {
     }).then((result) => {
         if (result.isConfirmed) {
             fetch(deleteUrl, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -97,9 +98,9 @@ function openCamera() {
         didOpen: () => {
             const preview = document.getElementById('camera-preview');
             navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: false
-            })
+                    video: true,
+                    audio: false
+                })
                 .then((stream) => {
                     preview.srcObject = stream;
 
@@ -168,7 +169,7 @@ function updateProfilePreview(imageSrc) {
     if (!imgElement) return;
 
     const tempImg = new Image();
-    tempImg.onload = function () {
+    tempImg.onload = function() {
         imgElement.src = imageSrc;
         // Ajustar proporciones
         const container = imgElement.parentElement;
@@ -187,7 +188,7 @@ function updateProfilePreview(imageSrc) {
 }
 
 // Esperar a que el DOM esté completamente cargado
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM cargado"); // Verifica que esto aparezca en la consola
     // Evento para el contenedor de la foto de perfil
     const profileContainer = document.querySelector('.profile-picture-container');
@@ -198,10 +199,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Evento para cuando se selecciona un archivo manualmente
     const fileInput = document.getElementById('profile-picture-input');
     if (fileInput) {
-        fileInput.addEventListener('change', function (e) {
+        fileInput.addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function (event) {
+                reader.onload = function(event) {
                     updateProfilePreview(event.target.result);
                 };
                 reader.readAsDataURL(e.target.files[0]);

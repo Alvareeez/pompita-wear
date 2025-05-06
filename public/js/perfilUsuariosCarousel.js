@@ -113,3 +113,55 @@ document.addEventListener("DOMContentLoaded", function() {
 
     setup();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const followBtn = document.getElementById('follow-btn');
+
+    if (followBtn) {
+        followBtn.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const circle = document.createElement('span');
+            circle.classList.add('circle');
+            circle.style.left = `${x}px`;
+            circle.style.top = `${y}px`;
+            this.appendChild(circle);
+
+            const btnLoader = this.querySelector('.btn-loader');
+            if (btnLoader) btnLoader.classList.remove('d-none');
+            this.disabled = true;
+
+            setTimeout(() => circle.remove(), 600);
+
+            const userId = this.dataset.userId;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+            fetch(`/seguir/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.textContent = data.buttonText;
+                        this.className = 'follow-btn';
+                        if (data.buttonState) {
+                            this.classList.add(data.buttonState);
+                        }
+                        this.dataset.state = data.buttonState || '';
+                    }
+                })
+                .catch(error => console.error('Error:', error))
+                .finally(() => {
+                    this.disabled = false;
+                    const loader = this.querySelector('.btn-loader');
+                    if (loader) loader.classList.add('d-none');
+                });
+        });
+    }
+});

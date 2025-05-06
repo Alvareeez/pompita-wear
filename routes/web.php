@@ -92,7 +92,7 @@ Route::middleware(['auth'])->group(
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
-    }
+        Route::post('/seguir/{id}', [SeguimientoController::class, 'toggleFollow'])->name('seguir');    }
 );
 
 

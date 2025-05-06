@@ -90,4 +90,54 @@ class SeguimientoController extends Controller
 
         return view('solicitudes', compact('solicitudes'));
     }
-}
+
+    // Añade este nuevo método al controlador
+    public function toggleFollow(Request $request, $idSeguido)
+    {
+        $user = Auth::user();
+        
+        // Verificar si ya existe una relación
+        $seguimiento = Seguimiento::where('id_seguidor', $user->id_usuario)
+                                 ->where('id_seguido', $idSeguido)
+                                 ->first();
+    
+        if ($seguimiento) {
+            if ($seguimiento->estado == 'aceptado') {
+                // Dejar de seguir (eliminar relación)
+                $seguimiento->delete();
+                return response()->json([
+                    'success' => true,
+                    'action' => 'unfollow',
+                    'buttonText' => 'Seguir',
+                    'buttonState' => '',
+                    'message' => 'Has dejado de seguir a este usuario'
+                ]);
+            } else {
+                // Si está pendiente o rechazado, actualizar a aceptado
+                $seguimiento->estado = 'aceptado';
+                $seguimiento->save();
+                return response()->json([
+                    'success' => true,
+                    'action' => 'accept',
+                    'buttonText' => 'Siguiendo',
+                    'buttonState' => 'following',
+                    'message' => 'Ahora estás siguiendo a este usuario'
+                ]);
+            }
+        } else {
+            // Crear nueva solicitud
+            Seguimiento::create([
+                'id_seguidor' => $user->id_usuario,
+                'id_seguido' => $idSeguido,
+                'estado' => 'pendiente'
+            ]);
+    
+            return response()->json([
+                'success' => true,
+                'action' => 'request',
+                'buttonText' => 'Pendiente',
+                'buttonState' => 'pending',
+                'message' => 'Solicitud de seguimiento enviada'
+            ]);
+        }
+    }}
