@@ -113,6 +113,7 @@ Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calen
 Route::get('/outfits/create-from-calendar', [OutfitController2::class, 'createFromCalendar'])->name('outfits.createFromCalendar');
 Route::post('/outfits/store-from-calendar', [OutfitController2::class, 'storeFromCalendar'])->name('outfits.storeFromCalendar');
 Route::get('/outfits/replace', [OutfitController2::class, 'replaceOutfit'])->name('outfits.replace');
+Route::post('/outfits/delete', [OutfitController2::class, 'deleteOutfit'])->name('outfits.delete');
 Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 Route::post('/donations/process', [DonationController::class, 'process'])->name('donations.process');
