@@ -11,6 +11,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\SeguimientoController;
+use App\Http\Controllers\Auth\SocialController;
 
 
 use App\Http\Controllers\Admin\EstiloController;
@@ -19,6 +20,11 @@ use App\Http\Controllers\OutfitController2;
 use App\Http\Controllers\NotificationController;
 
 
+// RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
+Route::get('auth/google/redirect', [SocialController::class, 'redirect'])
+     ->name('google.redirect');
+Route::get('auth/google/callback',  [SocialController::class, 'callback'])
+     ->name('google.callback');
 
 Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
@@ -90,8 +96,11 @@ Route::middleware(['auth'])->group(
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
 
-        Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
-        Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+        Route::get('/perfil', [PerfilController::class, 'show'])
+        ->middleware('auth')
+        ->name('perfil');
+        
+           Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
             ->name('perfil.delete-picture')
             ->middleware('auth');
