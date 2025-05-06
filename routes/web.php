@@ -99,7 +99,7 @@ Route::middleware(['auth'])->group(
         Route::get('/perfil', [PerfilController::class, 'show'])
         ->middleware('auth')
         ->name('perfil');
-        
+
            Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
             ->name('perfil.delete-picture')
@@ -110,6 +110,11 @@ Route::middleware(['auth'])->group(
             Route::post('/seguimiento/rechazar/{idSeguimiento}', [SeguimientoController::class, 'rechazarSolicitud'])->name('seguimiento.rechazar');
             Route::get('/seguidores', [SeguimientoController::class, 'listarSeguidores'])->name('seguidores.listar');
             Route::get('/seguidos', [SeguimientoController::class, 'listarSeguidos'])->name('seguidos.listar');
+
+        // BUSQUEDA DE USUARIOS POR AJAX:
+        Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
+        ->name('users.search')
+        ->middleware('auth');
         });
     }
 );
