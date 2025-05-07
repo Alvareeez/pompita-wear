@@ -336,26 +336,31 @@ cursor: pointer;
 
 /* Estilos para el botón de Panel Admin */
 .admin-button {
-background-color: #007bff; /* Color de fondo azul */
-color: white; /* Texto blanco */
-border: none; /* Sin bordes */
-padding: 10px 20px; /* Espaciado interno */
-border-radius: 5px; /* Bordes redondeados */
-font-size: 14px; /* Tamaño de fuente */
-cursor: pointer; /* Cambiar el cursor al pasar el ratón */
-text-decoration: none; /* Sin subrayado */
-display: inline-flex; /* Alinear contenido */
-align-items: center; /* Centrar verticalmente */
-gap: 8px; /* Espaciado entre ícono y texto */
-transition: background-color 0.3s ease; /* Transición suave */
+    background-color: #007bff; /* Color de fondo azul */
+    color: white; /* Texto blanco */
+    border: none; /* Sin bordes */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 14px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambiar el cursor al pasar el ratón */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-flex; /* Alinear contenido */
+    align-items: center; /* Centrar verticalmente */
+    gap: 8px; /* Espaciado entre ícono y texto */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.admin-button a {
+    color: white; /* Texto blanco */
+    text-decoration: none; /* Sin subrayado */
 }
 
 .admin-button:hover {
-background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+    background-color: #0056b3; /* Color más oscuro al pasar el ratón */
 }
 
 .admin-button svg {
-width: 16px; /* Tamaño del ícono */
-height: 16px;
-fill: white; /* Color del ícono */
+    width: 16px; /* Tamaño del ícono */
+    height: 16px;
+    fill: white; /* Color del ícono */
 }
