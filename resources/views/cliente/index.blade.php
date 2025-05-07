@@ -9,6 +9,10 @@
 
 @section('scripts')
     <script src="{{ asset('js/inicio.js') }}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        
+    </script>
 @endsection
 
 @section('content')
@@ -92,21 +96,56 @@
             </div>
         </div>
 
-    <!-- Sección de usuarios - Carrusel 3D (ahora debajo de todo) -->
-    <div class="carousel-container-3d">
-        <h2 class="section-title">Perfiles 👗✨</h2>
-        <div class="carousel-3d">
-            @foreach($usuariosRecientes as $usuario)
-            <a href="{{ route('perfil.publico', $usuario->id_usuario) }}" class="item-3d">        
-            <img src="{{ asset(($usuario->foto_perfil ?? 'default.png')) }}" 
-             alt="{{ $usuario->nombre }}" 
-             class="profile-img-3d">
-        <p class="profile-name-3d">{{ $usuario->nombre }}</p>
-    </a>
-@endforeach
+        <!-- Sección del clima -->
+        <div class="weather-section">
+            <button id="toggle-weather" class="weather-button">Ver el tiempo</button>
+            <div id="weather-content" class="weather-content hidden">
+                <div class="weather-info">
+                    <div class="left-side">
+                        <div class="icon">
+                            <img id="weather-icon" src="" alt="Weather Icon">
+                        </div>
+                        <p id="weather-description">Cargando...</p>
+                    </div>
+                    <div class="right-side">
+                        <div class="location">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#ffffff" width="20px">
+                                <path d="M32,0C18.746,0,8,10.746,8,24c0,5.219,1.711,10.008,4.555,13.93c0.051,0.094,0.059,0.199,0.117,0.289l16,24 C29.414,63.332,30.664,64,32,64s2.586-0.668,3.328-1.781l16-24c0.059-0.09,0.066-0.195,0.117-0.289C54.289,34.008,56,29.219,56,24 C56,10.746,45.254,0,32,0z M32,32c-4.418,0-8-3.582-8-8s3.582-8,8-8s8,3.582,8,8S36.418,32,32,32z"></path>
+                            </svg>
+                            <span id="location">Cargando ubicación...</span>
+                        </div>
+                        <p id="current-date"></p>
+                        <p class="temperature" id="current-temperature">--°C</p>
+                    </div>
+                </div>
+                <div class="forecast" id="forecast-container">
+                    <!-- Pronóstico de los próximos días -->
+                </div>
+            </div>
         </div>
 
-    </div>
+        <!-- Sección de usuarios - Carrusel 3D (ahora debajo de todo) -->
+        <div class="carousel-container-3d">
+            <h2 class="section-title">Perfiles 👗✨</h2>
+            <div class="carousel-3d">
+                @foreach ($usuariosRecientes as $usuario)
+                    <div class="item-3d">
+                        <img src="{{ asset($usuario->foto_perfil ?? 'default.png') }}" alt="{{ $usuario->nombre }}"
+                            class="profile-img-3d">
+                        <p class="profile-name-3d">{{ $usuario->nombre }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Sección de donaciones -->
+        <div class="donation-section">
+            <h2 class="section-title">Apoya Nuestra Página 💖</h2>
+            <div class="donation-container">
+                <p class="donation-description">Haz clic en el botón para realizar tu donación en Stripe.</p>
+                <a href="{{ route('donations.checkout') }}" class="donate-button">Donar Ahora</a>
+            </div>
+        </div>
 
     </div>
 

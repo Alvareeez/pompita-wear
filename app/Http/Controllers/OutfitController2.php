@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Outfit;
+use App\Models\OutfitFecha; // Importar el modelo OutfitFecha
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\OutfitNotification; // Importar la notificación
@@ -16,15 +17,17 @@ class OutfitController2 extends Controller
     {
         $userId = Auth::id();
 
-        // Obtener los outfits del usuario autenticado
-        $outfits = Outfit::where('id_usuario', $userId)->get();
+        // Obtener los outfits del usuario autenticado con sus fechas
+        $outfits = OutfitFecha::whereHas('outfit', function ($query) use ($userId) {
+            $query->where('id_usuario', $userId);
+        })->get();
 
         // Formatear los datos para FullCalendar
-        $events = $outfits->map(function ($outfit) {
+        $events = $outfits->map(function ($outfitFecha) {
             return [
-                'title' => $outfit->nombre,
-                'start' => $outfit->fecha,
-                'outfitId' => $outfit->id_outfit,
+                'title' => $outfitFecha->outfit->nombre,
+                'start' => $outfitFecha->fecha,
+                'outfitId' => $outfitFecha->outfit_id,
             ];
         });
 
@@ -71,20 +74,26 @@ class OutfitController2 extends Controller
             ->where('id_usuario', Auth::id())
             ->firstOrFail();
 
-        // Eliminar cualquier outfit previamente asignado a la misma fecha
-        Outfit::where('fecha', $request->fecha)
-            ->where('id_usuario', Auth::id())
-            ->update(['fecha' => null]);
+        // Verificar si ya existe un outfit asignado a la fecha
+        $existingOutfit = OutfitFecha::where('fecha', $request->fecha)
+            ->where('outfit_id', $outfitId)
+            ->first();
 
-        // Asignar la fecha al nuevo outfit
-        $outfit->fecha = $request->fecha;
-        $outfit->save();
+        if ($existingOutfit) {
+            return redirect()->back()->withErrors(['error' => 'Este outfit ya está asignado a esta fecha.']);
+        }
+
+        // Asignar el outfit a la fecha
+        OutfitFecha::create([
+            'outfit_id' => $outfitId,
+            'fecha' => $request->fecha,
+        ]);
 
         // Enviar notificación al usuario autenticado
         $user = Auth::user();
-        $user->notify(new OutfitNotification("El outfit '{$outfit->nombre}' ha sido añadido o sustituido en el calendario para la fecha {$request->fecha}."));
+        $user->notify(new OutfitNotification("El outfit '{$outfit->nombre}' ha sido añadido al calendario para la fecha {$request->fecha}."));
 
-        return redirect()->route('calendario')->with('success', 'Outfit añadido o sustituido exitosamente.');
+        return redirect()->route('calendario')->with('success', 'Outfit añadido exitosamente.');
     }
 
     public function deleteOutfit(Request $request)
@@ -95,17 +104,25 @@ class OutfitController2 extends Controller
         ]);
 
         // Buscar el outfit asignado a la fecha
-        $outfit = Outfit::where('fecha', $request->fecha)
-            ->where('id_usuario', Auth::id())
+        $outfitFecha = OutfitFecha::where('fecha', $request->fecha)
+            ->whereHas('outfit', function ($query) {
+                $query->where('id_usuario', Auth::id());
+            })
             ->first();
 
-        if (!$outfit) {
+        if (!$outfitFecha) {
             return redirect()->route('calendario')->withErrors(['error' => 'No hay ningún outfit asignado para esta fecha.']);
         }
 
-        // Eliminar la fecha del outfit (sin eliminar el outfit en sí)
-        $outfit->fecha = null;
-        $outfit->save();
+        // Obtener el nombre del outfit antes de eliminarlo
+        $outfitNombre = $outfitFecha->outfit->nombre;
+
+        // Eliminar el registro de la tabla intermedia
+        $outfitFecha->delete();
+
+        // Enviar notificación al usuario autenticado
+        $user = Auth::user();
+        $user->notify(new OutfitNotification("El outfit '{$outfitNombre}' ha sido eliminado del calendario para la fecha {$request->fecha}."));
 
         return redirect()->route('calendario')->with('success', 'Outfit eliminado del calendario exitosamente.');
     }

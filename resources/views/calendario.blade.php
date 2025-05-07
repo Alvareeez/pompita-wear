@@ -78,6 +78,11 @@
             color: white;
         }
 
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+
         .btn-close {
             background-color: #dc3545;
             color: white;
@@ -162,9 +167,21 @@
                 },
                 events: @json($events), // Los eventos se pasan desde el controlador
                 dateClick: function (info) {
-                    openModal(info.dateStr, null);
+                    // Verificar si hay un evento en la fecha seleccionada
+                    const eventsOnDate = calendar.getEvents().filter(event => {
+                        return event.startStr === info.dateStr;
+                    });
+
+                    if (eventsOnDate.length > 0) {
+                        // Si hay un evento, abrir el modal con las opciones del evento
+                        openModal(info.dateStr, eventsOnDate[0]);
+                    } else {
+                        // Si no hay evento, mostrar opción para añadir
+                        openModal(info.dateStr, null);
+                    }
                 },
                 eventClick: function (info) {
+                    // Abrir el modal con las opciones para el evento seleccionado
                     openModal(info.event.startStr, info.event);
                 }
             });
@@ -176,10 +193,10 @@
                 modalButtons.innerHTML = '';
 
                 if (event) {
-                    // Si hay un evento, mostrar opciones para ver o sustituir
+                    // Si hay un evento, mostrar opciones para ver, sustituir o eliminar
                     modalButtons.innerHTML = `
                         <button class="btn-view" onclick="viewOutfit(${event.extendedProps.outfitId})">Ver Outfit</button>
-                        <button class="btn-replace" onclick="replaceOutfit('${date}')">Sustituir Outfit</button>
+                        <button class="btn-delete" onclick="deleteOutfit('${date}')">Eliminar Outfit</button>
                     `;
                 } else {
                     // Si no hay evento, mostrar opción para añadir
@@ -210,6 +227,30 @@
 
             window.replaceOutfit = function (date) {
                 window.location.href = `/outfits/replace?date=${date}`;
+            };
+
+            window.deleteOutfit = function (date) {
+                if (confirm('¿Estás seguro de que deseas eliminar este outfit?')) {
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = `/outfits/delete`;
+
+                    const csrfInput = document.createElement('input');
+                    csrfInput.type = 'hidden';
+                    csrfInput.name = '_token';
+                    csrfInput.value = '{{ csrf_token() }}';
+
+                    const dateInput = document.createElement('input');
+                    dateInput.type = 'hidden';
+                    dateInput.name = 'fecha';
+                    dateInput.value = date;
+
+                    form.appendChild(csrfInput);
+                    form.appendChild(dateInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
             };
         });
     </script>

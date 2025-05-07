@@ -9,6 +9,7 @@ use App\Models\Outfit;
 use App\Models\OutfitPrenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\OutfitNotification;
 
 class OutfitController extends Controller
 {
@@ -92,7 +93,9 @@ class OutfitController extends Controller
                 ]);
             }
         }
-
+        // Enviar notificación al usuario autenticado
+        $user = Auth::user();
+        $user->notify(new OutfitNotification("El outfit '{$outfit->nombre}' ha sido creado exitosamente."));
         return redirect()->route('outfit.index')->with('success', 'Outfit creado exitosamente.');
     }
     public function filterAjax(Request $request)
