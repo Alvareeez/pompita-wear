@@ -99,7 +99,7 @@ Route::middleware(['auth'])->group(
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
-);
+     });
 
 
 
@@ -119,6 +119,7 @@ Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.
         Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
         ->name('users.search')
         ->middleware('auth');
+
 
 
 Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
