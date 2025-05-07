@@ -1,7 +1,9 @@
 /* Fuente Ubuntu desde Google Fonts */
+
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 
 /* Reset básico */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -14,7 +16,9 @@ body {
     color: #333;
 }
 
+
 /* Título principal */
+
 .title-container {
     margin-top: 60px;
     text-align: center;
@@ -26,14 +30,18 @@ body {
     color: #222;
 }
 
+
 /* Contenedor centrado */
+
 .centered-container {
     display: flex;
     justify-content: center;
     padding: 20px;
 }
 
+
 /* Contenedor del outfit */
+
 .outfit-detalle {
     width: 100%;
     max-width: 900px;
@@ -44,7 +52,9 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+
 /* Título del outfit */
+
 .outfit-title {
     text-align: center;
     margin-bottom: 25px;
@@ -52,7 +62,9 @@ body {
     color: #444;
 }
 
+
 /* Contenedor de todas las prendas */
+
 .prendas {
     display: flex;
     flex-direction: column;
@@ -60,7 +72,9 @@ body {
     margin-bottom: 30px;
 }
 
+
 /* Estilo de cada prenda */
+
 .prenda-detalle {
     display: flex;
     gap: 20px;
@@ -71,7 +85,9 @@ body {
     border: 1px solid #e0e0e0;
 }
 
+
 /* Imagen de la prenda */
+
 .prenda-detalle img {
     width: 120px;
     height: 120px;
@@ -80,7 +96,9 @@ body {
     background-color: #fff;
 }
 
+
 /* Información de la prenda */
+
 .info-prenda {
     display: flex;
     flex-direction: column;
@@ -92,7 +110,9 @@ body {
     font-size: 14px;
 }
 
+
 /* Precio total */
+
 .total-outfit {
     text-align: right;
     margin-top: 20px;
@@ -103,7 +123,9 @@ body {
     color: #222;
 }
 
+
 /* Botón de volver */
+
 .volver-btn-container {
     margin-top: 30px;
     text-align: center;
@@ -127,19 +149,485 @@ body {
     transform: scale(1.05);
 }
 
+.valoracion-media {
+    margin-bottom: 10px;
+}
+
+.valoracion-media .starss {
+    font-size: 1.2rem;
+}
+
+.valoracion-media .stars span {
+    font-size: 1rem;
+    color: #666;
+    margin-left: 5px;
+}
+
+.comentario-card {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.foto-comentario-container {
+    flex-shrink: 0;
+}
+
+.foto-perfil-comentario {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #F6A894;
+}
+
+.foto-perfil-default {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #F6A894;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.contenido-comentario {
+    flex-grow: 1;
+    margin-top: 15px;
+    margin-left: 7px;
+}
+
+.cabecera-comentario {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.cabecera-comentario strong {
+    font-size: 1rem;
+    color: #333;
+}
+
+.tiempo-comentario {
+    font-size: 0.8rem;
+    color: #999;
+    margin-left: 10px;
+}
+
+.texto-comentario {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #444;
+}
+
+.acciones-comentario {
+    display: flex;
+}
+
+.btn-like-comentario {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 0.9rem;
+    padding: 2px 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    margin-left: 20px;
+}
+
+.btn-like-comentario:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-like-comentario.liked {
+    color: #e74c3c;
+}
+
+.btn-like-comentario.liked:hover {
+    background-color: #f6a89480;
+}
+
+
+/* ========== VALORACIONES SECTION ========== */
+
+.valoraciones-section {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.valoracion-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.valoracion-header h2 {
+    color: #333;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.valoracion-promedio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.promedio-numero {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #F6A894;
+    line-height: 1;
+}
+
+.stars-promedio {
+    margin: 8px 0;
+}
+
+.stars-promedio i {
+    font-size: 1.3rem;
+    margin: 0 2px;
+}
+
+.total-valoraciones {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+
+/* Formulario de valoración */
+
+.tu-valoracion {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.tu-valoracion h3 {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.rating-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    color: #ddd;
+    font-size: 1.8rem;
+    padding: 0 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.rating input:checked~label,
+.rating label:hover,
+.rating label:hover~label {
+    color: #ffc107;
+}
+
+.btn-valorar {
+    background-color: #F6A894;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-valorar:hover {
+    background-color: #e69580;
+}
+
+.btn-valorar i {
+    margin-right: 6px;
+}
+
+
+/* Lista de valoraciones */
+
+.lista-valoraciones h3 {
+    font-size: 1.2rem;
+    color: #444;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.valoracion-card {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.valoracion-card:last-child {
+    border-bottom: none;
+}
+
+.valoracion-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.foto-perfil-valoracion {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #F6A894;
+    margin-right: 10px;
+}
+
+.user-info {
+    flex-grow: 1;
+}
+
+.user-info strong {
+    display: block;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.user-info small {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+
+/* Contenedor de columnas */
+
+.comentarios-valoraciones-container {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.comentarios-columna {
+    padding-right: 30px;
+    width: 100%;
+    /* Ajusta según tu gap */
+}
+
+.valoraciones-columna {
+    padding-left: 30px;
+    border-right: 1px solid #000;
+    /* Ajusta según tu gap */
+}
+
+
+/* Estilos para el formulario de comentarios */
+
+.form-group {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.form-control {
+    width: 90%;
+    padding: 12px 15px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #495057;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-control:focus {
+    border-color: #F6A894;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(246, 168, 148, 0.25);
+}
+
+
+/* Estilo para el botón de enviar comentario */
+
+.btn-comentar {
+    background-color: #F6A894;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-comentar:hover {
+    background-color: #e69580;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(246, 168, 148, 0.3);
+}
+
+.btn-comentar:active {
+    transform: translateY(0);
+}
+
+
+/* Estilo para el contenedor del formulario */
+
+.comentario-form-container {
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    resize: none;
+}
+
+.comentario-form-container h2 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+
+/* Estilo para el placeholder del textarea */
+
+.form-control::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+}
+
+
+/* Estilo para el contador de caracteres (opcional) */
+
+.contador-caracteres {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 5px;
+}
+
+
+/* Efecto de hover para el textarea */
+
+.form-control:hover {
+    border-color: #a3a3a3;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+    /* Amarillo para estrellas activas */
+}
+
+.text-secondary {
+    color: #ddd !important;
+    /* Gris para estrellas inactivas */
+}
+
+.valoracion-stars {
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+
+/* Estilos mejorados para el textarea */
+
+.custom-textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    resize: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    min-height: 120px;
+}
+
+.custom-textarea:focus {
+    border-color: #F6A894;
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(246, 168, 148, 0.25);
+    background-color: #fef9f8;
+}
+
+.custom-textarea::placeholder {
+    color: #adb5bd;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+
+/* Contador de caracteres mejorado */
+
+.contador-caracteres {
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-align: right;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.caracteres-restantes {
+    font-weight: bold;
+    color: #F6A894;
+}
+
+
+/* Efecto hover suave */
+
+.custom-textarea:hover {
+    border-color: #ced4da;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 
 /* Responsive */
+
 @media (max-width: 768px) {
     .prenda-detalle {
         flex-direction: column;
         align-items: flex-start;
     }
-
     .prenda-detalle img {
         width: 100px;
         height: 100px;
     }
-
     .total-outfit {
         text-align: center;
     }
