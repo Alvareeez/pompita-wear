@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
 use App\Http\Controllers\OutfitController2;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\DonationController;
 
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
@@ -95,6 +96,9 @@ Route::middleware(['auth'])->group(
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
+        Route::post('/outfits/{id}/comentarios', [DetailsOutfitsController::class, 'storeComment'])->name('outfits.storeComment');
+        Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
+        Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
         Route::post('/seguir/{id}', [SeguimientoController::class, 'toggleFollow'])->name('seguir');    }
 );
@@ -112,19 +116,28 @@ Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.
         Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
             ->name('perfil.delete-picture')
             ->middleware('auth');
+        Route::middleware('auth')->group(function () {
+            Route::post('/seguimiento/enviar/{idSeguido}', [SeguimientoController::class, 'enviarSolicitud'])->name('seguimiento.enviar');
+            Route::post('/seguimiento/aceptar/{idSeguimiento}', [SeguimientoController::class, 'aceptarSolicitud'])->name('seguimiento.aceptar');
+            Route::post('/seguimiento/rechazar/{idSeguimiento}', [SeguimientoController::class, 'rechazarSolicitud'])->name('seguimiento.rechazar');
+            Route::get('/seguidores', [SeguimientoController::class, 'listarSeguidores'])->name('seguidores.listar');
+            Route::get('/seguidos', [SeguimientoController::class, 'listarSeguidos'])->name('seguidos.listar');
+
         // BUSQUEDA DE USUARIOS POR AJAX:
         Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
         ->name('users.search')
         ->middleware('auth');
         });
-    }
-);
-
 
 
 Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
 Route::get('/outfits/create-from-calendar', [OutfitController2::class, 'createFromCalendar'])->name('outfits.createFromCalendar');
 Route::post('/outfits/store-from-calendar', [OutfitController2::class, 'storeFromCalendar'])->name('outfits.storeFromCalendar');
 Route::get('/outfits/replace', [OutfitController2::class, 'replaceOutfit'])->name('outfits.replace');
+Route::post('/outfits/delete', [OutfitController2::class, 'deleteOutfit'])->name('outfits.delete');
 Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+Route::post('/donations/process', [DonationController::class, 'process'])->name('donations.process');
+Route::get('/donations/checkout', [DonationController::class, 'checkout'])->name('donations.checkout');
+Route::get('/donations/success', [DonationController::class, 'success'])->name('donations.success');
+Route::get('/donations/cancel', [DonationController::class, 'cancel'])->name('donations.cancel');
