@@ -348,8 +348,11 @@ cursor: pointer;
     align-items: center; /* Centrar verticalmente */
     gap: 8px; /* Espaciado entre ícono y texto */
     transition: background-color 0.3s ease; /* Transición suave */
-    text-decoration: none; /* Sin subrayado */
+}
 
+.admin-button a {
+    color: white; /* Texto blanco */
+    text-decoration: none; /* Sin subrayado */
 }
 
 .admin-button:hover {
