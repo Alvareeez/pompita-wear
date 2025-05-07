@@ -23,9 +23,9 @@ use App\Http\Controllers\DonationController;
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
 Route::get('auth/google/redirect', [SocialController::class, 'redirect'])
-     ->name('google.redirect');
+    ->name('google.redirect');
 Route::get('auth/google/callback',  [SocialController::class, 'callback'])
-     ->name('google.callback');
+    ->name('google.callback');
 
 Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
@@ -100,7 +100,8 @@ Route::middleware(['auth'])->group(
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
-        Route::post('/seguir/{id}', [SeguimientoController::class, 'toggleFollow'])->name('seguir');    }
+        Route::post('/seguir/{id}', [SeguimientoController::class, 'toggleFollow'])->name('seguir');
+    }
 );
 
 
@@ -108,26 +109,26 @@ Route::middleware(['auth'])->group(
 Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
 Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
 
-        Route::get('/perfil', [PerfilController::class, 'show'])
-        ->middleware('auth')
-        ->name('perfil');
+Route::get('/perfil', [PerfilController::class, 'show'])
+    ->middleware('auth')
+    ->name('perfil');
 
-           Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
-        Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
-            ->name('perfil.delete-picture')
-            ->middleware('auth');
-        Route::middleware('auth')->group(function () {
-            Route::post('/seguimiento/enviar/{idSeguido}', [SeguimientoController::class, 'enviarSolicitud'])->name('seguimiento.enviar');
-            Route::post('/seguimiento/aceptar/{idSeguimiento}', [SeguimientoController::class, 'aceptarSolicitud'])->name('seguimiento.aceptar');
-            Route::post('/seguimiento/rechazar/{idSeguimiento}', [SeguimientoController::class, 'rechazarSolicitud'])->name('seguimiento.rechazar');
-            Route::get('/seguidores', [SeguimientoController::class, 'listarSeguidores'])->name('seguidores.listar');
-            Route::get('/seguidos', [SeguimientoController::class, 'listarSeguidos'])->name('seguidos.listar');
+Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
+    ->name('perfil.delete-picture')
+    ->middleware('auth');
+Route::middleware('auth')->group(function () {
+    Route::post('/seguimiento/enviar/{idSeguido}', [SeguimientoController::class, 'enviarSolicitud'])->name('seguimiento.enviar');
+    Route::post('/seguimiento/aceptar/{idSeguimiento}', [SeguimientoController::class, 'aceptarSolicitud'])->name('seguimiento.aceptar');
+    Route::post('/seguimiento/rechazar/{idSeguimiento}', [SeguimientoController::class, 'rechazarSolicitud'])->name('seguimiento.rechazar');
+    Route::get('/seguidores', [SeguimientoController::class, 'listarSeguidores'])->name('seguidores.listar');
+    Route::get('/seguidos', [SeguimientoController::class, 'listarSeguidos'])->name('seguidos.listar');
 
-        // BUSQUEDA DE USUARIOS POR AJAX:
-        Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
+    // BUSQUEDA DE USUARIOS POR AJAX:
+    Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
         ->name('users.search')
         ->middleware('auth');
-        });
+});
 
 
 Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
