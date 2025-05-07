@@ -119,7 +119,18 @@
                     </div>
                 </div>
                 <div class="forecast" id="forecast-container">
-                    <!-- Pronóstico de los próximos días -->
+                    <!-- Los recuadros de los días se generarán dinámicamente aquí -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para mostrar detalles del día -->
+        <div id="day-modal" class="modal">
+            <div class="modal-content">
+                <span id="close-modal" class="close">&times;</span>
+                <h3 id="modal-day-title">Detalles del día</h3>
+                <div id="modal-day-details">
+                    <!-- Aquí se cargará la información del día -->
                 </div>
             </div>
         </div>
