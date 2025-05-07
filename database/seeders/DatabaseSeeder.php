@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
             PrendaEstilosSeeder::class,
             PrendaEtiquetasSeeder::class,
             OutfitSeeder::class,
-            SeguimientosTableSeeder::class,
         ]);
     }
     
