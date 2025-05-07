@@ -33,4 +33,12 @@ class ComentarioOutfit extends Model
     {
         return $this->hasMany(LikeComentarioOutfit::class, 'id_comentario');
     }
+    public function isLikedByUser($userId)
+{
+    return $this->likes()->where('id_usuario', $userId)->exists();
+}
+    public function likesCount()
+        {
+            return $this->likes()->count();
+        }
 }
