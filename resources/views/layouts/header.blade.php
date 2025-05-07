@@ -157,6 +157,10 @@
                             <div id="notification-panel" class="notification-panel">
                                 <h3>Notificaciones</h3>
                                 <ul>
+                                    <form action="{{ route('notifications.markAllAsRead') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="mark-read-button">Marcar todo como leído</button>
+                                    </form>
                                     @foreach (auth()->user()->unreadNotifications as $notification)
                                         <li>
                                             {{ $notification->data['message'] }}
@@ -168,10 +172,7 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <form action="{{ route('notifications.markAllAsRead') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="mark-read-button">Marcar todo como leído</button>
-                                </form>
+
                             </div>
                         </div>
                     @endif
