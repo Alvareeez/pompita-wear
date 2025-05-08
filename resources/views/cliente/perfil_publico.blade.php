@@ -13,75 +13,85 @@
 @endsection
 
 @section('content')
-<!-- Modal para ver la foto de perfil -->
-<div class="modal fade" id="perfilModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content border-0" style="background-color: transparent; box-shadow: none;">
-      <div class="modal-body text-center p-0 position-relative">
-        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal"></button>
-        <img src="{{ $user->foto_perfil ? asset($user->foto_perfil) : asset('img/default-profile.png') }}"
-             alt="Foto de perfil completa"
-             class="img-fluid"
-             style="width: 500px; max-height: 400px;object-fit: contain; border-radius: 8px;">
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="container perfil-p">
-  <div class="text-center mb-4">
-    <div class="profile-picture-container mx-auto" data-bs-toggle="modal" data-bs-target="#perfilModal" style="cursor: pointer;">
+<div class="container perfil-p text-center py-4">
+  {{-- Foto de perfil y modal --}}
+  <div class="mb-3">
+    <div class="profile-picture-container mx-auto" data-bs-toggle="modal" data-bs-target="#perfilModal" style="cursor:pointer;">
       <img src="{{ $user->foto_perfil ? asset($user->foto_perfil) : asset('img/default-profile.png') }}"
-           alt="Foto de perfil" class="profile-picture" id="profile-picture">
+           alt="Foto de perfil"
+           class="profile-picture rounded-circle">
     </div>
     <h2 class="mt-3">{{ $user->nombre }}</h2>
-    <p class="text-muted">Este usuario tiene {{ $user->outfits->count() }} outfit(s)</p>
 
+    {{-- Seguidores y seguidos --}}
+    <p class="text-muted">
+      {{ $user->seguidores()->count() }} seguidores •
+      {{ $user->siguiendo()->count() }} seguidos
+    </p>
+
+    {{-- Botón de seguir / cancelar solicitud --}}
     @auth
       @if(auth()->id() !== $user->id_usuario)
         @php
-          $existingFollow = $user->seguidores()
-            ->where('id_seguidor', auth()->id())
-            ->first();
-          $isAccepted = $existingFollow && $existingFollow->estado === 'aceptado';
-          $followState = $isAccepted ? 'following' : ($existingFollow ? 'pending' : '');
-          $followText  = $isAccepted ? 'Siguiendo' : ($existingFollow ? 'Pendiente' : 'Seguir');
+          $req = auth()->user()
+                      ->solicitudesEnviadas()
+                      ->where('id_receptor', $user->id_usuario)
+                      ->first();
+          $status = $req->status ?? null;
         @endphp
-        <button id="follow-btn" class="follow-btn {{ $followState }}"
-                data-user-id="{{ $user->id_usuario }}"
-                data-state="{{ $followState }}">
-          {{ $followText }}
-          <span class="btn-loader d-none"><i class="fas fa-spinner fa-spin"></i></span>
-        </button>
-      @else
-        {{-- Your own profile --}}
+
+        @if($status === 'pendiente')
+          <form method="POST" action="{{ route('solicitudes.destroy', $req->id) }}" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-outline-danger px-4">
+              Cancelar solicitud
+            </button>
+          </form>
+        @else
+          <form method="POST" action="{{ route('solicitudes.store') }}" class="d-inline">
+            @csrf
+            <input type="hidden" name="id_receptor" value="{{ $user->id_usuario }}">
+            <button type="submit"
+                    class="btn {{ $status === 'aceptada' ? 'btn-success' : 'btn-primary' }} px-4">
+              {{ $status === 'aceptada' ? 'Siguiendo' : 'Seguir' }}
+            </button>
+          </form>
+        @endif
       @endif
     @else
       <a href="{{ route('login') }}" class="btn btn-primary">Inicia sesión para seguir</a>
     @endauth
-
-    @php
-      // Determinar si puede ver outfits
-      $canView = ! $user->is_private
-                 || auth()->id() === $user->id_usuario
-                 || (isset($isAccepted) && $isAccepted);
-    @endphp
-
-    @unless($canView)
-      <div class="alert alert-warning mt-3">
-        Este perfil es privado. Síguelo para ver su contenido.
-      </div>
-    @endunless
-
   </div>
 
-  @if($canView)
-    @if($user->outfits->isEmpty())
-      <div class="alert alert-info text-center">
-        Este usuario aún no tiene outfits publicados.
+  {{-- Modal para ver foto ampliada --}}
+  <div class="modal fade" id="perfilModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content bg-transparent border-0">
+        <div class="modal-body text-center p-0 position-relative">
+          <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                  data-bs-dismiss="modal"></button>
+          <img src="{{ $user->foto_perfil ? asset($user->foto_perfil) : asset('img/default-profile.png') }}"
+               class="img-fluid"
+               style="max-width:80%; object-fit:contain; border-radius:8px;">
+        </div>
       </div>
+    </div>
+  </div>
+
+  @php
+    // Determinar si puede ver outfits
+    $canView = ! $user->is_private
+               || auth()->id() === $user->id_usuario
+               || optional($req)->status === 'aceptada';
+  @endphp
+
+  @if($canView)
+    {{-- Mostrar outfits --}}
+    @if($user->outfits->isEmpty())
+      <div class="alert alert-info mt-4">Este usuario aún no tiene outfits publicados.</div>
     @else
-      <div class="carousel2">
+      <div class="carousel2 mt-4">
         <button class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
         <button class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
         <ul class="carousel__list">
@@ -104,8 +114,12 @@
         </ul>
       </div>
     @endif
+  @else
+    {{-- Perfil privado --}}
+    <div class="alert alert-warning mt-4">
+      Esta cuenta es privada. Envía una solicitud para ver su contenido.
+    </div>
   @endif
-
 </div>
 
 @include('layouts.footer')

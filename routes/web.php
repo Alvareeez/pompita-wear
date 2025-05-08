@@ -11,6 +11,8 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\Auth\SocialController;
+use App\Http\Controllers\SolicitudController;
+
 
 
 use App\Http\Controllers\Admin\EstiloController;
@@ -99,6 +101,12 @@ Route::middleware(['auth'])->group(
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
+
+        // SOLICITUDES
+        Route::post('/solicitudes', [SolicitudController::class, 'store'])->name('solicitudes.store');
+        Route::delete('/solicitudes/{solicitud}', [SolicitudController::class, 'destroy'])->name('solicitudes.destroy');
+
+
      });
 
 
