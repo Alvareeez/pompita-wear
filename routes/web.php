@@ -11,6 +11,8 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\Auth\SocialController;
+use App\Http\Controllers\SolicitudController;
+
 
 
 use App\Http\Controllers\Admin\EstiloController;
@@ -18,6 +20,7 @@ use App\Http\Controllers\Admin\EtiquetaController;
 use App\Http\Controllers\OutfitController2;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\SolicitudRopaController;
 
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
@@ -40,6 +43,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 // RUTAS DE SEGURIZADAS COMO ADMIN ---------------------------------------------------------------------------
 Route::prefix('admin')->middleware('auth')->group(function () {
+    
+    // RUTAS DE CRUDS
+
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
     Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('admin.usuarios.create');
     Route::post('/usuarios', [UsuarioController::class, 'store'])->name('admin.usuarios.store');
@@ -71,16 +77,18 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/etiquetas/{id}/edit', [EtiquetaController::class, 'edit'])->name('admin.etiquetas.edit');
     Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
     Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
+
+    // RUTA PARA MANEJAR SOLICITUDES DE SUBIR PRENDAS
+    Route::get('/admin/solicitudes', [SolicitudRopaController::class, 'index'])->name('admin.solicitudes.index');
+    Route::put('/admin/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
 
-// Ruta AJAX para filtrar por estilo SIN AUTH
-Route::get('/prendas/estilo/{id}/filtrar', [PrendaController::class, 'filtrarPorEstilo'])->name('prendas.filtrarPorEstilo');
-
 Route::middleware(['auth'])->group(
     function () {
 
+        // RUTAS DE PRENDAS
         Route::get('/prendas', [PrendaController::class, 'index'])->name('prendas.index');
         Route::get('/prendas/{id}', [PrendaController::class, 'show'])->name('prendas.show');
         Route::post('/prendas/{id}/comentarios', [PrendaController::class, 'storeComment'])->name('prendas.storeComment');
@@ -90,6 +98,14 @@ Route::middleware(['auth'])->group(
         Route::post('/prendas/{id}/valoraciones', [PrendaController::class, 'storeValoracion'])->name('prendas.storeValoracion');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
 
+        // RUTA DEL CLIENTE PARA SUBIR UNA PRENDA
+        Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
+        Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
+
+        // Ruta AJAX para filtrar por estilo
+        Route::get('/prendas/estilo/{id}/filtrar', [PrendaController::class, 'filtrarPorEstilo'])->name('prendas.filtrarPorEstilo');
+
+        // RUTAS DE OUTFITS
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
         Route::get('/outfit/filter-ajax', [OutfitController::class, 'filterAjax'])->name('outfit.filterAjax');
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
@@ -98,38 +114,42 @@ Route::middleware(['auth'])->group(
         Route::post('/outfits/{id}/comentarios', [DetailsOutfitsController::class, 'storeComment'])->name('outfits.storeComment');
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
+
+        // CALENDARIO:
+        Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
+        Route::get('/outfits/create-from-calendar', [OutfitController2::class, 'createFromCalendar'])->name('outfits.createFromCalendar');
+        Route::post('/outfits/store-from-calendar', [OutfitController2::class, 'storeFromCalendar'])->name('outfits.storeFromCalendar');
+        Route::get('/outfits/replace', [OutfitController2::class, 'replaceOutfit'])->name('outfits.replace');
+        Route::post('/outfits/delete', [OutfitController2::class, 'deleteOutfit'])->name('outfits.delete');
+
+        // NOTIFICACIONES
+        Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+        Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+
+
+        // RED SOCIAL
+
+        // BUSQUEDA DE USUARIOS POR AJAX:
+        Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])->name('users.search');
+
+        // PERFIL PERSONAL DEL USUARIO
+        Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');       
+        // ACCIONES DEL PERFIL 
+        Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+        Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+        Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])->name('perfil.delete-picture');
+
+
+        // ENTRAR A PERFIL DE OTRO USUARIO
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
+
+        // MANDAR SOLICITUDES DE SEGUIMIENTO
+        Route::post('/solicitudes', [SolicitudController::class, 'store'])->name('solicitudes.store');
+        Route::delete('/solicitudes/{solicitud}', [SolicitudController::class, 'destroy'])->name('solicitudes.destroy');
+
+        // MANEJO DE SOLICITUDES DE SEGUIMIENTO
+        Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
+        Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
+
+
      });
-
-
-
-Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
-Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
-
-Route::get('/perfil', [PerfilController::class, 'show'])
-    ->middleware('auth')
-    ->name('perfil');
-
-           Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
-        Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
-            ->name('perfil.delete-picture')
-            ->middleware('auth');
-
-    // BUSQUEDA DE USUARIOS POR AJAX:
-    Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
-        ->name('users.search')
-        ->middleware('auth');
-
-
-
-Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
-Route::get('/outfits/create-from-calendar', [OutfitController2::class, 'createFromCalendar'])->name('outfits.createFromCalendar');
-Route::post('/outfits/store-from-calendar', [OutfitController2::class, 'storeFromCalendar'])->name('outfits.storeFromCalendar');
-Route::get('/outfits/replace', [OutfitController2::class, 'replaceOutfit'])->name('outfits.replace');
-Route::post('/outfits/delete', [OutfitController2::class, 'deleteOutfit'])->name('outfits.delete');
-Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
-Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
-Route::post('/donations/process', [DonationController::class, 'process'])->name('donations.process');
-Route::get('/donations/checkout', [DonationController::class, 'checkout'])->name('donations.checkout');
-Route::get('/donations/success', [DonationController::class, 'success'])->name('donations.success');
-Route::get('/donations/cancel', [DonationController::class, 'cancel'])->name('donations.cancel');
