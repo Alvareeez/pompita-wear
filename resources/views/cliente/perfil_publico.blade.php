@@ -5,7 +5,7 @@
 @section('css')
   <link rel="stylesheet" href="{{ asset('css/perfil.css') }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
-  {{-- Meta para CSRF y base_url --}}
+  {{-- Metadatos para AJAX --}}
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="base-url"   content="{{ url('') }}">
 @endsection
@@ -18,6 +18,7 @@
 
 @section('content')
 @php
+    // Pedido de seguimiento existente, si lo hay
     $req    = auth()->check()
               ? auth()->user()
                     ->solicitudesEnviadas()
@@ -26,6 +27,7 @@
               : null;
     $status = optional($req)->status; // 'pendiente', 'aceptada' o null
 
+    // Comprobamos si podemos ver outfits
     $canView = ! $user->is_private
                || (auth()->check() && auth()->id() === $user->id_usuario)
                || $status === 'aceptada';
@@ -34,39 +36,46 @@
 <div class="container perfil-p text-center py-4">
   {{-- Foto y modal --}}
   <div class="mb-3">
-    <div class="profile-picture-container mx-auto" data-bs-toggle="modal" data-bs-target="#perfilModal"
+    <div class="profile-picture-container mx-auto"
+         data-bs-toggle="modal"
+         data-bs-target="#perfilModal"
          style="cursor:pointer;">
       <img src="{{ $user->foto_perfil
                    ? asset($user->foto_perfil)
                    : asset('img/default-profile.png') }}"
-           class="profile-picture rounded-circle" alt="Foto de perfil">
+           class="profile-picture rounded-circle"
+           alt="Foto de perfil">
     </div>
     <h2 class="mt-3">{{ $user->nombre }}</h2>
     <p class="text-muted">
-      {{ $user->seguidores()->count() }} seguidores •
+      <span id="followers-count">{{ $user->seguidores()->count() }}</span> seguidores •
       {{ $user->siguiendo()->count() }} seguidos
     </p>
 
     @auth
       @if(auth()->id() !== $user->id_usuario)
         <button id="solicitud-btn"
-                class="btn {{ $status === 'aceptada' ? 'btn-success' : ($status === 'pendiente' ? 'btn-warning' : 'btn-primary') }}"
+                class="btn {{ $status === 'aceptada'
+                             ? 'btn-success'
+                             : ($status === 'pendiente' ? 'btn-warning' : 'btn-primary') }}"
                 data-user-id="{{ $user->id_usuario }}"
                 @if($status)
                   data-solicitud-id="{{ $req->id }}"
                   data-status="{{ $status }}"
                 @endif>
-          {{ $status === 'aceptada' 
+          {{ $status === 'aceptada'
              ? 'Siguiendo'
              : ($status === 'pendiente' ? 'Pendiente' : 'Seguir') }}
         </button>
       @endif
     @else
-      <a href="{{ route('login') }}" class="btn btn-primary">Inicia sesión para seguir</a>
+      <a href="{{ route('login') }}" class="btn btn-primary">
+        Inicia sesión para seguir
+      </a>
     @endauth
   </div>
 
-  {{-- Modal foto --}}
+  {{-- Modal foto full --}}
   <div class="modal fade" id="perfilModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
       <div class="modal-content bg-transparent border-0">
@@ -77,15 +86,19 @@
           <img src="{{ $user->foto_perfil
                        ? asset($user->foto_perfil)
                        : asset('img/default-profile.png') }}"
-               class="img-fluid" style="max-width:80%; object-fit:contain; border-radius:8px;">
+               class="img-fluid"
+               style="max-width:80%; object-fit:contain; border-radius:8px;">
         </div>
       </div>
     </div>
   </div>
 
+  {{-- Outfits o mensaje privado --}}
   @if($canView)
     @if($user->outfits->isEmpty())
-      <div class="alert alert-info mt-4">Este usuario aún no tiene outfits publicados.</div>
+      <div class="alert alert-info mt-4">
+        Este usuario aún no tiene outfits publicados.
+      </div>
     @else
       <div class="carousel2 mt-4">
         <button class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
@@ -99,7 +112,8 @@
                   <div class="prenda-column">
                     @foreach($outfit->prendas as $prenda)
                       <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
-                           alt="{{ $prenda->nombre }}" class="vertical-image">
+                           alt="{{ $prenda->nombre }}"
+                           class="vertical-image">
                     @endforeach
                   </div>
                 </div>

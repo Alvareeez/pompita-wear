@@ -50,12 +50,12 @@ class SolicitudController extends Controller
     }
 
     /**
-     * Cancela (elimina) una solicitud pendiente existente.
+     * Cancela o elimina una solicitud (tanto pendientes como aceptadas).
      */
     public function destroy(Request $request, Solicitud $solicitud)
     {
-        // Sólo el emisor puede cancelar y sólo si está pendiente
-        if ($solicitud->id_emisor != Auth::id() || $solicitud->status !== 'pendiente') {
+        // Solo el emisor puede eliminar su propia solicitud
+        if ($solicitud->id_emisor != Auth::id()) {
             return $request->ajax()
                 ? response()->json(['error' => 'No puedes cancelar esa solicitud.'], 403)
                 : back()->with('error', 'No puedes cancelar esa solicitud.');
