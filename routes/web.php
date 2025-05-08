@@ -11,13 +11,12 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\Auth\SocialController;
-
-
 use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
 use App\Http\Controllers\OutfitController2;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\SolicitudRopaController;
 
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
@@ -101,26 +100,22 @@ Route::middleware(['auth'])->group(
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
      });
 
-
-
 Route::get('/perfil', [PerfilController::class, 'show'])->middleware('auth');
 Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
 
-        Route::get('/perfil', [PerfilController::class, 'show'])
-        ->middleware('auth')
-        ->name('perfil');
+Route::get('/perfil', [PerfilController::class, 'show'])
+    ->middleware('auth')
+    ->name('perfil');
 
-           Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
-        Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
-            ->name('perfil.delete-picture')
-            ->middleware('auth');
+Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
+    ->name('perfil.delete-picture')
+    ->middleware('auth');
 
-        // BUSQUEDA DE USUARIOS POR AJAX:
-        Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
-        ->name('users.search')
-        ->middleware('auth');
-
-
+// BUSQUEDA DE USUARIOS POR AJAX:
+Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
+    ->name('users.search')
+    ->middleware('auth');
 
 Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
 Route::get('/outfits/create-from-calendar', [OutfitController2::class, 'createFromCalendar'])->name('outfits.createFromCalendar');
@@ -133,3 +128,11 @@ Route::post('/donations/process', [DonationController::class, 'process'])->name(
 Route::get('/donations/checkout', [DonationController::class, 'checkout'])->name('donations.checkout');
 Route::get('/donations/success', [DonationController::class, 'success'])->name('donations.success');
 Route::get('/donations/cancel', [DonationController::class, 'cancel'])->name('donations.cancel');
+
+// Rutas para usuarios
+Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
+Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
+
+// Rutas para administradores
+Route::get('/admin/solicitudes', [SolicitudRopaController::class, 'index'])->name('admin.solicitudes.index');
+Route::put('/admin/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');

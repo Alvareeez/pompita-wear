@@ -205,6 +205,33 @@ table tr:hover {
     transform: scale(1.1);
 }
 
+
+/* Botones de acción */
+.accept-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.reject-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.accept-btn:hover {
+    background-color: #218838;
+}
+
+.reject-btn:hover {
+    background-color: #c82333;
+}
 /* Spinner de carga */
 .dot-spinner {
     --uib-size: 3rem;
