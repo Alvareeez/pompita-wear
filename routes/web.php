@@ -10,7 +10,6 @@ use App\Http\Controllers\OutfitController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
-use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\Auth\SocialController;
 
 
@@ -100,9 +99,7 @@ Route::middleware(['auth'])->group(
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
-        Route::post('/seguir/{id}', [SeguimientoController::class, 'toggleFollow'])->name('seguir');
-    }
-);
+     });
 
 
 
@@ -113,22 +110,16 @@ Route::get('/perfil', [PerfilController::class, 'show'])
     ->middleware('auth')
     ->name('perfil');
 
-Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
-Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
-    ->name('perfil.delete-picture')
-    ->middleware('auth');
-Route::middleware('auth')->group(function () {
-    Route::post('/seguimiento/enviar/{idSeguido}', [SeguimientoController::class, 'enviarSolicitud'])->name('seguimiento.enviar');
-    Route::post('/seguimiento/aceptar/{idSeguimiento}', [SeguimientoController::class, 'aceptarSolicitud'])->name('seguimiento.aceptar');
-    Route::post('/seguimiento/rechazar/{idSeguimiento}', [SeguimientoController::class, 'rechazarSolicitud'])->name('seguimiento.rechazar');
-    Route::get('/seguidores', [SeguimientoController::class, 'listarSeguidores'])->name('seguidores.listar');
-    Route::get('/seguidos', [SeguimientoController::class, 'listarSeguidos'])->name('seguidos.listar');
+           Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
+        Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])
+            ->name('perfil.delete-picture')
+            ->middleware('auth');
 
     // BUSQUEDA DE USUARIOS POR AJAX:
     Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])
         ->name('users.search')
         ->middleware('auth');
-});
+
 
 
 Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
