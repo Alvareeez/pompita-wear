@@ -8,6 +8,7 @@
   {{-- Metadatos para AJAX --}}
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="base-url"   content="{{ url('') }}">
+  <meta name="is-private" content="{{ $user->is_private ? '1' : '0' }}">
 @endsection
 
 @section('scripts')
@@ -94,41 +95,41 @@
   </div>
 
   {{-- Outfits o mensaje privado --}}
-  @if($canView)
-    @if($user->outfits->isEmpty())
-      <div class="alert alert-info mt-4">
-        Este usuario aún no tiene outfits publicados.
-      </div>
-    @else
-      <div class="carousel2 mt-4">
-        <button class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
-        <button class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
-        <ul class="carousel__list">
-          @foreach($user->outfits as $key => $outfit)
-            <li class="carousel__item" data-pos="{{ $key }}">
-              <a href="{{ route('outfit.show', $outfit->id_outfit) }}">
-                <div class="outfit-card">
-                  <p class="profile-name">{{ $outfit->nombre }}</p>
-                  <div class="prenda-column">
-                    @foreach($outfit->prendas as $prenda)
-                      <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
-                           alt="{{ $prenda->nombre }}"
-                           class="vertical-image">
-                    @endforeach
+  <div id="outfits-section">
+    @if($canView)
+      @if($user->outfits->isEmpty())
+        <div class="alert alert-info mt-4">
+          Este usuario aún no tiene outfits publicados.
+        </div>
+      @else
+        <div class="carousel2 mt-4">
+          <button class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
+          <ul class="carousel__list">
+            @foreach($user->outfits as $key => $outfit)
+              <li class="carousel__item" data-pos="{{ $key }}">
+                <a href="{{ route('outfit.show', $outfit->id_outfit) }}">
+                  <div class="outfit-card">
+                    <p class="profile-name">{{ $outfit->nombre }}</p>
+                    <div class="prenda-column">
+                      @foreach($outfit->prendas as $prenda)
+                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                             alt="{{ $prenda->nombre }}" class="vertical-image">
+                      @endforeach
+                    </div>
                   </div>
-                </div>
-              </a>
-            </li>
-          @endforeach
-        </ul>
+                </a>
+              </li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+    @else
+      <div class="alert alert-warning mt-4">
+        Esta cuenta es privada. Envía una solicitud para ver su contenido.
       </div>
     @endif
-  @else
-    <div class="alert alert-warning mt-4">
-      Esta cuenta es privada. Envía una solicitud para ver su contenido.
-    </div>
-  @endif
+  </div>
 </div>
-
 @include('layouts.footer')
 @endsection

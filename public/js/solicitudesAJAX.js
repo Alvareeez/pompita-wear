@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Obtenemos el token CSRF y la URL base
     const token = document.head.querySelector('meta[name="csrf-token"]').content;
     const base  = document.head.querySelector('meta[name="base-url"]').content;
+    const isPrivate       = document.head.querySelector('meta[name="is-private"]').content === '1';
     const followersCount = document.getElementById('followers-count');
+    const outfitsSection  = document.getElementById('outfits-section');
+
 
     // Asociamos el evento click al botón
     btn.addEventListener('click', async (e) => {
@@ -40,6 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (status === 'aceptada' && followersCount) {
                     let count = parseInt(followersCount.textContent) || 0;
                     followersCount.textContent = Math.max(count - 1, 0);
+                }
+                if (isPrivate) {
+                    outfitsSection.innerHTML = `
+                      <div class="alert alert-warning mt-4">
+                        Esta cuenta es privada. Envía una solicitud para ver su contenido.
+                      </div>`;
                 }
             } else {
                 const err = await res.json();
