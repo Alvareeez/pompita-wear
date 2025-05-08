@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\EtiquetaController;
 use App\Http\Controllers\OutfitController2;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DonationController;
+use App\Http\Controllers\SolicitudRopaController;
 
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
