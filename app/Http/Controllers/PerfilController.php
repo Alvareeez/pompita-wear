@@ -84,12 +84,18 @@ class PerfilController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'nombre'      => 'required|string|max:100',
-            'password'    => 'nullable|confirmed|min:8',
-            'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'nombre'       => 'required|string|max:100',
+            'password'     => 'nullable|confirmed|min:8',
+            'foto_perfil'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_private'   => 'required|boolean',  // <--- validación
         ]);
 
-        $user->nombre = $request->nombre;
+        // Mantener el valor anterior de privacidad
+        $oldPrivacy = $user->is_private;
+
+        // Actualizaciones básicas
+        $user->nombre     = $request->nombre;
+        $user->is_private = $request->is_private;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
@@ -100,16 +106,21 @@ class PerfilController extends Controller
                 Storage::disk('public')
                     ->delete(str_replace('storage/', '', $user->foto_perfil));
             }
-            $path = $request->file('foto_perfil')
-                        ->store('profile_pictures', 'public');
+            $path = $request->file('foto_perfil')->store('profile_pictures', 'public');
             $user->foto_perfil = 'storage/' . $path;
         }
 
         $user->save();
 
+        // Si cambió de PRIVADO (1) a PÚBLICO (0), aceptamos todas las solicitudes pendientes
+        if ($oldPrivacy && ! $user->is_private) {
+            Solicitud::where('id_receptor', $user->id_usuario)
+                ->where('status', 'pendiente')
+                ->update(['status' => 'aceptada']);
+        }
+
         return back()->with('success', 'Perfil actualizado correctamente.');
     }
-
     /**
      * Elimina la foto de perfil y la restablece a la predeterminada.
      */

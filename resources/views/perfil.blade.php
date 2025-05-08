@@ -144,6 +144,16 @@
           </div>
         </div>
 
+        {{-- PRIVACIDAD --}} 
+        <div class="mb-3">
+        <label for="is_private">Privacidad de la cuenta:</label>
+            <select name="is_private" id="is_private" class="form-select">
+            <option value="0" {{ $user->is_private ? '' : 'selected' }}>Público</option>
+            <option value="1" {{ $user->is_private ? 'selected' : '' }}>Privado</option>
+            </select>
+        </div>
+
+
         <div class="d-flex justify-content-center">
           <button type="submit" class="btn btn-outline-dark w-75">Guardar cambios</button>
         </div>
