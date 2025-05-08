@@ -106,7 +106,6 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitudes', [SolicitudController::class, 'store'])->name('solicitudes.store');
         Route::delete('/solicitudes/{solicitud}', [SolicitudController::class, 'destroy'])->name('solicitudes.destroy');
 
-
      });
 
 

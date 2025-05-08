@@ -9,42 +9,66 @@ use App\Models\Usuario;
 
 class SolicitudController extends Controller
 {
+    /**
+     * Envía una nueva solicitud de seguimiento o actualiza el estado
+     * (aceptada si la cuenta es pública, pendiente si es privada).
+     */
     public function store(Request $request)
     {
         $request->validate([
             'id_receptor' => 'required|exists:usuarios,id_usuario',
         ]);
 
-        $emisor    = Auth::user();
-        $receptor  = Usuario::findOrFail($request->id_receptor);
+        $emisor   = Auth::user();
+        $receptor = Usuario::findOrFail($request->id_receptor);
 
         if ($emisor->id_usuario === $receptor->id_usuario) {
-            return back()->with('error', 'No puedes enviarte una solicitud a ti mismo.');
+            return $request->ajax()
+                ? response()->json(['error' => 'No puedes enviarte una solicitud a ti mismo.'], 422)
+                : back()->with('error', 'No puedes enviarte una solicitud a ti mismo.');
         }
 
-        // Busca o crea la solicitud
+        // Busca o crea la solicitud existente
         $solicitud = Solicitud::firstOrNew([
             'id_emisor'   => $emisor->id_usuario,
             'id_receptor' => $receptor->id_usuario,
         ]);
 
-        // Si la cuenta es pública, auto-acepta
+        // Asigna el status según privacidad del receptor
         $solicitud->status = $receptor->is_private ? 'pendiente' : 'aceptada';
         $solicitud->save();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'status'       => $solicitud->status,
+                'solicitud_id' => $solicitud->id,
+                'message'      => 'Solicitud enviada correctamente.',
+            ]);
+        }
 
         return back()->with('success', 'Solicitud enviada correctamente.');
     }
 
-    public function destroy(Solicitud $solicitud)
+    /**
+     * Cancela (elimina) una solicitud pendiente existente.
+     */
+    public function destroy(Request $request, Solicitud $solicitud)
     {
-        // Sólo puede borrar su propia solicitud pendiente
-        if ($solicitud->id_emisor != auth()->id() || $solicitud->status !== 'pendiente') {
-            return back()->with('error', 'No puedes cancelar esa solicitud.');
+        // Sólo el emisor puede cancelar y sólo si está pendiente
+        if ($solicitud->id_emisor != Auth::id() || $solicitud->status !== 'pendiente') {
+            return $request->ajax()
+                ? response()->json(['error' => 'No puedes cancelar esa solicitud.'], 403)
+                : back()->with('error', 'No puedes cancelar esa solicitud.');
         }
 
         $solicitud->delete();
 
+        if ($request->ajax()) {
+            return response()->json([
+                'message' => 'Solicitud cancelada correctamente.',
+            ]);
+        }
+
         return back()->with('success', 'Solicitud cancelada correctamente.');
     }
-
 }
