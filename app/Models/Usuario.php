@@ -107,27 +107,52 @@ class Usuario extends Authenticatable
         )->withTimestamps();
     }
 
-    public function seguidores(): BelongsToMany
+    // SEGUIMIENTO
+
+    public function solicitudesEnviadas()
     {
-        return $this->belongsToMany(
-            Usuario::class,
-            'seguidores',
-            'id_seguido',
-            'id_seguidor'
-        )
-        ->withPivot('estado', 'id_seguimiento')
-        ->using(Seguimiento::class);
+        return $this->hasMany(Solicitud::class, 'id_emisor');
     }
 
-    public function seguidos(): BelongsToMany
+    /**
+     * Solicitudes que recibí
+     */
+    public function solicitudesRecibidas()
+    {
+        return $this->hasMany(Solicitud::class, 'id_receptor');
+    }
+
+    /**
+     * Usuarios que me siguen (solicitudes aceptadas)
+     */
+    public function seguidores()
     {
         return $this->belongsToMany(
             Usuario::class,
-            'seguidores',
-            'id_seguidor',
-            'id_seguido'
+            'solicitudes',
+            'id_receptor',
+            'id_emisor'
         )
-        ->withPivot('estado', 'id_seguimiento')
-        ->using(Seguimiento::class);
+        ->withPivot('status')
+        ->wherePivot('status', 'aceptada')
+        ->withTimestamps();
     }
+
+    /**
+     * Usuarios a los que sigo (solicitudes aceptadas)
+     */
+    public function siguiendo()
+    {
+        return $this->belongsToMany(
+            Usuario::class,
+            'solicitudes',
+            'id_emisor',
+            'id_receptor'
+        )
+        ->withPivot('status')
+        ->wherePivot('status', 'aceptada')
+        ->withTimestamps();
+    }
+
+
 }
