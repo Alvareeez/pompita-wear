@@ -74,33 +74,39 @@
                 </div>
                 <div class="form__group field">
                     <label for="estilos">Estilos</label>
-                    <select id="estilos" name="estilos[]" multiple>
+                    <div id="estilos" class="checkbox-grid">
                         @foreach ($estilos as $estilo)
-                            <option value="{{ $estilo->id_estilo }}" {{ $prenda->estilos->contains($estilo->id_estilo) ? 'selected' : '' }}>
+                            <label>
+                                <input type="checkbox" name="estilos[]" value="{{ $estilo->id_estilo }}" 
+                                    {{ $prenda->estilos->contains($estilo->id_estilo) ? 'checked' : '' }}>
                                 {{ $estilo->nombre }}
-                            </option>
+                            </label>
                         @endforeach
-                    </select>
+                    </div>
                 </div>
                 <div class="form__group field">
                     <label for="etiquetas">Etiquetas</label>
-                    <select id="etiquetas" name="etiquetas[]" multiple>
+                    <div id="etiquetas" class="checkbox-grid">
                         @foreach ($etiquetas as $etiqueta)
-                            <option value="{{ $etiqueta->id_etiqueta }}" {{ $prenda->etiquetas->contains($etiqueta->id_etiqueta) ? 'selected' : '' }}>
+                            <label>
+                                <input type="checkbox" name="etiquetas[]" value="{{ $etiqueta->id_etiqueta }}" 
+                                    {{ $prenda->etiquetas->contains($etiqueta->id_etiqueta) ? 'checked' : '' }}>
                                 {{ $etiqueta->nombre }}
-                            </option>
+                            </label>
                         @endforeach
-                    </select>
+                    </div>
                 </div>
                 <div class="form__group field">
                     <label for="colores">Colores</label>
-                    <select id="colores" name="colores[]" multiple>
+                    <div id="colores" class="checkbox-grid">
                         @foreach ($colores as $color)
-                            <option value="{{ $color->id_color }}" {{ $prenda->colores->contains($color->id_color) ? 'selected' : '' }}>
+                            <label>
+                                <input type="checkbox" name="colores[]" value="{{ $color->id_color }}" 
+                                    {{ $prenda->colores->contains($color->id_color) ? 'checked' : '' }}>
                                 {{ $color->nombre }}
-                            </option>
+                            </label>
                         @endforeach
-                    </select>
+                    </div>
                 </div>
                 <button type="submit" class="create-btn"><span>Actualizar Prenda</span></button>
             </form>

@@ -125,8 +125,9 @@
             <form action="{{ route('admin.ropa.pdf') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="prendas">Selecciona las prendas:</label>
-                    <select id="prendas" name="prendas[]" multiple>
+                    <label for="prenda">Selecciona una prenda:</label>
+                    <select id="prenda" name="prenda">
+                        <option value="" disabled selected>Selecciona una prenda</option>
                         @foreach ($prendas as $prenda)
                             <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
                         @endforeach
