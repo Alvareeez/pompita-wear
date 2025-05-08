@@ -36,9 +36,6 @@
             <a href="{{ route('admin.etiquetas.index') }}">
                 <button>Etiquetas</button>
             </a>
-            <a href="{{ route('admin.solicitudes.index') }}">
-                <button>Solicitudes</button> <!-- Nueva pestaña -->
-            </a>
         </div>
 
         @if (session('success'))
