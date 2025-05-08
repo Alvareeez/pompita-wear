@@ -106,7 +106,7 @@ class PrendaController extends Controller
             return response()->json(['error' => 'Debes iniciar sesión'], 401);
         }
     
-        // Verificar si ya existe el like usando la tabla pivot directamente
+        // Verificar si ya existe el like usando la tabla directamente
         $likeExists = DB::table('likes_prendas')
                       ->where('id_prenda', $prenda->id_prenda)
                       ->where('id_usuario', $user->id_usuario)

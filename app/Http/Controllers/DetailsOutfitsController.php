@@ -7,7 +7,8 @@ use App\Models\Outfit;
 use App\Models\LikeComentarioOutfit;
 use App\Models\ValoracionOutfit;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\LikeOutfit;
 class DetailsOutfitsController extends Controller
 {
     public function show($id)
@@ -56,21 +57,70 @@ public function toggleCommentLike($id)
 
     if ($like) {
         $like->delete();
-        $liked = false;
+        $isLiked = false;
     } else {
         LikeComentarioOutfit::create([
             'id_comentario' => $id,
             'id_usuario' => $userId
         ]);
-        $liked = true;
+        $isLiked = true;
     }
 
     return response()->json([
-        'liked' => $liked,
+        'liked' => $isLiked,
         'likes_count' => $comentario->likes()->count()
     ]);
 }
+public function toggleLike($id)
+{
+    try {
+        DB::beginTransaction();
+        
+        $outfit = Outfit::findOrFail($id);
+        $user = auth()->user();
 
+        if (!$user) {
+            return response()->json(['error' => 'Debes iniciar sesión'], 401);
+        }
+
+        $likeExists = DB::table('likes_outfits')
+                      ->where('id_outfit', $outfit->id_outfit)
+                      ->where('id_usuario', $user->id_usuario)
+                      ->exists();
+
+        if ($likeExists) {
+            DB::table('likes_outfits')
+              ->where('id_outfit', $outfit->id_outfit)
+              ->where('id_usuario', $user->id_usuario)
+              ->delete();
+            $liked = false;
+        } else {
+            DB::table('likes_outfits')->insert([
+                'id_outfit' => $outfit->id_outfit,
+                'id_usuario' => $user->id_usuario,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $liked = true;
+        }
+
+        $likesCount = DB::table('likes_outfits')
+                      ->where('id_outfit', $outfit->id_outfit)
+                      ->count();
+
+        DB::commit();
+
+        return response()->json([
+            'liked' => $liked,
+            'likes_count' => $likesCount,
+            'message' => $liked ? 'Like agregado' : 'Like removido'
+        ]);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return response()->json(['error' => 'Error al procesar el like'], 500);
+    }
+}
 public function storeValoracion(Request $request, $id)
 {
     $request->validate([

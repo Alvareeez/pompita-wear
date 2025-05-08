@@ -91,11 +91,13 @@ Route::middleware(['auth'])->group(
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
+        Route::get('/outfit/{outfit}/like', [DetailsOutfitsController::class, 'toggleLike'])->name('outfit.like');
         Route::post('/outfits/{id}/comentarios', [DetailsOutfitsController::class, 'storeComment'])->name('outfits.storeComment');
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
-        Route::post('/seguir/{id}', [SeguimientoController::class, 'toggleFollow'])->name('seguir');    }
+        Route::post('/seguir/{id}', [SeguimientoController::class, 'toggleFollow'])->name('seguir');    
+    }
 );
 
 

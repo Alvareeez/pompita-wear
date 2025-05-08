@@ -82,6 +82,11 @@ class Usuario extends Authenticatable
         return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
             ->withTimestamps();
     }
+    public function likedOutfits()
+{
+    return $this->belongsToMany(Outfit::class, 'likes_outfits', 'id_usuario', 'id_outfit');
+}
+
     public function seguidores()
     {
         return $this->belongsToMany(Usuario::class, 'seguidores', 'id_seguido', 'id_seguidor')
