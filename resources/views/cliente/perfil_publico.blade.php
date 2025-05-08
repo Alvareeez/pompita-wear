@@ -3,7 +3,7 @@
 @section('title', 'Perfil de ' . $user->nombre)
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/perfil.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/perfil-publico.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 @endsection
 @section('scripts')
