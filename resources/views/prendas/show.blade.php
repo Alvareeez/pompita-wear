@@ -170,7 +170,7 @@
                     <div class="comentario-card mb-3">
                         <div class="comentario-content">
                             <div class="foto-comentario-container">
-                                <a href="{{ url('perfil')}}">
+                                <a href="{{ route('perfil.publico', $comentario->usuario->id_usuario)}}">
                                     @if($comentario->usuario->foto_perfil)
                                     <img src="{{ asset($comentario->usuario->foto_perfil) }}" 
                                     alt="{{ $comentario->usuario->nombre }}"

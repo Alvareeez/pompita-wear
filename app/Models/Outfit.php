@@ -60,6 +60,12 @@ class Outfit extends Model
 
     public function likes()
     {
-        return $this->hasMany(LikeOutfit::class, 'id_outfit');
+        return $this->belongsToMany(Usuario::class, 'likes_outfits', 'id_outfit', 'id_usuario')
+        ->withPivot('created_at', 'updated_at');
     }
+    public function isLikedByUser($userId)
+    {
+       return $this->likes()->where('likes_outfits.id_usuario', $userId)->exists();
+       }
+
 }
