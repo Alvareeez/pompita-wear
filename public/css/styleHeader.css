@@ -15,32 +15,22 @@ body {
     z-index: 1000;
 }
 
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
+.navbar {
+    padding: 0;
 }
 
-.brand-section {
-    display: flex;
-    align-items: center;
+.navbar-brand {
+    padding: 0;
 }
 
-.brand-section h1 {
-    margin: 0 0 0 1rem;
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.logo img {
+.logo-img {
     height: 80px;
 }
 
 .user-section {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .session-info {
@@ -75,13 +65,6 @@ body {
     margin-left: 3rem;
 }
 
-.user-profile {
-    display: flex;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
-}
-
 .user-avatar img {
     width: 60px;
     height: 60px;
@@ -94,273 +77,353 @@ main {
     margin-top: 98px;
 }
 
-@media (max-width: 780px) {
-    .user-avatar img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-right: 3rem;
-    }
-    .session-info {
-        margin-right: 2.5rem;
-        color: #ffffff;
-        font-size: 0.9rem;
-    }
-    .session-info a {
-        color: #ffffff;
-        font-size: 0.6rem;
-        text-decoration: none;
-    }
-    .logo img {
-        height: 50px;
-    }
-    main {
-        margin-top: 70px;
-    }
-}
+/* Notifications styles remain the same */
 .notifications {
-position: relative;
-display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .notification-icon {
-cursor: pointer;
-position: relative;
+    cursor: pointer;
+    position: relative;
 }
 
 .notification-count {
-position: absolute;
-top: -5px;
-right: -5px;
-background: red;
-color: white;
-border-radius: 50%;
-padding: 2px 6px;
-font-size: 12px;
-display: inline-block;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    display: inline-block;
 }
 
 .notification-dropdown {
-display: none;
-position: absolute;
-top: 50px;
-right: 0;
-background: white;
-border: 1px solid #ccc;
-border-radius: 5px;
-width: 300px;
-z-index: 1000;
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-overflow: hidden;
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 .notification-dropdown.active {
-display: block; /* Mostrar cuando se active */
+    display: block;
 }
 
 .notification-dropdown ul {
-list-style: none;
-margin: 0;
-padding: 0;
-max-height: 300px;
-overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .notification-dropdown li {
-padding: 10px;
-border-bottom: 1px solid #eee;
-font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
 }
 
 .notification-dropdown li.unread {
-background-color: #f9f9f9;
+    background-color: #f9f9f9;
 }
 
 .notification-dropdown li:last-child {
-border-bottom: none;
+    border-bottom: none;
 }
 
 .notification-dropdown .mark-as-read {
-background: #007bff;
-color: white;
-border: none;
-padding: 5px 10px;
-border-radius: 3px;
-cursor: pointer;
-font-size: 12px;
-margin-top: 5px;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 .notification-dropdown .mark-as-read:hover {
-background: #0056b3;
+    background: #0056b3;
 }
 
 .notification-panel {
-position: absolute;
-top: 50px;
-right: 10px;
-width: 300px;
-background-color: #0D1117;
-color: white;
-border-radius: 5px;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-padding: 15px;
-display: none;
-z-index: 1000;
-max-height: 400px; /* Altura máxima del panel */
-overflow-y: auto; /* Habilitar barra de desplazamiento vertical */
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    width: 300px;
+    background-color: #0D1117;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    display: none;
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .notification-panel.active {
-display: block;
+    display: block;
 }
 
 .notification-panel h3 {
-margin: 0 0 10px;
-font-size: 18px;
-border-bottom: 1px solid #21262C;
-padding-bottom: 5px;
+    margin: 0 0 10px;
+    font-size: 18px;
+    border-bottom: 1px solid #21262C;
+    padding-bottom: 5px;
 }
 
 .notification-panel ul {
-list-style: none;
-padding: 0;
-margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .notification-panel ul li {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 5px 0;
-border-bottom: 1px solid #21262C;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #21262C;
 }
 
 .notification-panel ul li:last-child {
-border-bottom: none;
+    border-bottom: none;
 }
 
 .mark-read-button {
-background-color: #2F81F7;
-color: white;
-border: none;
-padding: 5px 10px;
-border-radius: 5px;
-cursor: pointer;
-font-size: 12px;
+    background-color: #2F81F7;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
 }
 
 .mark-read-button:hover {
-background-color: #1A73E8;
+    background-color: #1A73E8;
 }
 
 .input {
-display: flex;
-flex-direction: column;
-width: 200px;
-background-color: #0D1117;
-justify-content: center;
-border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    background-color: #0D1117;
+    justify-content: center;
+    border-radius: 5px;
 }
 
 .value {
-background-color: transparent;
-border: none;
-padding: 10px;
-color: white;
-display: flex;
-position: relative;
-gap: 5px;
-cursor: pointer;
-border-radius: 4px;
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    color: white;
+    display: flex;
+    position: relative;
+    gap: 5px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .value:not(:active):hover,
 .value:focus {
-background-color: #21262C;
+    background-color: #21262C;
 }
 
 .value:focus,
 .value:active {
-background-color: #1A1F24;
-outline: none;
+    background-color: #1A1F24;
+    outline: none;
 }
 
 .value::before {
-content: "";
-position: absolute;
-top: 5px;
-left: -10px;
-width: 5px;
-height: 80%;
-background-color: #2F81F7;
-border-radius: 5px;
-opacity: 0;
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: -10px;
+    width: 5px;
+    height: 80%;
+    background-color: #2F81F7;
+    border-radius: 5px;
+    opacity: 0;
 }
 
 .value:focus::before,
 .value:active::before {
-opacity: 1;
+    opacity: 1;
 }
 
 .value svg {
-width: 15px;
+    width: 15px;
 }
 
 .profile-photo {
-width: 30px;
-height: 30px;
-border-radius: 50%;
-object-fit: cover;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .profile-large {
-position: absolute;
-top: 50%;
-right: 20px;
-transform: translateY(-50%);
-width: 100px;
-height: 100px;
-border-radius: 50%;
-overflow: hidden;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .profile-large img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-cursor: pointer;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
 }
 
 /* Estilos para el botón de Panel Admin */
 .admin-button {
-    background-color: #007bff; /* Color de fondo azul */
-    color: white; /* Texto blanco */
-    border: none; /* Sin bordes */
-    padding: 10px 20px; /* Espaciado interno */
-    border-radius: 5px; /* Bordes redondeados */
-    font-size: 14px; /* Tamaño de fuente */
-    cursor: pointer; /* Cambiar el cursor al pasar el ratón */
-    text-decoration: none; /* Sin subrayado */
-    display: inline-flex; /* Alinear contenido */
-    align-items: center; /* Centrar verticalmente */
-    gap: 8px; /* Espaciado entre ícono y texto */
-    transition: background-color 0.3s ease; /* Transición suave */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
 }
 
 .admin-button a {
-    color: white; /* Texto blanco */
-    text-decoration: none; /* Sin subrayado */
+    color: white;
+    text-decoration: none;
 }
 
 .admin-button:hover {
-    background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+    background-color: #0056b3;
 }
 
 .admin-button svg {
-    width: 16px; /* Tamaño del ícono */
+    width: 16px;
     height: 16px;
-    fill: white; /* Color del ícono */
+    fill: white;
+}
+
+/* Search container */
+.search-container {
+    position: relative;
+    margin: 0 20px;
+}
+
+#user-search {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.search-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.search-item:hover {
+    background: #f5f5f5;
+}
+
+.search-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .navbar-collapse {
+        padding: 20px 0;
+    }
+
+    .user-section {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        gap: 15px;
+    }
+
+    .input,
+    .logout-button {
+        width: 100%;
+    }
+
+    .profile-large {
+        position: static;
+        transform: none;
+        margin: 10px 0;
+    }
+
+    .search-container {
+        margin: 15px 0;
+        width: 100%;
+    }
+
+    #user-search {
+        width: 100%;
+    }
+}
+
+@media (max-width: 780px) {
+    .logo-img {
+        height: 50px;
+    }
+
+    .user-avatar img {
+        width: 40px;
+        height: 40px;
+        margin-right: 1rem;
+    }
+
+    .session-info {
+        margin-right: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .session-info a {
+        font-size: 0.6rem;
+    }
+
+    main {
+        margin-top: 70px;
+    }
+
+    .profile-large {
+        width: 50px;
+        height: 50px;
+    }
 }
