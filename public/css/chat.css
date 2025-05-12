@@ -1,26 +1,37 @@
-/* Fuente Ubuntu */
+/* public/css/chat.css */
+
+/* 1. Fuente Ubuntu */
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
-body, input, button {
+
+/* 2. Aplicar Ubuntu globalmente */
+body,
+input,
+button {
   font-family: 'Ubuntu', sans-serif;
 }
 
-/* Layout 25% / 75% */
+/* 3. Layout 25% / 75% */
 .chat-wrapper {
   display: flex;
+  /* alto total menos header */
   height: calc(100vh - 150px);
 }
+
+/* Forzar 25% sidebar */
 .chat-wrapper .col-md-4,
 .chat-wrapper .sidebar {
   flex: 0 0 25% !important;
   max-width: 25% !important;
 }
+
+/* Forzar 75% main */
 .chat-wrapper .col-md-8,
 .chat-wrapper .main-chat {
   flex: 0 0 75% !important;
   max-width: 75% !important;
 }
 
-/* Sidebar */
+/* 4. Sidebar */
 .sidebar {
   background: #fff;
   border-right: 1px solid #ddd;
@@ -46,12 +57,14 @@ body, input, button {
   color: #fff;
 }
 
-/* Main chat */
+/* 5. Main chat */
 .main-chat {
   display: flex;
   flex-direction: column;
   background: #f5f5f5;
 }
+
+/* 6. Header del chat */
 .chat-header {
   display: flex;
   align-items: center;
@@ -70,9 +83,10 @@ body, input, button {
   font-weight: 500;
 }
 
-/* Chat window */
+/* 7. Ventana de mensajes con altura fija y scroll */
 .chat-window {
-  flex: 1;
+  /* Fija la altura para que siempre haga scroll dentro */
+  height: 400px;
   padding: 1rem;
   background: #fafafa;
   border: 1px solid #ddd;
@@ -80,11 +94,9 @@ body, input, button {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  /* para asegurar scroll en flex */
-  min-height: 0;
 }
 
-/* Mensajes */
+/* 8. Mensajes */
 .message-wrapper {
   display: flex;
   align-items: flex-end;
@@ -104,20 +116,20 @@ body, input, button {
   line-height: 1.4;
   word-wrap: break-word;
 }
-/* Burbuja a la derecha (mis mensajes) */
+/* Mis mensajes a la derecha */
 .message.sent {
   background: #d1e7dd;
   color: #0f5132;
   margin-left: auto;
 }
-/* Burbuja a la izquierda (recibidos) */
+/* Recibidos a la izquierda */
 .message.received {
-  background: #fff;
+  background: #ffffff;
   color: #212529;
   margin-right: auto;
 }
 
-/* Scrollbar */
+/* 9. Scrollbar personalizado */
 .chat-window::-webkit-scrollbar {
   width: 8px;
 }
@@ -130,7 +142,7 @@ body, input, button {
   border-radius: 4px;
 }
 
-/* Input */
+/* 10. Input */
 .chat-input {
   display: flex;
   padding: 1rem;
