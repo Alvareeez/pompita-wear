@@ -12,7 +12,6 @@ return new class extends Migration
             $table->id('id_prenda');
             $table->foreignId('id_tipoPrenda')->nullable()->constrained('tipo_prendas', 'id_tipoPrenda');
             $table->string('nombre');
-            $table->decimal('precio', 10, 2);
             $table->text('descripcion')->nullable();
             $table->string('img_frontal')->nullable();
             $table->string('img_trasera')->nullable();

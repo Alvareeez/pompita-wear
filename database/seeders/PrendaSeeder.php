@@ -12,8 +12,7 @@ class PrendaSeeder extends Seeder
         DB::table('prendas')->insert([
             // TORSO -----------------------------------------------------------------------------------------------
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 29.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta Mickey Mouse Blanca',
                 'descripcion' => 'Camiseta básica de algodón color blanco, perfecta para el día a día.',
                 'img_frontal' => 'frontalBlancaMickey.png',
@@ -22,8 +21,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 49.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camisa azul clara con estampados',
                 'descripcion' => 'Camisa de lino azul clara, ideal para ocasiones semi-formales.',
                 'img_frontal' => 'frontalVanGogh.png',
@@ -33,7 +31,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 2,
-                'precio' => 9.99,
                 'nombre' => 'Sudadera PSG',
                 'descripcion' => 'Sudadera casual gris de manga larga y cuello redondo. Cuenta con logo de Paris Saint-Germain engomado en la parte delantera y estampado en la parte trasera, con detalle de parche en el bajo y un suave cepillado interior. Tiene acabado de canalé en cuello, puños y bajo de la prenda. Es de corte holgado.',
                 'img_frontal' => 'frontalSudaderaPSG.png',
@@ -43,7 +40,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 2,
-                'precio' => 19.99,
                 'nombre' => 'Sudadera negra PONY',
                 'descripcion' => 'Sudadera de felpa de manga larga y cuello redondo. Cuenta con detalle de estampado de Pony x Lefties en la parte delantera, detalle de parche en el bajo y estampado de texto en la espalda. Tiene acabado de canalé en cuello, bajo y puños.',
                 'img_frontal' => 'frontalSudaderaPONY.png',
@@ -53,7 +49,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 2,
-                'precio' => 12.99,
                 'nombre' => 'Sudadera estampada capucha',
                 'descripcion' => 'Sudadera carne de manga larga y cuello capucha con acabados en canale. Es de corte relajado. Cuenta con estampado en la parte delantera y suave cepillado interior. Está confeccionada en tejido de felpa.',
                 'img_frontal' => 'frontalSudaderaEstampadaCapucha.png',
@@ -63,7 +58,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 2,
-                'precio' => 9.99,
                 'nombre' => 'Sudadera verde QUEENS',
                 'descripcion' => 'Sudadera de manga larga y cuello redondo con acabados en canalé. Cuenta con estampado frontal delantero. Es de corte relajado y está confeccionada en tejido de felpa.',
                 'img_frontal' => 'frontalSudaderaQUEENS.png',
@@ -73,7 +67,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 2,
-                'precio' => 15.99,
                 'nombre' => 'Sudadera Le Studio',
                 'descripcion' => 'Sudadera elegante estampada de manga larga y cuello capucha con acabado de canalé en puños y bajo. Es de corte relajado. Está confeccionada en tejido de felpa.',
                 'img_frontal' => 'frontalSudaderaLeStudio.png',
@@ -82,8 +75,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 19.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Sudadera Villa Club',
                 'descripcion' => 'Sudadera elegante de manga larga y cuello polo con cierre frontal de botones a tono. Cuenta con distintos bordados en la parte delantera de la prenda. Es de corte ligeramente holgado y está confeccionado en un tejido de algodón elástico.',
                 'img_frontal' => 'frontalSudaderaVillaClub.png',
@@ -92,8 +84,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 17.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Sudadera bordada roja',
                 'descripcion' => 'Sudadera de manga larga y cuello redondo. Tiene acabado de canalé en el bajo, puños y cuello. Cuenta con bordado de texto delantero. Es de corte ligeramente holgado y está confeccionado en un tejido de algodón elástico.',
                 'img_frontal' => 'frontalSudaderaClubMember.png',
@@ -102,8 +93,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 22.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Sudadera Paris Saint-Germain Blanco',
                 'descripcion' => 'Sudadera de manga larga y capucha con distintos estampados del equipo de fútbol Paris Saint-Germain, incluido uno en la capucha. Cuenta con detalle de parche en el brazo derecho. Tiene un suave cepillado interior. Es de corte ligeramente holgado.',
                 'img_frontal' => 'frontalSudaderaPSGBlanco.png',
@@ -112,8 +102,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 15.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta Paris Saint-Germain Negra',
                 'descripcion' => 'Camiseta de manga corta y cuello redondo con estampados del equipo de fútbol Paris Saint-Germain por toda la prenda. Es de corte recto.',
                 'img_frontal' => 'frontalCamisetaPSGNegra.png',
@@ -122,8 +111,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 29.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Jersey punto cremallera',
                 'descripcion' => 'Jersey de manga larga y cuello subido con cierre de cremallera metálica en el pecho. Es de corte recto y está confeccionado en tejido de punto.',
                 'img_frontal' => 'frontaljerseyNegroCremallero.png',
@@ -137,7 +125,6 @@ class PrendaSeeder extends Seeder
 
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 18.99,
                 'nombre' => 'Jeans Comfort Skinny Premium',
                 'descripcion' => 'Pantalón azul vaquero básico de cinco bolsillos con cierre de botón metálico y cremallera. Su corte comfort skinny es ajustado y de tiro medio pero resulta muy cómodo gracias a la elasticidad de su tejido. El tejido, su elasticidad reforzada y la atención a sus detalles de diseño hacen de este modelo nuestro vaquero premium.',
                 'img_frontal' => 'frontaljeansAzulesSkinny.png',
@@ -147,7 +134,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 18.19,
                 'nombre' => 'Jeans jogger rotos negros',
                 'descripcion' => 'Pantalón vaquero tipo jogger básico roto. Cuenta con cordón de ajuste en la cintura. Tiene dos bolsillos laterales y dos traseros. Está confeccionado en tejido de algodón elástico.',
                 'img_frontal' => 'frontaljeansJoggerRotos.png',
@@ -157,7 +143,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 18.19,
                 'nombre' => 'Jeans jogger rotos vaqueros',
                 'descripcion' => 'Pantalón vaquero tipo jogger básico roto. Cuenta con cordón de ajuste en la cintura. Tiene dos bolsillos laterales y dos traseros. Está confeccionado en tejido de algodón elástico.',
                 'img_frontal' => 'frontaljeansJoggerRotosVaqueros.png',
@@ -167,7 +152,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 22.99,
                 'nombre' => 'Pantalón chándal Paris Saint-Germain',
                 'descripcion' => 'Pantalón de chándal de cintura elástica tipo jogger con cordón de ajuste a tono. Tiene distintos estampados del equipo de fútbol Paris Saint-Germain. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche. Tiene un suave cepillado interior.',
                 'img_frontal' => 'frontalChandalPSGGris.png',
@@ -177,7 +161,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 17.99,
                 'nombre' => 'Pantalón chándal interlock',
                 'descripcion' => 'Pantalón de chándal de cintura elástica tipo jogger y cordón de ajuste a contraste. Cuenta con dos bolsillos laterales y uno trasero. Es de corte ligeramente ajustado. Está confeccionado en tejido de felpa con paneles con textura.',
                 'img_frontal' => 'frontalChandalInterlockGris.png',
@@ -187,7 +170,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 17.99,
                 'nombre' => 'Bermuda Paris Saint-Germain negra',
                 'descripcion' => 'Bermuda de chándal de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con estampados engomados del equipo de fútbol Paris Saint-Germain. Tiene dos bolsillos laterales y un bolsillo trasero con detalle de parche. Está confeccionada en un tejido de felpa interlock.',
                 'img_frontal' => 'frontalCortoPSGNegro.png',
@@ -197,7 +179,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 12.99,
                 'nombre' => 'Bermuda elástica deportiva',
                 'descripcion' => 'Bermuda azul oscuro deportiva con bolsillos de tejido técnico y detalles reflectantes en la parte trasera. Tiene cintura elástica con lazada delantera. Cuenta con un bolsillo oculto con cremallera junto al bolsillo derecho.',
                 'img_frontal' => 'frontalBermudaDeportivaAzul.png',
@@ -207,7 +188,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 17.99,
                 'nombre' => 'Bermuda denim relaxed',
                 'descripcion' => 'Bermuda denim relaxed',
                 'img_frontal' => 'frontalBermudaNegra.png',
@@ -217,7 +197,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 11.99,
                 'nombre' => 'Bermuda jogger estructura Azul',
                 'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche.',
                 'img_frontal' => 'frontalBermudaAzul.png',
@@ -227,7 +206,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 3,
-                'precio' => 11.99,
                 'nombre' => 'Bermuda jogger estructura Verde',
                 'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
                 'img_frontal' => 'frontalBermudaVerde.png',
@@ -235,12 +213,110 @@ class PrendaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-
-
-           // CABEZA -----------------------------------------------------------------------------------------------
             [
-                'id_tipoPrenda' => 1, 
-                'precio' => 7.99,
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Bermuda denim skater',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'tejanoCortoAzulFrontal.png',
+                'img_trasera' => 'tejanoCortoAzulTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Jeans 90s straight negros',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'tejanoLargoNegroFrontal.png',
+                'img_trasera' => 'tejanoLargoNegrotrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Jeans baggy jacquard blancos',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'tejanoLargoBlancoFrontal.png',
+                'img_trasera' => 'tejanoLargoBlancoTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Jeans super baggy azul fuerte',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'tejanoLargoAzulFuerteFrontal.png',
+                'img_trasera' => 'tejanoLargoAzulFuerteTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Pantalón baggy técnico Verde',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'chandalGrisVerdeFrontal.png',
+                'img_trasera' => 'chandalGrisVerdeTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Jeans baggy azul',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'tejanoLargoAzulFrontal.png',
+                'img_trasera' => 'tejanoLargoAzulTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Jeans baggy print blanca y marron',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'tejanoLargoBlancoMarronFrontal.png',
+                'img_trasera' => 'tejanoLargoBlancoMarronTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Jeans baggy jacquard azul claro',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'tejanoLargoAzulEspecialFrontal.png',
+                'img_trasera' => 'tejanoLargoAzulEspecialTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Pantalón técnico ribete sport',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'chandalNegroFrontal.png',
+                'img_trasera' => 'chandalNegroTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Pantalón Volkswagen jacquard',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'chandalVerdeBlancoFrontal.png',
+                'img_trasera' => 'chandalVerdeBlancoTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 3,
+                'nombre' => 'Jeans super baggy rotos',
+                'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
+                'img_frontal' => 'tejanoLargoGrisFrontal.png',
+                'img_trasera' => 'tejanoLargoGrisTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+
+            // CABEZA -----------------------------------------------------------------------------------------------
+            [
+                'id_tipoPrenda' => 1,
                 'nombre' => 'Gorra Dragon Ball ©Bird Studio',
                 'descripcion' => 'Gorra de visera curva con estampados de Dragon Ball ©Bird Studio en la parte delantera. Cuenta con rejilla en la parte trasera a contraste y cinta de ajuste adherente en la parte trasera.',
                 'img_frontal' => 'frontalGorraDB.png',
@@ -249,8 +325,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
-                'precio' => 12.99,
+                'id_tipoPrenda' => 1,
                 'nombre' => 'Gorra Brooklyn Nets NBA Blanca y Negra',
                 'descripcion' => 'Gorra de visera curva con cinta adherente en parte trasera para mejor ajuste. Cuenta con estampado a contraste de Brooklyn Nets NBA en parte delantera.',
                 'img_frontal' => 'frontalGorraNBA.png',
@@ -259,8 +334,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
-                'precio' => 1.99,
+                'id_tipoPrenda' => 1,
                 'nombre' => 'Gafas básicas efecto carey',
                 'descripcion' => 'Gafas de sol de cristal redondo y montura de pasta acabada en efecto carey.',
                 'img_frontal' => 'frontalGafasCarey.png',
@@ -269,8 +343,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
-                'precio' => 5.99,
+                'id_tipoPrenda' => 1,
                 'nombre' => 'Gafas rectangulares',
                 'descripcion' => 'Gafas de sol de cristal rectangular con montura de pasta semitransparente.',
                 'img_frontal' => 'frontalGafasRectangulares.png',
@@ -279,10 +352,9 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
-           // PIE -----------------------------------------------------------------------------------------------
-           [
+            // PIE -----------------------------------------------------------------------------------------------
+            [
                 'id_tipoPrenda' => 4,
-                'precio' => 39.99,
                 'nombre' => 'Botín deportivo Avia',
                 'descripcion' => 'Zapato tipo zapatilla botín para hombre. Logo en corte. Combinación de colores y materiales en corte. Cierre mediante cordones a tono. Suela a contraste. Tirador trasero para facilitar el calce.',
                 'img_frontal' => 'zapatillas_blancas_frontal.png',
@@ -292,7 +364,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 4,
-                'precio' => 2.99,
                 'nombre' => 'Chancla baño negras',
                 'descripcion' => 'Zapato tipo chancla para hombre. Disponible en varios colores. Detalle tira posicionamiento dedo.',
                 'img_frontal' => 'frontalChanclasNegras.png',
@@ -302,7 +373,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 4,
-                'precio' => 35.99,
                 'nombre' => 'Zapato náutico piel',
                 'descripcion' => 'Zapato tipo náutico de vestir para hombre. Confeccionados con piel de serraje. Cierre mediante cordones. Pasadores metálicos. Suela a contraste.',
                 'img_frontal' => 'frontalZapatoNautico.png',

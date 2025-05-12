@@ -43,7 +43,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 // RUTAS DE SEGURIZADAS COMO ADMIN ---------------------------------------------------------------------------
 Route::prefix('admin')->middleware('auth')->group(function () {
-    
+
     // RUTAS DE CRUDS
 
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
@@ -133,7 +133,7 @@ Route::middleware(['auth'])->group(
         Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])->name('users.search');
 
         // PERFIL PERSONAL DEL USUARIO
-        Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');       
+        Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
         // ACCIONES DEL PERFIL 
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
@@ -150,6 +150,5 @@ Route::middleware(['auth'])->group(
         // MANEJO DE SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
-
-
-     });
+    }
+);
