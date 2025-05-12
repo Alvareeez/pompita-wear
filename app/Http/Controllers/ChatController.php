@@ -11,40 +11,48 @@ use Illuminate\Support\Facades\Auth;
 class ChatController extends Controller
 {
     /**
-     * Muestra la pantalla de chat con $otroUsuarioId.
-     * Crea la conversación única entre ambos si no existe.
+     * Muestra la lista de chats y la conversación con $otroUsuarioId.
+     * Si no existe la conversación, la crea.
      */
     public function index($otroUsuarioId)
     {
-        $me   = Auth::user();
-        $otro = Usuario::findOrFail($otroUsuarioId);
+        $me = Auth::user();
 
-        // Verificar seguimiento mutuo aceptado
-        if (! $this->mutualFollow($me->id_usuario, $otroUsuarioId)) {
+        // 1) Construir bandeja de contactos mutuos (seguimiento aceptado en ambos sentidos)
+        $siguiendo  = $me->siguiendo()->wherePivot('status', 'aceptada')->pluck('id_receptor')->toArray();
+        $seguidores = $me->seguidores()->wherePivot('status', 'aceptada')->pluck('id_emisor')->toArray();
+        $contactIds = array_intersect($siguiendo, $seguidores);
+        $contacts   = Usuario::whereIn('id_usuario', $contactIds)->get();
+
+        // 2) Validar que el usuario destino es contacto mutuo
+        if (! in_array($otroUsuarioId, $contactIds)) {
             abort(403, 'Solo puedes chatear con usuarios que se siguen mutuamente.');
         }
 
-        // Ordenar IDs para única combinación
-        [$u1, $u2] = $this->orderedIds($me->id_usuario, $otroUsuarioId);
+        // 3) Ordenar IDs para la conversación única
+        list($u1, $u2) = $this->orderedIds($me->id_usuario, $otroUsuarioId);
 
-        // Buscar o crear la conversación
+        // 4) Buscar o crear la conversación
         $conv = Conversacion::firstOrCreate([
             'user1_id' => $u1,
             'user2_id' => $u2,
         ]);
 
-        // Cargar mensajes
-        $mensajes = Mensaje::where('conversacion_id', $conv->id)
-                           ->orderBy('enviado_en')
-                           ->get();
+        // 5) Cargar mensajes
+        $mensajes = $conv->mensajes()
+                         ->orderBy('enviado_en')
+                         ->get();
 
-        return view('chat.chat', compact('conv', 'otro', 'mensajes'));
+        // 6) Cargar datos del otro usuario
+        $otro = Usuario::findOrFail($otroUsuarioId);
+
+        return view('chat.chat', compact('contacts', 'conv', 'otro', 'mensajes'));
     }
 
     /**
-     * Devuelve en JSON el historial de mensajes.
+     * Devuelve JSON con el historial de mensajes de la conversación actual.
      */
-    public function getMessages($otroUsuarioId)
+    public function getMessages(Request $request, $otroUsuarioId)
     {
         $conv = $this->getConversation(Auth::id(), $otroUsuarioId);
 
@@ -54,7 +62,7 @@ class ChatController extends Controller
     }
 
     /**
-     * Almacena un nuevo mensaje y lo devuelve en JSON.
+     * Almacena un nuevo mensaje en la conversación y devuelve el mensaje en JSON.
      */
     public function sendMessage(Request $request, $otroUsuarioId)
     {
@@ -72,14 +80,16 @@ class ChatController extends Controller
     }
 
     /**
-     * Busca o crea la conversación y valida mutuo follow.
+     * Helper: busca o crea la conversación y comprueba mutuo follow.
      */
     protected function getConversation($miId, $otroId)
     {
         if (! $this->mutualFollow($miId, $otroId)) {
-            abort(403);
+            abort(403, 'No está permitida la conversación.');
         }
-        [$u1, $u2] = $this->orderedIds($miId, $otroId);
+
+        list($u1, $u2) = $this->orderedIds($miId, $otroId);
+
         return Conversacion::firstOrCreate([
             'user1_id' => $u1,
             'user2_id' => $u2,
@@ -87,27 +97,30 @@ class ChatController extends Controller
     }
 
     /**
-     * Ordena dos IDs (menor, mayor).
-     */
-    protected function orderedIds($a, $b)
-    {
-        return $a < $b ? [$a, $b] : [$b, $a];
-    }
-
-    /**
-     * Comprueba que ambos se sigan mutuamente con status 'aceptada'.
+     * Comprueba si dos usuarios se siguen mutuamente con status 'aceptada'.
      */
     protected function mutualFollow($miId, $otroId)
     {
         $me = Usuario::findOrFail($miId);
-        $sigo     = $me->siguiendo()
-                      ->where('id_receptor', $otroId)
-                      ->wherePivot('status', 'aceptada')
-                      ->exists();
+
+        $sigo = $me->siguiendo()
+                   ->where('id_receptor', $otroId)
+                   ->wherePivot('status', 'aceptada')
+                   ->exists();
+
         $meSiguen = $me->seguidores()
-                      ->where('id_emisor', $otroId)
-                      ->wherePivot('status', 'aceptada')
-                      ->exists();
+                       ->where('id_emisor', $otroId)
+                       ->wherePivot('status', 'aceptada')
+                       ->exists();
+
         return $sigo && $meSiguen;
+    }
+
+    /**
+     * Dada una pareja de IDs, retorna [menor, mayor] para clave única.
+     */
+    protected function orderedIds($a, $b)
+    {
+        return $a < $b ? [$a, $b] : [$b, $a];
     }
 }
