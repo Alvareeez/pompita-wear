@@ -1,97 +1,140 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Buscamos el botón de solicitud en la página
-    const btn   = document.getElementById('solicitud-btn');
-    if (!btn) return; // Si no existe, salimos
-
-    // Obtenemos el token CSRF y la URL base
-    const token = document.head.querySelector('meta[name="csrf-token"]').content;
-    const base  = document.head.querySelector('meta[name="base-url"]').content;
-    const isPrivate       = document.head.querySelector('meta[name="is-private"]').content === '1';
-    const followersCount = document.getElementById('followers-count');
-    const outfitsSection  = document.getElementById('outfits-section');
-
-
-    // Asociamos el evento click al botón
-    btn.addEventListener('click', async (e) => {
-        e.preventDefault(); // Evitamos recargar la página
-
-        // Leemos datos del botón
-        const userId      = btn.dataset.userId;
-        let   status      = btn.dataset.status;       // 'pendiente', 'aceptada' o undefined
-        const solicitudId = btn.dataset.solicitudId;  // solo si existe
-
-        // Si hay solicitud (pendiente o aceptada), la borramos (DELETE)
-        if (status === 'pendiente' || status === 'aceptada') {
-            const res = await fetch(`${base}/solicitudes/${solicitudId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN':     token,
-                    'Accept':           'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
-
-            if (res.ok) {
-                // Volvemos a “Seguir”
-                btn.textContent = 'Seguir';
-                btn.className   = 'btn btn-primary';
-                // Eliminamos atributos de estado anterior
-                delete btn.dataset.status;
-                delete btn.dataset.solicitudId;
-
-                // Si antes seguíamos (aceptada), decrementamos contador
-                if (status === 'aceptada' && followersCount) {
-                    let count = parseInt(followersCount.textContent) || 0;
-                    followersCount.textContent = Math.max(count - 1, 0);
-                }
-                if (isPrivate) {
-                    outfitsSection.innerHTML = `
-                      <div class="alert alert-warning mt-4">
-                        Esta cuenta es privada. Envía una solicitud para ver su contenido.
-                      </div>`;
-                }
-            } else {
-                const err = await res.json();
-                alert(err.error || 'No se pudo procesar la solicitud');
-            }
-            return;
+    // Referencias al botón de seguir/pendiente y al contenedor donde irá el botón "Chatear"
+    const btn           = document.getElementById('solicitud-btn');
+    const chatContainer = document.getElementById('chat-btn-container');
+    if (!btn) return; // Si no existe el botón, salimos
+  
+    // Leemos los tokens y URLs necesarios de las meta tags
+    const token         = document.head.querySelector('meta[name="csrf-token"]').content;
+    const base          = document.head.querySelector('meta[name="base-url"]').content;
+    const mutualUrlTmpl = document.head.querySelector('meta[name="mutual-url"]').content;
+    const chatUrlTmpl   = document.head.querySelector('meta[name="chat-url-tmpl"]').content;
+  
+    // Identificadores del otro usuario y estado actual de la solicitud
+    const userId        = btn.dataset.userId;
+    let   status        = btn.dataset.status;      // puede ser 'pendiente', 'aceptada' o undefined
+    let   solicitudId   = btn.dataset.solicitudId; // el ID de la solicitud, si ya existe
+  
+    /**
+     * Consulta al servidor si ambos usuarios se siguen mutuamente.
+     * Si la respuesta es positiva, crea y muestra el botón "Chatear".
+     */
+    function updateChatButton() {
+      const url = mutualUrlTmpl.replace('{other}', userId);
+      fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(res => res.json())
+        .then(data => {
+          // Limpiamos cualquier botón previo
+          chatContainer.innerHTML = '';
+          // Si mutual = true, inyectamos el enlace al chat
+          if (data.mutual) {
+            const a = document.createElement('a');
+            a.href        = chatUrlTmpl.replace('{other}', userId);
+            a.className   = 'btn btn-outline-primary';
+            a.textContent = 'Chatear';
+            chatContainer.appendChild(a);
+          }
+        })
+        .catch(err => console.error('Error comprobando mutual:', err));
+    }
+  
+    // Llamamos al cargar la página para mostrar el botón si corresponde
+    updateChatButton();
+  
+    /**
+     * Envía la petición POST o DELETE según el método indicado.
+     * Devuelve una promesa que resuelve { ok, data }.
+     */
+    function toggleSolicitud(method) {
+      const url = method === 'POST'
+        ? `${base}/solicitudes`
+        : `${base}/solicitudes/${solicitudId}`;
+      const opts = {
+        method,
+        headers: {
+          'X-CSRF-TOKEN':     token,
+          'Accept':           'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
         }
-
+      };
+      // Si es creación, añadimos el cuerpo JSON
+      if (method === 'POST') {
+        opts.headers['Content-Type'] = 'application/json';
+        opts.body = JSON.stringify({ id_receptor: userId });
+      }
+      return fetch(url, opts)
+        .then(res => res.json().then(data => ({ ok: res.ok, data })));
+    }
+  
+    // Al hacer clic en el botón de seguir/pendiente...
+    btn.addEventListener('click', e => {
+      e.preventDefault(); // evitamos recarga
+  
+      const originalStatus = status; // guardamos el estado antes de cambiar
+  
+      if (status === 'pendiente' || status === 'aceptada') {
+        // Si ya hay solicitud, la eliminamos (DELETE)
+        toggleSolicitud('DELETE')
+          .then(({ ok, data }) => {
+            if (!ok) {
+              alert(data.error || 'Error al eliminar solicitud');
+              return;
+            }
+            // Volvemos al estado inicial "Seguir"
+            btn.textContent = 'Seguir';
+            btn.className   = 'btn btn-primary';
+            delete btn.dataset.status;
+            delete btn.dataset.solicitudId;
+            status = undefined;
+  
+            // Si antes estábamos siguiendo (aceptada), restamos un seguidor
+            if (originalStatus === 'aceptada') {
+              const fc = document.getElementById('followers-count');
+              if (fc) {
+                const count = parseInt(fc.textContent) || 1;
+                fc.textContent = Math.max(count - 1, 0);
+              }
+            }
+  
+            // Y actualizamos el botón de chat
+            updateChatButton();
+          })
+          .catch(err => console.error('Error borrando solicitud:', err));
+      } else {
         // Si no hay solicitud, la creamos (POST)
-        const res = await fetch(`${base}/solicitudes`, {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN':     token,
-                'Content-Type':     'application/json',
-                'Accept':           'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({ id_receptor: userId })
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-            // Guardamos nuevo estado e ID
-            status                  = data.status;  // 'pendiente' o 'aceptada'
-            btn.dataset.status      = status;
-            btn.dataset.solicitudId = data.solicitud_id;
-
-            // Actualizamos texto y estilo
-            if (status === 'pendiente') {
-                btn.textContent = 'Pendiente';
-                btn.className   = 'btn btn-warning';
-            } else {
-                btn.textContent = 'Siguiendo';
-                btn.className   = 'btn btn-success';
-                // Incrementamos seguidores
-                if (followersCount) {
-                    let count = parseInt(followersCount.textContent) || 0;
-                    followersCount.textContent = count + 1;
-                }
+        toggleSolicitud('POST')
+          .then(({ ok, data }) => {
+            if (!ok) {
+              alert(data.error || 'Error al enviar solicitud');
+              return;
             }
-        } else {
-            alert(data.error || 'No se pudo enviar la solicitud');
-        }
+            // Actualizamos estado e ID
+            status        = data.status;
+            solicitudId   = data.solicitud_id;
+            btn.dataset.status      = status;
+            btn.dataset.solicitudId = solicitudId;
+  
+            // Cambiamos texto y estilo según pendiente o ya aceptada
+            if (status === 'pendiente') {
+              btn.textContent = 'Pendiente';
+              btn.className   = 'btn btn-warning';
+            } else {
+              btn.textContent = 'Siguiendo';
+              btn.className   = 'btn btn-success';
+  
+              // Incrementamos el contador de seguidores
+              const fc = document.getElementById('followers-count');
+              if (fc) {
+                const count = parseInt(fc.textContent) || 0;
+                fc.textContent = count + 1;
+              }
+            }
+  
+            // Y volvemos a comprobar el chat
+            updateChatButton();
+          })
+          .catch(err => console.error('Error creando solicitud:', err));
+      }
     });
-});
+  });
+  

@@ -136,6 +136,7 @@ Route::middleware(['auth'])->group(
         // MANDAR SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes', [SolicitudController::class, 'store'])->name('solicitudes.store');
         Route::delete('/solicitudes/{solicitud}', [SolicitudController::class, 'destroy'])->name('solicitudes.destroy');
+        Route::get('/perfil/{other}/mutual', [SolicitudController::class, 'checkMutual'])->name('perfil.checkMutual');
 
         // MANEJO DE SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
