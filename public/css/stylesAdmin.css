@@ -17,41 +17,44 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #0056b3;
-    padding: 15px 30px;
+    background-color: #004080; /* Color de fondo */
+    padding: 10px 20px;
     color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .admin-header .logo img {
-    height: 50px;
+    height: 50px; /* Ajusta el tamaño del logo */
+}
+
+.admin-header nav {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espaciado entre los elementos */
 }
 
 .admin-header nav a {
     color: white;
-    margin-right: 20px;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s ease;
 }
 
-.admin-header nav a:hover {
-    color: #ffdd57;
+.admin-header nav .logout-form {
+    margin: 0;
 }
 
-.logout-btn {
-    background-color: #d9534f !important;
-    border: none;
-    padding: 10px 20px;
+.admin-header nav .logout-btn {
+    background-color: #d9534f; /* Rojo para el botón de cerrar sesión */
     color: white;
+    border: none;
+    padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px;
+    font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
-.logout-btn:hover {
-    background-color: #c9302c;
+.admin-header nav .logout-btn:hover {
+    background-color: #c9302c; /* Color más oscuro al pasar el mouse */
 }
 
 /* Contenedor principal */
