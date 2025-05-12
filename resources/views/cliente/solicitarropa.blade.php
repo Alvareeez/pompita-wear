@@ -63,4 +63,3 @@
 @section('js')
     <script src="{{ asset('js/solicitarropa.js') }}"></script>
 @endsection
-

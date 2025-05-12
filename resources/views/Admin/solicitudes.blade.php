@@ -45,6 +45,17 @@
             </div>
         @endif
 
+        <div id="loading-spinner" class="dot-spinner" style="display: none;">
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+            <div class="dot-spinner__dot"></div>
+        </div>
+
         <div class="table-container">
             <table>
                 <thead>
@@ -52,7 +63,6 @@
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Tipo</th>
-                        <th>Precio</th>
                         <th>Imágenes</th>
                         <th>Etiquetas</th>
                         <th>Colores</th>
@@ -66,7 +76,6 @@
                             <td>{{ $solicitud->nombre }}</td>
                             <td>{{ $solicitud->descripcion }}</td>
                             <td>{{ $solicitud->tipoPrenda->tipo ?? 'N/A' }}</td>
-                            <td>{{ $solicitud->precio }} €</td>
                             <td>
                                 <img src="{{ asset('img/prendas/' . $solicitud->img_frontal) }}" alt="Frontal de {{ $solicitud->nombre }}" width="80">
                                 @if ($solicitud->img_trasera)
@@ -102,5 +111,28 @@
             </table>
         </div>
     </main>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".tabs a, .logout-form button, form button");
+            const spinner = document.getElementById("loading-spinner");
+
+            links.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    spinner.style.display = "flex";
+
+                    const href = link.tagName === "A" ? link.href : link.closest("form").action;
+
+                    setTimeout(() => {
+                        if (link.tagName === "A") {
+                            window.location.href = href;
+                        } else {
+                            link.closest("form").submit();
+                        }
+                    }, 1000); // Simula un retraso de 1 segundo
+                });
+            });
+        });
+    </script>
 </body>
 </html>
