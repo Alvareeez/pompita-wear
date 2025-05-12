@@ -30,6 +30,11 @@ return [
         'redirect'      => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    'openai' => [
+        'key'   => env('OPENAI_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-3.5-turbo'),
+    ],
+
     'resend' => [
         'key' => env('RESEND_KEY'),
     ],

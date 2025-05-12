@@ -12,6 +12,7 @@ use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\CHATIAController;
 
 
 
@@ -151,5 +152,8 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
 
-
+        // CHAT CON IA
+        Route::get('/ia',        [App\Http\Controllers\ChatIAController::class,'index'])->name('ia.chat');
+        Route::post('/ia/msg',   [App\Http\Controllers\ChatIAController::class,'message'])->name('ia.message');
+                
      });

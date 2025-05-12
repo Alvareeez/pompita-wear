@@ -100,6 +100,11 @@
                 </div>
             @endauth
 
+            <a href="{{ route('ia.chat') }}" class="action-button">
+            <img src="{{ asset('img/ia-button.png') }}" alt="Chat IA" style="width:32px;height:32px;">
+            </a>
+
+
             <!-- Sección usuario / notificaciones -->
             <div class="user-section">
                 @auth
