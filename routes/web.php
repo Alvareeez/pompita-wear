@@ -12,7 +12,6 @@ use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\SolicitudController;
-use App\Http\Controllers\CHATIAController;
 
 
 

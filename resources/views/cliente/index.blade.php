@@ -33,7 +33,6 @@
             <a href="{{ route('outfit.index') }}" class="action-button">Crea tu outfit</a>
             <a href="{{ route('outfit.outfits') }}" class="action-button">Outfits</a>
             <a href="{{ route('calendario') }}" class="action-button">Calendario</a>
-            <a href="{{ route('solicitudes.create') }}" class="action-button">Añadir Ropa</a> <!-- Nuevo botón -->
         </div>
 
         <!-- Contenido principal: Prendas y Outfits -->
