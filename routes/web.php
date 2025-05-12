@@ -74,6 +74,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/etiquetas/{id}/edit', [EtiquetaController::class, 'edit'])->name('admin.etiquetas.edit');
     Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
     Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
+
+    // Mostrar solicitudes pendientes para el administrador
+    Route::get('/solicitudes', [SolicitudRopaController::class, 'index'])->name('admin.solicitudes.index');
+
+    // Actualizar el estado de una solicitud (aceptar o rechazar)
+    Route::put('/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
@@ -140,4 +146,10 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
 
+        // RUTAS PARA SOLICITUDES DE ROPA
+        // Mostrar formulario para crear una solicitud
+        Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
+
+        // Guardar una nueva solicitud
+        Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
      });

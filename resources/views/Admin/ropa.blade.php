@@ -37,7 +37,7 @@
                 <button>Etiquetas</button>
             </a>
             <a href="{{ route('admin.solicitudes.index') }}">
-                <button>Etiquetas</button>
+                <button>Solicitudes</button>
             </a>
         </div>
 
