@@ -1,0 +1,106 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\SolicitudRopa;
+
+class SolicitudRopaController extends Controller
+{
+    // Mostrar formulario para crear una solicitud
+    public function create()
+    {
+        $tipos = \App\Models\TipoPrenda::all();
+        $etiquetas = \App\Models\Etiqueta::all();
+        $colores = \App\Models\Color::all();
+        $estilos = \App\Models\Estilo::all();
+
+        return view('cliente.solicitarropa', compact('tipos', 'etiquetas', 'colores', 'estilos'));
+    }
+
+    // Guardar una nueva solicitud
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|min:10|max:255',
+            'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
+            'precio' => 'required|numeric|min:0',
+            'img_frontal' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'img_trasera' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'etiquetas' => 'nullable|array',
+            'etiquetas.*' => 'exists:etiquetas,id_etiqueta',
+            'colores' => 'nullable|array',
+            'colores.*' => 'exists:colores,id_color',
+            'estilos' => 'nullable|array',
+            'estilos.*' => 'exists:estilos,id_estilo',
+        ]);
+
+        try {
+            // Subir imágenes
+            $imgFrontalName = time() . '_frontal.' . $request->file('img_frontal')->getClientOriginalExtension();
+            $request->file('img_frontal')->move(public_path('img/prendas'), $imgFrontalName);
+
+            $imgTraseraName = null;
+            if ($request->hasFile('img_trasera')) {
+                $imgTraseraName = time() . '_trasera.' . $request->file('img_trasera')->getClientOriginalExtension();
+                $request->file('img_trasera')->move(public_path('img/prendas'), $imgTraseraName);
+            }
+
+            // Crear la solicitud
+            $solicitud = SolicitudRopa::create([
+                'id_usuario' => auth()->id(),
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
+                'id_tipoPrenda' => $request->id_tipoPrenda,
+                'precio' => $request->precio,
+                'img_frontal' => $imgFrontalName,
+                'img_trasera' => $imgTraseraName,
+                'estado' => 'pendiente',
+            ]);
+
+            // Sincronizar relaciones (si existen)
+            if ($request->has('etiquetas')) {
+                $solicitud->etiquetas()->sync($request->etiquetas);
+            }
+            if ($request->has('colores')) {
+                $solicitud->colores()->sync($request->colores);
+            }
+            if ($request->has('estilos')) {
+                $solicitud->estilos()->sync($request->estilos);
+            }
+
+            return redirect()->route('home')->with('success', 'Solicitud enviada correctamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Ocurrió un error al crear la solicitud: ' . $e->getMessage()]);
+        }
+    }
+
+    // Mostrar solicitudes pendientes para el administrador
+    public function index()
+    {
+        $solicitudes = SolicitudRopa::where('estado', 'pendiente')->with('tipoPrenda')->get();
+        return view('admin.solicitudes', compact('solicitudes'));
+    }
+
+    // Actualizar el estado de una solicitud (aceptar o rechazar)
+    public function update(Request $request, SolicitudRopa $solicitud)
+    {
+        if ($request->action === 'aceptar') {
+            // Mover la prenda a la tabla de ropa
+            \App\Models\Prenda::create([
+                'id_tipoPrenda' => $solicitud->id_tipoPrenda,
+                'nombre' => $solicitud->nombre,
+                'descripcion' => $solicitud->descripcion,
+                'precio' => $solicitud->precio,
+                'img_frontal' => $solicitud->img_frontal,
+                'img_trasera' => $solicitud->img_trasera,
+            ]);
+            $solicitud->update(['estado' => 'aceptada']);
+        } elseif ($request->action === 'rechazar') {
+            $solicitud->update(['estado' => 'rechazada']);
+        }
+
+        return redirect()->route('admin.solicitudes.index')->with('success', 'Solicitud actualizada correctamente.');
+    }
+}
