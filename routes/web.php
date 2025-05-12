@@ -44,9 +44,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 // RUTAS DE SEGURIZADAS COMO ADMIN ---------------------------------------------------------------------------
 Route::prefix('admin')->middleware('auth')->group(function () {
-    
-    // RUTAS DE CRUDS
-
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
     Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('admin.usuarios.create');
     Route::post('/usuarios', [UsuarioController::class, 'store'])->name('admin.usuarios.store');
@@ -78,10 +75,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/etiquetas/{id}/edit', [EtiquetaController::class, 'edit'])->name('admin.etiquetas.edit');
     Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
     Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
-
-    // RUTA PARA MANEJAR SOLICITUDES DE SUBIR PRENDAS
-    Route::get('/admin/solicitudes', [SolicitudRopaController::class, 'index'])->name('admin.solicitudes.index');
-    Route::put('/admin/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
@@ -98,10 +91,6 @@ Route::middleware(['auth'])->group(
         Route::post('/prendas/{prenda}/like', [PrendaController::class, 'toggleLike'])->name('prendas.like');
         Route::post('/prendas/{id}/valoraciones', [PrendaController::class, 'storeValoracion'])->name('prendas.storeValoracion');
         Route::get('/prendas/estilo/{id}', [PrendaController::class, 'porEstilo'])->name('prendas.porEstilo');
-
-        // RUTA DEL CLIENTE PARA SUBIR UNA PRENDA
-        Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
-        Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
 
         // Ruta AJAX para filtrar por estilo
         Route::get('/prendas/estilo/{id}/filtrar', [PrendaController::class, 'filtrarPorEstilo'])->name('prendas.filtrarPorEstilo');
@@ -152,8 +141,4 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
 
-        // CHAT CON IA
-        Route::get('/ia',        [App\Http\Controllers\ChatIAController::class,'index'])->name('ia.chat');
-        Route::post('/ia/msg',   [App\Http\Controllers\ChatIAController::class,'message'])->name('ia.message');
-                
      });
