@@ -87,8 +87,8 @@ class SolicitudRopaController extends Controller
     public function update(Request $request, SolicitudRopa $solicitud)
     {
         if ($request->action === 'aceptar') {
-            // Mover la prenda a la tabla de ropa
-            \App\Models\Prenda::create([
+            // Crear la prenda en la tabla de ropa
+            $prenda = \App\Models\Prenda::create([
                 'id_tipoPrenda' => $solicitud->id_tipoPrenda,
                 'nombre' => $solicitud->nombre,
                 'descripcion' => $solicitud->descripcion,
@@ -96,6 +96,19 @@ class SolicitudRopaController extends Controller
                 'img_frontal' => $solicitud->img_frontal,
                 'img_trasera' => $solicitud->img_trasera,
             ]);
+
+            // Sincronizar etiquetas, colores y estilos
+            if ($solicitud->etiquetas) {
+                $prenda->etiquetas()->sync($solicitud->etiquetas->pluck('id_etiqueta')->toArray());
+            }
+            if ($solicitud->colores) {
+                $prenda->colores()->sync($solicitud->colores->pluck('id_color')->toArray());
+            }
+            if ($solicitud->estilos) {
+                $prenda->estilos()->sync($solicitud->estilos->pluck('id_estilo')->toArray());
+            }
+
+            // Actualizar el estado de la solicitud
             $solicitud->update(['estado' => 'aceptada']);
         } elseif ($request->action === 'rechazar') {
             $solicitud->update(['estado' => 'rechazada']);
