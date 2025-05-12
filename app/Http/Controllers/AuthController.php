@@ -17,16 +17,20 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:usuarios',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
+    
         Usuario::create([
-            'nombre' => $request->nombre,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'id_rol' => 2, // Asignamos el rol de cliente por defecto
+            'nombre'     => $request->nombre,
+            'email'      => $request->email,
+            'password'   => Hash::make($request->password),
+            'id_rol'     => 2,           // rol cliente por defecto
+            'estado'     => 'activo',    // estado activo por defecto
+            'is_private' => true,        // cuenta privada por defecto
         ]);
-
-        return redirect('/login')->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
+    
+        return redirect('/login')
+               ->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
     }
+    
 
     // Login de usuario
     public function login(Request $request)

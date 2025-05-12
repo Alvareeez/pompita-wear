@@ -14,7 +14,10 @@ return new class extends Migration
             $table->string('email', 100)->unique();
             $table->string('password', 255);
             $table->foreignId('id_rol')->nullable()->constrained('roles', 'id_rol');
-            $table->string('foto_perfil', 255)->nullable();
+            $table->text('foto_perfil')->nullable();
+            $table->string('provider')->nullable();
+            $table->string('provider_id')->nullable()->unique();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

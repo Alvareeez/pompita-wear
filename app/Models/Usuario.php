@@ -1,17 +1,17 @@
 <?php
 // filepath: c:\wamp64\www\pompita-wear\app\Models\Usuario.php
+
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Usuario extends Authenticatable
 {
-    use Notifiable;
-    use HasFactory;
+    use HasFactory, Notifiable;
+
     protected $table = 'usuarios';
     protected $primaryKey = 'id_usuario';
     public $timestamps = true;
@@ -22,10 +22,19 @@ class Usuario extends Authenticatable
         'password',
         'id_rol',
         'foto_perfil',
+        'provider',
+        'provider_id',
+        'estado',
+        'is_private',
     ];
 
     protected $hidden = [
         'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'is_private' => 'boolean',
     ];
 
     public function rol()
@@ -40,12 +49,22 @@ class Usuario extends Authenticatable
 
     public function favoritosOutfits(): BelongsToMany
     {
-        return $this->belongsToMany(Outfit::class, 'favoritos_outfits', 'id_usuario', 'id_outfit');
+        return $this->belongsToMany(
+            Outfit::class,
+            'favoritos_outfits',
+            'id_usuario',
+            'id_outfit'
+        );
     }
 
     public function favoritosPrendas(): BelongsToMany
     {
-        return $this->belongsToMany(Prenda::class, 'favoritos_prendas', 'id_usuario', 'id_prenda');
+        return $this->belongsToMany(
+            Prenda::class,
+            'favoritos_prendas',
+            'id_usuario',
+            'id_prenda'
+        );
     }
 
     public function comentariosOutfits()
@@ -77,27 +96,63 @@ class Usuario extends Authenticatable
     {
         return $this->hasMany(LikeComentarioPrenda::class, 'id_usuario');
     }
+
     public function likes()
     {
-        return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
-            ->withTimestamps();
+        return $this->belongsToMany(
+            Prenda::class,
+            'likes_prendas',
+            'id_prenda',
+            'id_usuario'
+        )->withTimestamps();
     }
-    public function likedOutfits()
-{
-    return $this->belongsToMany(Outfit::class, 'likes_outfits', 'id_usuario', 'id_outfit');
-}
 
+    // SEGUIMIENTO
+
+    public function solicitudesEnviadas()
+    {
+        return $this->hasMany(Solicitud::class, 'id_emisor');
+    }
+
+    /**
+     * Solicitudes que recibí
+     */
+    public function solicitudesRecibidas()
+    {
+        return $this->hasMany(Solicitud::class, 'id_receptor');
+    }
+
+    /**
+     * Usuarios que me siguen (solicitudes aceptadas)
+     */
     public function seguidores()
     {
-        return $this->belongsToMany(Usuario::class, 'seguidores', 'id_seguido', 'id_seguidor')
-            ->withPivot('estado', 'id_seguimiento')
-            ->using(Seguimiento::class);
+        return $this->belongsToMany(
+            Usuario::class,
+            'solicitudes',
+            'id_receptor',
+            'id_emisor'
+        )
+        ->withPivot('status')
+        ->wherePivot('status', 'aceptada')
+        ->withTimestamps();
     }
 
-    public function seguidos()
+    /**
+     * Usuarios a los que sigo (solicitudes aceptadas)
+     */
+    public function siguiendo()
     {
-        return $this->belongsToMany(Usuario::class, 'seguidores', 'id_seguidor', 'id_seguido')
-            ->withPivot('estado', 'id_seguimiento')
-            ->using(Seguimiento::class);
+        return $this->belongsToMany(
+            Usuario::class,
+            'solicitudes',
+            'id_emisor',
+            'id_receptor'
+        )
+        ->withPivot('status')
+        ->wherePivot('status', 'aceptada')
+        ->withTimestamps();
     }
+
+
 }

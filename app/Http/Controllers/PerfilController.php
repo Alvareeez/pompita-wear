@@ -5,31 +5,165 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Usuario;
+use App\Models\Solicitud;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 
 class PerfilController extends Controller
 {
-    public function show($id_usuario = null)
+    /**
+     * Muestra el perfil propio.
+     */
+    public function show()
     {
-        // Si no se proporciona ID, mostrar el perfil del usuario autenticado
-        $user = $id_usuario ? Usuario::findOrFail($id_usuario) : Auth::user();
+        $user = Auth::user();
 
-        // Verificar si el usuario existe
-        if (!$user) {
-            abort(404, 'Usuario no encontrado');
+        // Contadores: las relaciones seguidores() y siguiendo() ya filtran status='aceptada'
+        $numeroSeguidores = $user->seguidores()->count();
+        $numeroSeguidos   = $user->siguiendo()->count();
+
+        // Outfits y favoritos
+        $outfitsPublicados = $user->outfits;
+        $favorites         = $user->favoritosPrendas;
+
+        // Solicitudes recibidas pendientes
+        $pendientes = $user
+            ->solicitudesRecibidas()
+            ->where('status', 'pendiente')
+            ->with('emisor')
+            ->get();
+
+        return view('perfil', compact(
+            'user',
+            'numeroSeguidores',
+            'numeroSeguidos',
+            'outfitsPublicados',
+            'favorites',
+            'pendientes'
+        ));
+    }
+
+    /**
+     * Acepta una solicitud pendiente (solo el receptor puede).
+     */
+    public function aceptar($id)
+    {
+        $sol = Solicitud::findOrFail($id);
+
+        if ($sol->id_receptor !== Auth::id() || $sol->status !== 'pendiente') {
+            return back()->with('error', 'No puedes aceptar esta solicitud.');
         }
 
-        // Contar seguidores y seguidos (solo relaciones aceptadas)
-        $numeroSeguidores = $user->seguidores()->where('estado', 'aceptado')->count();
-        $numeroSeguidos = $user->seguidos()->where('estado', 'aceptado')->count();
+        $sol->status = 'aceptada';
+        $sol->save();
 
-        $outfitsPublicados = $user->outfits;
-        $favorites = $user->favoritosPrendas;
-
-        return view('perfil', compact('user', 'numeroSeguidores', 'numeroSeguidos', 'outfitsPublicados', 'favorites'));
+        return back()->with('success', 'Solicitud aceptada correctamente.');
     }
+
+    /**
+     * Rechaza (elimina) una solicitud pendiente (solo el receptor).
+     */
+    public function rechazar($id)
+    {
+        $sol = Solicitud::findOrFail($id);
+
+        if ($sol->id_receptor !== Auth::id()) {
+            return back()->with('error', 'No puedes rechazar esta solicitud.');
+        }
+
+        $sol->delete();
+
+        return back()->with('success', 'Solicitud rechazada correctamente.');
+    }
+
+    /**
+     * Actualiza nombre, contraseña y foto de perfil.
+     */
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'nombre'       => 'required|string|max:100',
+            'password'     => 'nullable|confirmed|min:8',
+            'foto_perfil'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'is_private'   => 'required|boolean',  // <--- validación
+        ]);
+
+        // Mantener el valor anterior de privacidad
+        $oldPrivacy = $user->is_private;
+
+        // Actualizaciones básicas
+        $user->nombre     = $request->nombre;
+        $user->is_private = $request->is_private;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('foto_perfil')) {
+            if ($user->foto_perfil) {
+                Storage::disk('public')
+                    ->delete(str_replace('storage/', '', $user->foto_perfil));
+            }
+            $path = $request->file('foto_perfil')->store('profile_pictures', 'public');
+            $user->foto_perfil = 'storage/' . $path;
+        }
+
+        $user->save();
+
+        // Si cambió de PRIVADO (1) a PÚBLICO (0), aceptamos todas las solicitudes pendientes
+        if ($oldPrivacy && ! $user->is_private) {
+            Solicitud::where('id_receptor', $user->id_usuario)
+                ->where('status', 'pendiente')
+                ->update(['status' => 'aceptada']);
+        }
+
+        return back()->with('success', 'Perfil actualizado correctamente.');
+    }
+    /**
+     * Elimina la foto de perfil y la restablece a la predeterminada.
+     */
+    public function deleteProfilePicture()
+    {
+        $user = Auth::user();
+
+        if ($user->foto_perfil) {
+            Storage::disk('public')
+                ->delete(str_replace('storage/', '', $user->foto_perfil));
+            $user->foto_perfil = null;
+            $user->save();
+        }
+
+        return response()->json([
+            'success'       => true,
+            'default_image' => asset('img/default-profile.png'),
+        ]);
+    }
+
+    /**
+     * Búsqueda AJAX de usuarios por nombre.
+     */
+    public function search(Request $request)
+    {
+        $q = $request->get('query','');
+        $users = Usuario::where('nombre','LIKE',"%{$q}%")
+                        ->take(5)
+                        ->get(['id_usuario','nombre','foto_perfil']);
+
+        $users->transform(function($u){
+            $u->avatar = $u->foto_perfil && preg_match('/^https?:\/\//',$u->foto_perfil)
+                        ? $u->foto_perfil
+                        : ($u->foto_perfil
+                            ? asset($u->foto_perfil)
+                            : asset('img/default-profile.png'));
+            return $u;
+        });
+
+        return response()->json($users);
+    }
+
+    // MOSTRAR USUARIOS:
     public function showPublicProfile($id)
 {
     // Buscamos al usuario por su ID
@@ -38,193 +172,4 @@ class PerfilController extends Controller
     return view('cliente.perfil_publico', compact('user'));
 }
 
-    public function update(Request $request)
-    {
-        $user = Usuario::findOrFail(Auth::user()->id_usuario);
-
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'password' => 'nullable|confirmed|min:8',
-            'foto_perfil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Actualizar datos básicos
-        $user->nombre = $request->nombre;
-
-        // Actualizar contraseña si se proporcionó
-        if ($request->password) {
-            $user->password = Hash::make($request->password);
-        }
-
-        // Actualizar foto de perfil
-        if ($request->hasFile('foto_perfil')) {
-            // Eliminar la imagen anterior si existe
-            if ($user->foto_perfil) {
-                Storage::disk('public')->delete(str_replace('storage/', '', $user->foto_perfil));
-            }
-
-            // Guardar la nueva imagen
-            $path = $request->file('foto_perfil')->store('profile_pictures', 'public');
-            $user->foto_perfil = 'storage/' . $path;
-        }
-
-        // Guardar cambios
-        $user->save();
-
-        return redirect()->back()->with('success', 'Perfil actualizado correctamente.');
-    }
-    public function deleteProfilePicture()
-    {
-        $user = Usuario::findOrFail(Auth::user()->id_usuario);
-
-        if ($user->foto_perfil) {
-            // Eliminar la imagen del almacenamiento
-            Storage::disk('public')->delete(str_replace('storage/', '', $user->foto_perfil));
-
-            // Establecer la imagen por defecto
-            $user->foto_perfil = null;
-            $user->save();
-        }
-
-        return response()->json([
-            'success' => true,
-            'default_image' => asset('img/default-profile.png')
-        ]);
-    }
-    public function follow(Request $request)
-    {
-        $followerId = Auth::id();
-        $followedId = $request->id_seguido;
-
-        // No permitir seguirse a sí mismo
-        if ($followerId == $followedId) {
-            return response()->json(['error' => 'No puedes seguirte a ti mismo'], 400);
-        }
-
-        $user = Usuario::findOrFail($followedId);
-        $follower = Usuario::findOrFail($followerId);
-
-        // Verificar si ya existe una solicitud
-        $existingFollow = $follower->seguidos()
-            ->where('id_seguido', $followedId)
-            ->first();
-
-        if ($existingFollow) {
-            return response()->json(['error' => 'Ya has enviado una solicitud a este usuario'], 400);
-        }
-
-        // Crear la relación de seguimiento
-        $follower->seguidos()->attach($followedId, ['estado' => 'pendiente']);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Solicitud de seguimiento enviada'
-        ]);
-    }
-    public function acceptFollow(Request $request)
-    {
-        $followedId = Auth::id();
-        $followerId = $request->id_seguidor;
-
-        $follow = DB::table('seguidores')
-            ->where('id_seguidor', $followerId)
-            ->where('id_seguido', $followedId)
-            ->update(['estado' => 'aceptado']);
-
-        if ($follow) {
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['error' => 'Solicitud no encontrada'], 404);
-    }
-
-    public function rejectFollow(Request $request)
-    {
-        $followedId = Auth::id();
-        $followerId = $request->id_seguidor;
-
-        $deleted = DB::table('seguidores')
-            ->where('id_seguidor', $followerId)
-            ->where('id_seguido', $followedId)
-            ->delete();
-
-        if ($deleted) {
-            return response()->json(['success' => true]);
-        }
-
-        return response()->json(['error' => 'Solicitud no encontrada'], 404);
-    }
-    public function enviarSolicitud(Request $request)
-    {
-        $request->validate([
-            'id_seguido' => 'required|exists:usuarios,id_usuario'
-        ]);
-
-        $seguidorId = Auth::id();
-        $seguidoId = $request->id_seguido;
-
-        // Evitar auto-seguimiento
-        if ($seguidorId == $seguidoId) {
-            return back()->with('error', 'No puedes enviarte una solicitud a ti mismo');
-        }
-
-        // Verificar si ya existe una solicitud
-        $solicitudExistente = DB::table('seguidores')
-            ->where('id_seguidor', $seguidorId)
-            ->where('id_seguido', $seguidoId)
-            ->exists();
-
-        if ($solicitudExistente) {
-            return back()->with('error', 'Ya has enviado una solicitud a este usuario');
-        }
-
-        // Crear la solicitud
-        DB::table('seguidores')->insert([
-            'id_seguidor' => $seguidorId,
-            'id_seguido' => $seguidoId,
-            'estado' => 'pendiente',
-            'created_at' => now(),
-            'updated_at' => now()
-        ]);
-
-        return back()->with('success', 'Solicitud de seguimiento enviada correctamente');
-    } // Añade estos métodos al final del controlador:
-
-    public function solicitudesPendientes()
-    {
-        // Obtener solicitudes pendientes donde el usuario actual es el seguido
-        $solicitudes = Auth::user()->seguidores()
-            ->where('estado', 'pendiente')
-            ->get();
-
-        // O puedes usar esto para incluir toda la información del seguidor:
-        $solicitudes = DB::table('seguidores')
-            ->join('usuarios', 'seguidores.id_seguidor', '=', 'usuarios.id_usuario')
-            ->where('seguidores.id_seguido', Auth::id())
-            ->where('seguidores.estado', 'pendiente')
-            ->select('usuarios.*', 'seguidores.id_seguimiento')
-            ->get();
-
-        return view('solicitudes', compact('solicitudes'));
-    }
-
-    public function aceptarSolicitud($idSeguimiento)
-    {
-        DB::table('seguidores')
-            ->where('id_seguimiento', $idSeguimiento)
-            ->where('id_seguido', Auth::id())
-            ->update(['estado' => 'aceptado']);
-
-        return back()->with('success', 'Solicitud aceptada correctamente');
-    }
-
-    public function rechazarSolicitud($idSeguimiento)
-    {
-        DB::table('seguidores')
-            ->where('id_seguimiento', $idSeguimiento)
-            ->where('id_seguido', Auth::id())
-            ->delete();
-
-        return back()->with('success', 'Solicitud rechazada');
-    }
 }
