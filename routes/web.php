@@ -12,6 +12,7 @@ use App\Http\Controllers\ShowOutfitsController;
 use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\SolicitudController;
+use App\Http\Controllers\ChatController;
 
 
 
@@ -146,6 +147,11 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
 
+        // CHAT ENTRE SEGUIDOS UNICAMENTE
+        Route::get('chat/{otroUsuario}', [ChatController::class, 'index'])->name('chat.index');
+        Route::get('chat/{otroUsuario}/mensajes', [ChatController::class, 'getMessages'])->name('chat.getMessages');
+        Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
+        
         // RUTAS PARA SOLICITUDES DE ROPA
         // Mostrar formulario para crear una solicitud
         Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
