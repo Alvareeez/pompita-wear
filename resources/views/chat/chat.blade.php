@@ -13,8 +13,7 @@
   <!-- CSRF Token para las peticiones fetch -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <script>
-    // Aquí le pasamos a nuestro chat.js los IDs de usuario
-    // para que sepa quién es el emisor (meId) y con quién chateamos (otroId), esto nos ayuda dsps para vali
+    // Pasamos al chat.js los IDs de usuario para saber quién envía y quién recibe
     window.Laravel = {
       meId: {{ auth()->id() }},
       otroId: {{ $otro->id_usuario }}
@@ -23,15 +22,23 @@
   <script src="{{ asset('js/chat.js') }}"></script>
 @endsection
 
-
 @section('content')
 <div class="container mt-4">
-  <h3>Chat con {{ $otro->nombre }}</h3>
-
-  <div id="messages" class="chat-window mb-3">
-    <!-- Aquí se insertan los mensajes dinámicamente -->
+  {{-- Header con avatar y nombre del otro usuario --}}
+  <div class="d-flex align-items-center mb-3">
+    <img src="{{ asset($otro->foto_perfil ?: 'img/default-profile.png') }}"
+         alt="Avatar {{ $otro->nombre }}"
+         class="rounded-circle"
+         style="width:40px; height:40px; object-fit:cover; margin-right:0.75rem;">
+    <h4 class="m-0">{{ $otro->nombre }}</h4>
   </div>
 
+  {{-- Ventana de chat --}}
+  <div id="messages" class="chat-window mb-3">
+    {{-- Los mensajes se cargarán aquí dinámicamente --}}
+  </div>
+
+  {{-- Campo de texto y botón --}}
   <div class="input-group">
     <input id="messageInput"
            type="text"
