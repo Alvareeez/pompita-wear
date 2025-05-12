@@ -1,0 +1,91 @@
+/* Contenedor principal centrado */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Ventana de chat */
+  .chat-window {
+    height: 400px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Cada mensaje */
+  .message {
+    max-width: 75%;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 20px;
+    position: relative;
+    word-wrap: break-word;
+    line-height: 1.4;
+  }
+  
+  /* Mensajes enviados por mí */
+  .sent {
+    align-self: flex-end;
+    background-color: #d1e7dd;
+    color: #0f5132;
+  }
+  
+  /* Mensajes recibidos */
+  .received {
+    align-self: flex-start;
+    background-color: #ffffff;
+    color: #212529;
+  }
+  
+  /* Scrollbar personalizado */
+  .chat-window::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .chat-window::-webkit-scrollbar-track {
+    background: #e9ecef;
+    border-radius: 4px;
+  }
+  
+  .chat-window::-webkit-scrollbar-thumb {
+    background-color: #adb5bd;
+    border-radius: 4px;
+  }
+  
+  /* Input y botón alineados */
+  .input-group {
+    margin-top: 1rem;
+  }
+  
+  /* Ajustes del input */
+  #messageInput {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-right: none;
+  }
+  
+  /* Ajustes del botón */
+  #sendBtn {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-left: none;
+  }
+  
+  /* Hover y focus */
+  #messageInput:focus,
+  #sendBtn:hover,
+  #sendBtn:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  /* Título centrado */
+  h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
