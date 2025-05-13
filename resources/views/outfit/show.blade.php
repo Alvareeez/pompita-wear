@@ -26,7 +26,6 @@
                     <div class="info-prenda">
                         <p><strong>{{ $prenda->nombre }}</strong></p>
                         <p>Tipo: {{ $prenda->tipo->nombre }}</p>
-                        <p>Precio: €{{ number_format($prenda->precio, 2) }}</p>
                         <p>Descripción: {{ $prenda->descripcion }}</p>
                     </div>
                 </div>
@@ -34,7 +33,6 @@
         </div>
 
         <div class="total-outfit">
-            <h4>Precio Total: €{{ number_format($precioTotal, 2) }}</h4>
         </div>
         <button id="like-button" class="btn-like {{ $outfit->isLikedByUser(auth()->id() ?? 0) ? 'liked' : '' }}" 
             data-outfit-id="{{ $outfit->id_outfit }}">
