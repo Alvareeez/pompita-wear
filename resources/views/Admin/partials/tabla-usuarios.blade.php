@@ -4,6 +4,7 @@
             <th>Nombre</th>
             <th>Correo</th>
             <th>Rol</th>
+            <th>Estado</th> <!-- Nueva columna -->
             <th>Acciones</th>
         </tr>
     </thead>
@@ -13,6 +14,13 @@
                 <td>{{ $usuario->nombre }}</td>
                 <td>{{ $usuario->email }}</td>
                 <td>{{ $usuario->rol ? $usuario->rol->nombre : 'Sin rol' }}</td>
+                <td>
+                    <select class="estado-select" data-id="{{ $usuario->id_usuario }}">
+                        <option value="activo" {{ $usuario->estado === 'activo' ? 'selected' : '' }}>Activo</option>
+                        <option value="inactivo" {{ $usuario->estado === 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                        <option value="baneado" {{ $usuario->estado === 'baneado' ? 'selected' : '' }}>Baneado</option>
+                    </select>
+                </td>
                 <td>
                     <a href="{{ route('admin.usuarios.edit', $usuario->id_usuario) }}" class="edit-btn">✏️</a>
                     <a class="delete-btn" onclick="confirmDelete({{ $usuario->id_usuario }})">🗑️</a>

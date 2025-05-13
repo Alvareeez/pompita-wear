@@ -19,7 +19,7 @@
 
 @section('content')
 @php
-    // Pedido de seguimiento existente, si lo hay
+    // Petición de seguimiento existente, si la hay
     $req    = auth()->check()
               ? auth()->user()
                     ->solicitudesEnviadas()
@@ -28,7 +28,7 @@
               : null;
     $status = optional($req)->status; // 'pendiente', 'aceptada' o null
 
-    // Comprobamos si podemos ver outfits
+    // ¿Podemos ver los outfits?
     $canView = ! $user->is_private
                || (auth()->check() && auth()->id() === $user->id_usuario)
                || $status === 'aceptada';
@@ -53,6 +53,7 @@
       {{ $user->siguiendo()->count() }} seguidos
     </p>
 
+    {{-- Botón de seguir/pendiente --}}
     @auth
       @if(auth()->id() !== $user->id_usuario)
         <button id="solicitud-btn"
@@ -94,6 +95,34 @@
     </div>
   </div>
 
+  {{-- Botón de Chat (sólo si nos seguimos mutuamente) --}}
+  @auth
+    @if(auth()->id() !== $user->id_usuario)
+      @php
+        $me = auth()->user();
+
+        // Yo sigo a este usuario?
+        $meSigue = $me->siguiendo()
+                      ->where('id_receptor', $user->id_usuario)
+                      ->wherePivot('status','aceptada')
+                      ->exists();
+
+        // Este usuario me sigue a mí?
+        $otroMeSigue = $me->seguidores()
+                          ->where('id_emisor', $user->id_usuario)
+                          ->wherePivot('status','aceptada')
+                          ->exists();
+      @endphp
+
+      @if($meSigue && $otroMeSigue)
+        <a href="{{ route('chat.index', $user->id_usuario) }}"
+           class="btn btn-outline-primary mb-3">
+          Chatear
+        </a>
+      @endif
+    @endif
+  @endauth
+
   {{-- Outfits o mensaje privado --}}
   <div id="outfits-section">
     @if($canView)
@@ -131,5 +160,6 @@
     @endif
   </div>
 </div>
+
 @include('layouts.footer')
 @endsection

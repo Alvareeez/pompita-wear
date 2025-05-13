@@ -35,6 +35,9 @@
             <a href="{{ route('admin.etiquetas.index') }}">
                 <button class="active">Etiquetas</button>
             </a>
+            <a href="{{ route('admin.solicitudes.index') }}">
+                <button>Solicitudes</button>
+            </a>
         </div>
 
         <div class="actions-container">

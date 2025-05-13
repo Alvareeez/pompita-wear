@@ -11,35 +11,34 @@ use Illuminate\Support\Facades\DB;
 class UsuarioController extends Controller
 {
     public function index(Request $request)
-{
-    $query = Usuario::with('rol');
+    {
+        $query = Usuario::with('rol');
 
-    if ($request->ajax()) {
-        if ($request->filled('nombre')) {
-            $query->where('nombre', 'LIKE', '%' . $request->nombre . '%');
-        }
+        if ($request->ajax()) {
+            if ($request->filled('nombre')) {
+                $query->where('nombre', 'LIKE', '%' . $request->nombre . '%');
+            }
 
-        if ($request->filled('correo')) {
-            $query->where('email', 'LIKE', '%' . $request->correo . '%');
-        }
+            if ($request->filled('correo')) {
+                $query->where('email', 'LIKE', '%' . $request->correo . '%');
+            }
 
-        if ($request->filled('rol')) {
-            $query->whereHas('rol', function ($q) use ($request) {
-                $q->where('nombre', $request->rol);
-            });
+            if ($request->filled('rol')) {
+                $query->whereHas('rol', function ($q) use ($request) {
+                    $q->where('nombre', $request->rol);
+                });
+            }
+
+            $usuarios = $query->get();
+
+            return view('admin.partials.tabla-usuarios', compact('usuarios'))->render();
         }
 
         $usuarios = $query->get();
+        $roles = Rol::all();
 
-        return view('admin.partials.tabla-usuarios', compact('usuarios'))->render();
+        return view('admin.usuarios', compact('usuarios', 'roles'));
     }
-
-    $usuarios = $query->get();
-    $roles = Rol::all();
-
-    return view('admin.usuarios', compact('usuarios', 'roles'));
-}
-
 
     public function create()
     {
@@ -128,6 +127,19 @@ class UsuarioController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Ocurrió un error al eliminar el usuario.']);
+        }
+    }
+
+    public function updateEstado(Request $request)
+    {
+        try {
+            $usuario = Usuario::findOrFail($request->id_usuario); // Busca el usuario por ID
+            $usuario->estado = $request->estado; // Actualiza el estado
+            $usuario->save(); // Guarda los cambios en la base de datos
+
+            return response()->json(['success' => true, 'message' => 'Estado actualizado correctamente.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error al actualizar el estado.']);
         }
     }
 }
