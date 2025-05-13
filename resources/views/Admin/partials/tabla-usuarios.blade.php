@@ -15,13 +15,11 @@
                 <td>{{ $usuario->email }}</td>
                 <td>{{ $usuario->rol ? $usuario->rol->nombre : 'Sin rol' }}</td>
                 <td>
-                    @if ($usuario->estado === 'activo')
-                        <span class="badge badge-success">Activo</span>
-                    @elseif ($usuario->estado === 'inactivo')
-                        <span class="badge badge-warning">Inactivo</span>
-                    @elseif ($usuario->estado === 'baneado')
-                        <span class="badge badge-danger">Baneado</span>
-                    @endif
+                    <select class="estado-select" data-id="{{ $usuario->id_usuario }}">
+                        <option value="activo" {{ $usuario->estado === 'activo' ? 'selected' : '' }}>Activo</option>
+                        <option value="inactivo" {{ $usuario->estado === 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                        <option value="baneado" {{ $usuario->estado === 'baneado' ? 'selected' : '' }}>Baneado</option>
+                    </select>
                 </td>
                 <td>
                     <a href="{{ route('admin.usuarios.edit', $usuario->id_usuario) }}" class="edit-btn">✏️</a>

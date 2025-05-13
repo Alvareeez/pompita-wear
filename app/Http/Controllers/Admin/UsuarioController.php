@@ -133,9 +133,9 @@ class UsuarioController extends Controller
     public function updateEstado(Request $request)
     {
         try {
-            $usuario = Usuario::findOrFail($request->id_usuario);
-            $usuario->estado = $request->estado;
-            $usuario->save();
+            $usuario = Usuario::findOrFail($request->id_usuario); // Busca el usuario por ID
+            $usuario->estado = $request->estado; // Actualiza el estado
+            $usuario->save(); // Guarda los cambios en la base de datos
 
             return response()->json(['success' => true, 'message' => 'Estado actualizado correctamente.']);
         } catch (\Exception $e) {

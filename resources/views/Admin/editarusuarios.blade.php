@@ -55,14 +55,7 @@
                     </select>
                     <label for="id_rol" class="form__label">Rol</label>
                 </div>
-                <div class="form__group field">
-                    <select class="form__field" name="estado" id="estado">
-                        <option value="activo" {{ old('estado', $usuario->estado) == 'activo' ? 'selected' : '' }}>Activo</option>
-                        <option value="inactivo" {{ old('estado', $usuario->estado) == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
-                        <option value="baneado" {{ old('estado', $usuario->estado) == 'baneado' ? 'selected' : '' }}>Baneado</option>
-                    </select>
-                    <label for="estado" class="form__label">Estado</label>
-                </div>
+                
                 <div class="form__group field">
                     <input type="password" class="form__field" placeholder="Nueva Contraseña (opcional)" name="password" id="password" />
                     <label for="password" class="form__label">Nueva Contraseña</label>
