@@ -23,11 +23,9 @@
                     @foreach($outfit->prendas->sortBy('tipo.id_tipoPrenda') as $prenda)
                         <div class="prenda-row">
                             <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="{{ $prenda->nombre }}">
-                            <p>{{ $prenda->nombre }} - Precio: €{{ number_format($prenda->precio, 2) }}</p>
+                            <p>{{ $prenda->nombre }} </p>
                         </div>
                     @endforeach
-
-                    <h6 class="card-subtitle mt-3">Precio Total: €{{ number_format($outfit->precio_total, 2) }}</h6>
                 </div>
             </div>
         </a>

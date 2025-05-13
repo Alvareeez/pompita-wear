@@ -7,7 +7,6 @@
                     <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="{{ $prenda->descripcion }}">
                 </a>
                 <p><strong>{{ $prenda->nombre }}</strong></p>
-                <p><strong>Precio:</strong> {{ $prenda->precio }}€</p>
                 <p><strong>Likes:</strong> {{ $prenda->likes_count }}</p>
                 <p><strong>Valoración:</strong> {{ number_format($prenda->valoraciones_avg_puntuacion, 1) ?? '-' }}</p>
             </div>
