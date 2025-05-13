@@ -120,8 +120,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 15.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta manga corta print rosa',
                 'descripcion' => 'Camiseta de rayas de algodón color rosa con dibujo en el pecho, perfecta para el día a día.',
                 'img_frontal' => 'CamisetaMangaCortaPrintRosaFrontal.png',
@@ -130,8 +129,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 25.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camisa manga corta boxy',
                 'descripcion' => 'Camisa manga corta boxy fit de rayas color azul de algodón, perfecta para el verano.',
                 'img_frontal' => 'CamisaMangaCortaBoxyRayasFrontal.png',
@@ -140,8 +138,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 25.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camisa manga corta boxy bordado',
                 'descripcion' => 'Camisa manga corta boxy fit color azul marino de algodón con bordado en la parte trasera, perfecta para el verano.',
                 'img_frontal' => 'CamisaMangaCortaBoxyBordadaFrontal.png',
@@ -150,8 +147,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 25.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Polo rayas',
                 'descripcion' => 'Polo manga corta color azul con rayas negras y botones en el pecho, para ir formal pero cómodo.',
                 'img_frontal' => 'PoloMangaCortaRayasFrontal.png',
@@ -160,8 +156,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 29.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camisa manga corta rota',
                 'descripcion' => 'Camisa de color caqui (tono tierra suave) con mangas cortas y detalles deliberados de rotos o desgastes, dando un estilo casual y ligeramente desgastado. Ideal para looks informales con toque moderno.',
                 'img_frontal' => 'CamisaMangaCortaRotaFrontal.png',
@@ -170,8 +165,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 26.59,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camisa manga corta textura print',
                 'descripcion' => 'Camisa con mangas cortas en tono arena (beige suave), con diseño de textura o estampado que imita la apariencia del suelo desértico o arenoso. Brinda un estilo natural, fresco y versátil, ideal para ocasiones casuales o informales.',
                 'img_frontal' => 'CamisaMangaCortaTexturaPrintFrontal.png',
@@ -180,8 +174,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 27.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Cazadora técnica sport',
                 'descripcion' => 'Chaqueta deportiva de corte moderno y funcional, en tono azul claro. Diseñada con materiales resistentes y cómodos, ideal para actividades al aire libre o para un estilo casual pero activo.',
                 'img_frontal' => 'CazadoraTecnicaSportAzulFrontal.png',
@@ -190,8 +183,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 12.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta manga corta rib contraste',
                 'descripcion' => 'Camiseta de tiras anchas (rib) en colores blanco y rojo, con diseño de contraste entre ambos tonos. De manga corta y corte ajustado o entallado, ideal para un look retro, deportivo o casual con estilo definido.',
                 'img_frontal' => 'CamisetaMangaCortaRibRojaFrontal.png',
@@ -200,8 +192,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 39.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Cazadora rayas bordado',
                 'descripcion' => 'Chaqueta con diseño de rayas en blanco y negro, decorada con detalles de bordado. Combina un estilo clásico y moderno, aportando un toque elegante y original. Ideal para looks casuales con personalidad.',
                 'img_frontal' => 'CazadoraRayasBordadaFrontal.png',
@@ -210,8 +201,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 35.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Cazadora denim trucker',
                 'descripcion' => 'Chaqueta tipo trucker fabricada en denim de color azul marino. Cuenta con bolsillos frontales característicos y cierre mediante botones, ofreciendo un estilo clásico y versátil. Ideal para looks casuales y combinaciones sencillas pero con actitud.',
                 'img_frontal' => 'CazadoraDenimTruckerFrontal.png',
@@ -220,8 +210,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 35.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Chaqueta Everlast cropped boxeo',
                 'descripcion' => 'Chaqueta corta (cropped) de estilo deportivo, inspirada en la vestimenta de boxeo, de color gris y cierre con cremallera. Marca Everlast, conocida por su calidad en prendas de deporte. Ideal para looks urbanos, cómodos y con toque atlético.',
                 'img_frontal' => 'ChaquetaEverlastCroppedBoxeoFrontal.png',
@@ -230,8 +219,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 7.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta manga corta básica',
                 'descripcion' => 'Prenda esencial de color negro, con mangas cortas y corte ajustado o regular. Versátil y sencilla, ideal para combinar en cualquier estilo, desde casual hasta más estilizado. Perfecta para usar sola o como base en capas.',
                 'img_frontal' => 'CamisetaCortaBásicaNegraFrontal.png',
@@ -240,8 +228,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 22.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta manga corta mesh sport print',
                 'descripcion' => 'Camiseta deportiva de color azul, con diseño en malla (mesh) para mayor transpirabilidad. Cuenta con un estampado frontal minimalista y en la parte trasera presenta números y letras blancos, típicos de uniformes atléticos o estilo retro deportivo. Ideal para looks activos, informales o con inspiración sport.',
                 'img_frontal' => 'CamisetaMangaCortaMeshSportFrontal.png',
@@ -250,8 +237,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 29.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta Nascar manga larga print',
                 'descripcion' => 'Camiseta de manga larga con diseño inspirado en la temática NASCAR, en tono rosa. Cuenta con estampados característicos como logotipos, banderas o gráficos relacionados con el automovilismo. Ideal para quienes buscan un estilo casual con toque deportivo y colorido.',
                 'img_frontal' => 'CamisetaNascarMangaLargaFrontal.png',
@@ -260,8 +246,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 25.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Polo manga corta sport mesh',
                 'descripcion' => 'Polo de estilo deportivo confeccionado en tejido mesh para mayor transpiración. Presenta un diseño en blanco roto como color principal, con detalles en azul en el cuello y en los bordes de las mangas. Ideal para looks informales o deportivos, combinando comodidad, frescura y un toque moderno.',
                 'img_frontal' => 'PoloMangaCortaMeshFrontal.png',
@@ -270,8 +255,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 22.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Polo manga corta varsity parche',
                 'descripcion' => 'Polo de corte deportivo inspirado en el estilo varsity (universitario), con manga corta y diseño color block. Presenta un parche rojo en el pecho, combinado con detalles de rayas negras y blancas en el cuerpo o mangas. Ideal para looks dinámicos y juveniles, aportando un toque retro y atlético al outfit.',
                 'img_frontal' => 'PoloMangaCortaVarsityFrontal.png',
@@ -280,8 +264,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 25.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta Everlast manga corta mesh',
                 'descripcion' => 'Camiseta de la marca Everlast, con mangas cortas y confeccionada en tejido mesh transpirable. De color azul marino como base, incorpora rayas horizontales blancas que le dan un estilo deportivo y clásico. Ideal para looks activos o casuales, combinando comodidad, frescura y un toque atlético.',
                 'img_frontal' => 'CamisetaEverlastMangaCortaFrontal.png',
@@ -290,8 +273,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 12.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta manga corta rib contraste',
                 'descripcion' => 'Camiseta de corte ajustado confeccionada en tejido rib (elástico y entrelazado), en combinación de tonos: azul claro y azul marino. Su diseño de contraste aporta dinamismo y estilo, ideal para looks informales o deportivos, combinando elegancia casual y comodidad.',
                 'img_frontal' => 'CamisetaMangaCortaRibAzulFrontal.png',
@@ -300,8 +282,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 12.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta manga corta print',
                 'descripcion' => 'Camiseta de manga corta en tono suave tipo arena (beige claro), con estampado en contraste que puede incluir motivos geométricos, tribales o abstractos. Aporta un estilo fresco, natural y versátil, ideal para looks casuales o inspirados en tendencias bohemias o playeras.',
                 'img_frontal' => 'CamisetaMangaCortaPrintFrontal.png',
@@ -310,8 +291,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 2, 
-                'precio' => 12.99,
+                'id_tipoPrenda' => 2,
                 'nombre' => 'Camiseta manga corta contraste print gris',
                 'descripcion' => 'Camiseta de manga corta con diseño de estampado en tonos de gris, combinando diferentes intensidades o texturas del color para crear un efecto de contraste. Corte moderno y versátil, ideal para looks urbanos, informales o minimalistas, aportando estilo sencillo pero elegante.',
                 'img_frontal' => 'CamisetaMangaCortaContrasteGrisFrontal.png',
@@ -319,8 +299,8 @@ class PrendaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            
-            
+
+
             // PIERNA -----------------------------------------------------------------------------------------------
 
             [
@@ -552,7 +532,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 12.99,
                 'nombre' => 'Pañuelo tie dye',
                 'descripcion' => 'Pañuelo con técnica de teñido tie dye que combina suavemente los tonos crema, azul turquesa y negro en un diseño ondulado y orgánico. Ideal para agregar un toque bohemio, colorido y original a cualquier outfit. Versátil para usar en el cuello, cabello, bolsos o como accesorio decorativo.',
@@ -562,7 +542,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 12.99,
                 'nombre' => 'Gorra bordado Crema',
                 'descripcion' => 'Gorra con diseño de bordado en tonos crema y azul, que puede incluir logotipos, motivos decorativos o detalles geométricos. Combina elegancia casual con un toque de color, ideal para looks informales, deportivos o urbanos. Perfecta para usar a diario y complementar outfits con estilo sencillo pero cuidado.',
@@ -572,7 +552,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 12.99,
                 'nombre' => 'Gorra bordado blanco roto',
                 'descripcion' => 'Gorra con detalles de bordado en tono blanco roto (blanco ligeramente apagado o marfil). Aporta un estilo limpio, sencillo y elegante, ideal para looks casuales o minimalistas. Perfecta para combinar con outfits claros o como contraste en estilos más neutros.',
@@ -582,7 +562,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 12.99,
                 'nombre' => 'Dock hat efecto lavado',
                 'descripcion' => 'Sombrero tipo dock hat (de ala corta y copa baja) con acabado de efecto lavado en tono gris. Este estilo aporta un look vintage y desgastado, ideal para looks casuales, marineros o urbanos. Versátil y con toque retro, perfecto para complementar outfits informales con personalidad.',
@@ -592,7 +572,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 15.99,
                 'nombre' => 'Bucket efecto lavado',
                 'descripcion' => 'Sombrero tipo bucket (gorrito de lluvia) con acabado de efecto lavado en color crudo (beige muy claro o blanco sucio). Este estilo aporta un toque casual, ligeramente vintage y relajado. Ideal para looks informales, playeros o urbanos, combinando comodidad y estilo con un aire moderno y natural.',
@@ -602,7 +582,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 12.99,
                 'nombre' => 'Gorra bordado gris',
                 'descripcion' => 'Gorra con diseño de bordado en combinación de colores negro y blanco, que puede incluir patrones geométricos, logotipos o detalles decorativos. Esta combinación aporta un estilo limpio, moderno y versátil, ideal para looks casuales, urbanos o deportivos. Perfecta para usar a diario con un toque de contraste y personalidad.',
@@ -612,7 +592,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 17.99,
                 'nombre' => 'Gafas sol polarizadas sport rosa',
                 'descripcion' => 'Gafas deportivas con lentes polarizados de color rosa, que reducen el deslumbramiento y mejoran la claridad visual. Las patillas (varillas) son de color blanco, aportando un contraste moderno y fresco. Diseñadas para ofrecer comodidad y protección bajo el sol, ideales para actividades al aire libre o para un look casual con estilo sporty y toque fashion.',
@@ -622,7 +602,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 17.99,
                 'nombre' => 'Gafas sol polarizadas negras',
                 'descripcion' => 'Gafas con lentes oscuros de color negro y tecnología polarizada, ideal para reducir reflejos y mejorar la visión bajo la luz solar intensa. Diseño clásico y versátil, perfecto para cualquier ocasión. Ofrecen protección UV y un estilo atemporal, combinando funcionalidad y elegancia en un formato sencillo y moderno.',
@@ -632,7 +612,7 @@ class PrendaSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'id_tipoPrenda' => 1, 
+                'id_tipoPrenda' => 1,
                 'precio' => 17.99,
                 'nombre' => 'Gafas sol polarizadas negras',
                 'descripcion' => 'Gafas con lentes oscuros de color negro y tecnología polarizada, ideal para reducir reflejos y mejorar la visión bajo la luz solar intensa. Diseño clásico y versátil, perfecto para cualquier ocasión. Ofrecen protección UV y un estilo atemporal, combinando funcionalidad y elegancia en un formato sencillo y moderno.',
