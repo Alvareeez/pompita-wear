@@ -56,6 +56,14 @@
                     </select>
                     <label for="id_rol" class="form__label">Rol</label>
                 </div>
+                <div class="form__group field">
+                    <select class="form__field" name="estado" id="estado">
+                        <option value="activo" selected>Activo</option>
+                        <option value="inactivo">Inactivo</option>
+                        <option value="baneado">Baneado</option>
+                    </select>
+                    <label for="estado" class="form__label">Estado</label>
+                </div>
                 <button type="submit" class="create-btn"><span>Crear Usuario</span></button>
             </form>
         </div>

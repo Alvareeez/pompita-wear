@@ -40,6 +40,7 @@ Route::view('/registro', 'registro.registro')->middleware('guest');
 Route::post('/registro', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/reactivar-cuenta', [AuthController::class, 'reactivarCuenta'])->name('reactivar.cuenta');
 
 
 // RUTAS DE SEGURIZADAS COMO ADMIN ---------------------------------------------------------------------------
@@ -51,6 +52,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('admin.usuarios.update');
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('admin.usuarios.destroy');
     Route::get('/usuarios/filtrar', [UsuarioController::class, 'filtrar'])->name('admin.usuarios.filtrar');
+    Route::post('/usuarios/update-estado', [UsuarioController::class, 'updateEstado'])->name('admin.usuarios.updateEstado');
 
     Route::get('/ropa', [RopaController::class, 'index'])->name('admin.ropa.index');
     Route::get('/ropa/create', [RopaController::class, 'create'])->name('admin.ropa.create');

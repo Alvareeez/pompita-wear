@@ -4,6 +4,7 @@
             <th>Nombre</th>
             <th>Correo</th>
             <th>Rol</th>
+            <th>Estado</th> <!-- Nueva columna -->
             <th>Acciones</th>
         </tr>
     </thead>
@@ -13,6 +14,15 @@
                 <td>{{ $usuario->nombre }}</td>
                 <td>{{ $usuario->email }}</td>
                 <td>{{ $usuario->rol ? $usuario->rol->nombre : 'Sin rol' }}</td>
+                <td>
+                    @if ($usuario->estado === 'activo')
+                        <span class="badge badge-success">Activo</span>
+                    @elseif ($usuario->estado === 'inactivo')
+                        <span class="badge badge-warning">Inactivo</span>
+                    @elseif ($usuario->estado === 'baneado')
+                        <span class="badge badge-danger">Baneado</span>
+                    @endif
+                </td>
                 <td>
                     <a href="{{ route('admin.usuarios.edit', $usuario->id_usuario) }}" class="edit-btn">✏️</a>
                     <a class="delete-btn" onclick="confirmDelete({{ $usuario->id_usuario }})">🗑️</a>

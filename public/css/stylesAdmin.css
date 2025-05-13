@@ -696,6 +696,17 @@ select option {
     transition: color 0.3s ease, background-color 0.3s ease;
 }
 
+.badge-success {
+    background-color: #28a745;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+}
 /* Ajustar el color del texto según el fondo */
 .badge[style*="background-color"] {
     color: #000; /* Texto oscuro para fondos claros */
