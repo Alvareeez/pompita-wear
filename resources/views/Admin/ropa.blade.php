@@ -14,11 +14,17 @@
         <div class="logo">
             <img src="{{ asset('img/pompitaLogo.png') }}" alt="Pompita Wear">
         </div>
-        <nav>
+        <label class="burger" for="burger">
+            <input type="checkbox" id="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <nav class="menu">
             <a href="/">Inicio</a>
             <form action="{{ route('logout') }}" method="POST" class="logout-form">
                 @csrf
-                <button type="submit" class="text-white logout-btn">Cerrar sesión</button>
+                <button type="submit" class="logout-btn">Cerrar sesión</button>
             </form>
         </nav>
     </header>
