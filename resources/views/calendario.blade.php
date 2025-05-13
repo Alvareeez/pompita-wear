@@ -18,6 +18,7 @@
             margin-top: 20px;
         }
 
+        /* Estilos del modal */
         .modal {
             display: none;
             position: fixed;
@@ -25,42 +26,37 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 10px 15px; /* Reduce el padding */
+            border-radius: 8px; /* Bordes redondeados */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             z-index: 1000;
+            width: 80%; /* Ancho relativo */
+            max-width: 300px; /* Ancho máximo */
+            max-height: 200px; /* Altura máxima */
+            overflow-y: auto; /* Habilita el scroll si el contenido excede la altura */
         }
 
         .modal.active {
             display: block;
         }
 
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .modal-overlay.active {
-            display: block;
+        .modal h3 {
+            font-size: 16px; /* Reduce el tamaño del título */
+            margin-bottom: 10px; /* Espaciado inferior */
+            text-align: center;
         }
 
         .modal-buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 20px;
+            gap: 10px; /* Espaciado entre botones */
+            margin-top: 10px; /* Reduce el margen superior */
         }
 
         .modal-buttons button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            padding: 8px 12px; /* Reduce el tamaño de los botones */
+            font-size: 12px; /* Reduce el tamaño de la fuente */
+            border-radius: 4px; /* Bordes redondeados */
         }
 
         .btn-add {
@@ -73,19 +69,17 @@
             color: white;
         }
 
-        .btn-replace {
-            background-color: #ffc107;
-            color: white;
-        }
-
         .btn-delete {
             background-color: #dc3545;
             color: white;
         }
 
         .btn-close {
-            background-color: #dc3545;
+            background-color: #6c757d;
             color: white;
+            margin-top: 10px; /* Espaciado superior */
+            width: 100%; /* Botón de cerrar ocupa todo el ancho */
+            font-size: 12px; /* Reduce el tamaño de la fuente */
         }
 
         .header {
@@ -144,6 +138,19 @@
         .profile-large {
             right: 70px !important;
         }
+
+        .fc-daygrid-day {
+            color: black; /* Asegura que los días sean negros */
+        }
+
+        .fc-daygrid-day.fc-day-today {
+            background-color: #f8f9fa; /* Fondo claro para el día actual */
+            color: black; /* Texto negro para el día actual */
+        }
+
+        .fc-daygrid-day:hover {
+            background-color: #e9ecef; /* Fondo más claro al pasar el mouse */
+        }
     </style>
 @endsection
 
@@ -193,7 +200,7 @@
                 modalButtons.innerHTML = '';
 
                 if (event) {
-                    // Si hay un evento, mostrar opciones para ver, sustituir o eliminar
+                    // Si hay un evento, mostrar opciones para ver o eliminar
                     modalButtons.innerHTML = `
                         <button class="btn-view" onclick="viewOutfit(${event.extendedProps.outfitId})">Ver Outfit</button>
                         <button class="btn-delete" onclick="deleteOutfit('${date}')">Eliminar Outfit</button>
@@ -223,10 +230,6 @@
 
             window.viewOutfit = function (outfitId) {
                 window.location.href = `/outfit/${outfitId}`;
-            };
-
-            window.replaceOutfit = function (date) {
-                window.location.href = `/outfits/replace?date=${date}`;
             };
 
             window.deleteOutfit = function (date) {
@@ -280,7 +283,7 @@
     <div id="modal" class="modal">
         <h3 id="modal-title"></h3>
         <div id="modal-buttons" class="modal-buttons"></div>
-        <button id="btn-close" class="btn-close">Cerrar</button>
+        <button id="btn-close" class="btn-close"></button>
     </div>
     <div id="modal-overlay" class="modal-overlay"></div>
 @endsection
