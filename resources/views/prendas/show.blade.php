@@ -42,7 +42,6 @@
                 
                 <!-- Botones de acción -->
                 <div class="acciones">
-                    <button class="btn-comprar">Comprar ahora</button>
                     <button id="favorite-button" 
         class="btn-favorito {{ $prenda->isFavoritedByUser(auth()->id() ?? 0) ? 'favorited' : '' }}" 
         data-prenda-id="{{ $prenda->id_prenda }}">
