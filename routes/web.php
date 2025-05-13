@@ -166,4 +166,3 @@ Route::middleware(['auth'])->group(
 
         // Guardar una nueva solicitud
         Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
-     });

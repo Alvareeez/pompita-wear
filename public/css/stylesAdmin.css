@@ -20,140 +20,41 @@ body {
     background-color: #004080; /* Color de fondo */
     padding: 10px 20px;
     color: white;
-    position: relative;
-    z-index: 1000;
 }
 
 .admin-header .logo img {
     height: 50px; /* Ajusta el tamaño del logo */
 }
 
-/* Menú hamburguesa */
-.burger {
-    display: none; /* Oculto por defecto */
-    position: relative;
-    width: 40px;
-    height: 30px;
-    background: transparent;
-    cursor: pointer;
-}
-
-.burger input {
-    display: none;
-}
-
-.burger span {
-    display: block;
-    position: absolute;
-    height: 4px;
-    width: 100%;
-    background: white;
-    border-radius: 9px;
-    opacity: 1;
-    left: 0;
-    transform: rotate(0deg);
-    transition: 0.25s ease-in-out;
-}
-
-.burger span:nth-of-type(1) {
-    top: 0px;
-    transform-origin: left center;
-}
-
-.burger span:nth-of-type(2) {
-    top: 50%;
-    transform: translateY(-50%);
-    transform-origin: left center;
-}
-
-.burger span:nth-of-type(3) {
-    top: 100%;
-    transform-origin: left center;
-    transform: translateY(-100%);
-}
-
-.burger input:checked ~ span:nth-of-type(1) {
-    transform: rotate(45deg);
-    top: 0px;
-    left: 5px;
-}
-
-.burger input:checked ~ span:nth-of-type(2) {
-    width: 0%;
-    opacity: 0;
-}
-
-.burger input:checked ~ span:nth-of-type(3) {
-    transform: rotate(-45deg);
-    top: 28px;
-    left: 5px;
-}
-
-/* Menú responsive */
-.menu {
+.admin-header nav {
     display: flex;
     align-items: center;
-    gap: 20px;
-    transition: transform 0.3s ease-in-out;
+    gap: 20px; /* Espaciado entre los elementos */
 }
 
-.menu a,
-.menu .logout-btn {
+.admin-header nav a {
     color: white;
     text-decoration: none;
     font-weight: bold;
 }
 
-.menu .logout-btn {
-    background-color: #d9534f;
+.admin-header nav .logout-form {
+    margin: 0;
+}
+
+.admin-header nav .logout-btn {
+    background-color: #d9534f; /* Rojo para el botón de cerrar sesión */
+    color: white;
     border: none;
     padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
     transition: background-color 0.3s ease;
 }
 
-.menu .logout-btn:hover {
-    background-color: #c9302c;
-}
-
-/* Menú oculto en pantallas pequeñas */
-.menu {
-    flex-direction: column;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #004080;
-    width: 200px;
-    padding: 20px;
-    gap: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translateX(100%);
-    display: none; /* Oculto por defecto */
-}
-
-.burger input:checked ~ .menu {
-    display: flex; /* Mostrar menú al activar la hamburguesa */
-    transform: translateX(0);
-}
-
-/* Estilos para pantallas grandes */
-@media (min-width: 700px) {
-    .burger {
-        display: none; /* Oculta la hamburguesa en pantallas grandes */
-    }
-
-    .menu {
-        display: flex; /* Muestra el menú como barra horizontal */
-        position: static;
-        transform: translateX(0);
-        flex-direction: row;
-        background-color: transparent;
-        width: auto;
-        padding: 0;
-        box-shadow: none;
-    }
+.admin-header nav .logout-btn:hover {
+    background-color: #c9302c; /* Color más oscuro al pasar el mouse */
 }
 
 /* Contenedor principal */
@@ -239,7 +140,11 @@ body {
     --text-color: #ffffff; /* Color del texto */
     position: relative;
     display: inline-block;
+    background-color: #28a745;
+    color: white;
     padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 8px;
     font-size: 16px;
     font-weight: bold;
     text-transform: uppercase;
@@ -272,6 +177,8 @@ body {
 }
 
 .create-btn:hover {
+    background-color: #093f7c;
+    transform: translateY(-2px);
     color: var(--text-color);
     transform: translateY(-2px); /* Efecto de elevación */
 }
@@ -281,6 +188,37 @@ body {
     filter: brightness(0.9);
 }
 
+
+/* Alertas */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-danger ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.alert-danger li {
+    list-style-type: disc;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
 /* Tabla */
 .table-container {
     background-color: white;
@@ -847,21 +785,4 @@ select option {
 .badge[style*="background-color: #0056b3"],
 .badge[style*="background-color: #333"] {
     color: #fff; /* Texto claro para fondos oscuros */
-}
-
-/* Alertas */
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
 }
