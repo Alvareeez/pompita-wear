@@ -717,3 +717,20 @@ select option {
 .badge[style*="background-color: #333"] {
     color: #fff; /* Texto claro para fondos oscuros */
 }
+
+/* Alertas */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
