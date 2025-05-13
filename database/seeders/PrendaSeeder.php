@@ -677,6 +677,15 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,                 
+                'nombre' => 'Gafas sol polarizadas negras',
+                'descripcion' => 'Gafas con lentes oscuros de color negro y tecnología polarizada, ideal para reducir reflejos y mejorar la visión bajo la luz solar intensa. Diseño clásico y versátil, perfecto para cualquier ocasión. Ofrecen protección UV y un estilo atemporal, combinando funcionalidad y elegancia en un formato sencillo y moderno.',
+                'img_frontal' => 'GafasSolNegrasFrontal.png',
+                'img_trasera' => 'GafasSolNegrasTrasera.png',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id_tipoPrenda' => 1,                 
                 'nombre' => 'Gorra bordada roja',
                 'descripcion' => 'Gorra con detalle de bordado en tono burdeos (rojo oscuro con matices profundos), que puede incluir logotipos, palabras o diseños decorativos. Este color aporta un toque elegante y sobrio al look. Ideal para estilos minimalistas, casuales o clásicos, combinando comodidad con un aire sofisticado y discreto.',
                 'img_frontal' => 'GorraRojaFrontal.png',
