@@ -114,7 +114,8 @@ class PrendaController extends Controller
         if (! $user) {
             return response()->json(['error' => 'Debes iniciar sesión'], 401);
         }
-
+    
+        // Verificar si ya existe el like usando la tabla directamente
         $likeExists = DB::table('likes_prendas')
                         ->where('id_prenda', $id)
                         ->where('id_usuario', $user->id_usuario)

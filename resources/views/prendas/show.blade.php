@@ -31,7 +31,6 @@
                     @endfor
                     <span>({{ number_format($puntuacionPromedio, 1) }})</span>
                 </div>
-                <p class="precio">€{{ number_format($prenda->precio, 2) }}</p>
                 
                 <p class="descripcion">{{ $prenda->descripcion }}</p>
                 
@@ -42,7 +41,6 @@
                 
                 <!-- Botones de acción -->
                 <div class="acciones">
-                    <button class="btn-comprar">Comprar ahora</button>
                     <button id="favorite-button" 
         class="btn-favorito {{ $prenda->isFavoritedByUser(auth()->id() ?? 0) ? 'favorited' : '' }}" 
         data-prenda-id="{{ $prenda->id_prenda }}">
@@ -170,7 +168,7 @@
                     <div class="comentario-card mb-3">
                         <div class="comentario-content">
                             <div class="foto-comentario-container">
-                                <a href="{{ url('perfil')}}">
+                                <a href="{{ route('perfil.publico', $comentario->usuario->id_usuario)}}">
                                     @if($comentario->usuario->foto_perfil)
                                     <img src="{{ asset($comentario->usuario->foto_perfil) }}" 
                                     alt="{{ $comentario->usuario->nombre }}"

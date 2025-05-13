@@ -26,9 +26,9 @@ use App\Http\Controllers\SolicitudRopaController;
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
 Route::get('auth/google/redirect', [SocialController::class, 'redirect'])
-     ->name('google.redirect');
+    ->name('google.redirect');
 Route::get('auth/google/callback',  [SocialController::class, 'callback'])
-     ->name('google.callback');
+    ->name('google.callback');
 
 Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
@@ -45,6 +45,9 @@ Route::post('/reactivar-cuenta', [AuthController::class, 'reactivarCuenta'])->na
 
 // RUTAS DE SEGURIZADAS COMO ADMIN ---------------------------------------------------------------------------
 Route::prefix('admin')->middleware('auth')->group(function () {
+
+    // RUTAS DE CRUDS
+
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
     Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('admin.usuarios.create');
     Route::post('/usuarios', [UsuarioController::class, 'store'])->name('admin.usuarios.store');
@@ -109,6 +112,7 @@ Route::middleware(['auth'])->group(
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
+        Route::get('/outfit/{outfit}/like', [DetailsOutfitsController::class, 'toggleLike'])->name('outfit.like');
         Route::post('/outfits/{id}/comentarios', [DetailsOutfitsController::class, 'storeComment'])->name('outfits.storeComment');
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
@@ -131,7 +135,7 @@ Route::middleware(['auth'])->group(
         Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])->name('users.search');
 
         // PERFIL PERSONAL DEL USUARIO
-        Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');       
+        Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
         // ACCIONES DEL PERFIL 
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
@@ -148,6 +152,8 @@ Route::middleware(['auth'])->group(
         // MANEJO DE SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
+    }
+);
 
         // CHAT ENTRE SEGUIDOS UNICAMENTE
         Route::get('chat/{otroUsuario}', [ChatController::class, 'index'])->name('chat.index');
