@@ -533,7 +533,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 12.99,
                 'nombre' => 'Pañuelo tie dye',
                 'descripcion' => 'Pañuelo con técnica de teñido tie dye que combina suavemente los tonos crema, azul turquesa y negro en un diseño ondulado y orgánico. Ideal para agregar un toque bohemio, colorido y original a cualquier outfit. Versátil para usar en el cuello, cabello, bolsos o como accesorio decorativo.',
                 'img_frontal' => 'PañueloTyeDyeFrontal.png',
@@ -543,7 +542,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 12.99,
                 'nombre' => 'Gorra bordado Crema',
                 'descripcion' => 'Gorra con diseño de bordado en tonos crema y azul, que puede incluir logotipos, motivos decorativos o detalles geométricos. Combina elegancia casual con un toque de color, ideal para looks informales, deportivos o urbanos. Perfecta para usar a diario y complementar outfits con estilo sencillo pero cuidado.',
                 'img_frontal' => 'GorraBordadaCremaFrontal.png',
@@ -553,7 +551,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 12.99,
                 'nombre' => 'Gorra bordado blanco roto',
                 'descripcion' => 'Gorra con detalles de bordado en tono blanco roto (blanco ligeramente apagado o marfil). Aporta un estilo limpio, sencillo y elegante, ideal para looks casuales o minimalistas. Perfecta para combinar con outfits claros o como contraste en estilos más neutros.',
                 'img_frontal' => 'GorraBordadaCrema2Frontal.png',
@@ -563,7 +560,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 12.99,
                 'nombre' => 'Dock hat efecto lavado',
                 'descripcion' => 'Sombrero tipo dock hat (de ala corta y copa baja) con acabado de efecto lavado en tono gris. Este estilo aporta un look vintage y desgastado, ideal para looks casuales, marineros o urbanos. Versátil y con toque retro, perfecto para complementar outfits informales con personalidad.',
                 'img_frontal' => 'DockHatEfectoLavadoFrontal.png',
@@ -573,7 +569,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 15.99,
                 'nombre' => 'Bucket efecto lavado',
                 'descripcion' => 'Sombrero tipo bucket (gorrito de lluvia) con acabado de efecto lavado en color crudo (beige muy claro o blanco sucio). Este estilo aporta un toque casual, ligeramente vintage y relajado. Ideal para looks informales, playeros o urbanos, combinando comodidad y estilo con un aire moderno y natural.',
                 'img_frontal' => 'BucketEfectoLavadoFrontal.png',
@@ -583,7 +578,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 12.99,
                 'nombre' => 'Gorra bordado gris',
                 'descripcion' => 'Gorra con diseño de bordado en combinación de colores negro y blanco, que puede incluir patrones geométricos, logotipos o detalles decorativos. Esta combinación aporta un estilo limpio, moderno y versátil, ideal para looks casuales, urbanos o deportivos. Perfecta para usar a diario con un toque de contraste y personalidad.',
                 'img_frontal' => 'GorraBordadaGrisFrontal.png',
@@ -593,7 +587,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 17.99,
                 'nombre' => 'Gafas sol polarizadas sport rosa',
                 'descripcion' => 'Gafas deportivas con lentes polarizados de color rosa, que reducen el deslumbramiento y mejoran la claridad visual. Las patillas (varillas) son de color blanco, aportando un contraste moderno y fresco. Diseñadas para ofrecer comodidad y protección bajo el sol, ideales para actividades al aire libre o para un look casual con estilo sporty y toque fashion.',
                 'img_frontal' => 'GafasSolRosaFrontal.png',
@@ -603,7 +596,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 17.99,
                 'nombre' => 'Gafas sol polarizadas negras',
                 'descripcion' => 'Gafas con lentes oscuros de color negro y tecnología polarizada, ideal para reducir reflejos y mejorar la visión bajo la luz solar intensa. Diseño clásico y versátil, perfecto para cualquier ocasión. Ofrecen protección UV y un estilo atemporal, combinando funcionalidad y elegancia en un formato sencillo y moderno.',
                 'img_frontal' => 'GafasSolPolarizadasNegrasFrontal.png',
@@ -613,7 +605,6 @@ class PrendaSeeder extends Seeder
             ],
             [
                 'id_tipoPrenda' => 1,
-                'precio' => 17.99,
                 'nombre' => 'Gafas sol polarizadas negras',
                 'descripcion' => 'Gafas con lentes oscuros de color negro y tecnología polarizada, diseñadas para reducir reflejos y deslumbramientos, mejorando la claridad visual en días soleados. Montura generalmente en tono negro mate o brillante, ofreciendo un estilo atemporal y versátil. Ideales para cualquier ocasión, combinan funcionalidad, elegancia y protección UV. Perfectas para quienes buscan un look clásico y efectivo.',
                 'img_frontal' => 'GafasSolPolarizadasNegrasFrontal.png',
