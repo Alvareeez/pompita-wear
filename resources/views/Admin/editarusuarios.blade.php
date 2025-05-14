@@ -55,6 +55,7 @@
                     </select>
                     <label for="id_rol" class="form__label">Rol</label>
                 </div>
+                
                 <div class="form__group field">
                     <input type="password" class="form__field" placeholder="Nueva Contraseña (opcional)" name="password" id="password" />
                     <label for="password" class="form__label">Nueva Contraseña</label>
