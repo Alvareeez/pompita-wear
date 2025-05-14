@@ -159,7 +159,7 @@ Route::middleware(['auth'])->group(
         Route::get('chat/{otroUsuario}', [ChatController::class, 'index'])->name('chat.index');
         Route::get('chat/{otroUsuario}/mensajes', [ChatController::class, 'getMessages'])->name('chat.getMessages');
         Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
-
+        
         // RUTAS PARA SOLICITUDES DE ROPA
         // Mostrar formulario para crear una solicitud
         Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');

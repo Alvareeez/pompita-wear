@@ -1,7 +1,6 @@
 @extends('layouts.header')
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/styleSolicitarRopa.css') }}">
-
 @endsection
 @section('content')
 <div class="form-container">
@@ -15,7 +14,6 @@
                 <option value="{{ $tipo->id_tipoPrenda }}">{{ $tipo->tipo }}</option>
             @endforeach
         </select>
-        <input type="number" name="precio" placeholder="Precio (€)" step="0.01" >
         <input type="file" name="img_frontal" >
         <input type="file" name="img_trasera">
 

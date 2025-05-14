@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const nombreInput = document.querySelector("input[name='nombre']");
     const descripcionInput = document.querySelector("textarea[name='descripcion']");
     const tipoPrendaSelect = document.querySelector("select[name='id_tipoPrenda']");
-    const precioInput = document.querySelector("input[name='precio']");
     const imgFrontalInput = document.querySelector("input[name='img_frontal']");
     const etiquetasCheckboxes = document.querySelectorAll("input[name='etiquetas[]']");
     const coloresCheckboxes = document.querySelectorAll("input[name='colores[]']");
@@ -39,18 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
             clearError(tipoPrendaSelect);
             if (tipoPrendaSelect.value === "") {
                 showError(tipoPrendaSelect, "Debes seleccionar un tipo de prenda.");
-            }
-        });
-    }
-
-    // Validar precio
-    if (precioInput) {
-        precioInput.addEventListener("blur", function () {
-            clearError(precioInput);
-            if (precioInput.value.trim() === "") {
-                showError(precioInput, "El precio es obligatorio.");
-            } else if (isNaN(precioInput.value) || parseFloat(precioInput.value) <= 0) {
-                showError(precioInput, "El precio debe ser un número mayor a 0.");
             }
         });
     }
@@ -117,10 +104,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             if (tipoPrendaSelect && tipoPrendaSelect.value === "") {
                 showError(tipoPrendaSelect, "Debes seleccionar un tipo de prenda.");
-                isValid = false;
-            }
-            if (precioInput && (precioInput.value.trim() === "" || parseFloat(precioInput.value) <= 0)) {
-                showError(precioInput, "El precio debe ser un número mayor a 0.");
                 isValid = false;
             }
             if (imgFrontalInput && imgFrontalInput.files.length === 0) {
