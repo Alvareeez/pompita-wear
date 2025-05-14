@@ -134,11 +134,10 @@ body {
 .volver-btn {
     display: inline-block;
     background-color: #F6A894;
-    color: #000;
+    color: #ffffff;
     text-decoration: none;
     padding: 10px 25px;
     border-radius: 6px;
-    border: 1px solid black;
     font-weight: 500;
     transition: background-color 0.3s, transform 0.2s;
     font-family: 'Ubuntu', sans-serif;
@@ -614,6 +613,25 @@ body {
 .custom-textarea:hover {
     border-color: #ced4da;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-like {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #F6A894;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-like:hover {
+    background-color: #fa6843;
+}
+
+.btn-like.liked {
+    background-color: #dc3545;
 }
 
 

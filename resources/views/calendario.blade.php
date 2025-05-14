@@ -4,147 +4,8 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css">
-    <style>
-        .calendar-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    <link rel="stylesheet" href="{{ asset('css/calendario.css') }}">
 
-        #calendar {
-            margin-top: 20px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        .modal.active {
-            display: block;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .modal-overlay.active {
-            display: block;
-        }
-
-        .modal-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .modal-buttons button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .btn-add {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-view {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn-replace {
-            background-color: #ffc107;
-            color: white;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-close {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .header {
-            background-color: #002D68 !important;
-            position: fixed !important;
-            top: 0 !important;
-            z-index: 1000 !important;
-        }
-
-        .notification-panel {
-            position: absolute;
-            top: 50px;
-            right: 100px; /* Mueve el panel más a la izquierda */
-            width: 320px; /* Aumenta el ancho si es necesario */
-            background-color: #0D1117;
-            color: white;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            display: none;
-            z-index: 1001;
-        }
-
-        .notification-panel.active {
-            display: block;
-        }
-
-        .notification-panel ul li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 5px 0;
-            border-bottom: 1px solid #21262C;
-            word-wrap: break-word; /* Permitir que el texto se ajuste */
-        }
-
-        .notification-panel ul li:last-child {
-            border-bottom: none;
-        }
-
-        .mark-read-button {
-            background-color: #2F81F7;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            white-space: nowrap; /* Evitar que el texto se corte */
-        }
-
-        .mark-read-button:hover {
-            background-color: #1A73E8;
-        }
-
-        .profile-large {
-            right: 70px !important;
-        }
-    </style>
 @endsection
 
 @section('scripts')
@@ -193,7 +54,7 @@
                 modalButtons.innerHTML = '';
 
                 if (event) {
-                    // Si hay un evento, mostrar opciones para ver, sustituir o eliminar
+                    // Si hay un evento, mostrar opciones para ver o eliminar
                     modalButtons.innerHTML = `
                         <button class="btn-view" onclick="viewOutfit(${event.extendedProps.outfitId})">Ver Outfit</button>
                         <button class="btn-delete" onclick="deleteOutfit('${date}')">Eliminar Outfit</button>
@@ -223,10 +84,6 @@
 
             window.viewOutfit = function (outfitId) {
                 window.location.href = `/outfit/${outfitId}`;
-            };
-
-            window.replaceOutfit = function (date) {
-                window.location.href = `/outfits/replace?date=${date}`;
             };
 
             window.deleteOutfit = function (date) {
@@ -280,7 +137,7 @@
     <div id="modal" class="modal">
         <h3 id="modal-title"></h3>
         <div id="modal-buttons" class="modal-buttons"></div>
-        <button id="btn-close" class="btn-close">Cerrar</button>
+        <button id="btn-close" class="btn-close"></button>
     </div>
     <div id="modal-overlay" class="modal-overlay"></div>
 @endsection

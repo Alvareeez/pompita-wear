@@ -1,46 +1,63 @@
 @extends('layouts.header')
-
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/styleSolicitarRopa.css') }}">
+@endsection
 @section('content')
 <div class="form-container">
     <h2>Solicitar Nueva Prenda</h2>
     <form action="{{ route('solicitudes.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <input type="text" name="nombre" placeholder="Nombre de la prenda" required>
-        <textarea name="descripcion" placeholder="Descripción" required></textarea>
-        <select name="id_tipoPrenda" required>
+        <input type="text" name="nombre" placeholder="Nombre de la prenda" >
+        <textarea name="descripcion" placeholder="Descripción" ></textarea>
+        <select name="id_tipoPrenda">
             @foreach ($tipos as $tipo)
                 <option value="{{ $tipo->id_tipoPrenda }}">{{ $tipo->tipo }}</option>
             @endforeach
         </select>
-        <input type="number" name="precio" placeholder="Precio (€)" step="0.01" required>
-        <input type="file" name="img_frontal" required>
+        <input type="file" name="img_frontal" >
         <input type="file" name="img_trasera">
 
         <!-- Etiquetas -->
         <label for="etiquetas">Etiquetas:</label>
-        <select name="etiquetas[]" id="etiquetas" multiple>
+        <div class="checkbox-grid">
             @foreach ($etiquetas as $etiqueta)
-                <option value="{{ $etiqueta->id_etiqueta }}">{{ $etiqueta->nombre }}</option>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="etiquetas[]" value="{{ $etiqueta->id_etiqueta }}">
+                    <span class="checkbox-custom"></span>
+                    {{ $etiqueta->nombre }}
+                </label>
             @endforeach
-        </select>
+        </div>
 
         <!-- Colores -->
         <label for="colores">Colores:</label>
-        <select name="colores[]" id="colores" multiple>
+        <div class="checkbox-grid">
             @foreach ($colores as $color)
-                <option value="{{ $color->id_color }}">{{ $color->nombre }}</option>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="colores[]" value="{{ $color->id_color }}">
+                    <span class="checkbox-custom"></span>
+                    {{ $color->nombre }}
+                </label>
             @endforeach
-        </select>
+        </div>
 
         <!-- Estilos -->
         <label for="estilos">Estilos:</label>
-        <select name="estilos[]" id="estilos" multiple>
+        <div class="checkbox-grid">
             @foreach ($estilos as $estilo)
-                <option value="{{ $estilo->id_estilo }}">{{ $estilo->nombre }}</option>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="estilos[]" value="{{ $estilo->id_estilo }}">
+                    <span class="checkbox-custom"></span>
+                    {{ $estilo->nombre }}
+                </label>
             @endforeach
-        </select>
+        </div>
 
-        <button type="submit">Enviar Solicitud</button>
+        <button type="submit" class="submit-btn">Enviar Solicitud</button>
     </form>
 </div>
+@endsection
+
+@section('js')
+    <script src="{{ asset('js/solicitarropa.js') }}"></script>
 @endsection

@@ -26,9 +26,9 @@ use App\Http\Controllers\SolicitudRopaController;
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
 Route::get('auth/google/redirect', [SocialController::class, 'redirect'])
-     ->name('google.redirect');
+    ->name('google.redirect');
 Route::get('auth/google/callback',  [SocialController::class, 'callback'])
-     ->name('google.callback');
+    ->name('google.callback');
 
 Route::get('/', [HomeController::class, 'index'])->middleware('auth')->name('home');
 
@@ -40,10 +40,14 @@ Route::view('/registro', 'registro.registro')->middleware('guest');
 Route::post('/registro', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/reactivar-cuenta', [AuthController::class, 'reactivarCuenta'])->name('reactivar.cuenta');
 
 
 // RUTAS DE SEGURIZADAS COMO ADMIN ---------------------------------------------------------------------------
 Route::prefix('admin')->middleware('auth')->group(function () {
+
+    // RUTAS DE CRUDS
+
     Route::get('/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
     Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('admin.usuarios.create');
     Route::post('/usuarios', [UsuarioController::class, 'store'])->name('admin.usuarios.store');
@@ -51,6 +55,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::put('/usuarios/{id}', [UsuarioController::class, 'update'])->name('admin.usuarios.update');
     Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('admin.usuarios.destroy');
     Route::get('/usuarios/filtrar', [UsuarioController::class, 'filtrar'])->name('admin.usuarios.filtrar');
+    Route::post('/usuarios/update-estado', [UsuarioController::class, 'updateEstado'])->name('admin.usuarios.updateEstado');
 
     Route::get('/ropa', [RopaController::class, 'index'])->name('admin.ropa.index');
     Route::get('/ropa/create', [RopaController::class, 'create'])->name('admin.ropa.create');
@@ -75,6 +80,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/etiquetas/{id}/edit', [EtiquetaController::class, 'edit'])->name('admin.etiquetas.edit');
     Route::put('/etiquetas/{id}', [EtiquetaController::class, 'update'])->name('admin.etiquetas.update');
     Route::delete('/etiquetas/{id}', [EtiquetaController::class, 'destroy'])->name('admin.etiquetas.destroy');
+
+    // Mostrar solicitudes pendientes para el administrador
+    Route::get('/solicitudes', [SolicitudRopaController::class, 'index'])->name('admin.solicitudes.index');
+
+    // Actualizar el estado de una solicitud (aceptar o rechazar)
+    Route::put('/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
@@ -101,6 +112,7 @@ Route::middleware(['auth'])->group(
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
+        Route::get('/outfit/{outfit}/like', [DetailsOutfitsController::class, 'toggleLike'])->name('outfit.like');
         Route::post('/outfits/{id}/comentarios', [DetailsOutfitsController::class, 'storeComment'])->name('outfits.storeComment');
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
@@ -123,7 +135,7 @@ Route::middleware(['auth'])->group(
         Route::get('/users/search', [App\Http\Controllers\PerfilController::class, 'search'])->name('users.search');
 
         // PERFIL PERSONAL DEL USUARIO
-        Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');       
+        Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
         // ACCIONES DEL PERFIL 
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
@@ -141,6 +153,8 @@ Route::middleware(['auth'])->group(
         // MANEJO DE SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
+    }
+);
 
         // DESDE DENTRO DE PERFIL DEJAR DE SEGUIR O QUITAR SEGUIDOR
         // Quitar a un seguidor
@@ -158,5 +172,10 @@ Route::middleware(['auth'])->group(
         Route::get('chat/{otroUsuario}', [ChatController::class, 'index'])->name('chat.index');
         Route::get('chat/{otroUsuario}/mensajes', [ChatController::class, 'getMessages'])->name('chat.getMessages');
         Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
+        
+        // RUTAS PARA SOLICITUDES DE ROPA
+        // Mostrar formulario para crear una solicitud
+        Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
 
-     });
+        // Guardar una nueva solicitud
+        Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');

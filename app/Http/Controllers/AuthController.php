@@ -35,22 +35,30 @@ class AuthController extends Controller
     // Login de usuario
     public function login(Request $request)
     {
-        // Validación de los campos de login
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Intentamos autenticar al usuario con los datos proporcionados
+        $usuario = Usuario::where('email', $request->email)->first();
+
+        if (!$usuario) {
+            return back()->withErrors(['email' => 'El correo electrónico no está registrado.']);
+        }
+
+        if ($usuario->estado === 'baneado') {
+            return back()->withErrors(['email' => 'Tu cuenta ha sido baneada. Contacta con el administrador.']);
+        }
+
+        if ($usuario->estado === 'inactivo') {
+            return back()->with('reactivar', $usuario->id_usuario);
+        }
+
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // Si es exitoso, redirigimos a la página principal
             return redirect('/')->with('success', 'Sesión iniciada correctamente.');
         }
 
-        // Si las credenciales son incorrectas, devolvemos un error
-        return back()->withErrors([
-            'email' => 'Las credenciales proporcionadas son incorrectas.',
-        ]);
+        return back()->withErrors(['email' => 'Las credenciales proporcionadas son incorrectas.']);
     }
 
     public function logout(Request $request)
@@ -65,6 +73,19 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login'); // Cambia '/login' por la ruta que prefieras
+    }
+
+    public function reactivarCuenta(Request $request)
+    {
+        try {
+            $usuario = Usuario::findOrFail($request->id_usuario);
+            $usuario->estado = 'activo';
+            $usuario->save();
+
+            return redirect()->route('login')->with('success', 'Tu cuenta ha sido reactivada. Ahora puedes iniciar sesión.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Ocurrió un error al reactivar tu cuenta.']);
+        }
     }
 }
 
