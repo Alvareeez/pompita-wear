@@ -384,7 +384,7 @@ class PrendaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
+            [   
                 'id_tipoPrenda' => 3,
                 'nombre' => 'Bermuda jogger estructura Verde',
                 'descripcion' => 'Bermuda de cintura elástica tipo jogger con cordón de ajuste a tono. Cuenta con dos bolsillos laterales y uno trasero con detalle de parche',
