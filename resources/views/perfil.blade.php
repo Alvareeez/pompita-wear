@@ -32,7 +32,7 @@
           @else
             @foreach($pendientes as $sol)
               <div class="d-flex align-items-center justify-content-between mb-3">
-                {{-- Avatar y nombre, enlaza al perfil público --}}
+                {{-- Avatar y nombre --}}
                 <a href="{{ route('perfil.publico', $sol->emisor->id_usuario) }}"
                    class="d-flex align-items-center text-decoration-none">
                   <img src="{{ $sol->emisor->foto_perfil
@@ -45,13 +45,15 @@
                 </a>
                 {{-- Botones aceptar/rechazar --}}
                 <div>
-                  <form action="{{ route('solicitudes.aceptar', $sol->id) }}" method="POST" class="d-inline">
+                  <form action="{{ route('solicitudes.aceptar', $sol->id) }}"
+                        method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-success">
                       <i class="fas fa-check"></i>
                     </button>
                   </form>
-                  <form action="{{ route('solicitudes.rechazar', $sol->id) }}" method="POST" class="d-inline ms-2">
+                  <form action="{{ route('solicitudes.rechazar', $sol->id) }}"
+                        method="POST" class="d-inline ms-2">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-danger">
                       <i class="fas fa-times"></i>
@@ -78,7 +80,9 @@
             ->exists();
         @endphp
 
-        <form action="{{ route('solicitudes.store') }}" method="POST" class="d-inline mb-3">
+        <form action="{{ route('solicitudes.store') }}"
+              method="POST"
+              class="d-inline mb-3">
           @csrf
           <input type="hidden" name="id_receptor" value="{{ $user->id_usuario }}">
           <button type="submit"
@@ -96,7 +100,10 @@
       @endif
 
       {{-- Formulario edición de perfil --}}
-      <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data" class="mt-4">
+      <form action="{{ route('perfil.update') }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="mt-4">
         @csrf
         @method('PUT')
 
@@ -144,15 +151,23 @@
           </div>
         </div>
 
-        {{-- PRIVACIDAD --}} 
+        {{-- PRIVACIDAD --}}
         <div class="mb-3">
-        <label for="is_private">Privacidad de la cuenta:</label>
-            <select name="is_private" id="is_private" class="form-select">
+          <label for="is_private">Privacidad de la cuenta:</label>
+          <select name="is_private" id="is_private" class="form-select">
             <option value="0" {{ $user->is_private ? '' : 'selected' }}>Público</option>
             <option value="1" {{ $user->is_private ? 'selected' : '' }}>Privado</option>
-            </select>
+          </select>
         </div>
 
+        {{-- NUEVO: Botón a bandeja de chats --}}
+        @auth
+          <div class="mb-3 text-center">
+            <a href="{{ route('chat.inbox') }}" class="btn btn-outline-info w-75">
+              Ir a Bandeja de Chats
+            </a>
+          </div>
+        @endauth
 
         <div class="d-flex justify-content-center">
           <button type="submit" class="btn btn-outline-dark w-75">Guardar cambios</button>
