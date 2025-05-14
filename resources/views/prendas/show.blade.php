@@ -31,7 +31,6 @@
                     @endfor
                     <span>({{ number_format($puntuacionPromedio, 1) }})</span>
                 </div>
-                <p class="precio">€{{ number_format($prenda->precio, 2) }}</p>
                 
                 <p class="descripcion">{{ $prenda->descripcion }}</p>
                 

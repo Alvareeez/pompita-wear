@@ -25,16 +25,10 @@
                     </a>
                     <div class="info-prenda">
                         <p><strong>{{ $prenda->nombre }}</strong></p>
-                        <p>Tipo: {{ $prenda->tipo->nombre }}</p>
-                        <p>Precio: €{{ number_format($prenda->precio, 2) }}</p>
                         <p>Descripción: {{ $prenda->descripcion }}</p>
                     </div>
                 </div>
             @endforeach
-        </div>
-
-        <div class="total-outfit">
-            <h4>Precio Total: €{{ number_format($precioTotal, 2) }}</h4>
         </div>
 
         <!-- Botón de volver -->

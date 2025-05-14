@@ -48,7 +48,6 @@
                                     class="small-image">
                             </a>
                             <div class="prenda-info">
-                                <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
                                 <span class="likes">❤️ {{ $prenda->likes_count }}</span>
                             </div>
                         </div>
@@ -62,7 +61,6 @@
                                     class="small-image">
                             </a>
                             <div class="prenda-info">
-                                <span class="precio">€{{ number_format($prenda->precio, 2) }}</span>
                                 <span class="likes">❤️ {{ $prenda->likes_count }}</span>
                             </div>
                         </div>
