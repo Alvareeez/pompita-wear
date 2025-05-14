@@ -153,8 +153,6 @@ Route::middleware(['auth'])->group(
         // MANEJO DE SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
-    }
-);
 
         // DESDE DENTRO DE PERFIL DEJAR DE SEGUIR O QUITAR SEGUIDOR
         // Quitar a un seguidor
@@ -179,3 +177,5 @@ Route::middleware(['auth'])->group(
 
         // Guardar una nueva solicitud
         Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
+    }
+);
