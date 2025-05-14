@@ -18,7 +18,7 @@ class PerfilController extends Controller
     {
         $user = Auth::user();
 
-        // Contadores: las relaciones seguidores() y siguiendo() ya filtran status='aceptada'
+        // Contadores: relaciones ya filtran status='aceptada'
         $numeroSeguidores = $user->seguidores()->count();
         $numeroSeguidos   = $user->siguiendo()->count();
 
@@ -44,7 +44,7 @@ class PerfilController extends Controller
     }
 
     /**
-     * Acepta una solicitud pendiente (solo el receptor puede).
+     * Acepta una solicitud pendiente (solo el receptor).
      */
     public function aceptar($id)
     {
@@ -61,7 +61,7 @@ class PerfilController extends Controller
     }
 
     /**
-     * Rechaza (elimina) una solicitud pendiente (solo el receptor).
+     * Rechaza (elimina) una solicitud pendiente.
      */
     public function rechazar($id)
     {
@@ -77,7 +77,7 @@ class PerfilController extends Controller
     }
 
     /**
-     * Actualiza nombre, contraseña y foto de perfil.
+     * Actualiza nombre, contraseña, foto y privacidad.
      */
     public function update(Request $request)
     {
@@ -87,13 +87,13 @@ class PerfilController extends Controller
             'nombre'       => 'required|string|max:100',
             'password'     => 'nullable|confirmed|min:8',
             'foto_perfil'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'is_private'   => 'required|boolean',  // <--- validación
+            'is_private'   => 'required|boolean',
         ]);
 
-        // Mantener el valor anterior de privacidad
+        // Estado anterior
         $oldPrivacy = $user->is_private;
 
-        // Actualizaciones básicas
+        // Actualizar campos
         $user->nombre     = $request->nombre;
         $user->is_private = $request->is_private;
 
@@ -112,7 +112,7 @@ class PerfilController extends Controller
 
         $user->save();
 
-        // Si cambió de PRIVADO (1) a PÚBLICO (0), aceptamos todas las solicitudes pendientes
+        // Si pasó de privado a público, aceptamos todas las solicitudes pendientes
         if ($oldPrivacy && ! $user->is_private) {
             Solicitud::where('id_receptor', $user->id_usuario)
                 ->where('status', 'pendiente')
@@ -121,8 +121,9 @@ class PerfilController extends Controller
 
         return back()->with('success', 'Perfil actualizado correctamente.');
     }
+
     /**
-     * Elimina la foto de perfil y la restablece a la predeterminada.
+     * Elimina la foto de perfil y devuelve la ruta por JSON.
      */
     public function deleteProfilePicture()
     {
@@ -146,13 +147,13 @@ class PerfilController extends Controller
      */
     public function search(Request $request)
     {
-        $q = $request->get('query','');
-        $users = Usuario::where('nombre','LIKE',"%{$q}%")
+        $q = $request->get('query', '');
+        $users = Usuario::where('nombre', 'LIKE', "%{$q}%")
                         ->take(5)
-                        ->get(['id_usuario','nombre','foto_perfil']);
+                        ->get(['id_usuario', 'nombre', 'foto_perfil']);
 
-        $users->transform(function($u){
-            $u->avatar = $u->foto_perfil && preg_match('/^https?:\/\//',$u->foto_perfil)
+        $users->transform(function($u) {
+            $u->avatar = $u->foto_perfil && preg_match('/^https?:\/\//', $u->foto_perfil)
                         ? $u->foto_perfil
                         : ($u->foto_perfil
                             ? asset($u->foto_perfil)
@@ -163,13 +164,12 @@ class PerfilController extends Controller
         return response()->json($users);
     }
 
-    // MOSTRAR USUARIOS:
+    /**
+     * Muestra perfil público de otro usuario.
+     */
     public function showPublicProfile($id)
-{
-    // Buscamos al usuario por su ID
-    $user = Usuario::with(['outfits'])->findOrFail($id);
-
-    return view('cliente.perfil_publico', compact('user'));
-}
-
+    {
+        $user = Usuario::with(['outfits'])->findOrFail($id);
+        return view('cliente.perfil_publico', compact('user'));
+    }
 }

@@ -15,12 +15,95 @@
 
     {{-- IZQUIERDA --}}
     <div class="col-md-6">
-      {{-- Contadores --}}
+      {{-- Contadores con disparadores de modal --}}
       <div class="text-center mb-4">
-        <h2>Seguidores</h2>
-        <p>Tienes {{ $numeroSeguidores }} seguidores.</p>
-        <h2>Seguidos</h2>
-        <p>Sigues a {{ $numeroSeguidos }} usuarios.</p>
+        <h2>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followersModal" class="text-decoration-none text-dark">
+            Seguidores
+          </a>
+        </h2>
+        <p>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followersModal" class="text-decoration-none">
+            <strong>{{ $numeroSeguidores }}</strong>
+          </a>
+        </p>
+
+        <h2>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal" class="text-decoration-none text-dark">
+            Seguidos
+          </a>
+        </h2>
+        <p>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal" class="text-decoration-none">
+            <strong>{{ $numeroSeguidos }}</strong>
+          </a>
+        </p>
+      </div>
+
+      {{-- Modal Seguidores --}}
+      <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="followersModalLabel">Seguidores de {{ $user->nombre }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              @if($user->seguidores->isEmpty())
+                <p class="text-muted">No tienes seguidores aún.</p>
+              @else
+                <ul class="list-group">
+                  @foreach($user->seguidores as $follower)
+                    <li class="list-group-item d-flex align-items-center">
+                      <img src="{{ $follower->foto_perfil
+                                   ? asset($follower->foto_perfil)
+                                   : asset('img/default-profile.png') }}"
+                           class="rounded-circle me-2"
+                           width="40" height="40" alt="Avatar">
+                      <a href="{{ route('perfil.publico', $follower->id_usuario) }}"
+                         class="flex-grow-1 text-decoration-none">
+                        {{ $follower->nombre }}
+                      </a>
+                    </li>
+                  @endforeach
+                </ul>
+              @endif
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{-- Modal Seguidos --}}
+      <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="followingModalLabel">Usuarios que sigue {{ $user->nombre }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              @if($user->siguiendo->isEmpty())
+                <p class="text-muted">No sigues a nadie aún.</p>
+              @else
+                <ul class="list-group">
+                  @foreach($user->siguiendo as $followed)
+                    <li class="list-group-item d-flex align-items-center">
+                      <img src="{{ $followed->foto_perfil
+                                   ? asset($followed->foto_perfil)
+                                   : asset('img/default-profile.png') }}"
+                           class="rounded-circle me-2"
+                           width="40" height="40" alt="Avatar">
+                      <a href="{{ route('perfil.publico', $followed->id_usuario) }}"
+                         class="flex-grow-1 text-decoration-none">
+                        {{ $followed->nombre }}
+                      </a>
+                    </li>
+                  @endforeach
+                </ul>
+              @endif
+            </div>
+          </div>
+        </div>
       </div>
 
       {{-- Solicitudes de seguimiento pendientes --}}
@@ -32,7 +115,6 @@
           @else
             @foreach($pendientes as $sol)
               <div class="d-flex align-items-center justify-content-between mb-3">
-                {{-- Avatar y nombre --}}
                 <a href="{{ route('perfil.publico', $sol->emisor->id_usuario) }}"
                    class="d-flex align-items-center text-decoration-none">
                   <img src="{{ $sol->emisor->foto_perfil
@@ -43,7 +125,6 @@
                        width="40" height="40">
                   <span class="fw-semibold">{{ $sol->emisor->nombre }}</span>
                 </a>
-                {{-- Botones aceptar/rechazar --}}
                 <div>
                   <form action="{{ route('solicitudes.aceptar', $sol->id) }}"
                         method="POST" class="d-inline">
@@ -160,7 +241,7 @@
           </select>
         </div>
 
-        {{-- NUEVO: Botón a bandeja de chats --}}
+        {{-- Botón a bandeja de chats --}}
         @auth
           <div class="mb-3 text-center">
             <a href="{{ route('chat.inbox') }}" class="btn btn-outline-info w-75">
@@ -237,6 +318,7 @@
   const deleteProfilePictureUrl = "{{ route('perfil.delete-picture') }}";
   const defaultProfileImage     = "{{ asset('img/default-profile.png') }}";
 </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('js/perfil.js') }}"></script>
 <script src="{{ asset('js/seguimiento.js') }}"></script>
