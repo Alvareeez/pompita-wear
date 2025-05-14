@@ -172,4 +172,34 @@ class PerfilController extends Controller
         $user = Usuario::with(['outfits'])->findOrFail($id);
         return view('cliente.perfil_publico', compact('user'));
     }
+
+     /**
+     * Quita de mis seguidores al usuario $id.
+     */
+    public function removeFollower($id)
+    {
+        $me = Auth::user();
+
+        // Eliminamos la solicitud que ese usuario nos envió y que ya estaba aceptada
+        Solicitud::where('id_emisor', $id)
+                 ->where('id_receptor', $me->id_usuario)
+                 ->delete();
+
+        return back()->with('success', 'Seguidor eliminado correctamente.');
+    }
+
+    /**
+     * Deja de seguir al usuario $id.
+     */
+    public function unfollow($id)
+    {
+        $me = Auth::user();
+
+        // Eliminamos la solicitud que yo le envié
+        Solicitud::where('id_emisor', $me->id_usuario)
+                 ->where('id_receptor', $id)
+                 ->delete();
+
+        return back()->with('success', 'Has dejado de seguir al usuario.');
+    }
 }

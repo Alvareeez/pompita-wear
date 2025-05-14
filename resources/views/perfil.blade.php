@@ -46,7 +46,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="followersModalLabel">Seguidores de {{ $user->nombre }}</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
               @if($user->seguidores->isEmpty())
@@ -54,16 +54,24 @@
               @else
                 <ul class="list-group">
                   @foreach($user->seguidores as $follower)
-                    <li class="list-group-item d-flex align-items-center">
-                      <img src="{{ $follower->foto_perfil
-                                   ? asset($follower->foto_perfil)
-                                   : asset('img/default-profile.png') }}"
-                           class="rounded-circle me-2"
-                           width="40" height="40" alt="Avatar">
-                      <a href="{{ route('perfil.publico', $follower->id_usuario) }}"
-                         class="flex-grow-1 text-decoration-none">
-                        {{ $follower->nombre }}
-                      </a>
+                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                        <img src="{{ $follower->foto_perfil
+                                     ? asset($follower->foto_perfil)
+                                     : asset('img/default-profile.png') }}"
+                             class="rounded-circle me-2"
+                             width="40" height="40"
+                             alt="Avatar">
+                        <a href="{{ route('perfil.publico', $follower->id_usuario) }}"
+                           class="text-decoration-none">{{ $follower->nombre }}</a>
+                      </div>
+                      <form action="{{ route('perfil.removeFollower', $follower->id_usuario) }}"
+                            method="POST"
+                            onsubmit="return confirm('¿Eliminar a {{ $follower->nombre }} de tus seguidores?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger">Eliminar</button>
+                      </form>
                     </li>
                   @endforeach
                 </ul>
@@ -79,7 +87,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="followingModalLabel">Usuarios que sigue {{ $user->nombre }}</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
               @if($user->siguiendo->isEmpty())
@@ -87,16 +95,24 @@
               @else
                 <ul class="list-group">
                   @foreach($user->siguiendo as $followed)
-                    <li class="list-group-item d-flex align-items-center">
-                      <img src="{{ $followed->foto_perfil
-                                   ? asset($followed->foto_perfil)
-                                   : asset('img/default-profile.png') }}"
-                           class="rounded-circle me-2"
-                           width="40" height="40" alt="Avatar">
-                      <a href="{{ route('perfil.publico', $followed->id_usuario) }}"
-                         class="flex-grow-1 text-decoration-none">
-                        {{ $followed->nombre }}
-                      </a>
+                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                        <img src="{{ $followed->foto_perfil
+                                     ? asset($followed->foto_perfil)
+                                     : asset('img/default-profile.png') }}"
+                             class="rounded-circle me-2"
+                             width="40" height="40"
+                             alt="Avatar">
+                        <a href="{{ route('perfil.publico', $followed->id_usuario) }}"
+                           class="text-decoration-none">{{ $followed->nombre }}</a>
+                      </div>
+                      <form action="{{ route('perfil.unfollow', $followed->id_usuario) }}"
+                            method="POST"
+                            onsubmit="return confirm('¿Dejar de seguir a {{ $followed->nombre }}?')">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-warning">Dejar de seguir</button>
+                      </form>
                     </li>
                   @endforeach
                 </ul>
@@ -120,21 +136,19 @@
                   <img src="{{ $sol->emisor->foto_perfil
                                ? asset($sol->emisor->foto_perfil)
                                : asset('img/default-profile.png') }}"
-                       alt="Avatar"
                        class="rounded-circle me-2"
-                       width="40" height="40">
+                       width="40" height="40"
+                       alt="Avatar">
                   <span class="fw-semibold">{{ $sol->emisor->nombre }}</span>
                 </a>
                 <div>
-                  <form action="{{ route('solicitudes.aceptar', $sol->id) }}"
-                        method="POST" class="d-inline">
+                  <form action="{{ route('solicitudes.aceptar', $sol->id) }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-success">
                       <i class="fas fa-check"></i>
                     </button>
                   </form>
-                  <form action="{{ route('solicitudes.rechazar', $sol->id) }}"
-                        method="POST" class="d-inline ms-2">
+                  <form action="{{ route('solicitudes.rechazar', $sol->id) }}" method="POST" class="d-inline ms-2">
                     @csrf
                     <button type="submit" class="btn btn-sm btn-danger">
                       <i class="fas fa-times"></i>
@@ -150,41 +164,29 @@
       {{-- Botón Seguir / Pendiente / Siguiendo --}}
       @if(Auth::check() && Auth::id() !== $user->id_usuario)
         @php
-          $isFollowing = Auth::user()
-            ->siguiendo()
-            ->where('id_receptor', $user->id_usuario)
-            ->exists();
-          $hasPending = Auth::user()
-            ->solicitudesEnviadas()
-            ->where('id_receptor', $user->id_usuario)
-            ->where('status', 'pendiente')
-            ->exists();
+          $isFollowing = Auth::user()->siguiendo()
+                           ->where('id_receptor', $user->id_usuario)
+                           ->exists();
+          $hasPending  = Auth::user()->solicitudesEnviadas()
+                           ->where('id_receptor', $user->id_usuario)
+                           ->where('status','pendiente')
+                           ->exists();
         @endphp
 
-        <form action="{{ route('solicitudes.store') }}"
-              method="POST"
-              class="d-inline mb-3">
+        <form action="{{ route('solicitudes.store') }}" method="POST" class="d-inline mb-3">
           @csrf
           <input type="hidden" name="id_receptor" value="{{ $user->id_usuario }}">
-          <button type="submit"
-                  class="btn btn-primary"
-                  {{ $isFollowing || $hasPending ? 'disabled' : '' }}>
-            @if($isFollowing)
-              Siguiendo
-            @elseif($hasPending)
-              Pendiente
-            @else
-              Seguir
+          <button type="submit" class="btn btn-primary" {{ $isFollowing || $hasPending ? 'disabled' : '' }}>
+            @if($isFollowing) Siguiendo
+            @elseif($hasPending) Pendiente
+            @else Seguir
             @endif
           </button>
         </form>
       @endif
 
       {{-- Formulario edición de perfil --}}
-      <form action="{{ route('perfil.update') }}"
-            method="POST"
-            enctype="multipart/form-data"
-            class="mt-4">
+      <form action="{{ route('perfil.update') }}" method="POST" enctype="multipart/form-data" class="mt-4">
         @csrf
         @method('PUT')
 
@@ -193,9 +195,7 @@
           <img src="{{ $user->foto_perfil
                        ? asset($user->foto_perfil)
                        : asset('img/default-profile.png') }}"
-               alt="Foto de perfil"
-               class="profile-picture"
-               id="profile-picture">
+               class="profile-picture" id="profile-picture" alt="Foto de perfil">
           <div class="profile-picture-overlay"><span>Editar foto</span></div>
         </div>
         <input type="file" name="foto_perfil" id="profile-picture-input" hidden>
@@ -232,7 +232,7 @@
           </div>
         </div>
 
-        {{-- PRIVACIDAD --}}
+        {{-- Privacidad --}}
         <div class="mb-3">
           <label for="is_private">Privacidad de la cuenta:</label>
           <select name="is_private" id="is_private" class="form-select">
@@ -241,7 +241,7 @@
           </select>
         </div>
 
-        {{-- Botón a bandeja de chats --}}
+        {{-- Botón a Bandeja de Chats --}}
         @auth
           <div class="mb-3 text-center">
             <a href="{{ route('chat.inbox') }}" class="btn btn-outline-info w-75">
