@@ -143,6 +143,11 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
 
         // CHAT ENTRE SEGUIDOS UNICAMENTE
+        
+        // Bandeja de chats (sin conversación abierta)
+        Route::get('/chat', [ChatController::class, 'inbox'])->name('chat.inbox');
+
+        // Entre usuarios
         Route::get('chat/{otroUsuario}', [ChatController::class, 'index'])->name('chat.index');
         Route::get('chat/{otroUsuario}/mensajes', [ChatController::class, 'getMessages'])->name('chat.getMessages');
         Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
