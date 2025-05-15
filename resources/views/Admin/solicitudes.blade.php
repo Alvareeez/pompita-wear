@@ -45,6 +45,16 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div id="loading-spinner" class="dot-spinner" style="display: none;">
             <div class="dot-spinner__dot"></div>
             <div class="dot-spinner__dot"></div>
@@ -112,27 +122,31 @@
         </div>
     </main>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const links = document.querySelectorAll(".tabs a, .logout-form button, form button");
-            const spinner = document.getElementById("loading-spinner");
+       document.addEventListener("DOMContentLoaded", function () {
+    const spinner = document.getElementById("loading-spinner");
 
-            links.forEach(link => {
-                link.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    spinner.style.display = "flex";
-
-                    const href = link.tagName === "A" ? link.href : link.closest("form").action;
-
-                    setTimeout(() => {
-                        if (link.tagName === "A") {
-                            window.location.href = href;
-                        } else {
-                            link.closest("form").submit();
-                        }
-                    }, 1000); // Simula un retraso de 1 segundo
-                });
-            });
+    document.querySelectorAll("form button[type='submit']").forEach(button => {
+        button.addEventListener("click", function () {
+            spinner.style.display = "flex";
         });
+    });
+
+    document.querySelectorAll(".tabs a, .logout-form button").forEach(link => {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            spinner.style.display = "flex";
+            const href = link.tagName === "A" ? link.href : link.closest("form").action;
+            setTimeout(() => {
+                if (link.tagName === "A") {
+                    window.location.href = href;
+                } else {
+                    link.closest("form").submit();
+                }
+            }, 1000);
+        });
+    });
+});
+
     </script>
 </body>
 </html>

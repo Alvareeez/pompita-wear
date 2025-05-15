@@ -16,7 +16,6 @@ class Prenda extends Model
     protected $fillable = [
         'nombre',
         'id_tipoPrenda',
-        'precio',
         'descripcion',
         'img_frontal',
         'img_trasera'

@@ -52,10 +52,6 @@
                     <label for="id_tipoPrenda" class="form__label">Tipo de Prenda</label>
                 </div>
                 <div class="form__group field">
-                    <input type="number" class="form__field" placeholder="Precio (€)" name="precio" id="precio" step="0.01" required />
-                    <label for="precio" class="form__label">Precio (€)</label>
-                </div>
-                <div class="form__group field">
                     <label for="img_frontal">Imagen Frontal</label>
                     <input type="file" id="img_frontal" name="img_frontal" accept="image/*" required>
                 </div>

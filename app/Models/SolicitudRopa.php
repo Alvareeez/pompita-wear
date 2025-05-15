@@ -16,7 +16,6 @@ class SolicitudRopa extends Model
         'nombre',
         'descripcion',
         'id_tipoPrenda',
-        'precio',
         'img_frontal',
         'img_trasera',
         'estado',

@@ -25,7 +25,6 @@ class SolicitudRopaController extends Controller
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|min:10|max:255',
             'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
-            'precio' => 'required|numeric|min:0',
             'img_frontal' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'img_trasera' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'etiquetas' => 'nullable|array',
@@ -53,7 +52,6 @@ class SolicitudRopaController extends Controller
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'id_tipoPrenda' => $request->id_tipoPrenda,
-                'precio' => $request->precio,
                 'img_frontal' => $imgFrontalName,
                 'img_trasera' => $imgTraseraName,
                 'estado' => 'pendiente',
@@ -92,7 +90,6 @@ class SolicitudRopaController extends Controller
                 'id_tipoPrenda' => $solicitud->id_tipoPrenda,
                 'nombre' => $solicitud->nombre,
                 'descripcion' => $solicitud->descripcion,
-                'precio' => $solicitud->precio,
                 'img_frontal' => $solicitud->img_frontal,
                 'img_trasera' => $solicitud->img_trasera,
             ]);
@@ -111,6 +108,7 @@ class SolicitudRopaController extends Controller
             // Actualizar el estado de la solicitud
             $solicitud->update(['estado' => 'aceptada']);
         } elseif ($request->action === 'rechazar') {
+            // Actualizar el estado de la solicitud
             $solicitud->update(['estado' => 'rechazada']);
         }
 

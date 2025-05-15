@@ -19,7 +19,6 @@ class CreateSolicitudesRopaTable extends Migration
             $table->string('nombre');
             $table->text('descripcion');
             $table->unsignedBigInteger('id_tipoPrenda');
-            $table->decimal('precio', 8, 2);
             $table->string('img_frontal');
             $table->string('img_trasera')->nullable();
             $table->enum('estado', ['pendiente', 'aceptada', 'rechazada'])->default('pendiente');

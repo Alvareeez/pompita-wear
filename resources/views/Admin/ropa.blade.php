@@ -53,8 +53,6 @@
             </div>
             <div class="filter-container">
                 <input type="text" id="filtro-nombre" placeholder="Filtrar por nombre">
-                <input type="number" id="filtro-precio-min" placeholder="Precio mínimo">
-                <input type="number" id="filtro-precio-max" placeholder="Precio máximo">
                 <textarea id="filtro-descripcion" placeholder="Filtrar por descripción"></textarea>
             </div>
         @endif
@@ -67,7 +65,6 @@
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Tipo</th>
-                            <th>Precio</th>
                             <th>Descripción</th>
                             <th>Etiquetas</th>
                             <th>Colores</th>
@@ -82,7 +79,6 @@
                                 <td>{{ $prenda->id_prenda }}</td>
                                 <td>{{ $prenda->nombre }}</td>
                                 <td>{{ $prenda->tipo->tipo }}</td>
-                                <td>{{ $prenda->precio }} €</td>
                                 <td>{{ $prenda->descripcion }}</td>
                                 <td>
                                     @foreach ($prenda->etiquetas as $etiqueta)
@@ -158,7 +154,6 @@
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Tipo</th>
-                            <th>Precio</th>
                             <th>Imágenes</th>
                             <th>Acciones</th>
                         </tr>
@@ -169,7 +164,6 @@
                                 <td>{{ $solicitud->nombre }}</td>
                                 <td>{{ $solicitud->descripcion }}</td>
                                 <td>{{ $solicitud->tipoPrenda->tipo }}</td>
-                                <td>{{ $solicitud->precio }} €</td>
                                 <td>
                                     <img src="{{ asset('storage/' . $solicitud->img_frontal) }}" width="80">
                                     @if ($solicitud->img_trasera)
@@ -242,10 +236,8 @@
                 });
             });
 
-            $('#filtro-nombre, #filtro-precio-min, #filtro-precio-max, #filtro-descripcion').on('input change', function() {
+            $('#filtro-nombre, #filtro-descripcion').on('input change', function() {
                 const nombre = $('#filtro-nombre').val();
-                const precio_min = $('#filtro-precio-min').val();
-                const precio_max = $('#filtro-precio-max').val();
                 const descripcion = $('#filtro-descripcion').val();
 
                 spinner.style.display = "flex"; // Mostrar el spinner
@@ -255,8 +247,6 @@
                     method: 'GET',
                     data: {
                         nombre: nombre,
-                        precio_min: precio_min,
-                        precio_max: precio_max,
                         descripcion: descripcion,
                     },
                     success: function(response) {
