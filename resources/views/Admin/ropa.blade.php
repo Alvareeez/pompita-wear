@@ -54,10 +54,8 @@
             <form method="GET" action="{{ route('admin.ropa.index') }}">
                 <div class="filter-container">
                     <input type="text" id="filtro-nombre" name="nombre" placeholder="Buscar por nombre" value="{{ request('nombre') }}">
-                    <textarea id="filtro-descripcion" name="descripcion" placeholder="Buscar por descripción">{{ request('descripcion') }}</textarea>
 
                     <div class="filter-group">
-                        <label for="filtro-estilos">Filtrar por estilos:</label>
                         <select id="filtro-estilos" name="estilos">
                             <option value="">Todos los estilos</option>
                             @foreach ($estilos as $estilo)
@@ -69,7 +67,6 @@
                     </div>
 
                     <div class="filter-group">
-                        <label for="filtro-etiquetas">Filtrar por etiquetas:</label>
                         <select id="filtro-etiquetas" name="etiquetas">
                             <option value="">Todas las etiquetas</option>
                             @foreach ($etiquetas as $etiqueta)
@@ -81,7 +78,6 @@
                     </div>
 
                     <div class="filter-group">
-                        <label for="filtro-colores">Filtrar por colores:</label>
                         <select id="filtro-colores" name="colores">
                             <option value="">Todos los colores</option>
                             @foreach ($colores as $color)
