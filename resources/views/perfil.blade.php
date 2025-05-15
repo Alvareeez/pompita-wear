@@ -1,3 +1,4 @@
+{{-- resources/views/perfil.blade.php --}}
 @extends('layouts.header')
 
 @section('title', 'Perfil de ' . $user->nombre)
@@ -24,7 +25,7 @@
         </h2>
         <p>
           <a href="#" data-bs-toggle="modal" data-bs-target="#followersModal" class="text-decoration-none">
-            <strong>{{ $numeroSeguidores }}</strong>
+            <strong id="count-followers">{{ $numeroSeguidores }}</strong>
           </a>
         </p>
 
@@ -35,7 +36,7 @@
         </h2>
         <p>
           <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal" class="text-decoration-none">
-            <strong>{{ $numeroSeguidos }}</strong>
+            <strong id="count-following">{{ $numeroSeguidos }}</strong>
           </a>
         </p>
       </div>
@@ -54,7 +55,7 @@
               @else
                 <ul class="list-group">
                   @foreach($user->seguidores as $follower)
-                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                    <li class="list-group-item d-flex align-items-center justify-content-between" data-id="{{ $follower->id_usuario }}">
                       <div class="d-flex align-items-center">
                         <img src="{{ $follower->foto_perfil
                                      ? asset($follower->foto_perfil)
@@ -65,13 +66,9 @@
                         <a href="{{ route('perfil.publico', $follower->id_usuario) }}"
                            class="text-decoration-none">{{ $follower->nombre }}</a>
                       </div>
-                      <form action="{{ route('perfil.removeFollower', $follower->id_usuario) }}"
-                            method="POST"
-                            onsubmit="return confirm('¿Eliminar a {{ $follower->nombre }} de tus seguidores?')">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-sm btn-danger">Eliminar</button>
-                      </form>
+                      <button class="btn btn-sm btn-danger remove-follower-btn">
+                        Eliminar
+                      </button>
                     </li>
                   @endforeach
                 </ul>
@@ -95,7 +92,7 @@
               @else
                 <ul class="list-group">
                   @foreach($user->siguiendo as $followed)
-                    <li class="list-group-item d-flex align-items-center justify-content-between">
+                    <li class="list-group-item d-flex align-items-center justify-content-between" data-id="{{ $followed->id_usuario }}">
                       <div class="d-flex align-items-center">
                         <img src="{{ $followed->foto_perfil
                                      ? asset($followed->foto_perfil)
@@ -106,13 +103,9 @@
                         <a href="{{ route('perfil.publico', $followed->id_usuario) }}"
                            class="text-decoration-none">{{ $followed->nombre }}</a>
                       </div>
-                      <form action="{{ route('perfil.unfollow', $followed->id_usuario) }}"
-                            method="POST"
-                            onsubmit="return confirm('¿Dejar de seguir a {{ $followed->nombre }}?')">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-sm btn-warning">Dejar de seguir</button>
-                      </form>
+                      <button class="btn btn-sm btn-warning unfollow-btn">
+                        Dejar de seguir
+                      </button>
                     </li>
                   @endforeach
                 </ul>
@@ -313,13 +306,11 @@
 
   </div>
 </div>
+@endsection
 
-<script>
-  const deleteProfilePictureUrl = "{{ route('perfil.delete-picture') }}";
-  const defaultProfileImage     = "{{ asset('img/default-profile.png') }}";
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{{ asset('js/perfil.js') }}"></script>
-<script src="{{ asset('js/seguimiento.js') }}"></script>
+@section('scripts')
+  @parent
+  <script src="{{ asset('js/perfil.js') }}"></script>
+  <script src="{{ asset('js/seguimiento.js') }}"></script>
+  <script src="{{ asset('js/dejardeSeguirEliminarSeguidores.js') }}"></script>
 @endsection

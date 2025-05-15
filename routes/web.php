@@ -136,6 +136,7 @@ Route::middleware(['auth'])->group(
 
         // PERFIL PERSONAL DEL USUARIO
         Route::get('/perfil', [PerfilController::class, 'show'])->name('perfil');
+
         // ACCIONES DEL PERFIL 
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
@@ -155,9 +156,10 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
 
         // DESDE DENTRO DE PERFIL DEJAR DE SEGUIR O QUITAR SEGUIDOR
+        
         // Quitar a un seguidor
-        Route::delete('/perfil/remove-follower/{id}', [PerfilController::class, 'removeFollower'])->name('perfil.removeFollower');
-
+        Route::delete('perfil/follower/{id}', [PerfilController::class, 'removeFollower'])->name('perfil.removeFollower');
+        
         // Dejar de seguir
         Route::delete('/perfil/unfollow/{id}', [PerfilController::class, 'unfollow'])->name('perfil.unfollow');
 
@@ -172,6 +174,7 @@ Route::middleware(['auth'])->group(
         Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
         
         // RUTAS PARA SOLICITUDES DE ROPA
+        
         // Mostrar formulario para crear una solicitud
         Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
 
