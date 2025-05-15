@@ -174,8 +174,20 @@ class RopaController extends Controller
         DB::beginTransaction();
 
         try {
+            // Asegurarse de que 'prenda' sea un array
+            $prendasSeleccionadas = $request->input('prenda', []);
+            if (!is_array($prendasSeleccionadas)) {
+                $prendasSeleccionadas = [$prendasSeleccionadas];
+            }
+
             // Obtener las prendas seleccionadas
-            $prendas = Prenda::with(['tipo', 'estilos', 'etiquetas', 'colores'])->whereIn('id_prenda', $request->prendas)->get();
+            $prendas = Prenda::with(['tipo', 'estilos', 'etiquetas', 'colores'])
+                ->whereIn('id_prenda', $prendasSeleccionadas)
+                ->get();
+
+            if ($prendas->isEmpty()) {
+                return back()->withErrors(['error' => 'No se seleccionaron prendas para generar el PDF.']);
+            }
 
             // Generar el PDF
             $pdf = Pdf::loadView('Admin.pdf_ropa', compact('prendas'));
@@ -184,7 +196,7 @@ class RopaController extends Controller
             return $pdf->download('ropa_seleccionada.pdf');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al generar el PDF.']);
+            return back()->withErrors(['error' => 'Ocurrió un error al generar el PDF: ' . $e->getMessage()]);
         }
     }
 }
