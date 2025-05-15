@@ -9,9 +9,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('prenda_etiquetas', function (Blueprint $table) {
+            $table->id('id_prenda_etiquetas');
             $table->foreignId('id_prenda')->constrained('prendas', 'id_prenda');
             $table->foreignId('id_etiqueta')->constrained('etiquetas', 'id_etiqueta');
-            $table->primary(['id_prenda', 'id_etiqueta']);
             $table->timestamps();
         });
     }
