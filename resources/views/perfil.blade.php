@@ -1,3 +1,4 @@
+{{-- resources/views/perfil.blade.php --}}
 @extends('layouts.header')
 
 @section('title', 'Perfil de ' . $user->nombre)
@@ -15,12 +16,103 @@
 
     {{-- IZQUIERDA --}}
     <div class="col-md-6">
-      {{-- Contadores --}}
+      {{-- Contadores con disparadores de modal --}}
       <div class="text-center mb-4">
-        <h2>Seguidores</h2>
-        <p>Tienes {{ $numeroSeguidores }} seguidores.</p>
-        <h2>Seguidos</h2>
-        <p>Sigues a {{ $numeroSeguidos }} usuarios.</p>
+        <h2>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followersModal" class="text-decoration-none text-dark">
+            Seguidores
+          </a>
+        </h2>
+        <p>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followersModal" class="text-decoration-none">
+            <strong id="count-followers">{{ $numeroSeguidores }}</strong>
+          </a>
+        </p>
+
+        <h2>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal" class="text-decoration-none text-dark">
+            Seguidos
+          </a>
+        </h2>
+        <p>
+          <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal" class="text-decoration-none">
+            <strong id="count-following">{{ $numeroSeguidos }}</strong>
+          </a>
+        </p>
+      </div>
+
+      {{-- Modal Seguidores --}}
+      <div class="modal fade" id="followersModal" tabindex="-1" aria-labelledby="followersModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="followersModalLabel">Seguidores de {{ $user->nombre }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              @if($user->seguidores->isEmpty())
+                <p class="text-muted">No tienes seguidores aún.</p>
+              @else
+                <ul class="list-group">
+                  @foreach($user->seguidores as $follower)
+                    <li class="list-group-item d-flex align-items-center justify-content-between" data-id="{{ $follower->id_usuario }}">
+                      <div class="d-flex align-items-center">
+                        <img src="{{ $follower->foto_perfil
+                                     ? asset($follower->foto_perfil)
+                                     : asset('img/default-profile.png') }}"
+                             class="rounded-circle me-2"
+                             width="40" height="40"
+                             alt="Avatar">
+                        <a href="{{ route('perfil.publico', $follower->id_usuario) }}"
+                           class="text-decoration-none">{{ $follower->nombre }}</a>
+                      </div>
+                      <button class="btn btn-sm btn-danger remove-follower-btn">
+                        Eliminar
+                      </button>
+                    </li>
+                  @endforeach
+                </ul>
+              @endif
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {{-- Modal Seguidos --}}
+      <div class="modal fade" id="followingModal" tabindex="-1" aria-labelledby="followingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="followingModalLabel">Usuarios que sigue {{ $user->nombre }}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              @if($user->siguiendo->isEmpty())
+                <p class="text-muted">No sigues a nadie aún.</p>
+              @else
+                <ul class="list-group">
+                  @foreach($user->siguiendo as $followed)
+                    <li class="list-group-item d-flex align-items-center justify-content-between" data-id="{{ $followed->id_usuario }}">
+                      <div class="d-flex align-items-center">
+                        <img src="{{ $followed->foto_perfil
+                                     ? asset($followed->foto_perfil)
+                                     : asset('img/default-profile.png') }}"
+                             class="rounded-circle me-2"
+                             width="40" height="40"
+                             alt="Avatar">
+                        <a href="{{ route('perfil.publico', $followed->id_usuario) }}"
+                           class="text-decoration-none">{{ $followed->nombre }}</a>
+                      </div>
+                      <button class="btn btn-sm btn-warning unfollow-btn">
+                        Dejar de seguir
+                      </button>
+                    </li>
+                  @endforeach
+                </ul>
+              @endif
+            </div>
+          </div>
+        </div>
       </div>
 
       {{-- Solicitudes de seguimiento pendientes --}}
@@ -32,18 +124,16 @@
           @else
             @foreach($pendientes as $sol)
               <div class="d-flex align-items-center justify-content-between mb-3">
-                {{-- Avatar y nombre, enlaza al perfil público --}}
                 <a href="{{ route('perfil.publico', $sol->emisor->id_usuario) }}"
                    class="d-flex align-items-center text-decoration-none">
                   <img src="{{ $sol->emisor->foto_perfil
                                ? asset($sol->emisor->foto_perfil)
                                : asset('img/default-profile.png') }}"
-                       alt="Avatar"
                        class="rounded-circle me-2"
-                       width="40" height="40">
+                       width="40" height="40"
+                       alt="Avatar">
                   <span class="fw-semibold">{{ $sol->emisor->nombre }}</span>
                 </a>
-                {{-- Botones aceptar/rechazar --}}
                 <div>
                   <form action="{{ route('solicitudes.aceptar', $sol->id) }}" method="POST" class="d-inline">
                     @csrf
@@ -67,29 +157,22 @@
       {{-- Botón Seguir / Pendiente / Siguiendo --}}
       @if(Auth::check() && Auth::id() !== $user->id_usuario)
         @php
-          $isFollowing = Auth::user()
-            ->siguiendo()
-            ->where('id_receptor', $user->id_usuario)
-            ->exists();
-          $hasPending = Auth::user()
-            ->solicitudesEnviadas()
-            ->where('id_receptor', $user->id_usuario)
-            ->where('status', 'pendiente')
-            ->exists();
+          $isFollowing = Auth::user()->siguiendo()
+                           ->where('id_receptor', $user->id_usuario)
+                           ->exists();
+          $hasPending  = Auth::user()->solicitudesEnviadas()
+                           ->where('id_receptor', $user->id_usuario)
+                           ->where('status','pendiente')
+                           ->exists();
         @endphp
 
         <form action="{{ route('solicitudes.store') }}" method="POST" class="d-inline mb-3">
           @csrf
           <input type="hidden" name="id_receptor" value="{{ $user->id_usuario }}">
-          <button type="submit"
-                  class="btn btn-primary"
-                  {{ $isFollowing || $hasPending ? 'disabled' : '' }}>
-            @if($isFollowing)
-              Siguiendo
-            @elseif($hasPending)
-              Pendiente
-            @else
-              Seguir
+          <button type="submit" class="btn btn-primary" {{ $isFollowing || $hasPending ? 'disabled' : '' }}>
+            @if($isFollowing) Siguiendo
+            @elseif($hasPending) Pendiente
+            @else Seguir
             @endif
           </button>
         </form>
@@ -105,9 +188,7 @@
           <img src="{{ $user->foto_perfil
                        ? asset($user->foto_perfil)
                        : asset('img/default-profile.png') }}"
-               alt="Foto de perfil"
-               class="profile-picture"
-               id="profile-picture">
+               class="profile-picture" id="profile-picture" alt="Foto de perfil">
           <div class="profile-picture-overlay"><span>Editar foto</span></div>
         </div>
         <input type="file" name="foto_perfil" id="profile-picture-input" hidden>
@@ -144,15 +225,23 @@
           </div>
         </div>
 
-        {{-- PRIVACIDAD --}} 
+        {{-- Privacidad --}}
         <div class="mb-3">
-        <label for="is_private">Privacidad de la cuenta:</label>
-            <select name="is_private" id="is_private" class="form-select">
+          <label for="is_private">Privacidad de la cuenta:</label>
+          <select name="is_private" id="is_private" class="form-select">
             <option value="0" {{ $user->is_private ? '' : 'selected' }}>Público</option>
             <option value="1" {{ $user->is_private ? 'selected' : '' }}>Privado</option>
-            </select>
+          </select>
         </div>
 
+        {{-- Botón a Bandeja de Chats --}}
+        @auth
+          <div class="mb-3 text-center">
+            <a href="{{ route('chat.inbox') }}" class="btn btn-outline-info w-75">
+              Ir a Bandeja de Chats
+            </a>
+          </div>
+        @endauth
 
         <div class="d-flex justify-content-center">
           <button type="submit" class="btn btn-outline-dark w-75">Guardar cambios</button>
@@ -217,12 +306,11 @@
 
   </div>
 </div>
+@endsection
 
-<script>
-  const deleteProfilePictureUrl = "{{ route('perfil.delete-picture') }}";
-  const defaultProfileImage     = "{{ asset('img/default-profile.png') }}";
-</script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{{ asset('js/perfil.js') }}"></script>
-<script src="{{ asset('js/seguimiento.js') }}"></script>
+@section('scripts')
+  @parent
+  <script src="{{ asset('js/perfil.js') }}"></script>
+  <script src="{{ asset('js/seguimiento.js') }}"></script>
+  <script src="{{ asset('js/dejardeSeguirEliminarSeguidores.js') }}"></script>
 @endsection

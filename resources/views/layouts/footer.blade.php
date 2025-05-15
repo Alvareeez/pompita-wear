@@ -1,12 +1,12 @@
 <footer class="footer">
     <div class="container">
-        <div class="footer-content">
-            <p>&copy; {{ date('Y') }} Pompita Wear. Todos los derechos reservados.</p>
+        <div class="footer-content">            
             <ul class="footer-links">
                 <li><a href="#">Política de Privacidad</a></li>
                 <li><a href="#">Términos y Condiciones</a></li>
-                <li><a href="#">Contacto</a></li>
             </ul>
+            <p>&copy; {{ date('Y') }} Pompita Wear. Todos los derechos reservados.</p>
+
         </div>
 
         <ul class="social-icons example-2">
