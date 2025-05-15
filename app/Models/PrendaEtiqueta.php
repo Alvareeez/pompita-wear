@@ -10,13 +10,13 @@ class PrendaEtiqueta extends Model
     use HasFactory;
 
     protected $table = 'prenda_etiquetas';
-    protected $primaryKey = ['id_prenda', 'id_etiqueta'];
-    public $incrementing = false;
+    protected $primaryKey = 'id_prenda_etiquetas';
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
         'id_prenda',
-        'id_etiqueta'
+        'id_etiqueta',
     ];
 
     public function prenda()

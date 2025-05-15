@@ -10,13 +10,13 @@ class PrendaColor extends Model
     use HasFactory;
 
     protected $table = 'prenda_colores';
-    protected $primaryKey = ['id_prenda', 'id_color'];
-    public $incrementing = false;
+    protected $primaryKey = 'id_prenda_colores';
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
         'id_prenda',
-        'id_color'
+        'id_color',
     ];
 
     public function prenda()
