@@ -23,7 +23,7 @@
                     @foreach($outfit->prendas->sortBy('tipo.id_tipoPrenda') as $prenda)
                         <div class="prenda-row">
                             <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="{{ $prenda->nombre }}">
-                            <p>{{ $prenda->nombre }} </p>
+                            <p>{{ $prenda->nombre }}</p>
                         </div>
                     @endforeach
                 </div>

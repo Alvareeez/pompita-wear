@@ -45,6 +45,16 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div id="loading-spinner" class="dot-spinner" style="display: none;">
             <div class="dot-spinner__dot"></div>
             <div class="dot-spinner__dot"></div>

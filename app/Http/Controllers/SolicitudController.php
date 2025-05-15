@@ -71,4 +71,29 @@ class SolicitudController extends Controller
 
         return back()->with('success', 'Solicitud cancelada correctamente.');
     }
+
+    /**
+     * Comprueba si hay seguimiento mutuo entre el usuario autenticado y otro.
+     * Devuelve JSON { mutual: true|false }.
+     */
+    public function checkMutual($other)
+    {
+        $me = Auth::user();
+
+        // Comprueba si yo sigo a $other en estado 'aceptada'
+        $meSigue = Solicitud::where('id_emisor', $me->id_usuario)
+                            ->where('id_receptor', $other)
+                            ->where('status', 'aceptada')
+                            ->exists();
+
+        // Comprueba si $other me sigue a mí en estado 'aceptada'
+        $otroMeSigue = Solicitud::where('id_emisor', $other)
+                                ->where('id_receptor', $me->id_usuario)
+                                ->where('status', 'aceptada')
+                                ->exists();
+
+        return response()->json([
+            'mutual' => ($meSigue && $otroMeSigue)
+        ]);
+    }
 }

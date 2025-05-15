@@ -25,19 +25,12 @@
                     </a>
                     <div class="info-prenda">
                         <p><strong>{{ $prenda->nombre }}</strong></p>
-                        <p>Tipo: {{ $prenda->tipo->nombre }}</p>
                         <p>Descripción: {{ $prenda->descripcion }}</p>
                     </div>
                 </div>
             @endforeach
         </div>
 
-        <div class="total-outfit">
-        </div>
-        <button id="like-button" class="btn-like {{ $outfit->isLikedByUser(auth()->id() ?? 0) ? 'liked' : '' }}" 
-            data-outfit-id="{{ $outfit->id_outfit }}">
-        ❤️ <span id="likes-count">{{ $outfit->likes()->count() }}</span> Likes
-        </button>
         <!-- Botón de volver -->
         <div class="volver-btn-container">
             <a href="{{ route('outfit.outfits') }}" class="volver-btn">← Volver a todos los outfits</a>
