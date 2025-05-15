@@ -121,6 +121,7 @@ Route::middleware(['auth'])->group(
         Route::post('/outfits/{id}/comentarios', [DetailsOutfitsController::class, 'storeComment'])->name('outfits.storeComment');
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
+        Route::post('/outfits/{id}/favorito', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
 
         // ELIMINAR OUTFIT
         Route::delete('/outfit/{outfit}', [DetailsOutfitsController::class, 'destroy'])->name('outfit.destroy');
