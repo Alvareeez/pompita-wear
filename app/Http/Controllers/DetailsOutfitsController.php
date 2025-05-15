@@ -137,4 +137,44 @@ public function storeValoracion(Request $request, $id)
 
     return back()->with('success', 'Valoración guardada correctamente');
 }
+
+    /**
+     * Elimina un outfit junto con todas sus relaciones
+     * (valoraciones, comentarios + likes, likes de outfit,
+     * relacion prendas y favorito) dentro de una transacción.
+     */
+    public function destroy($id)
+    {
+        $outfit = Outfit::with(['valoraciones', 'comentarios.likes', 'favoritos', 'likes', 'prendas'])
+                        ->findOrFail($id);
+
+        DB::transaction(function() use ($outfit) {
+            // 1) Borrar valoraciones
+            $outfit->valoraciones()->delete();
+
+            // 2) Borrar likes de cada comentario
+            foreach ($outfit->comentarios as $comentario) {
+                $comentario->likes()->delete();
+            }
+            // Borrar comentarios
+            $outfit->comentarios()->delete();
+
+            // 3) Borrar likes del outfit
+            $outfit->likes()->delete();
+
+            // 4) Desvincular prendas
+            $outfit->prendas()->detach();
+
+            // 6) Desvincular los favoritos (pivot favoritos_outfits)
+             $outfit->favoritos()->detach();
+
+            // 5) Eliminar el outfit
+            $outfit->delete();
+        });
+
+        return redirect()
+               ->route('outfit.outfits')
+               ->with('success', 'Outfit y todos sus datos asociados eliminados correctamente.');
+    }
+
 }
