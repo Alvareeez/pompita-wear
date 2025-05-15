@@ -190,3 +190,105 @@
         .fc-daygrid-day:hover {
             background-color: #e9ecef; /* Fondo más claro al pasar el mouse */
         }
+
+/* Estilo para el contenedor del formulario */
+.form-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Título del formulario */
+.form-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #002D68;
+}
+
+/* Estilo para las etiquetas del formulario */
+.form-container label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Estilo para los select */
+.form-container .form-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #495057;
+    margin-bottom: 15px;
+}
+
+/* Hover y focus en el select */
+.form-container .form-select:focus {
+    border-color: #002D68;
+    box-shadow: 0 0 5px rgba(0, 45, 104, 0.5);
+    outline: none;
+}
+
+/* Botón de enviar */
+.form-container .btn-primary {
+    background-color: #002D68;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover en el botón de enviar */
+.form-container .btn-primary:hover {
+    background-color: #004a9f;
+}
+
+/* Botón de volver al calendario */
+.redirect-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover en el botón de volver */
+.redirect-button:hover {
+    background-color: #5a6268;
+}
+
+/* Mensaje de éxito */
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* Mensaje de error */
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}

@@ -86,6 +86,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // Actualizar el estado de una solicitud (aceptar o rechazar)
     Route::put('/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
+    Route::put('/admin/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
@@ -154,15 +155,7 @@ Route::middleware(['auth'])->group(
         // MANEJO DE SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
-
-        // DESDE DENTRO DE PERFIL DEJAR DE SEGUIR O QUITAR SEGUIDOR
-        
-        // Quitar a un seguidor
-        Route::delete('perfil/follower/{id}', [PerfilController::class, 'removeFollower'])->name('perfil.removeFollower');
-        
-        // Dejar de seguir
-        Route::delete('/perfil/unfollow/{id}', [PerfilController::class, 'unfollow'])->name('perfil.unfollow');
-
+                
         // CHAT ENTRE SEGUIDOS UNICAMENTE
         
         // Bandeja de chats (sin conversación abierta)
@@ -172,7 +165,7 @@ Route::middleware(['auth'])->group(
         Route::get('chat/{otroUsuario}', [ChatController::class, 'index'])->name('chat.index');
         Route::get('chat/{otroUsuario}/mensajes', [ChatController::class, 'getMessages'])->name('chat.getMessages');
         Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
-        
+
         // RUTAS PARA SOLICITUDES DE ROPA
         
         // Mostrar formulario para crear una solicitud
@@ -182,3 +175,4 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
     }
 );
+
