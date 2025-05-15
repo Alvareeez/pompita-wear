@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.querySelector("form");
     const descripcionInput = document.getElementById("descripcion");
-    const precioInput = document.getElementById("precio");
     const tipoPrendaSelect = document.getElementById("id_tipoPrenda");
     const imgFrontalInput = document.getElementById("img_frontal");
     const imgTraseraInput = document.getElementById("img_trasera");
@@ -23,15 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
             isValid = false;
         } else if (descripcionInput.value.trim().length < 10) {
             showError(descripcionInput, "La descripción debe tener al menos 10 caracteres.");
-            isValid = false;
-        }
-
-        // Validar precio
-        if (precioInput.value.trim() === "") {
-            showError(precioInput, "El precio es obligatorio.");
-            isValid = false;
-        } else if (isNaN(precioInput.value) || parseFloat(precioInput.value) <= 0) {
-            showError(precioInput, "El precio debe ser un número mayor a 0.");
             isValid = false;
         }
 
@@ -92,15 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
             showError(descripcionInput, "La descripción es obligatoria.");
         } else if (descripcionInput.value.trim().length < 10) {
             showError(descripcionInput, "La descripción debe tener al menos 10 caracteres.");
-        }
-    });
-
-    precioInput.addEventListener("blur", function () {
-        clearError(precioInput);
-        if (precioInput.value.trim() === "") {
-            showError(precioInput, "El precio es obligatorio.");
-        } else if (isNaN(precioInput.value) || parseFloat(precioInput.value) <= 0) {
-            showError(precioInput, "El precio debe ser un número mayor a 0.");
         }
     });
 

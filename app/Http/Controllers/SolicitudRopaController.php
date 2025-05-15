@@ -25,6 +25,7 @@ class SolicitudRopaController extends Controller
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|min:10|max:255',
             'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
+            'precio' => 'required|numeric|min:0',
             'img_frontal' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'img_trasera' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'etiquetas' => 'nullable|array',
@@ -52,6 +53,7 @@ class SolicitudRopaController extends Controller
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'id_tipoPrenda' => $request->id_tipoPrenda,
+                'precio' => $request->precio,
                 'img_frontal' => $imgFrontalName,
                 'img_trasera' => $imgTraseraName,
                 'estado' => 'pendiente',
@@ -84,41 +86,34 @@ class SolicitudRopaController extends Controller
     // Actualizar el estado de una solicitud (aceptar o rechazar)
     public function update(Request $request, SolicitudRopa $solicitud)
     {
-        // Verifica que el valor de "action" esté presente
-        if ($request->has('action')) {
-            if ($request->action === 'aceptar') {
-                // Crear la prenda en la tabla de ropa
-                $prenda = \App\Models\Prenda::create([
-                    'id_tipoPrenda' => $solicitud->id_tipoPrenda,
-                    'nombre' => $solicitud->nombre,
-                    'descripcion' => $solicitud->descripcion,
-                    'img_frontal' => $solicitud->img_frontal,
-                    'img_trasera' => $solicitud->img_trasera,
-                ]);
+        if ($request->action === 'aceptar') {
+            // Crear la prenda en la tabla de ropa
+            $prenda = \App\Models\Prenda::create([
+                'id_tipoPrenda' => $solicitud->id_tipoPrenda,
+                'nombre' => $solicitud->nombre,
+                'descripcion' => $solicitud->descripcion,
+                'img_frontal' => $solicitud->img_frontal,
+                'img_trasera' => $solicitud->img_trasera,
+            ]);
 
-                // Sincronizar etiquetas, colores y estilos
-                if ($solicitud->etiquetas) {
-                    $prenda->etiquetas()->sync($solicitud->etiquetas->pluck('id_etiqueta')->toArray());
-                }
-                if ($solicitud->colores) {
-                    $prenda->colores()->sync($solicitud->colores->pluck('id_color')->toArray());
-                }
-                if ($solicitud->estilos) {
-                    $prenda->estilos()->sync($solicitud->estilos->pluck('id_estilo')->toArray());
-                }
-
-                // Actualizar el estado de la solicitud
-                $solicitud->update(['estado' => 'aceptada']);
-            } elseif ($request->action === 'rechazar') {
-                $solicitud->update(['estado' => 'rechazada']);
-            } else {
-                return redirect()->back()->withErrors(['error' => 'Acción no válida.']);
+            // Sincronizar etiquetas, colores y estilos
+            if ($solicitud->etiquetas) {
+                $prenda->etiquetas()->sync($solicitud->etiquetas->pluck('id_etiqueta')->toArray());
+            }
+            if ($solicitud->colores) {
+                $prenda->colores()->sync($solicitud->colores->pluck('id_color')->toArray());
+            }
+            if ($solicitud->estilos) {
+                $prenda->estilos()->sync($solicitud->estilos->pluck('id_estilo')->toArray());
             }
 
-            // Redirigir con mensaje de éxito
-            return redirect()->route('admin.solicitudes.index')->with('success', 'Solicitud actualizada correctamente.');
+            // Actualizar el estado de la solicitud
+            $solicitud->update(['estado' => 'aceptada']);
+        } elseif ($request->action === 'rechazar') {
+            // Actualizar el estado de la solicitud
+            $solicitud->update(['estado' => 'rechazada']);
         }
 
-        return redirect()->back()->withErrors(['error' => 'No se recibió ninguna acción.']);
+        return redirect()->route('admin.solicitudes.index')->with('success', 'Solicitud actualizada correctamente.');
     }
 }

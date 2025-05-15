@@ -86,6 +86,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // Actualizar el estado de una solicitud (aceptar o rechazar)
     Route::put('/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
+    Route::put('/admin/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
@@ -172,7 +173,7 @@ Route::middleware(['auth'])->group(
         Route::get('chat/{otroUsuario}', [ChatController::class, 'index'])->name('chat.index');
         Route::get('chat/{otroUsuario}/mensajes', [ChatController::class, 'getMessages'])->name('chat.getMessages');
         Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
-        
+
         // RUTAS PARA SOLICITUDES DE ROPA
         
         // Mostrar formulario para crear una solicitud

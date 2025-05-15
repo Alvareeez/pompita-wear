@@ -5,7 +5,6 @@
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Tipo</th>
-                <th>Precio</th>
                 <th>Descripción</th>
                 <th>Etiquetas</th>
                 <th>Colores</th>
@@ -20,7 +19,6 @@
                     <td>{{ $prenda->id_prenda }}</td>
                     <td>{{ $prenda->nombre }}</td>
                     <td>{{ $prenda->tipo->tipo }}</td>
-                    <td>{{ $prenda->precio }} €</td>
                     <td>{{ $prenda->descripcion }}</td>
                     <td>
                         @foreach ($prenda->etiquetas as $etiqueta)
