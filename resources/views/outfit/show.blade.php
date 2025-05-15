@@ -8,7 +8,10 @@
 @endsection
 
 @section('scripts')
+    <!-- CSRF Token para AJAX -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="{{ asset('js/detalles2.js') }}"></script>
+    <script src="{{ asset('js/favoritoOutfit.js') }}"></script>
 @endsection
 
 @section('content')
@@ -45,6 +48,25 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+
+        {{-- Botones Like y Favorito --}}
+        <div class="d-flex align-items-center mb-3">
+          <button id="like-button"
+                  class="btn-like {{ $outfit->isLikedByUser(auth()->id() ?? 0) ? 'liked' : '' }}"
+                  data-outfit-id="{{ $outfit->id_outfit }}">
+            ❤️ <span id="likes-count">{{ $outfit->likes()->count() }}</span> Likes
+          </button>
+
+          @php $userId = auth()->id() ?? 0; @endphp
+          <button id="favorite-button"
+                  class="btn-favorito ms-3 {{ auth()->check() && $outfit->favoritos()->where('favoritos_outfits.id_usuario', $userId)->exists() ? 'favorited' : '' }}"
+                  data-outfit-id="{{ $outfit->id_outfit }}">
+            {{ auth()->check() && $outfit->favoritos()->where('favoritos_outfits.id_usuario', $userId)->exists()
+               ? '⭐ En favoritos'
+               : 'Añadir a favoritos' }}
+            (<span id="favorites-count">{{ $outfit->favoritos()->count() }}</span>)
+          </button>
         </div>
 
         <div class="volver-btn-container">
@@ -101,7 +123,7 @@
                 <div class="valoracion-card">
                     <div class="valoracion-user">
                         @if($valoracion->usuario->foto_perfil)
-                            <img src="{{ asset($valoracion->usuario->foto_perfil) }}" 
+                            <img src="{{ asset($valoracion->usuario->foto_perfil) }}"
                                  alt="{{ $valoracion->usuario->nombre }}"
                                  class="foto-perfil-valoracion">
                         @else
@@ -159,7 +181,7 @@
                     <div class="foto-comentario-container">
                         <a href="{{ route('perfil.publico', $comentario->usuario->id_usuario) }}">
                             @if($comentario->usuario->foto_perfil)
-                            <img src="{{ asset($comentario->usuario->foto_perfil) }}" 
+                            <img src="{{ asset($comentario->usuario->foto_perfil) }}"
                                  alt="{{ $comentario->usuario->nombre }}"
                                  class="foto-perfil-valoracion">
                             @else
