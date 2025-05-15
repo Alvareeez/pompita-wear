@@ -25,12 +25,6 @@
             
             <div class="prenda-info">
                 <h1>{{ $prenda->nombre }}</h1>
-                <div class="stars">
-                    @for($i = 1; $i <= 5; $i++)
-                        <i class="fas fa-star {{ $i <= round($puntuacionPromedio) ? 'text-warning' : 'text-secondary' }}"></i>
-                    @endfor
-                    <span>({{ number_format($puntuacionPromedio, 1) }})</span>
-                </div>
                 
                 <p class="descripcion">{{ $prenda->descripcion }}</p>
                 
