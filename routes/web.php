@@ -86,6 +86,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // Actualizar el estado de una solicitud (aceptar o rechazar)
     Route::put('/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
+    Route::put('/admin/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
