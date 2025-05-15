@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SolicitudRopa;
+use Illuminate\Support\Facades\DB;
 
 class SolicitudRopaController extends Controller
 {
@@ -21,19 +22,47 @@ class SolicitudRopaController extends Controller
     // Guardar una nueva solicitud
     public function store(Request $request)
     {
+        // Validar los datos enviados con mensajes personalizados
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|min:10|max:255',
             'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
             'img_frontal' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'img_trasera' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'etiquetas' => 'nullable|array',
+            'etiquetas' => 'required|array|min:1',
             'etiquetas.*' => 'exists:etiquetas,id_etiqueta',
-            'colores' => 'nullable|array',
+            'colores' => 'required|array|min:1',
             'colores.*' => 'exists:colores,id_color',
-            'estilos' => 'nullable|array',
+            'estilos' => 'required|array|min:1',
             'estilos.*' => 'exists:estilos,id_estilo',
+        ], [
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'descripcion.required' => 'El campo descripción es obligatorio.',
+            'id_tipoPrenda.required' => 'El campo tipo de prenda es obligatorio.',
+            'id_tipoPrenda.exists' => 'El tipo de prenda seleccionado no es válido.',
+            'img_frontal.required' => 'El campo imagen frontal es obligatorio.',
+            'img_frontal.image' => 'El campo imagen frontal debe ser una imagen.',
+            'img_frontal.mimes' => 'El campo imagen frontal debe ser un archivo de tipo: jpeg, png, jpg, gif.',
+            'img_frontal.max' => 'El campo imagen frontal no debe superar los 2 MB.',
+            'img_trasera.image' => 'El campo imagen trasera debe ser una imagen.',
+            'img_trasera.mimes' => 'El campo imagen trasera debe ser un archivo de tipo: jpeg, png, jpg, gif.',
+            'img_trasera.max' => 'El campo imagen trasera no debe superar los 2 MB.',
+            'etiquetas.required' => 'Debes seleccionar al menos una etiqueta.',
+            'etiquetas.array' => 'El campo etiquetas debe ser un arreglo.',
+            'etiquetas.min' => 'Debes seleccionar al menos una etiqueta.',
+            'etiquetas.*.exists' => 'Una de las etiquetas seleccionadas no es válida.',
+            'colores.required' => 'Debes seleccionar al menos un color.',
+            'colores.array' => 'El campo colores debe ser un arreglo.',
+            'colores.min' => 'Debes seleccionar al menos un color.',
+            'colores.*.exists' => 'Uno de los colores seleccionados no es válido.',
+            'estilos.required' => 'Debes seleccionar al menos un estilo.',
+            'estilos.array' => 'El campo estilos debe ser un arreglo.',
+            'estilos.min' => 'Debes seleccionar al menos un estilo.',
+            'estilos.*.exists' => 'Uno de los estilos seleccionados no es válido.',
         ]);
+
+        // Iniciar una transacción
+        DB::beginTransaction();
 
         try {
             // Subir imágenes
@@ -57,19 +86,19 @@ class SolicitudRopaController extends Controller
                 'estado' => 'pendiente',
             ]);
 
-            // Sincronizar relaciones (si existen)
-            if ($request->has('etiquetas')) {
-                $solicitud->etiquetas()->sync($request->etiquetas);
-            }
-            if ($request->has('colores')) {
-                $solicitud->colores()->sync($request->colores);
-            }
-            if ($request->has('estilos')) {
-                $solicitud->estilos()->sync($request->estilos);
-            }
+            // Sincronizar relaciones
+            $solicitud->etiquetas()->sync($request->etiquetas);
+            $solicitud->colores()->sync($request->colores);
+            $solicitud->estilos()->sync($request->estilos);
+
+            // Confirmar la transacción
+            DB::commit();
 
             return redirect()->route('home')->with('success', 'Solicitud enviada correctamente.');
         } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+
             return redirect()->back()->withErrors(['error' => 'Ocurrió un error al crear la solicitud: ' . $e->getMessage()]);
         }
     }
