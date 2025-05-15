@@ -109,7 +109,6 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Tipo</th>
-                    <th>Precio</th>
                     <th>Descripción</th>
                     <th>Estilos</th>
                     <th>Etiquetas</th>
@@ -122,7 +121,6 @@
                     <tr>
                         <td>{{ $prenda->nombre }}</td>
                         <td>{{ $prenda->tipo->tipo }}</td>
-                        <td>{{ number_format($prenda->precio, 2) }} €</td>
                         <td>{{ $prenda->descripcion }}</td>
                         <td>{{ $prenda->estilos->pluck('nombre')->join(', ') }}</td>
                         <td>{{ $prenda->etiquetas->pluck('nombre')->join(', ') }}</td>

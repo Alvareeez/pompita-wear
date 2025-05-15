@@ -152,17 +152,18 @@ Route::middleware(['auth'])->group(
         // MANEJO DE SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
-    }
-);
-
+                
         // CHAT ENTRE SEGUIDOS UNICAMENTE
         Route::get('chat/{otroUsuario}', [ChatController::class, 'index'])->name('chat.index');
         Route::get('chat/{otroUsuario}/mensajes', [ChatController::class, 'getMessages'])->name('chat.getMessages');
         Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
-        
+
         // RUTAS PARA SOLICITUDES DE ROPA
         // Mostrar formulario para crear una solicitud
         Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
 
         // Guardar una nueva solicitud
         Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
+    }
+);
+

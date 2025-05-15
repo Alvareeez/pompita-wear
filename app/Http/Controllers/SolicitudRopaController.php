@@ -109,14 +109,16 @@ class SolicitudRopaController extends Controller
 
                 // Actualizar el estado de la solicitud
                 $solicitud->update(['estado' => 'aceptada']);
+
+                return redirect()->route('admin.solicitudes.index')->with('success', 'Solicitud aceptada correctamente.');
             } elseif ($request->action === 'rechazar') {
+                // Actualizar el estado de la solicitud
                 $solicitud->update(['estado' => 'rechazada']);
+
+                return redirect()->route('admin.solicitudes.index')->with('success', 'Solicitud rechazada correctamente.');
             } else {
                 return redirect()->back()->withErrors(['error' => 'Acción no válida.']);
             }
-
-            // Redirigir con mensaje de éxito
-            return redirect()->route('admin.solicitudes.index')->with('success', 'Solicitud actualizada correctamente.');
         }
 
         return redirect()->back()->withErrors(['error' => 'No se recibió ninguna acción.']);

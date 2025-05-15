@@ -35,14 +35,6 @@ class RopaController extends Controller
             $query->where('nombre', 'like', '%' . $request->nombre . '%');
         }
     
-        if ($request->has('precio_min') && is_numeric($request->precio_min)) {
-            $query->where('precio', '>=', $request->precio_min);  // Filtro de precio mínimo
-        }
-    
-        if ($request->has('precio_max') && is_numeric($request->precio_max)) {
-            $query->where('precio', '<=', $request->precio_max);  // Filtro de precio máximo
-        }
-    
         if ($request->has('descripcion')) {
             $query->where('descripcion', 'like', '%' . $request->descripcion . '%');
         }
@@ -76,7 +68,6 @@ class RopaController extends Controller
                 'nombre' => 'required|string|max:255',
                 'descripcion' => 'required|string|min:10|max:255',
                 'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
-                'precio' => 'required|numeric|min:0',
                 'img_frontal' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'img_trasera' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'estilos' => 'array|exists:estilos,id_estilo',
@@ -96,7 +87,6 @@ class RopaController extends Controller
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'id_tipoPrenda' => $request->id_tipoPrenda,
-                'precio' => $request->precio,
                 'img_frontal' => $imgFrontalName, // Guardar solo el nombre del archivo
                 'img_trasera' => $imgTraseraName, // Guardar solo el nombre del archivo
             ]);
@@ -135,7 +125,6 @@ class RopaController extends Controller
                 'nombre' => 'required|string|max:255', // Validar el campo nombre
                 'descripcion' => 'required|string|max:255',
                 'id_tipoPrenda' => 'required|exists:tipo_prendas,id_tipoPrenda',
-                'precio' => 'required|numeric|min:0',
                 'estilos' => 'array|exists:estilos,id_estilo',
                 'etiquetas' => 'array|exists:etiquetas,id_etiqueta',
                 'colores' => 'array|exists:colores,id_color',
