@@ -109,14 +109,21 @@ Route::middleware(['auth'])->group(
 
         // RUTAS DE OUTFITS
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
+
+        // FILTROS AJAX
         Route::get('/outfit/filter-ajax', [OutfitController::class, 'filterAjax'])->name('outfit.filterAjax');
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
+
+        // DAR LIKES A OUTFIT Y A COMENTARIOS, COMENTARIOS Y VALORACIONES
         Route::get('/outfit/{outfit}/like', [DetailsOutfitsController::class, 'toggleLike'])->name('outfit.like');
         Route::post('/outfits/{id}/comentarios', [DetailsOutfitsController::class, 'storeComment'])->name('outfits.storeComment');
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
+
+        // ELIMINAR OUTFIT
+        Route::delete('/outfit/{outfit}', [DetailsOutfitsController::class, 'destroy'])->name('outfit.destroy');
 
         // CALENDARIO:
         Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');
@@ -155,7 +162,15 @@ Route::middleware(['auth'])->group(
         // MANEJO DE SOLICITUDES DE SEGUIMIENTO
         Route::post('/solicitudes/aceptar/{id}', [PerfilController::class, 'aceptar'])->name('solicitudes.aceptar');
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
-                
+
+        // DESDE DENTRO DE PERFIL DEJAR DE SEGUIR O QUITAR SEGUIDOR
+        
+        // Quitar a un seguidor
+        Route::delete('perfil/follower/{id}', [PerfilController::class, 'removeFollower'])->name('perfil.removeFollower');
+        
+        // Dejar de seguir
+        Route::delete('/perfil/unfollow/{id}', [PerfilController::class, 'unfollow'])->name('perfil.unfollow');
+
         // CHAT ENTRE SEGUIDOS UNICAMENTE
         
         // Bandeja de chats (sin conversación abierta)
@@ -175,4 +190,3 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
     }
 );
-
