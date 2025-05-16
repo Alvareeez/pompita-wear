@@ -1,7 +1,9 @@
 /* Importación de la fuente Ubuntu desde Google Fonts */
+
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 
 /* Estilos generales */
+
 body {
     font-family: 'Ubuntu', sans-serif;
     margin: 0;
@@ -10,13 +12,17 @@ body {
     background-color: #f9f9f9;
 }
 
+
 /* Contenedor para separar el header y el título */
+
 .title-container {
     margin-top: 60px;
     text-align: center;
 }
 
+
 /* Centrando los títulos */
+
 .center-title {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -31,7 +37,9 @@ body {
     padding-bottom: 10vh;
 }
 
+
 /* Contenedor para centrar las tarjetas de los outfits */
+
 .centered-container {
     display: flex;
     justify-content: center;
@@ -40,16 +48,21 @@ body {
     margin-bottom: 30px;
 }
 
+
 /* Contenedor de los outfits */
+
 .outfits {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    justify-content: center; /* Centrado de los outfits */
+    justify-content: center;
+    /* Centrado de los outfits */
     margin-bottom: 30px;
 }
 
+
 /* Estilo para cada outfit */
+
 .outfit {
     border: 1px solid black;
     padding: 10px;
@@ -57,7 +70,8 @@ body {
     width: 220px;
     transition: transform 0.3s, box-shadow 0.3s;
     background-color: white;
-    font-family: 'Ubuntu', sans-serif; /* Fuente Ubuntu */
+    font-family: 'Ubuntu', sans-serif;
+    /* Fuente Ubuntu */
 }
 
 .outfit:hover {
@@ -66,11 +80,15 @@ body {
 }
 
 .outfit img {
-    width: 120px;  /* Hace que la imagen sea más pequeña */
-    height: 120px; /* Ajusta la altura proporcionalmente */
-    object-fit: contain; /* Ajusta la imagen dentro del contenedor sin recortar ni deformar */
+    width: 120px;
+    /* Hace que la imagen sea más pequeña */
+    height: 120px;
+    /* Ajusta la altura proporcionalmente */
+    object-fit: contain;
+    /* Ajusta la imagen dentro del contenedor sin recortar ni deformar */
     margin-bottom: 10px;
-    border: none;  /* Elimina el borde negro */
+    border: none;
+    /* Elimina el borde negro */
 }
 
 .outfit p {
@@ -78,31 +96,76 @@ body {
     font-size: 14px;
 }
 
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-input {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 250px;
+    font-size: 14px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+
 /* Contenedor para alinear la imagen y el texto */
+
 .prenda-row {
     display: flex;
-    align-items: center; /* Centra verticalmente la imagen y el texto */
-    justify-content: space-between; /* Espacio entre la imagen y el texto */
-    margin-bottom: 10px; /* Espaciado entre filas */
+    align-items: center;
+    /* Centra verticalmente la imagen y el texto */
+    justify-content: space-between;
+    /* Espacio entre la imagen y el texto */
+    margin-bottom: 10px;
+    /* Espaciado entre filas */
 }
+
 
 /* Ajustar el tamaño de la imagen */
+
 .prenda-row img {
-    width: 80px; /* Ajusta el tamaño de la imagen */
-    height: 80px; /* Mantén proporciones */
-    object-fit: contain; /* Asegura que la imagen no se deforme */
-    margin-right: 10px; /* Espaciado entre la imagen y el texto */
+    width: 80px;
+    /* Ajusta el tamaño de la imagen */
+    height: 80px;
+    /* Mantén proporciones */
+    object-fit: contain;
+    /* Asegura que la imagen no se deforme */
+    margin-right: 10px;
+    /* Espaciado entre la imagen y el texto */
 }
 
+
 /* Estilo del texto */
+
 .prenda-row p {
     margin: 0;
     font-size: 14px;
-    text-align: right; /* Alinea el texto a la derecha */
-    flex: 1; /* Permite que el texto ocupe el espacio restante */
+    text-align: right;
+    /* Alinea el texto a la derecha */
+    flex: 1;
+    /* Permite que el texto ocupe el espacio restante */
 }
 
+
 /* Estilo de los botones de Estilos */
+
 .button-row {
     display: flex;
     justify-content: center;
@@ -129,9 +192,12 @@ body {
 }
 
 .outfit-link {
-    text-decoration: none; /* Quita el subrayado */
-    color: inherit;        /* Mantiene el color del texto original */
-    display: inline-block; /* Hace que el enlace envuelva correctamente el div */
+    text-decoration: none;
+    /* Quita el subrayado */
+    color: inherit;
+    /* Mantiene el color del texto original */
+    display: inline-block;
+    /* Hace que el enlace envuelva correctamente el div */
 }
 
 .header {
@@ -144,8 +210,10 @@ body {
 .notification-panel {
     position: absolute;
     top: 50px;
-    right: 100px; /* Mueve el panel más a la izquierda */
-    width: 320px; /* Aumenta el ancho si es necesario */
+    right: 100px;
+    /* Mueve el panel más a la izquierda */
+    width: 320px;
+    /* Aumenta el ancho si es necesario */
     background-color: #0D1117;
     color: white;
     border-radius: 5px;
@@ -165,7 +233,8 @@ body {
     align-items: center;
     padding: 5px 0;
     border-bottom: 1px solid #21262C;
-    word-wrap: break-word; /* Permitir que el texto se ajuste */
+    word-wrap: break-word;
+    /* Permitir que el texto se ajuste */
 }
 
 .notification-panel ul li:last-child {
@@ -180,7 +249,8 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 12px;
-    white-space: nowrap; /* Evitar que el texto se corte */
+    white-space: nowrap;
+    /* Evitar que el texto se corte */
 }
 
 .mark-read-button:hover {
@@ -190,21 +260,22 @@ body {
 .profile-large {
     right: 70px !important;
 }
+
+
 /* Estilos responsivos */
+
 @media (max-width: 768px) {
     .outfits {
         justify-content: center;
     }
-
     .outfit {
-        width: 100%; /* Ocupa el 100% del ancho */
+        width: 100%;
+        /* Ocupa el 100% del ancho */
         margin-bottom: 15px;
     }
-
     .center-title {
         font-size: 1.5rem;
     }
-
     .button-row {
         gap: 10px;
     }
@@ -215,16 +286,14 @@ body {
         flex-direction: column;
         align-items: center;
     }
-
     .outfit {
-        width: 90%; /* Ocupa el 90% del ancho */
+        width: 90%;
+        /* Ocupa el 90% del ancho */
         margin-bottom: 20px;
     }
-
     .center-title {
         font-size: 1.2rem;
     }
-
     .button-row {
         gap: 5px;
     }

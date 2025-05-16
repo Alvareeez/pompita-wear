@@ -109,7 +109,7 @@ Route::middleware(['auth'])->group(
 
         // RUTAS DE OUTFITS
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
-
+        Route::get('/outfits/filtrar', [ShowOutfitsController::class, 'filtrar'])->name('outfit.filtrar');
         // FILTROS AJAX
         Route::get('/outfit/filter-ajax', [OutfitController::class, 'filterAjax'])->name('outfit.filterAjax');
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
