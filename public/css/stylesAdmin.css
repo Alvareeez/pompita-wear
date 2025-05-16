@@ -114,6 +114,21 @@ body {
         margin-top: 100px; /* Asegurar que el contenido no quede debajo del header */
         padding: 15px; /* Reducir el padding en pantallas pequeñas */
     }
+
+    .pagination {
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 13px;
+    }
+    .pagination a,
+    .pagination .active,
+    .pagination .disabled,
+    .pagination .dots {
+        padding: 7px 10px;
+        font-size: 13px;
+        min-width: 36px;
+        text-align: center;
+    }
 }
 
 /* Contenedor principal */
@@ -976,4 +991,76 @@ select option {
     display: flex;
     flex-wrap: wrap;
     gap: 15px; /* Espaciado entre los elementos */
+}
+
+/* Responsive para filtros y tabla */
+@media (max-width: 700px) {
+    /* Filtros en columna */
+    .filter-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .filter-container input,
+    .filter-container select,
+    .filter-container textarea {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* Tabla: scroll horizontal */
+    .table-container {
+        overflow-x: auto;
+        padding: 5px;
+    }
+    table {
+        min-width: 600px; /* Ajusta según tus columnas */
+        font-size: 13px;
+    }
+    table th, table td {
+        padding: 8px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 13px;
+    }
+    .pagination a,
+    .pagination .active,
+    .pagination .disabled,
+    .pagination .dots {
+        padding: 7px 10px;
+        font-size: 13px;
+        min-width: 36px;
+        text-align: center;
+    }
+}
+
+/* Opcional: para pantallas aún más pequeñas */
+@media (max-width: 480px) {
+    table {
+        min-width: 400px;
+        font-size: 11px;
+    }
+    .tabs button {
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    .pagination {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+    .pagination a,
+    .pagination .active,
+    .pagination .disabled,
+    .pagination .dots {
+        width: 100%;
+        min-width: unset;
+        box-sizing: border-box;
+        padding: 10px 0;
+        font-size: 12px;
+    }
 }

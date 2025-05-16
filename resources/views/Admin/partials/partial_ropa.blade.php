@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody id="prendas-table">
-            @foreach ($prendas as $prenda)
+            @forelse ($prendas as $prenda)
                 <tr>
                     <td>{{ $prenda->id_prenda }}</td>
                     <td>{{ $prenda->nombre }}</td>
@@ -50,7 +50,11 @@
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr id="no-results">
+                    <td colspan="9" style="text-align:center;">No se encontraron resultados.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </div>
