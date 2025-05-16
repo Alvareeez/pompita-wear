@@ -17,9 +17,11 @@
         <div class="logo">
             <img src="{{ asset('img/pompitaLogo.png') }}" alt="Pompita Wear">
         </div>
-        <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
+                <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+</button>
         <nav>
             <a href="/">Inicio</a>
             <form action="{{ route('logout') }}" method="POST" class="logout-form">
