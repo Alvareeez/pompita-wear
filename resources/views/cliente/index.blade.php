@@ -10,9 +10,8 @@
 @section('scripts')
     <script src="{{ asset('js/inicio.js') }}"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        
-    </script>
+    <script src="{{ asset('js/cookie-consent.js') }}"></script>
+
 @endsection
 
 @section('content')
@@ -153,5 +152,5 @@
             </div>
         </div>
     @include('layouts.footer')
-
+    <x-cookie-banner />
 @endsection
