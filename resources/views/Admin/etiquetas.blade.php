@@ -6,12 +6,20 @@
     <title>Administración de Etiquetas</title>
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="{{ asset('js/hamburguesa.js') }}"></script>
+
+
 </head>
 <body>
     <header class="admin-header">
         <div class="logo">
             <img src="{{ asset('img/pompitaLogo.png') }}" alt="Pompita Wear">
         </div>
+        <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
         <nav>
             <a href="/">Inicio</a>
             <form action="{{ route('logout') }}" method="POST" class="logout-form">

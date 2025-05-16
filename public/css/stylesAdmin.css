@@ -57,6 +57,55 @@ body {
     background-color: #c9302c; /* Color más oscuro al pasar el mouse */
 }
 
+/* Botón hamburguesa */
+.navbar-toggler {
+    display: none; /* Ocultar por defecto */
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Estilos para el menú en pantallas pequeñas */
+@media (max-width: 700px) {
+    .admin-header nav {
+        display: none; /* Ocultar el menú por defecto */
+        flex-direction: column;
+        background-color: #004080;
+        position: absolute;
+        top: 60px;
+        left: 0; /* Asegurar que el menú ocupe todo el ancho */
+        width: 100%; /* Ocupa todo el ancho */
+        padding: 10px 0;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-header nav.active {
+        display: flex; /* Mostrar el menú cuando esté activo */
+    }
+
+    .navbar-toggler {
+        display: block; /* Mostrar el botón hamburguesa */
+    }
+
+    .admin-header nav a {
+        padding: 10px 20px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .admin-header nav a:last-child {
+        border-bottom: none;
+    }
+
+    .admin-container {
+        margin-top: 100px; /* Asegurar que el contenido no quede debajo del header */
+        padding: 15px; /* Reducir el padding en pantallas pequeñas */
+    }
+}
+
 /* Contenedor principal */
 .admin-container {
     padding: 30px;
