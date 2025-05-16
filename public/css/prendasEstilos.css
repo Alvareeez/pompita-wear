@@ -1,7 +1,9 @@
 /* Importación de la fuente Ubuntu desde Google Fonts */
+
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
 
 /* Estilos generales */
+
 body {
     font-family: 'Ubuntu', sans-serif;
     margin: 0;
@@ -20,8 +22,10 @@ body {
 .notification-panel {
     position: absolute;
     top: 50px;
-    right: 100px; /* Mueve el panel más a la izquierda */
-    width: 320px; /* Aumenta el ancho si es necesario */
+    right: 100px;
+    /* Mueve el panel más a la izquierda */
+    width: 320px;
+    /* Aumenta el ancho si es necesario */
     background-color: #0D1117;
     color: white;
     border-radius: 5px;
@@ -41,7 +45,8 @@ body {
     align-items: center;
     padding: 5px 0;
     border-bottom: 1px solid #21262C;
-    word-wrap: break-word; /* Permitir que el texto se ajuste */
+    word-wrap: break-word;
+    /* Permitir que el texto se ajuste */
 }
 
 .notification-panel ul li:last-child {
@@ -56,7 +61,8 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 12px;
-    white-space: nowrap; /* Evitar que el texto se corte */
+    white-space: nowrap;
+    /* Evitar que el texto se corte */
 }
 
 .mark-read-button:hover {
@@ -66,13 +72,18 @@ body {
 .profile-large {
     right: 70px !important;
 }
+
+
 /* Contenedor para separar el header y el título */
+
 .title-container {
     margin-top: 60px;
     text-align: center;
 }
 
+
 /* Centrando los títulos */
+
 .center-title {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -89,7 +100,9 @@ body {
     font-weight: 700;
 }
 
+
 /* Contenedor para centrar las cartas de las prendas */
+
 .centered-container {
     display: flex;
     justify-content: center;
@@ -98,7 +111,9 @@ body {
     margin-bottom: 30px;
 }
 
+
 /* Contenedor de las prendas */
+
 .prendas {
     display: flex;
     gap: 20px;
@@ -107,7 +122,9 @@ body {
     margin-bottom: 30px;
 }
 
+
 /* Estilo para cada prenda */
+
 .prenda {
     border: 1px solid #ddd;
     padding: 15px;
@@ -138,7 +155,9 @@ body {
     font-size: 14px;
 }
 
+
 /* Estilo de los botones de Estilos */
+
 .button-row {
     display: flex;
     justify-content: center;
@@ -165,7 +184,9 @@ body {
     transform: scale(1.05);
 }
 
+
 /* Contenedor para el Top 5 de prendas con más likes */
+
 .top-prendas-container {
     margin: 30px 0;
     text-align: center;
@@ -178,9 +199,12 @@ body {
     gap: 20px;
 }
 
+
 /* Estilo de los inputs, selects, y filtros */
+
 .filter-container {
-    max-width: 900px; /* Ancho máximo más grande para más filtros */
+    max-width: 900px;
+    /* Ancho máximo más grande para más filtros */
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
@@ -188,17 +212,24 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
     display: flex;
-    flex-wrap: wrap; /* Los elementos de los filtros se envuelven cuando sea necesario */
+    flex-wrap: wrap;
+    /* Los elementos de los filtros se envuelven cuando sea necesario */
     gap: 20px;
-    justify-content: space-between; /* Espaciado entre los filtros */
+    justify-content: space-between;
+    /* Espaciado entre los filtros */
 }
 
-.filter-container > div {
-    flex: 1; /* Hace que cada filtro ocupe espacio igual */
-    min-width: 200px; /* Ancho mínimo de los filtros */
+.filter-container>div {
+    flex: 1;
+    /* Hace que cada filtro ocupe espacio igual */
+    min-width: 200px;
+    /* Ancho mínimo de los filtros */
 }
 
-input[type="text"], input[type="number"], select, input[type="search"] {
+input[type="text"],
+input[type="number"],
+select,
+input[type="search"] {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
@@ -209,13 +240,18 @@ input[type="text"], input[type="number"], select, input[type="search"] {
     background-color: #fff;
 }
 
-input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="search"]:focus {
+input[type="text"]:focus,
+select:focus,
+input[type="number"]:focus,
+input[type="search"]:focus {
     border-color: #007BFF;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+
 /* Estilos de botones dentro de los filtros */
+
 .filter-button {
     padding: 12px 20px;
     background-color: #F6A894;
@@ -236,41 +272,100 @@ input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="
     transform: scale(1.05);
 }
 
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.pagination ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 5px;
+}
+
+.pagination li {
+    margin: 0;
+}
+
+.pagination a,
+.pagination span {
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+}
+
+.pagination a {
+    color: #002D68;
+    background-color: white;
+}
+
+.pagination a:hover {
+    background-color: #F6A894;
+    color: black;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pagination .active span {
+    background-color: #002D68;
+    color: white;
+    border-color: #002D68;
+}
+
+.pagination .disabled span {
+    color: #999;
+    background-color: #f9f9f9;
+    border-color: #ddd;
+}
+
+
 /* Estilos responsivos */
+
 @media (max-width: 768px) {
     .prendas {
         justify-content: center;
     }
-
+    .pagination ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .pagination a,
+    .pagination span {
+        padding: 5px 10px;
+        font-size: 13px;
+    }
     .prenda {
         width: 100%;
         margin-bottom: 15px;
     }
-
     .center-title {
         font-size: 1.5rem;
     }
-
     .button-row {
         gap: 10px;
     }
-
     .action-button {
         font-size: 14px;
         padding: 10px 25px;
     }
-
     .filter-container {
         padding: 15px;
         max-width: 600px;
     }
-
     .filter-button {
         font-size: 14px;
         padding: 10px;
     }
-
-    .filter-container > div {
+    .filter-container>div {
         flex: 1;
         min-width: 200px;
     }
@@ -281,30 +376,24 @@ input[type="text"]:focus, select:focus, input[type="number"]:focus, input[type="
         flex-direction: column;
         align-items: center;
     }
-
     .prenda {
         width: 90%;
         margin-bottom: 20px;
     }
-
     .center-title {
         font-size: 1.2rem;
     }
-
     .button-row {
         gap: 5px;
     }
-
     .action-button {
         font-size: 14px;
         padding: 10px 20px;
     }
-
     .filter-container {
         padding: 15px;
         max-width: 350px;
     }
-
     .filter-button {
         font-size: 14px;
         padding: 10px;
