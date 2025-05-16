@@ -109,14 +109,22 @@ Route::middleware(['auth'])->group(
 
         // RUTAS DE OUTFITS
         Route::get('/outfit', [OutfitController::class, 'index'])->name('outfit.index');
+
+        // FILTROS AJAX
         Route::get('/outfit/filter-ajax', [OutfitController::class, 'filterAjax'])->name('outfit.filterAjax');
         Route::get('/outfit/{id}', [DetailsOutfitsController::class, 'show'])->name('outfit.show');
         Route::post('/outfit/store', [OutfitController::class, 'store'])->name('outfit.store');
         Route::get('/outfits', [ShowOutfitsController::class, 'index'])->name('outfit.outfits');
+
+        // DAR LIKES A OUTFIT Y A COMENTARIOS, COMENTARIOS Y VALORACIONES
         Route::get('/outfit/{outfit}/like', [DetailsOutfitsController::class, 'toggleLike'])->name('outfit.like');
         Route::post('/outfits/{id}/comentarios', [DetailsOutfitsController::class, 'storeComment'])->name('outfits.storeComment');
         Route::post('/comentarios-outfits/{id}/like', [DetailsOutfitsController::class, 'toggleCommentLike'])->name('outfits.toggleCommentLike');
         Route::post('/outfits/{id}/valoraciones', [DetailsOutfitsController::class, 'storeValoracion'])->name('outfits.storeValoracion');
+        Route::post('/outfits/{id}/favorite', [DetailsOutfitsController::class, 'toggleFavorite'])->name('outfits.toggleFavorite');
+
+        // ELIMINAR OUTFIT
+        Route::delete('/outfit/{outfit}', [DetailsOutfitsController::class, 'destroy'])->name('outfit.destroy');
 
         // CALENDARIO:
         Route::get('/calendario', [OutfitController2::class, 'calendario'])->name('calendario');

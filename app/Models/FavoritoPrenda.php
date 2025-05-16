@@ -10,13 +10,13 @@ class FavoritoPrenda extends Model
     use HasFactory;
 
     protected $table = 'favoritos_prendas';
-    protected $primaryKey = ['id_prenda', 'id_usuario'];
-    public $incrementing = false;
+    protected $primaryKey = 'id_favoritos_prendas';
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
         'id_prenda',
-        'id_usuario'
+        'id_usuario',
     ];
 
     public function prenda()
@@ -28,10 +28,4 @@ class FavoritoPrenda extends Model
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
-    public function favoritos()
-{
-    return $this->belongsToMany(Usuario::class, 'favoritos_prendas', 'id_prenda', 'id_usuario')
-                ->withTimestamps()
-                ->using(FavoritoPrenda::class);
-}
 }

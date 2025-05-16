@@ -10,13 +10,13 @@ class FavoritoOutfit extends Model
     use HasFactory;
 
     protected $table = 'favoritos_outfits';
-    protected $primaryKey = ['id_outfit', 'id_usuario'];
-    public $incrementing = false;
+    protected $primaryKey = 'id_favoritos_outfits';
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
         'id_outfit',
-        'id_usuario'
+        'id_usuario',
     ];
 
     public function outfit()

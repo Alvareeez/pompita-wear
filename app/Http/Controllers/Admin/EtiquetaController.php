@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Etiqueta;
+use App\Models\Prenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -79,17 +80,80 @@ class EtiquetaController extends Controller
 
     public function destroy($id)
     {
-        DB::beginTransaction();
-
-        try {
+        DB::transaction(function() use ($id) {
+            // 1) Cargar la etiqueta
             $etiqueta = Etiqueta::findOrFail($id);
+    
+            // 2) Obtener todas las prendas vinculadas a esta etiqueta
+            $prendaIds = DB::table('prenda_etiquetas')
+                           ->where('id_etiqueta', $id)
+                           ->pluck('id_prenda');
+    
+            foreach ($prendaIds as $prendaId) {
+                $prenda      = Prenda::findOrFail($prendaId);
+                $tagsCount   = $prenda->etiquetas()->count();
+    
+                if ($tagsCount > 1) {
+                    // 2.1) Si tiene otras etiquetas, sólo quitamos el pivote
+                    DB::table('prenda_etiquetas')
+                      ->where('id_prenda', $prendaId)
+                      ->where('id_etiqueta', $id)
+                      ->delete();
+    
+                } else {
+                    // 2.2) Si era su única etiqueta, eliminamos TODO lo asociado a la prenda
+    
+                    // --- Outfits que la contienen ---
+                    $outfitIds = DB::table('outfit_prendas')
+                                   ->where('id_prenda', $prendaId)
+                                   ->pluck('id_outfit');
+                    foreach ($outfitIds as $outfitId) {
+                        // Comentarios de outfit + likes de comentarios
+                        $comentOutIds = DB::table('comentarios_outfits')
+                                          ->where('id_outfit', $outfitId)
+                                          ->pluck('id_comentario');
+                        DB::table('likes_comentarios_outfits')->whereIn('id_comentario', $comentOutIds)->delete();
+                        DB::table('comentarios_outfits')->where('id_outfit', $outfitId)->delete();
+    
+                        // Valoraciones, likes y favoritos de outfit
+                        DB::table('valoraciones_outfits')->where('id_outfit', $outfitId)->delete();
+                        DB::table('likes_outfits')->where('id_outfit', $outfitId)->delete();
+                        DB::table('favoritos_outfits')->where('id_outfit', $outfitId)->delete();
+    
+                        // Desvincular prenda–outfit y eliminar outfit
+                        DB::table('outfit_prendas')->where('id_outfit', $outfitId)->delete();
+                        DB::table('outfits')->where('id_outfit', $outfitId)->delete();
+                    }
+    
+                    // --- Comentarios de prenda + likes ---
+                    $comentPrIds = DB::table('comentarios_prendas')
+                                     ->where('id_prenda', $prendaId)
+                                     ->pluck('id_comentario');
+                    DB::table('likes_comentarios_prendas')->whereIn('id_comentario', $comentPrIds)->delete();
+                    DB::table('comentarios_prendas')->where('id_prenda', $prendaId)->delete();
+    
+                    // --- Valoraciones, likes y favoritos de prenda ---
+                    DB::table('valoraciones_prendas')->where('id_prenda', $prendaId)->delete();
+                    DB::table('likes_prendas')->where('id_prenda', $prendaId)->delete();
+                    DB::table('favoritos_prendas')->where('id_prenda', $prendaId)->delete();
+    
+                    // --- Desvincular colores, estilos y etiquetas ---
+                    DB::table('prenda_colores')->where('id_prenda', $prendaId)->delete();
+                    DB::table('prenda_estilos')->where('id_prenda', $prendaId)->delete();
+                    DB::table('prenda_etiquetas')->where('id_prenda', $prendaId)->delete();
+    
+                    // --- Finalmente eliminar la prenda ---
+                    DB::table('prendas')->where('id_prenda', $prendaId)->delete();
+                }
+            }
+    
+            // 3) Eliminar la propia etiqueta
             $etiqueta->delete();
-
-            DB::commit();
-            return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta eliminada correctamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al eliminar la etiqueta.']);
-        }
+        });
+    
+        return redirect()
+            ->route('admin.etiquetas.index')
+            ->with('success', 'Etiqueta eliminada correctamente. Prendas únicas y sus outfits asociados también borrados.');
     }
+    
 }

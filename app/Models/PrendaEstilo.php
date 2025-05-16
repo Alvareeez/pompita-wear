@@ -10,13 +10,13 @@ class PrendaEstilo extends Model
     use HasFactory;
 
     protected $table = 'prenda_estilos';
-    protected $primaryKey = ['id_prenda', 'id_estilo'];
-    public $incrementing = false;
+    protected $primaryKey = 'id_prenda_estilos';
+    public $incrementing = true;
     public $timestamps = true;
 
     protected $fillable = [
         'id_prenda',
-        'id_estilo'
+        'id_estilo',
     ];
 
     public function prenda()
