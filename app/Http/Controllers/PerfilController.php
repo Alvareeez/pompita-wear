@@ -180,6 +180,13 @@ class PerfilController extends Controller
     public function showPublicProfile($id)
     {
         $user = Usuario::with('outfits')->findOrFail($id);
+
+        // Si el usuario está baneado, lanzamos un 403 Forbidden
+        if ($user->estado === 'baneado') {
+            abort(403, 'Este usuario ha sido baneado.');
+        }
+
         return view('cliente.perfil_publico', compact('user'));
     }
+
 }
