@@ -15,39 +15,55 @@ class RopaController extends Controller
 {
     public function index(Request $request)
     {
-        // Definir la consulta base para las prendas
+        // Obtener estilos, colores y etiquetas para los filtros
+        $estilos = Estilo::all();
+        $colores = Color::all();
+        $etiquetas = Etiqueta::all();
+
+        // Query base
         $query = Prenda::with('tipo', 'estilos', 'etiquetas', 'colores');
-        
-        // Filtros
-        if ($request->has('estilos')) {
-            $query->whereHas('estilos', function($q) use ($request) {
-                $q->whereIn('id_estilo', $request->estilos);
+
+        // Filtro por nombre
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'LIKE', '%' . $request->nombre . '%');
+        }
+
+        // Filtro por descripción
+        if ($request->filled('descripcion')) {
+            $query->where('descripcion', 'LIKE', '%' . $request->descripcion . '%');
+        }
+
+        // Filtro por estilos
+        if ($request->filled('estilos')) {
+            $query->whereHas('estilos', function ($q) use ($request) {
+                $q->where('estilos.id_estilo', $request->estilos); // Especificar la tabla
             });
         }
-    
-        if ($request->has('etiquetas')) {
-            $query->whereHas('etiquetas', function($q) use ($request) {
-                $q->whereIn('id_etiqueta', $request->etiquetas);
+
+        // Filtro por etiquetas
+        if ($request->filled('etiquetas')) {
+            $query->whereHas('etiquetas', function ($q) use ($request) {
+                $q->where('etiquetas.id_etiqueta', $request->etiquetas); // Especificar la tabla
             });
         }
-    
-        if ($request->has('nombre')) {
-            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+
+        // Filtro por colores
+        if ($request->filled('colores')) {
+            $query->whereHas('colores', function ($q) use ($request) {
+                $q->where('colores.id_color', $request->colores); // Especificar la tabla
+            });
         }
-    
-        if ($request->has('descripcion')) {
-            $query->where('descripcion', 'like', '%' . $request->descripcion . '%');
-        }
-    
-        // Paginar los resultados
+
+        // Paginación
         $prendas = $query->paginate(5);
-    
+
+        // Si es una solicitud AJAX, devolver solo la tabla parcial
         if ($request->ajax()) {
-            // Retornar vista parcial para AJAX
             return view('admin.partials.partial_ropa', compact('prendas'));
         }
-    
-        return view('Admin.ropa', compact('prendas'));
+
+        // Retornar la vista completa
+        return view('Admin.ropa', compact('prendas', 'estilos', 'colores', 'etiquetas'));
     }
     
     public function create()
@@ -174,8 +190,20 @@ class RopaController extends Controller
         DB::beginTransaction();
 
         try {
+            // Asegurarse de que 'prenda' sea un array
+            $prendasSeleccionadas = $request->input('prenda', []);
+            if (!is_array($prendasSeleccionadas)) {
+                $prendasSeleccionadas = [$prendasSeleccionadas];
+            }
+
             // Obtener las prendas seleccionadas
-            $prendas = Prenda::with(['tipo', 'estilos', 'etiquetas', 'colores'])->whereIn('id_prenda', $request->prendas)->get();
+            $prendas = Prenda::with(['tipo', 'estilos', 'etiquetas', 'colores'])
+                ->whereIn('id_prenda', $prendasSeleccionadas)
+                ->get();
+
+            if ($prendas->isEmpty()) {
+                return back()->withErrors(['error' => 'No se seleccionaron prendas para generar el PDF.']);
+            }
 
             // Generar el PDF
             $pdf = Pdf::loadView('Admin.pdf_ropa', compact('prendas'));
@@ -184,7 +212,7 @@ class RopaController extends Controller
             return $pdf->download('ropa_seleccionada.pdf');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al generar el PDF.']);
+            return back()->withErrors(['error' => 'Ocurrió un error al generar el PDF: ' . $e->getMessage()]);
         }
     }
 }

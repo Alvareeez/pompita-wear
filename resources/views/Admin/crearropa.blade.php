@@ -63,8 +63,9 @@
                     <label for="estilos">Estilos</label>
                     <div id="estilos" class="checkbox-grid">
                         @foreach ($estilos as $estilo)
-                            <label>
+                            <label class="checkbox-label">
                                 <input type="checkbox" name="estilos[]" value="{{ $estilo->id_estilo }}">
+                                <span class="checkbox-custom"></span>
                                 {{ $estilo->nombre }}
                             </label>
                         @endforeach
@@ -74,8 +75,9 @@
                     <label for="etiquetas">Etiquetas</label>
                     <div id="etiquetas" class="checkbox-grid">
                         @foreach ($etiquetas as $etiqueta)
-                            <label>
+                            <label class="checkbox-label">
                                 <input type="checkbox" name="etiquetas[]" value="{{ $etiqueta->id_etiqueta }}">
+                                <span class="checkbox-custom"></span>
                                 {{ $etiqueta->nombre }}
                             </label>
                         @endforeach
@@ -85,8 +87,9 @@
                     <label for="colores">Colores</label>
                     <div id="colores" class="checkbox-grid">
                         @foreach ($colores as $color)
-                            <label>
+                            <label class="checkbox-label">
                                 <input type="checkbox" name="colores[]" value="{{ $color->id_color }}">
+                                <span class="checkbox-custom"></span>
                                 {{ $color->nombre }}
                             </label>
                         @endforeach

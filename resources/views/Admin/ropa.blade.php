@@ -51,10 +51,47 @@
             <div class="actions-container">
                 <a href="{{ route('admin.ropa.create') }}" class="create-btn">+ Crear Ropa</a>
             </div>
-            <div class="filter-container">
-                <input type="text" id="filtro-nombre" placeholder="Filtrar por nombre">
-                <textarea id="filtro-descripcion" placeholder="Filtrar por descripción"></textarea>
-            </div>
+            <form method="GET" action="{{ route('admin.ropa.index') }}">
+                <div class="filter-container">
+                    <input type="text" id="filtro-nombre" name="nombre" placeholder="Buscar por nombre" value="{{ request('nombre') }}">
+
+                    <div class="filter-group">
+                        <select id="filtro-estilos" name="estilos">
+                            <option value="">Todos los estilos</option>
+                            @foreach ($estilos as $estilo)
+                                <option value="{{ $estilo->id_estilo }}" {{ request('estilos') == $estilo->id_estilo ? 'selected' : '' }}>
+                                    {{ $estilo->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <select id="filtro-etiquetas" name="etiquetas">
+                            <option value="">Todas las etiquetas</option>
+                            @foreach ($etiquetas as $etiqueta)
+                                <option value="{{ $etiqueta->id_etiqueta }}" {{ request('etiquetas') == $etiqueta->id_etiqueta ? 'selected' : '' }}>
+                                    {{ $etiqueta->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="filter-group">
+                        <select id="filtro-colores" name="colores">
+                            <option value="">Todos los colores</option>
+                            @foreach ($colores as $color)
+                                <option value="{{ $color->id_color }}" {{ request('colores') == $color->id_color ? 'selected' : '' }}>
+                                    {{ $color->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Botón para limpiar filtros -->
+                    <button type="button" id="clear-filters-btn">Limpiar filtros</button>
+                </div>
+            </form>
         @endif
 
         @if (!request()->routeIs('admin.solicitudes.index'))
@@ -216,6 +253,57 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
+            // Función para limpiar filtros
+            $('#clear-filters-btn').on('click', function () {
+                $('#filtro-nombre').val('');
+                $('#filtro-descripcion').val('');
+                $('#filtro-estilos').val('');
+                $('#filtro-etiquetas').val('');
+                $('#filtro-colores').val('');
+
+                // Realizar la solicitud AJAX sin filtros
+                $.ajax({
+                    url: '{{ route('admin.ropa.index') }}',
+                    method: 'GET',
+                    data: {},
+                    success: function (response) {
+                        $('#prendas-table').html($(response).find('#prendas-table').html());
+                        $('.pagination-container').html($(response).find('.pagination-container').html());
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            // Función para aplicar filtros automáticamente al cambiar los valores
+            $('#filtro-nombre, #filtro-descripcion, #filtro-estilos, #filtro-etiquetas, #filtro-colores').on('change', function () {
+                const nombre = $('#filtro-nombre').val();
+                const descripcion = $('#filtro-descripcion').val();
+                const estilos = $('#filtro-estilos').val();
+                const etiquetas = $('#filtro-etiquetas').val();
+                const colores = $('#filtro-colores').val();
+
+                $.ajax({
+                    url: '{{ route('admin.ropa.index') }}',
+                    method: 'GET',
+                    data: {
+                        nombre: nombre,
+                        descripcion: descripcion,
+                        estilos: estilos,
+                        etiquetas: etiquetas,
+                        colores: colores,
+                    },
+                    success: function (response) {
+                        $('#prendas-table').html($(response).find('#prendas-table').html());
+                        $('.pagination-container').html($(response).find('.pagination-container').html());
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
             const links = document.querySelectorAll(".tabs a, .logout-form button");
             const spinner = document.getElementById("loading-spinner");
 
@@ -233,31 +321,6 @@
                             link.closest("form").submit();
                         }
                     }, 1000); 
-                });
-            });
-
-            $('#filtro-nombre, #filtro-descripcion').on('input change', function() {
-                const nombre = $('#filtro-nombre').val();
-                const descripcion = $('#filtro-descripcion').val();
-
-                spinner.style.display = "flex"; // Mostrar el spinner
-
-                $.ajax({
-                    url: '{{ route('admin.ropa.index') }}',
-                    method: 'GET',
-                    data: {
-                        nombre: nombre,
-                        descripcion: descripcion,
-                    },
-                    success: function(response) {
-                        $('#prendas-table').html($(response).find('#prendas-table').html());
-                        $('.pagination-container').html($(response).find('.pagination-container').html());
-                        spinner.style.display = "none"; // Ocultar el spinner
-                    },
-                    error: function(error) {
-                        console.error('Error:', error);
-                        spinner.style.display = "none"; // Ocultar el spinner en caso de error
-                    }
                 });
             });
         });

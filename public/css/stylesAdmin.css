@@ -102,12 +102,17 @@ body {
 .filter-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 20px;
     margin-bottom: 20px;
     justify-content: flex-start;
     align-items: center;
+    background-color: #ffffff; /* Fondo blanco */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
+/* Inputs y selects */
 .filter-container input,
 .filter-container select,
 .filter-container textarea {
@@ -119,6 +124,7 @@ body {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
     max-width: 250px;
+    background-color: #f9f9f9; /* Fondo claro */
 }
 
 .filter-container input:focus,
@@ -128,9 +134,42 @@ body {
     box-shadow: 0 0 5px rgba(0, 86, 179, 0.3);
 }
 
+/* Etiquetas de los filtros */
+.filter-group label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Textarea */
 .filter-container textarea {
     resize: none;
     height: 100px;
+}
+
+/* Botón "Limpiar filtros" */
+#clear-filters-btn {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#clear-filters-btn:hover {
+    background-color: #c82333; /* Rojo más oscuro */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+#clear-filters-btn:active {
+    transform: translateY(1px); /* Efecto de clic */
+    filter: brightness(0.9);
 }
 
 /* Botón de creación */
@@ -621,19 +660,60 @@ table tr:hover {
 /* Estilo para la cuadrícula de checkboxes */
 .checkbox-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Ajuste automático */
     gap: 10px; /* Espaciado entre los elementos */
+    margin-bottom: 15px;
 }
 
-.checkbox-grid label {
+/* Etiquetas de los checkboxes */
+.checkbox-label {
     display: flex;
     align-items: center;
-    font-size: 14px;
     cursor: pointer;
+    font-size: 14px;
+    color: #333;
 }
 
-.checkbox-grid input[type="checkbox"] {
-    margin-right: 8px;
+/* Ocultar el checkbox predeterminado */
+.checkbox-label input {
+    display: none;
+}
+
+/* Estilo personalizado para los checkboxes */
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #004080; /* Color del borde */
+    border-radius: 3px; /* Bordes redondeados */
+    margin-right: 10px;
+    display: inline-block;
+    position: relative;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Estilo cuando el checkbox está seleccionado */
+.checkbox-label input:checked + .checkbox-custom {
+    background-color: #004080; /* Fondo azul */
+    border-color: #004080; /* Borde azul */
+}
+
+/* Marca de verificación personalizada */
+.checkbox-custom::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: white; /* Color de la marca */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Ocultar inicialmente */
+    border-radius: 2px; /* Bordes redondeados */
+    transition: transform 0.3s ease;
+}
+
+/* Mostrar la marca de verificación cuando está seleccionado */
+.checkbox-label input:checked + .checkbox-custom::after {
+    transform: translate(-50%, -50%) scale(1); /* Mostrar la marca */
 }
 
 /* Contenedor de vista previa de imágenes */
@@ -785,4 +865,64 @@ select option {
 .badge[style*="background-color: #0056b3"],
 .badge[style*="background-color: #333"] {
     color: #fff; /* Texto claro para fondos oscuros */
+}
+
+/* Estilo general para los checkboxes */
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.filter-group input[type="checkbox"] {
+    appearance: none; /* Eliminar el estilo predeterminado */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #0056b3; /* Color del borde */
+    border-radius: 4px; /* Bordes redondeados */
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.filter-group input[type="checkbox"]:checked {
+    background-color: #0056b3; /* Color de fondo cuando está seleccionado */
+    border-color: #0056b3; /* Color del borde cuando está seleccionado */
+    position: relative;
+}
+
+.filter-group input[type="checkbox"]:checked::after {
+    content: '✔'; /* Marca de verificación */
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.filter-group input[type="checkbox"]:hover {
+    border-color: #003366; /* Color del borde al pasar el mouse */
+}
+
+.filter-group input[type="checkbox"]:focus {
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5); /* Efecto de enfoque */
+}
+
+/* Ajustar el espaciado entre los checkboxes */
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Espaciado entre los elementos */
+}
+
+.filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    cursor: pointer;
 }
