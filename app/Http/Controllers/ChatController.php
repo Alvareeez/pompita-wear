@@ -7,66 +7,84 @@ use App\Models\Usuario;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
     /**
-     * Muestra solo la bandeja de entrada (lista de chats mutuos).
+     * Muestra solo la bandeja de entrada (lista de chats mutuos),
+     * excluyendo usuarios baneados.
      */
     public function inbox()
     {
         $me = Auth::user();
-    
+
+        // 1) IDs de quienes sigo y me siguen en estado 'aceptada'
         $siguiendo  = $me->siguiendo()
-                        ->wherePivot('status', 'aceptada')
-                        ->pluck('id_receptor')
-                        ->toArray();
+                         ->wherePivot('status', 'aceptada')
+                         ->pluck('id_receptor')
+                         ->toArray();
         $seguidores = $me->seguidores()
-                        ->wherePivot('status', 'aceptada')
-                        ->pluck('id_emisor')
-                        ->toArray();
-    
+                         ->wherePivot('status', 'aceptada')
+                         ->pluck('id_emisor')
+                         ->toArray();
+
+        // 2) Solo la intersección (seguimiento mutuo)
         $contactIds = array_intersect($siguiendo, $seguidores);
-        $contacts   = Usuario::whereIn('id_usuario', $contactIds)->get();
-    
-        // Ahora llamamos correctamente a la vista dentro de la carpeta 'chat'
+
+        // 3) Traer usuarios mutuos excluyendo los baneados
+        $contacts = Usuario::whereIn('id_usuario', $contactIds)
+                           ->where('estado', '!=', 'baneado')
+                           ->get();
+
         return view('chat.bandejaChats', compact('contacts'));
     }
-    
 
     /**
-     * Muestra la bandeja de contactos y la conversación con $otroUsuarioId.
-     * Crea la conversación si no existía.
+     * Muestra la conversación con $otroUsuarioId (siempre que sea mutuo y no baneado).
      */
     public function index($otroUsuarioId)
     {
         $me = Auth::user();
 
-        // 1) Construir bandeja de contactos mutuos
-        $siguiendo  = $me->siguiendo()->wherePivot('status', 'aceptada')->pluck('id_receptor')->toArray();
-        $seguidores = $me->seguidores()->wherePivot('status', 'aceptada')->pluck('id_emisor')->toArray();
+        // 1) IDs de contactos mutuos
+        $siguiendo  = $me->siguiendo()
+                         ->wherePivot('status', 'aceptada')
+                         ->pluck('id_receptor')
+                         ->toArray();
+        $seguidores = $me->seguidores()
+                         ->wherePivot('status', 'aceptada')
+                         ->pluck('id_emisor')
+                         ->toArray();
         $contactIds = array_intersect($siguiendo, $seguidores);
-        $contacts   = Usuario::whereIn('id_usuario', $contactIds)->get();
 
-        // 2) Validar que el destino es mutuo
+        // 2) Si el otro no es mutuo, 403
         if (! in_array($otroUsuarioId, $contactIds)) {
             abort(403, 'Solo puedes chatear con usuarios que se siguen mutuamente.');
         }
 
-        // 3) Obtener o crear la conversación única
+        // 3) Obtener el modelo Usuario del otro y comprobar que no esté baneado
+        $otro = Usuario::findOrFail($otroUsuarioId);
+        if ($otro->estado === 'baneado') {
+            abort(403, 'No puedes chatear con un usuario baneado.');
+        }
+
+        // 4) Recrear la misma lista de contactos (excluyendo baneados)
+        $contacts = Usuario::whereIn('id_usuario', $contactIds)
+                           ->where('estado', '!=', 'baneado')
+                           ->get();
+
+        // 5) Obtener o crear la conversación única, con IDs ordenados
         list($u1, $u2) = $this->orderedIds($me->id_usuario, $otroUsuarioId);
         $conv = Conversacion::firstOrCreate([
             'user1_id' => $u1,
             'user2_id' => $u2,
         ]);
 
-        // 4) Cargar mensajes históricos
+        // 6) Cargar mensajes históricos ordenados
         $mensajes = $conv->mensajes()
                          ->orderBy('enviado_en')
                          ->get();
-
-        // 5) Datos del otro usuario
-        $otro = Usuario::findOrFail($otroUsuarioId);
 
         return view('chat.chat', compact('contacts', 'conv', 'otro', 'mensajes'));
     }
@@ -102,16 +120,23 @@ class ChatController extends Controller
     }
 
     /**
-     * Helper: obtiene o crea la conversación tras comprobar mutuo follow.
+     * Helper: obtiene o crea la conversación después de validar mutuo follow y sin baneados.
      */
     protected function getConversation($miId, $otroId)
     {
+        // 1) Validar seguimiento mutuo
         if (! $this->mutualFollow($miId, $otroId)) {
             abort(403, 'No está permitida la conversación.');
         }
 
-        list($u1, $u2) = $this->orderedIds($miId, $otroId);
+        // 2) Validar que el otro usuario no esté baneado
+        $otro = Usuario::findOrFail($otroId);
+        if ($otro->estado === 'baneado') {
+            abort(403, 'No puedes chatear con un usuario baneado.');
+        }
 
+        // 3) Crear o recuperar conversación con IDs ordenados
+        list($u1, $u2) = $this->orderedIds($miId, $otroId);
         return Conversacion::firstOrCreate([
             'user1_id' => $u1,
             'user2_id' => $u2,
@@ -139,7 +164,7 @@ class ChatController extends Controller
     }
 
     /**
-     * Para garantizar unicidad: devuelve [menor, mayor].
+     * Garantiza unicidad de la conversación devolviendo [menor, mayor].
      */
     protected function orderedIds($a, $b)
     {
