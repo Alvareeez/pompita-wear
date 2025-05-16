@@ -44,6 +44,9 @@
             <a href="{{ route('admin.etiquetas.index') }}">
                 <button>Etiquetas</button>
             </a>
+            <a href="{{ route('admin.colores.index') }}">
+                <button>Colores</button>
+            </a>
             <a href="{{ route('admin.solicitudes.index') }}">
                 <button>Solicitudes</button>
             </a>
@@ -164,18 +167,17 @@
             <div class="pagination-container">
                 {{ $prendas->links('pagination.custom') }}
             </div>
-
+<br>
             <!-- Formulario para descarga en PDF -->
             <form action="{{ route('admin.ropa.pdf') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="prenda">Selecciona una prenda:</label>
-                    <select id="prenda" name="prenda">
-                        <option value="" disabled selected>Selecciona una prenda</option>
-                        @foreach ($prendas as $prenda)
-                            <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
-                        @endforeach
-                    </select>
+                    <select id="prenda" name="prenda" class="select-pdf">
+    <option value="" disabled selected>Selecciona una prenda</option>
+    @foreach ($prendas as $prenda)
+        <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
+    @endforeach
+</select>
                 </div>
                 <button class="download-btn" type="submit">
                     Descargar PDF
@@ -284,7 +286,7 @@
             });
 
             // Función para aplicar filtros automáticamente al cambiar los valores
-            $('#filtro-nombre, #filtro-estilos, #filtro-etiquetas, #filtro-colores').on('change', function () {
+            $('#filtro-nombre, #filtro-estilos, #filtro-etiquetas, #filtro-colores').on('input', function () {
                 const nombre = $('#filtro-nombre').val();
                 const estilos = $('#filtro-estilos').val();
                 const etiquetas = $('#filtro-etiquetas').val();
@@ -326,6 +328,9 @@
                             link.closest("form").submit();
                         }
                     }, 1000); 
+                });
+            });
+        });
                 });
             });
         });

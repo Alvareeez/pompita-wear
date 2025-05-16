@@ -3,24 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administración de Estilos</title>
+    <title>Administración de Colores</title>
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
     <script src="{{ asset('js/hamburguesa.js') }}"></script>
-
 </head>
 <body>
     <header class="admin-header">
         <div class="logo">
             <img src="{{ asset('img/pompitaLogo.png') }}" alt="Pompita Wear">
         </div>
-                <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
-    <span class="hamburger-line"></span>
-    <span class="hamburger-line"></span>
-    <span class="hamburger-line"></span>
-</button>
         <nav>
             <a href="/">Inicio</a>
             <form action="{{ route('logout') }}" method="POST" class="logout-form">
@@ -32,28 +26,16 @@
 
     <main class="admin-container">
         <div class="tabs">
-            <a href="{{ route('admin.usuarios.index') }}">
-                <button>Usuarios</button>
-            </a>
-            <a href="{{ route('admin.ropa.index') }}">
-                <button>Ropa</button>
-            </a>
-            <a href="{{ route('admin.estilos.index') }}">
-                <button class="active">Estilos</button>
-            </a>
-            <a href="{{ route('admin.etiquetas.index') }}">
-                <button>Etiquetas</button>
-            </a>
-            <a href="{{ route('admin.colores.index') }}">
-                <button>Colores</button>
-            </a>
-            <a href="{{ route('admin.solicitudes.index') }}">
-                <button>Solicitudes</button>
-            </a>
+            <a href="{{ route('admin.usuarios.index') }}"><button>Usuarios</button></a>
+            <a href="{{ route('admin.ropa.index') }}"><button>Ropa</button></a>
+            <a href="{{ route('admin.estilos.index') }}"><button>Estilos</button></a>
+            <a href="{{ route('admin.etiquetas.index') }}"><button>Etiquetas</button></a>
+            <a href="{{ route('admin.colores.index') }}"><button class="active">Colores</button></a>
+            <a href="{{ route('admin.solicitudes.index') }}"><button>Solicitudes</button></a>
         </div>
 
         <div class="actions-container">
-            <a href="{{ route('admin.estilos.create') }}" class="create-btn">+ Crear Estilo</a>
+            <a href="{{ route('admin.colores.create') }}" class="create-btn">+ Crear Color</a>
         </div>
 
         @if (session('success'))
@@ -75,8 +57,8 @@
                         <th>Acciones</th>
                     </tr>
                 </thead>
-                <tbody id="tabla-estilos">
-                    @include('admin.partials.tabla-estilos', ['estilos' => $estilos])
+                <tbody id="tabla-colores">
+                    @include('admin.partials.tabla-colores', ['colores' => $colores])
                 </tbody>
             </table>
         </div>
@@ -135,14 +117,14 @@
             document.getElementById('filtro-nombre').addEventListener('input', function () {
                 const nombre = this.value;
 
-                fetch(`{{ route('admin.estilos.index') }}?nombre=${encodeURIComponent(nombre)}`, {
+                fetch(`{{ route('admin.colores.index') }}?nombre=${encodeURIComponent(nombre)}`, {
                     headers: {
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 })
                 .then(response => response.text())
                 .then(data => {
-                    document.getElementById('tabla-estilos').innerHTML = data;
+                    document.getElementById('tabla-colores').innerHTML = data;
                 });
             });
         });

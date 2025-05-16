@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody id="prendas-table">
-            @foreach ($prendas as $prenda)
+            @forelse ($prendas as $prenda)
                 <tr>
                     <td>{{ $prenda->id_prenda }}</td>
                     <td>{{ $prenda->nombre }}</td>
@@ -36,9 +36,9 @@
                         @endforeach
                     </td>
                     <td>
-                        <div class="image-container">
-                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" class="image-preview">
-                            <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Trasera de {{ $prenda->nombre }}" class="image-preview">
+                        <div style="display: flex; gap: 10px;">
+                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
+                            <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Trasera de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
                         </div>
                     </td>
                     <td>
@@ -50,7 +50,11 @@
                         </form>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr id="no-results">
+                    <td colspan="9" style="text-align:center;">No se encontraron resultados.</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

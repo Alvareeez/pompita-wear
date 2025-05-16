@@ -22,6 +22,7 @@ use App\Http\Controllers\OutfitController2;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\SolicitudRopaController;
+use App\Http\Controllers\Admin\ColorController;
 
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
@@ -87,6 +88,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // Actualizar el estado de una solicitud (aceptar o rechazar)
     Route::put('/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
     Route::put('/admin/solicitudes/{solicitud}', [SolicitudRopaController::class, 'update'])->name('admin.solicitudes.update');
+
+    Route::get('/colores', [ColorController::class, 'index'])->name('admin.colores.index');
+    Route::get('/colores/create', [ColorController::class, 'create'])->name('admin.colores.create');
+    Route::post('/colores', [ColorController::class, 'store'])->name('admin.colores.store');
+    Route::get('/colores/{id}/edit', [ColorController::class, 'edit'])->name('admin.colores.edit');
+    Route::put('/colores/{id}', [ColorController::class, 'update'])->name('admin.colores.update');
+    Route::delete('/colores/{id}', [ColorController::class, 'destroy'])->name('admin.colores.destroy');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------
