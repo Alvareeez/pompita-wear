@@ -1,116 +1,111 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Etiqueta;
-use App\Models\Prenda;
+use App\Models\Color;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class EtiquetaController extends Controller
+class ColorController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Etiqueta::query();
+        $query = Color::query();
 
         if ($request->ajax()) {
             if ($request->filled('nombre')) {
                 $query->where('nombre', 'like', '%' . $request->nombre . '%');
             }
-
-            $etiquetas = $query->get();
-            return view('admin.partials.tabla-etiquetas', compact('etiquetas'));
+            $colores = $query->get();
+            return view('admin.partials.tabla-colores', compact('colores'));
         }
 
-        $etiquetas = $query->get();
-        return view('admin.etiquetas', compact('etiquetas'));
+        $colores = $query->get();
+        return view('admin.colores', compact('colores'));
     }
-    
-    
 
     public function create()
     {
-        return view('Admin.crearetiqueta');
+        return view('admin.crearcolor');
     }
 
     public function store(Request $request)
     {
         DB::beginTransaction();
-
         try {
             $request->validate([
-                'nombre' => 'required|string|max:50|unique:etiquetas',
+                'nombre' => 'required|string|max:255|unique:colores',
             ]);
 
-            Etiqueta::create($request->all());
+            Color::create($request->all());
 
             DB::commit();
-            return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta creada correctamente.');
+            return redirect()->route('admin.colores.index')->with('success', 'Color creado correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al crear la etiqueta.']);
+            return back()->withErrors(['error' => 'Ocurrió un error al crear el color.']);
         }
     }
 
     public function edit($id)
     {
-        $etiqueta = Etiqueta::findOrFail($id);
-        return view('Admin.editaretiqueta', compact('etiqueta'));
+        $color = Color::findOrFail($id);
+        return view('admin.editarcolor', compact('color'));
     }
 
     public function update(Request $request, $id)
     {
         DB::beginTransaction();
-
         try {
             $request->validate([
-                'nombre' => 'required|string|max:50|unique:etiquetas,nombre,' . $id . ',id_etiqueta',
+                'nombre' => 'required|string|max:255|unique:colores,nombre,' . $id . ',id_color',
             ]);
 
-            $etiqueta = Etiqueta::findOrFail($id);
-            $etiqueta->update($request->all());
+            $color = Color::findOrFail($id);
+            $color->update($request->all());
 
             DB::commit();
-            return redirect()->route('admin.etiquetas.index')->with('success', 'Etiqueta actualizada correctamente.');
+            return redirect()->route('admin.colores.index')->with('success', 'Color actualizado correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al actualizar la etiqueta.']);
+            return back()->withErrors(['error' => 'Ocurrió un error al actualizar el color.']);
         }
     }
 
     public function destroy($id)
     {
         DB::transaction(function() use ($id) {
-            // 1) Cargar la etiqueta
-            $etiqueta = Etiqueta::findOrFail($id);
+            $color = Color::findOrFail($id);
 
-            // 1.1) Limpiar solicitudes de ropa vinculadas a esta etiqueta
-            $solicitudesRopaIds = DB::table('solicitud_etiqueta')
-                ->where('id_etiqueta', $id)
+            // 1) Limpiar solicitudes de ropa vinculadas a este color
+            $solicitudesRopaIds = DB::table('solicitud_color')
+                ->where('id_color', $id)
                 ->pluck('id_solicitud');
-            DB::table('solicitud_etiqueta')->where('id_etiqueta', $id)->delete();
+            DB::table('solicitud_color')->where('id_color', $id)->delete();
             if ($solicitudesRopaIds->isNotEmpty()) {
                 DB::table('solicitudes_ropa')->whereIn('id', $solicitudesRopaIds)->delete();
             }
 
-            // 2) Obtener todas las prendas vinculadas a esta etiqueta
-            $prendaIds = DB::table('prenda_etiquetas')
-                           ->where('id_etiqueta', $id)
+            // 2) Obtener todas las prendas vinculadas a este color
+            $prendaIds = DB::table('prenda_colores')
+                           ->where('id_color', $id)
                            ->pluck('id_prenda');
 
             foreach ($prendaIds as $prendaId) {
-                $prenda      = \App\Models\Prenda::findOrFail($prendaId);
-                $tagsCount   = $prenda->etiquetas()->count();
+                // Contar cuántos colores tiene la prenda
+                $coloresCount = DB::table('prenda_colores')
+                                  ->where('id_prenda', $prendaId)
+                                  ->count();
 
-                if ($tagsCount > 1) {
-                    // 2.1) Si tiene otras etiquetas, sólo quitamos el pivote
-                    DB::table('prenda_etiquetas')
+                if ($coloresCount > 1) {
+                    // Si tiene más de un color, solo desvinculamos el color
+                    DB::table('prenda_colores')
                       ->where('id_prenda', $prendaId)
-                      ->where('id_etiqueta', $id)
+                      ->where('id_color', $id)
                       ->delete();
-
                 } else {
-                    // 2.2) Si era su única etiqueta, eliminamos TODO lo asociado a la prenda
+                    // Si era su único color, eliminamos TODO lo asociado a la prenda
 
                     // --- Outfits que la contienen ---
                     $outfitIds = DB::table('outfit_prendas')
@@ -156,13 +151,12 @@ class EtiquetaController extends Controller
                 }
             }
 
-            // 3) Eliminar la propia etiqueta
-            $etiqueta->delete();
+            // 3) Eliminar el propio color
+            $color->delete();
         });
 
         return redirect()
-            ->route('admin.etiquetas.index')
-            ->with('success', 'Etiqueta eliminada correctamente. Prendas únicas y sus outfits asociados también borrados.');
+            ->route('admin.colores.index')
+            ->with('success', 'Color eliminado correctamente. Prendas únicas y sus outfits asociados también borrados.');
     }
-    
 }
