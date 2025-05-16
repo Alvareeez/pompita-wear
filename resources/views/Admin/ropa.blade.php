@@ -264,7 +264,6 @@
             // Función para limpiar filtros
             $('#clear-filters-btn').on('click', function () {
                 $('#filtro-nombre').val('');
-                $('#filtro-descripcion').val('');
                 $('#filtro-estilos').val('');
                 $('#filtro-etiquetas').val('');
                 $('#filtro-colores').val('');
@@ -285,9 +284,8 @@
             });
 
             // Función para aplicar filtros automáticamente al cambiar los valores
-            $('#filtro-nombre, #filtro-descripcion, #filtro-estilos, #filtro-etiquetas, #filtro-colores').on('change', function () {
+            $('#filtro-nombre, #filtro-estilos, #filtro-etiquetas, #filtro-colores').on('change', function () {
                 const nombre = $('#filtro-nombre').val();
-                const descripcion = $('#filtro-descripcion').val();
                 const estilos = $('#filtro-estilos').val();
                 const etiquetas = $('#filtro-etiquetas').val();
                 const colores = $('#filtro-colores').val();
@@ -297,7 +295,6 @@
                     method: 'GET',
                     data: {
                         nombre: nombre,
-                        descripcion: descripcion,
                         estilos: estilos,
                         etiquetas: etiquetas,
                         colores: colores,
@@ -331,6 +328,7 @@
                     }, 1000); 
                 });
             });
+        });
     </script>
 </body>
 </html>
