@@ -164,18 +164,17 @@
             <div class="pagination-container">
                 {{ $prendas->links('pagination.custom') }}
             </div>
-
+<br>
             <!-- Formulario para descarga en PDF -->
             <form action="{{ route('admin.ropa.pdf') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="prenda">Selecciona una prenda:</label>
-                    <select id="prenda" name="prenda">
-                        <option value="" disabled selected>Selecciona una prenda</option>
-                        @foreach ($prendas as $prenda)
-                            <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
-                        @endforeach
-                    </select>
+                    <select id="prenda" name="prenda" class="select-pdf">
+    <option value="" disabled selected>Selecciona una prenda</option>
+    @foreach ($prendas as $prenda)
+        <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
+    @endforeach
+</select>
                 </div>
                 <button class="download-btn" type="submit">
                     Descargar PDF

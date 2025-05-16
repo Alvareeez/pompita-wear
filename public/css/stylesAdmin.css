@@ -129,6 +129,19 @@ body {
         min-width: 36px;
         text-align: center;
     }
+
+    .filter-container select {
+        font-size: 15px;
+        padding: 8px 12px;
+        max-width: 250px;
+        min-width: 120px;
+        width: 250px; /* Fijo igual que escritorio */
+        display: inline-block;
+    }
+
+    .filter-container {
+        align-items: flex-start;
+    }
 }
 
 /* Contenedor principal */
@@ -1028,6 +1041,19 @@ select option {
         min-width: 36px;
         text-align: center;
     }
+
+    .filter-container select {
+        font-size: 15px;
+        padding: 8px 12px;
+        max-width: 250px;
+        min-width: 120px;
+        width: 250px; /* Fijo igual que escritorio */
+        display: inline-block;
+    }
+
+    .filter-container {
+        align-items: flex-start;
+    }
 }
 
 /* Opcional: para pantallas aún más pequeñas */
@@ -1055,5 +1081,47 @@ select option {
         box-sizing: border-box;
         padding: 10px 0;
         font-size: 12px;
+    }
+
+    .filter-container select {
+        font-size: 13px;
+        padding: 6px 8px;
+        width: 250px; /* Mantén el ancho fijo */
+        max-width: 250px;
+        min-width: 120px;
+    }
+}
+
+.select-pdf {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9fa;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px 15px;
+    width: 250px;
+    max-width: 250px;
+    min-width: 120px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (max-width: 700px) {
+    .select-pdf {
+        font-size: 15px;
+        padding: 8px 12px;
+        width: 250px;
+        max-width: 250px;
+        min-width: 120px;
+    }
+}
+@media (max-width: 480px) {
+    .select-pdf {
+        font-size: 13px;
+        padding: 6px 8px;
+        width: 250px;
+        max-width: 250px;
+        min-width: 120px;
     }
 }
