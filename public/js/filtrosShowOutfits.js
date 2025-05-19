@@ -1,37 +1,46 @@
-$(document).ready(function() {
-    function applyFilters() {
-        const nombre = $('#nombreFilter').val();
-        const creador = $('#creadorFilter').val();
+document.addEventListener('DOMContentLoaded', function() {
+    const nombreFilter = document.getElementById('nombreFilter');
+    const creadorFilter = document.getElementById('creadorFilter');
+    const outfitsContainer = document.getElementById('outfitsContainer');
 
-        $.ajax({
-            url: '/outfits/filtrar',
-            type: "GET",
-            data: {
-                nombre: nombre,
-                creador: creador
-            },
-            success: function(response) {
-                $('#outfitsContainer').html(response);
-            },
-            error: function(xhr) {
-                console.error('Error:', xhr.responseText);
-                $('#outfitsContainer').html('<div class="error">Error al cargar los resultados</div>');
-            }
+    function applyFilters() {
+        const nombre = nombreFilter.value;
+        const creador = creadorFilter.value;
+
+        const params = new URLSearchParams({
+            nombre: nombre || '',
+            creador: creador || ''
         });
+
+        fetch(`/outfits/filtrar?${params.toString()}`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'text/html',
+                }
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.text();
+            })
+            .then(function(html) {
+                outfitsContainer.innerHTML = html;
+            })
+            .catch(function(error) {
+                console.error('Error:', error);
+                outfitsContainer.innerHTML = '<div class="error">Error al cargar los resultados</div>';
+            });
     }
 
     // Debounce para evitar muchas solicitudes
     let timeout;
-    $('#nombreFilter, #creadorFilter').on('keyup', function() {
+
+    function handleFilterChange() {
         clearTimeout(timeout);
         timeout = setTimeout(applyFilters, 500);
-    });
-
-    // Aplicar filtros al cargar la página si hay parámetros en la URL
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('nombre') || urlParams.has('creador')) {
-        $('#nombreFilter').val(urlParams.get('nombre') || '');
-        $('#creadorFilter').val(urlParams.get('creador') || '');
-        applyFilters();
     }
+
+    nombreFilter.addEventListener('keyup', handleFilterChange);
+    creadorFilter.addEventListener('keyup', handleFilterChange);
 });
