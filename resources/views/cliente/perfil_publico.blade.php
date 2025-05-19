@@ -101,8 +101,34 @@
           Este usuario aún no tiene outfits publicados.
         </div>
       @else
-        {{-- Aquí tu carrusel de outfits --}}
-      @endif
+                <!-- Sección de Outfits - Carrusel 3D -->
+                <div class="carousel2">
+                    <button class="carousel-control prev"><i class="fas fa-chevron-left"></i></button>
+
+                    <ul class="carousel__list">
+                        @foreach($user->outfits as $key => $outfit)
+                            <li class="carousel__item" data-pos="{{ $key }}">
+                                <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
+                                    <div class="outfit-card">
+                                        <p class="profile-name">{{ $outfit->nombre }}</p>
+                                        <div class="prenda-column">
+                                            @foreach($outfit->prendas as $prenda)
+                                                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                                                    alt="{{ $prenda->nombre }}"
+                                                    class="vertical-image">
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+
+                    <button class="carousel-control next"><i class="fas fa-chevron-right"></i></button>
+                </div>    
+            </div>
+        </div>      
+    @endif
     @else
       <div class="alert alert-warning mt-4">
         Esta cuenta es privada. Envía una solicitud para ver su contenido.
