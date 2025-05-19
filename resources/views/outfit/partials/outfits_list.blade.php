@@ -4,12 +4,11 @@
         <div class="card-body">
             <h5 class="card-title">{{ $outfit->nombre }}</h5>
             <p>Creado por: {{ $outfit->usuario->nombre }}</p>
-            <p>Precio total: ${{ number_format($outfit->precio_total, 2) }}</p>
 
             @foreach($outfit->prendas as $prenda)
                 <div class="prenda-row">
                     <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="{{ $prenda->nombre }}">
-                    <p>{{ $prenda->nombre }} - ${{ number_format($prenda->precio, 2) }}</p>
+                    <p>{{ $prenda->nombre }}</p>
                 </div>
             @endforeach
         </div>
