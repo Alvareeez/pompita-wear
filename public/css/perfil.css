@@ -82,6 +82,7 @@ body {
     margin: 0 auto;
     overflow: visible;
     padding: 0px 0;
+    margin-top: 70px;
 }
 
 .carousel-control {
@@ -127,7 +128,7 @@ body {
 .carousel__item {
     position: absolute;
     top: 0;
-    left: 38%;
+    left: 39%;
     transform: translateX(-50%);
     width: 300px;
     height: 430px;
