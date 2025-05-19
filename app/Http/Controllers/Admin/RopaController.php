@@ -164,26 +164,101 @@ class RopaController extends Controller
 
     public function destroy($id)
     {
-        DB::beginTransaction();
-
-        try {
+        DB::transaction(function() use ($id) {
+            // 1) Buscar la prenda
             $prenda = Prenda::findOrFail($id);
-
-            // Eliminar relaciones manualmente
-            $prenda->estilos()->detach();
-            $prenda->etiquetas()->detach();
-            $prenda->colores()->detach();
-
-            // Eliminar la prenda
+    
+            // 2) Primero, para cada outfit que incluya esta prenda, eliminarlo por completo
+            $outfitIds = DB::table('outfit_prendas')
+                           ->where('id_prenda', $id)
+                           ->pluck('id_outfit');
+    
+            foreach ($outfitIds as $outfitId) {
+                // 2.1) Comentarios de outfit + sus likes
+                $comentOutIds = DB::table('comentarios_outfits')
+                                  ->where('id_outfit', $outfitId)
+                                  ->pluck('id_comentario');
+                DB::table('likes_comentarios_outfits')
+                  ->whereIn('id_comentario', $comentOutIds)
+                  ->delete();
+                DB::table('comentarios_outfits')
+                  ->where('id_outfit', $outfitId)
+                  ->delete();
+    
+                // 2.2) Valoraciones de outfit
+                DB::table('valoraciones_outfits')
+                  ->where('id_outfit', $outfitId)
+                  ->delete();
+    
+                // 2.3) Likes de outfit
+                DB::table('likes_outfits')
+                  ->where('id_outfit', $outfitId)
+                  ->delete();
+    
+                // 2.4) Favoritos de outfit
+                DB::table('favoritos_outfits')
+                  ->where('id_outfit', $outfitId)
+                  ->delete();
+    
+                // 2.5) Desvincular todas las prendas de este outfit
+                DB::table('outfit_prendas')
+                  ->where('id_outfit', $outfitId)
+                  ->delete();
+    
+                // 2.6) Eliminar el outfit
+                DB::table('outfits')
+                  ->where('id_outfit', $outfitId)
+                  ->delete();
+            }
+    
+            // 3) Ahora eliminar todo lo relacionado con la propia prenda:
+    
+            // 3.1) Comentarios de prenda + sus likes
+            $comentPrendaIds = DB::table('comentarios_prendas')
+                                 ->where('id_prenda', $id)
+                                 ->pluck('id_comentario');
+            DB::table('likes_comentarios_prendas')
+              ->whereIn('id_comentario', $comentPrendaIds)
+              ->delete();
+            DB::table('comentarios_prendas')
+              ->where('id_prenda', $id)
+              ->delete();
+    
+            // 3.2) Valoraciones de prenda
+            DB::table('valoraciones_prendas')
+              ->where('id_prenda', $id)
+              ->delete();
+    
+            // 3.3) Likes de prenda
+            DB::table('likes_prendas')
+              ->where('id_prenda', $id)
+              ->delete();
+    
+            // 3.4) Favoritos de prenda
+            DB::table('favoritos_prendas')
+              ->where('id_prenda', $id)
+              ->delete();
+    
+            // 3.5) Desvincular estilos, colores y etiquetas
+            DB::table('prenda_estilos')
+              ->where('id_prenda', $id)
+              ->delete();
+            DB::table('prenda_colores')
+              ->where('id_prenda', $id)
+              ->delete();
+            DB::table('prenda_etiquetas')
+              ->where('id_prenda', $id)
+              ->delete();
+    
+            // 4) Finalmente, eliminar la propia prenda
             $prenda->delete();
-
-            DB::commit();
-            return redirect()->route('admin.ropa.index')->with('success', 'Prenda eliminada correctamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al eliminar la prenda.']);
-        }
+        });
+    
+        return redirect()
+            ->route('admin.ropa.index')
+            ->with('success', 'Prenda (y todos los datos asociados) eliminados correctamente.');
     }
+    
 
     public function descargarPDF(Request $request)
     {

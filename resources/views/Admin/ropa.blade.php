@@ -6,14 +6,22 @@
     <title>Administración de Ropa</title>
     <link rel="stylesheet" href="{{ asset('css/stylesAdmin.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/hamburguesa.js') }}"></script>
+
 </head>
 <body>
     <header class="admin-header">
         <div class="logo">
             <img src="{{ asset('img/pompitaLogo.png') }}" alt="Pompita Wear">
         </div>
+                <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+</button>
         <nav>
             <a href="/">Inicio</a>
             <form action="{{ route('logout') }}" method="POST" class="logout-form">
@@ -35,6 +43,9 @@
             </a>
             <a href="{{ route('admin.etiquetas.index') }}">
                 <button>Etiquetas</button>
+            </a>
+            <a href="{{ route('admin.colores.index') }}">
+                <button>Colores</button>
             </a>
             <a href="{{ route('admin.solicitudes.index') }}">
                 <button>Solicitudes</button>
@@ -95,79 +106,79 @@
         @endif
 
         @if (!request()->routeIs('admin.solicitudes.index'))
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Descripción</th>
-                            <th>Etiquetas</th>
-                            <th>Colores</th>
-                            <th>Estilos</th>
-                            <th>Imágenes</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="prendas-table">
-                        @foreach ($prendas as $prenda)
+            <div id="tabla-prendas-contenedor">
+                <div class="table-container">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>{{ $prenda->id_prenda }}</td>
-                                <td>{{ $prenda->nombre }}</td>
-                                <td>{{ $prenda->tipo->tipo }}</td>
-                                <td>{{ $prenda->descripcion }}</td>
-                                <td>
-                                    @foreach ($prenda->etiquetas as $etiqueta)
-                                        <span class="badge">{{ $etiqueta->nombre }}</span>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($prenda->colores as $color)
-                                        <span class="badge" style="background-color: {{ $color->hex }}; color: #fff;">{{ $color->nombre }}</span>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($prenda->estilos as $estilo)
-                                        <span class="badge">{{ $estilo->nombre }}</span>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    <div style="display: flex; gap: 10px;">
-                                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
-                                        <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Trasera de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
-                                    <a class="delete-btn" onclick="confirmDelete({{ $prenda->id_prenda }})">🗑️</a>
-                                    <form id="delete-form-{{ $prenda->id_prenda }}" action="{{ route('admin.ropa.destroy', $prenda->id_prenda) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </td>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Etiquetas</th>
+                                <th>Colores</th>
+                                <th>Estilos</th>
+                                <th>Imágenes</th>
+                                <th>Acciones</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody id="prendas-table">
+                            @foreach ($prendas as $prenda)
+                                <tr>
+                                    <td>{{ $prenda->id_prenda }}</td>
+                                    <td>{{ $prenda->nombre }}</td>
+                                    <td>{{ $prenda->tipo->tipo }}</td>
+                                    <td>{{ $prenda->descripcion }}</td>
+                                    <td>
+                                        @foreach ($prenda->etiquetas as $etiqueta)
+                                            <span class="badge">{{ $etiqueta->nombre }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($prenda->colores as $color)
+                                            <span class="badge" style="background-color: {{ $color->hex }}; color: #fff;">{{ $color->nombre }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($prenda->estilos as $estilo)
+                                            <span class="badge">{{ $estilo->nombre }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 10px;">
+                                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
+                                            <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Trasera de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
+                                        <a class="delete-btn" onclick="confirmDelete({{ $prenda->id_prenda }})">🗑️</a>
+                                        <form id="delete-form-{{ $prenda->id_prenda }}" action="{{ route('admin.ropa.destroy', $prenda->id_prenda) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-            <!-- Paginación -->
-            <div class="pagination-container">
-                {{ $prendas->links('pagination.custom') }}
+                <div class="pagination-container">
+                    {{ $prendas->appends(request()->except('page'))->links('pagination.custom') }}
+                </div>
             </div>
-
+<br>
             <!-- Formulario para descarga en PDF -->
             <form action="{{ route('admin.ropa.pdf') }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="prenda">Selecciona una prenda:</label>
-                    <select id="prenda" name="prenda">
-                        <option value="" disabled selected>Selecciona una prenda</option>
-                        @foreach ($prendas as $prenda)
-                            <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
-                        @endforeach
-                    </select>
+                    <select id="prenda" name="prenda" class="select-pdf">
+    <option value="" disabled selected>Selecciona una prenda</option>
+    @foreach ($prendas as $prenda)
+        <option value="{{ $prenda->id_prenda }}">{{ $prenda->nombre }}</option>
+    @endforeach
+</select>
                 </div>
                 <button class="download-btn" type="submit">
                     Descargar PDF
@@ -253,77 +264,84 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Función para limpiar filtros
-            $('#clear-filters-btn').on('click', function () {
-                $('#filtro-nombre').val('');
-                $('#filtro-descripcion').val('');
-                $('#filtro-estilos').val('');
-                $('#filtro-etiquetas').val('');
-                $('#filtro-colores').val('');
+    // Limpiar filtros
+    document.getElementById('clear-filters-btn').addEventListener('click', function () {
+        document.getElementById('filtro-nombre').value = '';
+        document.getElementById('filtro-estilos').value = '';
+        document.getElementById('filtro-etiquetas').value = '';
+        document.getElementById('filtro-colores').value = '';
 
-                // Realizar la solicitud AJAX sin filtros
-                $.ajax({
-                    url: '{{ route('admin.ropa.index') }}',
-                    method: 'GET',
-                    data: {},
-                    success: function (response) {
-                        $('#prendas-table').html($(response).find('#prendas-table').html());
-                        $('.pagination-container').html($(response).find('.pagination-container').html());
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            });
+        // Realizar la solicitud Fetch sin filtros
+        fetchPrendas({});
+    });
 
-            // Función para aplicar filtros automáticamente al cambiar los valores
-            $('#filtro-nombre, #filtro-descripcion, #filtro-estilos, #filtro-etiquetas, #filtro-colores').on('change', function () {
-                const nombre = $('#filtro-nombre').val();
-                const descripcion = $('#filtro-descripcion').val();
-                const estilos = $('#filtro-estilos').val();
-                const etiquetas = $('#filtro-etiquetas').val();
-                const colores = $('#filtro-colores').val();
-
-                $.ajax({
-                    url: '{{ route('admin.ropa.index') }}',
-                    method: 'GET',
-                    data: {
-                        nombre: nombre,
-                        descripcion: descripcion,
-                        estilos: estilos,
-                        etiquetas: etiquetas,
-                        colores: colores,
-                    },
-                    success: function (response) {
-                        $('#prendas-table').html($(response).find('#prendas-table').html());
-                        $('.pagination-container').html($(response).find('.pagination-container').html());
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            });
-
-            const links = document.querySelectorAll(".tabs a, .logout-form button");
-            const spinner = document.getElementById("loading-spinner");
-
-            links.forEach(link => {
-                link.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    spinner.style.display = "flex";
-
-                    const href = link.tagName === "A" ? link.href : link.closest("form").action;
-
-                    setTimeout(() => {
-                        if (link.tagName === "A") {
-                            window.location.href = href;
-                        } else {
-                            link.closest("form").submit();
-                        }
-                    }, 1000); 
-                });
-            });
+    // Aplicar filtros automáticamente al cambiar los valores
+    ['filtro-nombre', 'filtro-estilos', 'filtro-etiquetas', 'filtro-colores'].forEach(id => {
+        document.getElementById(id).addEventListener('input', function () {
+            const nombre = document.getElementById('filtro-nombre').value;
+            const estilos = document.getElementById('filtro-estilos').value;
+            const etiquetas = document.getElementById('filtro-etiquetas').value;
+            const colores = document.getElementById('filtro-colores').value;
+            fetchPrendas({ nombre, estilos, etiquetas, colores });
         });
+    });
+
+    // Paginación con Fetch
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.pagination-container .pagination a')) {
+            e.preventDefault();
+            const link = e.target.closest('a');
+            const url = new URL(link.href);
+            const nombre = document.getElementById('filtro-nombre').value;
+            const estilos = document.getElementById('filtro-estilos').value;
+            const etiquetas = document.getElementById('filtro-etiquetas').value;
+            const colores = document.getElementById('filtro-colores').value;
+
+            if (nombre) url.searchParams.set('nombre', nombre);
+            if (estilos) url.searchParams.set('estilos', estilos);
+            if (etiquetas) url.searchParams.set('etiquetas', etiquetas);
+            if (colores) url.searchParams.set('colores', colores);
+
+            fetchPrendas({}, url.toString());
+        }
+    });
+
+    function fetchPrendas(data = {}, customUrl = null) {
+        let url = customUrl || '{{ route('admin.ropa.index') }}';
+        if (!customUrl) {
+            const params = new URLSearchParams();
+            if (data.nombre) params.append('nombre', data.nombre);
+            if (data.estilos) params.append('estilos', data.estilos);
+            if (data.etiquetas) params.append('etiquetas', data.etiquetas);
+            if (data.colores) params.append('colores', data.colores);
+            url += '?' + params.toString();
+        }
+
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            // Extraer solo la tabla y la paginación del HTML recibido
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const newTable = tempDiv.querySelector('#prendas-table');
+            const newPagination = tempDiv.querySelector('.pagination-container');
+            if (newTable) {
+                document.getElementById('prendas-table').innerHTML = newTable.innerHTML;
+            }
+            if (newPagination) {
+                document.querySelector('.pagination-container').innerHTML = newPagination.innerHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+});
+
     </script>
 </body>
 </html>

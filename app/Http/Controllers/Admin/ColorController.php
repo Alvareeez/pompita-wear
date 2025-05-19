@@ -1,179 +1,162 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Estilo;
-use App\Models\Prenda;
+use App\Models\Color;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class EstiloController extends Controller
+class ColorController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Estilo::query();
-    
+        $query = Color::query();
+
         if ($request->ajax()) {
             if ($request->filled('nombre')) {
                 $query->where('nombre', 'like', '%' . $request->nombre . '%');
             }
-    
-            $estilos = $query->get();
-            return view('admin.partials.tabla-estilos', compact('estilos'));
+            $colores = $query->get();
+            return view('admin.partials.tabla-colores', compact('colores'));
         }
-    
-        $estilos = $query->get();
-        return view('admin.estilos', compact('estilos'));
+
+        $colores = $query->get();
+        return view('admin.colores', compact('colores'));
     }
-    
 
     public function create()
     {
-        return view('Admin.crearestilo');
+        return view('admin.crearcolor');
     }
 
     public function store(Request $request)
     {
         DB::beginTransaction();
-
         try {
             $request->validate([
-                'nombre' => 'required|string|max:255|unique:estilos',
+                'nombre' => 'required|string|max:255|unique:colores',
             ]);
 
-            Estilo::create($request->all());
+            Color::create($request->all());
 
             DB::commit();
-            return redirect()->route('admin.estilos.index')->with('success', 'Estilo creado correctamente.');
+            return redirect()->route('admin.colores.index')->with('success', 'Color creado correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al crear el estilo.']);
+            return back()->withErrors(['error' => 'Ocurrió un error al crear el color.']);
         }
     }
 
     public function edit($id)
     {
-        $estilo = Estilo::findOrFail($id);
-        return view('Admin.editarestilo', compact('estilo'));
+        $color = Color::findOrFail($id);
+        return view('admin.editarcolor', compact('color'));
     }
 
     public function update(Request $request, $id)
     {
         DB::beginTransaction();
-
         try {
             $request->validate([
-                'nombre' => 'required|string|max:255|unique:estilos,nombre,' . $id . ',id_estilo',
+                'nombre' => 'required|string|max:255|unique:colores,nombre,' . $id . ',id_color',
             ]);
 
-            $estilo = Estilo::findOrFail($id);
-            $estilo->update($request->all());
+            $color = Color::findOrFail($id);
+            $color->update($request->all());
 
             DB::commit();
-            return redirect()->route('admin.estilos.index')->with('success', 'Estilo actualizado correctamente.');
+            return redirect()->route('admin.colores.index')->with('success', 'Color actualizado correctamente.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Ocurrió un error al actualizar el estilo.']);
+            return back()->withErrors(['error' => 'Ocurrió un error al actualizar el color.']);
         }
     }
 
     public function destroy($id)
     {
         DB::transaction(function() use ($id) {
-            // 1) Cargar el estilo a eliminar
-            $estilo = Estilo::findOrFail($id);
-    
-            // 2) Limpiar solicitudes de ropa vinculadas a este estilo
-            $solicitudesRopaIds = DB::table('solicitud_estilo')
-                ->where('id_estilo', $id)
+            $color = Color::findOrFail($id);
+
+            // 1) Limpiar solicitudes de ropa vinculadas a este color
+            $solicitudesRopaIds = DB::table('solicitud_color')
+                ->where('id_color', $id)
                 ->pluck('id_solicitud');
-            DB::table('solicitud_estilo')->where('id_estilo', $id)->delete();
+            DB::table('solicitud_color')->where('id_color', $id)->delete();
             if ($solicitudesRopaIds->isNotEmpty()) {
                 DB::table('solicitudes_ropa')->whereIn('id', $solicitudesRopaIds)->delete();
             }
-    
-            // 3) Para cada prenda que usaba este estilo:
-            $prendaIds = DB::table('prenda_estilos')
-                           ->where('id_estilo', $id)
+
+            // 2) Obtener todas las prendas vinculadas a este color
+            $prendaIds = DB::table('prenda_colores')
+                           ->where('id_color', $id)
                            ->pluck('id_prenda');
-    
+
             foreach ($prendaIds as $prendaId) {
-                $prenda     = Prenda::findOrFail($prendaId);
-                $stylesCount = $prenda->estilos()->count();
-    
-                if ($stylesCount > 1) {
-                    // 3.1) Si tiene otros estilos, sólo quitamos el pivote
-                    DB::table('prenda_estilos')
+                // Contar cuántos colores tiene la prenda
+                $coloresCount = DB::table('prenda_colores')
+                                  ->where('id_prenda', $prendaId)
+                                  ->count();
+
+                if ($coloresCount > 1) {
+                    // Si tiene más de un color, solo desvinculamos el color
+                    DB::table('prenda_colores')
                       ->where('id_prenda', $prendaId)
-                      ->where('id_estilo', $id)
+                      ->where('id_color', $id)
                       ->delete();
-    
                 } else {
-                    // 3.2) Si era su único estilo, eliminamos la prenda y TODO lo asociado…
-    
-                    // 3.2.1) Borrar outfits que la contienen:
+                    // Si era su único color, eliminamos TODO lo asociado a la prenda
+
+                    // --- Outfits que la contienen ---
                     $outfitIds = DB::table('outfit_prendas')
                                    ->where('id_prenda', $prendaId)
                                    ->pluck('id_outfit');
                     foreach ($outfitIds as $outfitId) {
-                        // a) Comentarios de outfit + likes de comentarios
+                        // Comentarios de outfit + likes de comentarios
                         $comentOutIds = DB::table('comentarios_outfits')
                                           ->where('id_outfit', $outfitId)
                                           ->pluck('id_comentario');
                         DB::table('likes_comentarios_outfits')->whereIn('id_comentario', $comentOutIds)->delete();
                         DB::table('comentarios_outfits')->where('id_outfit', $outfitId)->delete();
-    
-                        // b) Valoraciones de outfit
+
+                        // Valoraciones, likes y favoritos de outfit
                         DB::table('valoraciones_outfits')->where('id_outfit', $outfitId)->delete();
-    
-                        // c) Likes de outfit
                         DB::table('likes_outfits')->where('id_outfit', $outfitId)->delete();
-    
-                        // d) Favoritos de outfit
                         DB::table('favoritos_outfits')->where('id_outfit', $outfitId)->delete();
-    
-                        // e) Pivots outfit_prendas (por si queda algo)
+
+                        // Desvincular prenda–outfit y eliminar outfit
                         DB::table('outfit_prendas')->where('id_outfit', $outfitId)->delete();
-    
-                        // f) Eliminar el outfit
                         DB::table('outfits')->where('id_outfit', $outfitId)->delete();
                     }
-    
-                    // 3.2.2) Comentarios de prenda + likes
+
+                    // --- Comentarios de prenda + likes ---
                     $comentPrIds = DB::table('comentarios_prendas')
                                      ->where('id_prenda', $prendaId)
                                      ->pluck('id_comentario');
                     DB::table('likes_comentarios_prendas')->whereIn('id_comentario', $comentPrIds)->delete();
                     DB::table('comentarios_prendas')->where('id_prenda', $prendaId)->delete();
-    
-                    // 3.2.3) Valoraciones de prenda
+
+                    // --- Valoraciones, likes y favoritos de prenda ---
                     DB::table('valoraciones_prendas')->where('id_prenda', $prendaId)->delete();
-    
-                    // 3.2.4) Likes de prenda
                     DB::table('likes_prendas')->where('id_prenda', $prendaId)->delete();
-    
-                    // 3.2.5) Favoritos de prenda
                     DB::table('favoritos_prendas')->where('id_prenda', $prendaId)->delete();
-    
-                    // 3.2.6) Colores y etiquetas
+
+                    // --- Desvincular colores, estilos y etiquetas ---
                     DB::table('prenda_colores')->where('id_prenda', $prendaId)->delete();
-                    DB::table('prenda_etiquetas')->where('id_prenda', $prendaId)->delete();
-    
-                    // 3.2.7) Pivote prenda_estilos
                     DB::table('prenda_estilos')->where('id_prenda', $prendaId)->delete();
-    
-                    // 3.2.8) Finalmente, eliminar la prenda
+                    DB::table('prenda_etiquetas')->where('id_prenda', $prendaId)->delete();
+
+                    // --- Finalmente eliminar la prenda ---
                     DB::table('prendas')->where('id_prenda', $prendaId)->delete();
                 }
             }
-    
-            // 4) Eliminar el propio estilo
-            $estilo->delete();
+
+            // 3) Eliminar el propio color
+            $color->delete();
         });
-    
+
         return redirect()
-            ->route('admin.estilos.index')
-            ->with('success', 'Estilo eliminado correctamente. Prendas únicas y sus outfits asociados también borrados.');
+            ->route('admin.colores.index')
+            ->with('success', 'Color eliminado correctamente. Prendas únicas y sus outfits asociados también borrados.');
     }
-                
 }

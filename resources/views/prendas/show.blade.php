@@ -47,14 +47,28 @@
                 <div class="estilos mt-4">
                     <h4>Estilos</h4>
                     <div class="d-flex gap-2 flex-wrap">
-                        @foreach($prenda->estilos as $estilo)
+                    @foreach($prenda->estilos as $estilo)
                         <span class="badge bg-secondary">
-                            {{ $estilo->nombre }}
+                        {{ $estilo->nombre }}
                         </span>
-                        @endforeach
+                    @endforeach
                     </div>
                 </div>
                 @endif
+
+                @if($prenda->etiquetas->count())
+                <div class="etiquetas mt-4">
+                    <h4>Etiquetas</h4>
+                    <div class="d-flex gap-2 flex-wrap">
+                    @foreach($prenda->etiquetas as $etiqueta)
+                        <span class="badge bg-secondary">
+                        {{ $etiqueta->nombre }}
+                        </span>
+                    @endforeach
+                    </div>
+                </div>
+                @endif
+
             </div>
         </div>
         

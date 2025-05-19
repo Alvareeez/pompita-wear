@@ -25,8 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
         favBtn.classList.toggle('favorited', json.favorited);
         // Actualizar contador
         countEl.textContent = json.favorites_count;
+        // Actualizar texto del botón
+        favBtn.innerHTML = (json.favorited ? '⭐ En favoritos' : 'Añadir a favoritos') +
+          ' (<span id="favorites-count">' + json.favorites_count + '</span>)';
       })
       .catch(err => console.error('Error al alternar favorito:', err));
     });
-  });
-  
+});

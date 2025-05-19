@@ -616,14 +616,17 @@ body {
 }
 
 .btn-like {
-    padding: 12px 20px;
-    font-size: 16px;
+    padding: 12px 25px;
+    font-size: 1rem;
     background-color: #F6A894;
     color: white;
     border-radius: 5px;
-    margin-bottom: 25px;
     border: none;
     cursor: pointer;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s;
 }
 
 .btn-like:hover {
@@ -632,6 +635,32 @@ body {
 
 .btn-like.liked {
     background-color: #dc3545;
+}
+
+.btn-favorito {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: #F6A894;
+    color: white;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.btn-favorito:hover {
+    background-color: #fa6843;
+}
+
+.btn-favorito.favorited {
+    background-color: #dc3545;
+}
+
+.btn-favorito.favorited:hover {
+    background-color: #c82333;
 }
 
 

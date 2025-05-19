@@ -22,6 +22,7 @@ class PerfilController extends Controller
         $numeroSeguidos     = $user->siguiendo()->count();
         $outfitsPublicados  = $user->outfits;
         $favorites          = $user->favoritosPrendas;
+        $favOutfits         = $user->outfitsFavoritos()->with('prendas')->get(); // <-- Añadido
         $pendientes         = $user->solicitudesRecibidas()
                                     ->where('status', 'pendiente')
                                     ->with('emisor')
@@ -33,6 +34,7 @@ class PerfilController extends Controller
             'numeroSeguidos',
             'outfitsPublicados',
             'favorites',
+            'favOutfits', // <-- Añadido
             'pendientes'
         ));
     }
@@ -129,12 +131,14 @@ class PerfilController extends Controller
     }
 
     /**
-     * Búsqueda AJAX de usuarios por nombre.
+     * Búsqueda AJAX de usuarios por nombre, excluyendo baneados.
      */
     public function search(Request $request)
     {
         $q = $request->get('query', '');
+
         $users = Usuario::where('nombre', 'LIKE', "%{$q}%")
+                        ->where('estado', '!=', 'baneado')    // <-- filtramos qe no sean = baneado
                         ->take(5)
                         ->get(['id_usuario', 'nombre', 'foto_perfil']);
 
@@ -149,6 +153,7 @@ class PerfilController extends Controller
 
         return response()->json($users);
     }
+
 
     /**
      * Elimina a un usuario de mis seguidores (AJAX).
@@ -180,6 +185,13 @@ class PerfilController extends Controller
     public function showPublicProfile($id)
     {
         $user = Usuario::with('outfits')->findOrFail($id);
+
+        // Si el usuario está baneado, lanzamos un 403 Forbidden
+        if ($user->estado === 'baneado') {
+            abort(403, 'Este usuario ha sido baneado.');
+        }
+
         return view('cliente.perfil_publico', compact('user'));
     }
+
 }
