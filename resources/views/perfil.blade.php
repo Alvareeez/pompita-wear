@@ -302,6 +302,37 @@
           </div>
         @endif
       </div>
+
+      {{-- Outfits favoritos debajo --}}
+      <div class="favorites-slider mt-4">
+        <h4>Outfits favoritos</h4>
+        @if(empty($favOutfits) || $favOutfits->isEmpty())
+          <div class="alert alert-info">No tienes outfits favoritos aún.</div>
+        @else
+          <div class="row">
+            @foreach($favOutfits as $outfit)
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <a href="{{ route('outfit.show', $outfit->id_outfit) }}">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ $outfit->nombre }}</h5>
+                      <div class="d-flex flex-wrap gap-2 justify-content-center">
+                        @foreach($outfit->prendas as $prenda)
+                          <img src="{{ asset('img/prendas/'.$prenda->img_frontal) }}"
+                               alt="{{ $prenda->nombre }}"
+                               style="width: 40px; height: 40px; object-fit: cover; border-radius: 5px;">
+                        @endforeach
+                      </div>
+                      <a href="{{ route('outfit.show', $outfit->id_outfit) }}"
+                         class="btn btn-primary btn-sm mt-2">Ver detalles</a>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            @endforeach
+          </div>
+        @endif
+      </div>
     </div>
 
   </div>
