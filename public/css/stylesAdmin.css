@@ -142,6 +142,10 @@ body {
     .filter-container {
         align-items: flex-start;
     }
+
+    .checkbox-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 por fila en móvil */
+    }
 }
 
 /* Contenedor principal */
@@ -747,8 +751,8 @@ table tr:hover {
 /* Estilo para la cuadrícula de checkboxes */
 .checkbox-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Ajuste automático */
-    gap: 10px; /* Espaciado entre los elementos */
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas por fila */
+    gap: 10px;
     margin-bottom: 15px;
 }
 
@@ -843,7 +847,7 @@ select {
     font-family: 'Ubuntu', sans-serif;
     font-size: 16px;
     color: #333;
-    background-color: #f8f9fa;
+    background-color: #f9f9fa;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px 15px;
@@ -1053,6 +1057,10 @@ select option {
 
     .filter-container {
         align-items: flex-start;
+    }
+
+    .checkbox-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 por fila en móvil */
     }
 }
 
