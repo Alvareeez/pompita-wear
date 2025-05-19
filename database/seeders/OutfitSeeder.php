@@ -14,7 +14,7 @@ class OutfitSeeder extends Seeder
         $outfits = [
             [
                 'id_usuario' => 1, // Asegúrate de que este usuario exista
-                'nombre' => 'El mejor outfit de Admin',
+                'nombre' => 'El mejor',
                 'prendas' => [1, 33, 63, 86], // IDs de las prendas
             ],
             [
