@@ -1,9 +1,18 @@
+@section('css')
+  <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+
+@endsection
+@section('scripts')
+  <script src="{{ asset('js/footer.js') }}"></script>
+
+@endsection
+
 <footer class="footer">
     <div class="container">
         <div class="footer-content">            
             <ul class="footer-links">
-                <li><a href="#">Política de Privacidad</a></li>
-                <li><a href="#">Términos y Condiciones</a></li>
+               <li><a href="#" class="modal-trigger" data-target="privacy-modal">Política de Privacidad</a></li>
+                <li><a href="#" class="modal-trigger" data-target="terms-modal">Términos y Condiciones</a></li>
             </ul>
             <p>&copy; {{ date('Y') }} Pompita Wear. Todos los derechos reservados.</p>
 
@@ -83,25 +92,104 @@
                 <div class="tooltip">Instagram</div>
         </ul>
     </div>
+    <!-- Modales -->
+<div id="privacy-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Política de Privacidad</h2>
+        <div class="modal-body">
+            <p><h3>1. Información que recopilamos</h3>
+Recopilamos información cuando los usuarios se registran en nuestro sitio, realizan compras, se suscriben a un boletín informativo, responden a una encuesta o navegan por el sitio. Esta información puede incluir:
+
+Nombre
+Dirección de correo electrónico
+Información demográfica (como ubicación, edad, intereses)
+Datos de uso del sitio web
+<h3>2. Uso de cookies</h3>
+Utilizamos cookies y tecnologías similares para mejorar la experiencia del usuario, analizar el tráfico del sitio y personalizar contenido. Al utilizar este sitio web, aceptas el uso de cookies conforme a esta política.
+
+ <h3>3. Cómo utilizamos su información</h3>
+La información recopilada puede ser utilizada para:
+
+Personalizar la experiencia del usuario
+Mejorar nuestro sitio web
+Enviar correos electrónicos periódicos
+Procesar transacciones
+ <h3>4. Protección de su información</h3>
+Implementamos diversas medidas de seguridad para proteger la información sensible contra acceso no autorizado, alteración, divulgación o destrucción.
+
+ <h3>5. Divulgación a terceros</h3>
+No vendemos, intercambiamos ni transferimos a terceros su información personal identificable sin su consentimiento expreso, salvo que sea requerido por ley.
+
+<h3>6. Sus derechos </h3>
+Usted tiene derecho a:
+
+Acceder a sus datos personales
+Solicitar su corrección o eliminación
+Oponerse al tratamiento de sus datos
+Retirar su consentimiento en cualquier momento
+Puede ejercer estos derechos enviando un correo electrónico a [info@pompitawear.com ].
+
+ <h3>7. Cambios en esta política</h3>
+Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento. Le recomendamos revisar esta página periódicamente para estar informado sobre posibles cambios.</p>
+        </div>
+    </div>
+</div>
+
+<div id="terms-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Términos y Condiciones</h2>
+        <div class="modal-body">
+            <p><h3>1. Aceptación de los términos</h3>
+Al acceder y utilizar este sitio web, usted acepta cumplir con los presentes Términos y Condiciones. Si no está de acuerdo con alguno de ellos, no debe continuar navegando.
+
+<h3>2. Descripción del servicio</h3>
+Este sitio web ofrece servicios relacionados con la creación de outfits, gestión de prendas de vestir, calendario de uso de ropa, entre otras funcionalidades. Nos reservamos el derecho de modificar o interrumpir temporal o permanentemente el servicio.
+
+<h3>3. Registro de cuenta</h3>
+Para acceder a ciertas funciones, es necesario crear una cuenta. El usuario es responsable de mantener la confidencialidad de su contraseña y de todas las actividades que ocurran bajo su cuenta.
+
+<h3>4. Conducta del usuario</h3>
+El usuario se compromete a:
+
+No usar el sitio con fines ilegales o prohibidos.
+No interferir con el funcionamiento del sitio.
+No publicar contenido ofensivo, falso o engañoso.
+<h3>5. Contenido generado por los usuarios</h3>
+Los usuarios pueden publicar contenido (fotos, comentarios, outfits, etc.). Al hacerlo, otorgan una licencia no exclusiva, mundial y gratuita para mostrar ese contenido en el sitio.
+
+<h3>6. Propiedad intelectual</h3>
+Todo el contenido del sitio (texto, imágenes, diseño, logos, etc.) es propiedad de [Pompita Wear] o de sus proveedores y está protegido por leyes de propiedad intelectual.
+
+<h3>7. Limitación de responsabilidad</h3>
+No nos hacemos responsables por daños directos, indirectos, incidentales, especiales o consecuentes derivados del uso o imposibilidad de uso del sitio.
+
+<h3>8. Ley aplicable y jurisdicción</h3>
+Estos términos se rigen e interpretan de acuerdo con las leyes de [España]. Cualquier disputa será resuelta en los tribunales competentes de dicha jurisdicción.</p>
+        </div>
+    </div>
+</div>
 </footer>
 
 <style>
-    li{
+    li {
         list-style: none;
     }
+    
     .footer {
         background-color: #002f6c;
         color: white;
         padding: 20px 0;
         margin-top: 30px;
     }
-
+    
     .footer .container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 15px;
     }
-
+    
     .footer-content {
         display: flex;
         justify-content: space-between;
@@ -109,12 +197,12 @@
         flex-wrap: wrap;
         gap: 15px;
     }
-
+    
     .footer-content p {
         margin: 0;
         font-size: 14px;
     }
-
+    
     .footer-links {
         list-style: none;
         padding: 0;
@@ -122,33 +210,33 @@
         display: flex;
         gap: 15px;
     }
-
+    
     .footer-links li {
         display: inline;
     }
-
+    
     .footer-links a {
         color: white;
         text-decoration: none;
         font-size: 14px;
         transition: color 0.3s ease;
     }
-
+    
     .footer-links a:hover {
         color: #ffdd57;
     }
-
+    
     .social-icons {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 15px;
     }
-
+    
     .icon-content {
         position: relative;
     }
-
+    
     .icon-content .tooltip {
         position: absolute;
         top: -30px;
@@ -162,13 +250,13 @@
         font-size: 14px;
         transition: all 0.3s ease;
     }
-
+    
     .icon-content:hover .tooltip {
         opacity: 1;
         visibility: visible;
         top: -50px;
     }
-
+    
     .icon-content a {
         position: relative;
         overflow: hidden;
@@ -182,22 +270,22 @@
         background-color: #fff;
         transition: all 0.3s ease-in-out;
     }
-
+    
     .icon-content a:hover {
         box-shadow: 3px 2px 45px 0px rgb(0 0 0 / 12%);
     }
-
+    
     .icon-content a svg {
         position: relative;
         z-index: 1;
         width: 30px;
         height: 30px;
     }
-
+    
     .icon-content a:hover {
         color: white;
     }
-
+    
     .icon-content a .filled {
         position: absolute;
         top: auto;
@@ -208,31 +296,98 @@
         background-color: #000;
         transition: all 0.3s ease-in-out;
     }
-
+    
     .icon-content a:hover .filled {
         height: 100%;
     }
-
+    
     .icon-content a[data-social="whatsapp"] .filled,
-    .icon-content a[data-social="whatsapp"] ~ .tooltip {
+    .icon-content a[data-social="whatsapp"]~.tooltip {
         background-color: #128c7e;
     }
-
+    
     .icon-content a[data-social="facebook"] .filled,
-    .icon-content a[data-social="facebook"] ~ .tooltip {
+    .icon-content a[data-social="facebook"]~.tooltip {
         background-color: #3b5998;
     }
-
+    
     .icon-content a[data-social="instagram"] .filled,
-    .icon-content a[data-social="instagram"] ~ .tooltip {
-        background: linear-gradient(
-            45deg,
-            #405de6,
-            #5b51db,
-            #b33ab4,
-            #c135b4,
-            #e1306c,
-            #fd1f1f
-        );
+    .icon-content a[data-social="instagram"]~.tooltip {
+        background: linear-gradient( 45deg, #405de6, #5b51db, #b33ab4, #c135b4, #e1306c, #fd1f1f);
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+    
+    .modal-content {
+        background-color: #fefefe;
+        margin: 2% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 800px;
+        border-radius: 8px;
+        color: #333;
+    }
+    
+    .close-modal {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .close-modal:hover,
+    .close-modal:focus {
+        color: black;
+        text-decoration: none;
+    }
+    
+    .modal-body {
+        margin-top: 0px;
+        padding: 10px;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    .modal h2 {
+        color: #002f6c;
+        margin-bottom: 20px;
     }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Abrir modal
+    document.querySelectorAll('.modal-trigger').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = this.getAttribute('data-target');
+            document.getElementById(target).style.display = 'block';
+        });
+    });
+
+    // Cerrar modal
+    document.querySelectorAll('.close-modal').forEach(span => {
+        span.addEventListener('click', function() {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+
+    // Cerrar al hacer clic fuera del contenido
+    window.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            e.target.style.display = 'none';
+        }
+    });
+});
+</script>
