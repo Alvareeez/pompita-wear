@@ -7,28 +7,49 @@ use Illuminate\Support\Facades\DB;
 
 class SolicitudesSeeder extends Seeder
 {
-    /**
-     * Ejecutar la siembra de solicitudes de seguimiento.
-     *
-     * @return void
-     */
     public function run()
     {
-        DB::table('solicitudes')->insert([
-            [
-                'id_emisor'   => 2,              // Cliente Ejemplo
-                'id_receptor' => 3,              // Cliente Secundario
-                'status'      => 'pendiente',    // solicitud en espera
+        // Obtén los IDs reales de la tabla usuarios
+        $usuarios = DB::table('usuarios')->pluck('id_usuario')->toArray();
+        $solicitudes = [];
+
+        foreach ($usuarios as $emisor) {
+            // Selecciona al menos dos receptores distintos al emisor
+            $receptores = collect($usuarios)->where('id_usuario', '!=', $emisor)->shuffle()->take(10)->values();
+
+            // Solicitud pendiente
+            $solicitudes[] = [
+                'id_emisor'   => $emisor,
+                'id_receptor' => $receptores[0],
+                'status'      => 'pendiente',
                 'created_at'  => now(),
                 'updated_at'  => now(),
-            ],
-            [
-                'id_emisor'   => 3,              // Cliente Secundario
-                'id_receptor' => 2,              // Cliente Ejemplo
-                'status'      => 'aceptada',     // ya se sigue mutuamente
+            ];
+            // Solicitud aceptada
+            $solicitudes[] = [
+                'id_emisor'   => $emisor,
+                'id_receptor' => $receptores[1],
+                'status'      => 'aceptada',
                 'created_at'  => now(),
                 'updated_at'  => now(),
-            ],
-        ]);
+            ];
+            // Opcional: más solicitudes pendientes y aceptadas
+            $solicitudes[] = [
+                'id_emisor'   => $emisor,
+                'id_receptor' => $receptores[2],
+                'status'      => 'pendiente',
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ];
+            $solicitudes[] = [
+                'id_emisor'   => $emisor,
+                'id_receptor' => $receptores[3],
+                'status'      => 'aceptada',
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ];
+        }
+
+        DB::table('solicitudes')->insert($solicitudes);
     }
 }
