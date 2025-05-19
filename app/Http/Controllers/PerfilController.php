@@ -129,12 +129,14 @@ class PerfilController extends Controller
     }
 
     /**
-     * Búsqueda AJAX de usuarios por nombre.
+     * Búsqueda AJAX de usuarios por nombre, excluyendo baneados.
      */
     public function search(Request $request)
     {
         $q = $request->get('query', '');
+
         $users = Usuario::where('nombre', 'LIKE', "%{$q}%")
+                        ->where('estado', '!=', 'baneado')    // <-- filtramos qe no sean = baneado
                         ->take(5)
                         ->get(['id_usuario', 'nombre', 'foto_perfil']);
 
@@ -149,6 +151,7 @@ class PerfilController extends Controller
 
         return response()->json($users);
     }
+
 
     /**
      * Elimina a un usuario de mis seguidores (AJAX).

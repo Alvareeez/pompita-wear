@@ -304,7 +304,6 @@ body {
     z-index: 1;
 }
 
-
 .header {
     background-color: #002D68 !important;
     position: fixed !important;
@@ -315,8 +314,10 @@ body {
 .notification-panel {
     position: absolute;
     top: 50px;
-    right: 100px; /* Mueve el panel más a la izquierda */
-    width: 320px; /* Aumenta el ancho si es necesario */
+    right: 100px;
+    /* Mueve el panel más a la izquierda */
+    width: 320px;
+    /* Aumenta el ancho si es necesario */
     background-color: #0D1117;
     color: white;
     border-radius: 5px;
@@ -336,7 +337,8 @@ body {
     align-items: center;
     padding: 5px 0;
     border-bottom: 1px solid #21262C;
-    word-wrap: break-word; /* Permitir que el texto se ajuste */
+    word-wrap: break-word;
+    /* Permitir que el texto se ajuste */
 }
 
 .notification-panel ul li:last-child {
@@ -351,7 +353,8 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-size: 12px;
-    white-space: nowrap; /* Evitar que el texto se corte */
+    white-space: nowrap;
+    /* Evitar que el texto se corte */
 }
 
 .mark-read-button:hover {
@@ -361,6 +364,7 @@ body {
 .profile-large {
     right: 70px !important;
 }
+
 
 /* Sección de donaciones */
 
@@ -422,7 +426,9 @@ body {
     background-color: #0056b3;
 }
 
+
 /* Sección del clima mejorada */
+
 .weather-section {
     margin-top: 30px;
     padding: 20px;
@@ -551,7 +557,8 @@ body {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    min-width: 100px; /* Asegura que cada día tenga un ancho mínimo */
+    min-width: 100px;
+    /* Asegura que cada día tenga un ancho mínimo */
 }
 
 .forecast div:hover {
@@ -596,7 +603,9 @@ body {
     min-width: 80px;
 }
 
+
 /* Estilos del modal */
+
 .modal {
     display: none;
     position: fixed;
@@ -655,6 +664,100 @@ body {
 .details-button:hover {
     background-color: #0056b3;
 }
+
+
+/* Estilos para el banner de cookies */
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #002D68;
+    /* Coincide con el color del header */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    z-index: 1100;
+    /* Mayor que otros elementos */
+    box-shadow: 0 -4px 15px rgba(0, 45, 104, 0.3);
+    font-family: 'Ubuntu', sans-serif;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cookie-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.cookie-banner p {
+    margin: 0;
+    flex: 1;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.cookie-banner a {
+    color: #6dd5ed;
+    text-decoration: underline;
+}
+
+.cookie-banner a:hover {
+    color: #ffffff;
+}
+
+.cookie-buttons {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.cookie-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cookie-button.accept {
+    background-color: #28a745;
+    /* Verde similar al de precios */
+    color: white;
+}
+
+.cookie-button.accept:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cookie-button.reject {
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cookie-button.reject:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.hidden {
+    display: none !important;
+}
+
 
 /* Responsividad */
 

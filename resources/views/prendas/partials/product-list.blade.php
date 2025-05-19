@@ -16,6 +16,6 @@
     </div>
 
     <div class="pagination" id="pagination-links">
-        {{ $prendas->links() }}
+         {{ $prendas->onEachSide(1)->links() }}
     </div>
 </div>
