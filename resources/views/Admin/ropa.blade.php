@@ -106,66 +106,67 @@
         @endif
 
         @if (!request()->routeIs('admin.solicitudes.index'))
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Descripción</th>
-                            <th>Etiquetas</th>
-                            <th>Colores</th>
-                            <th>Estilos</th>
-                            <th>Imágenes</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="prendas-table">
-                        @foreach ($prendas as $prenda)
+            <div id="tabla-prendas-contenedor">
+                <div class="table-container">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>{{ $prenda->id_prenda }}</td>
-                                <td>{{ $prenda->nombre }}</td>
-                                <td>{{ $prenda->tipo->tipo }}</td>
-                                <td>{{ $prenda->descripcion }}</td>
-                                <td>
-                                    @foreach ($prenda->etiquetas as $etiqueta)
-                                        <span class="badge">{{ $etiqueta->nombre }}</span>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($prenda->colores as $color)
-                                        <span class="badge" style="background-color: {{ $color->hex }}; color: #fff;">{{ $color->nombre }}</span>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    @foreach ($prenda->estilos as $estilo)
-                                        <span class="badge">{{ $estilo->nombre }}</span>
-                                    @endforeach
-                                </td>
-                                <td>
-                                    <div style="display: flex; gap: 10px;">
-                                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
-                                        <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Trasera de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
-                                    <a class="delete-btn" onclick="confirmDelete({{ $prenda->id_prenda }})">🗑️</a>
-                                    <form id="delete-form-{{ $prenda->id_prenda }}" action="{{ route('admin.ropa.destroy', $prenda->id_prenda) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </td>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Etiquetas</th>
+                                <th>Colores</th>
+                                <th>Estilos</th>
+                                <th>Imágenes</th>
+                                <th>Acciones</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody id="prendas-table">
+                            @foreach ($prendas as $prenda)
+                                <tr>
+                                    <td>{{ $prenda->id_prenda }}</td>
+                                    <td>{{ $prenda->nombre }}</td>
+                                    <td>{{ $prenda->tipo->tipo }}</td>
+                                    <td>{{ $prenda->descripcion }}</td>
+                                    <td>
+                                        @foreach ($prenda->etiquetas as $etiqueta)
+                                            <span class="badge">{{ $etiqueta->nombre }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($prenda->colores as $color)
+                                            <span class="badge" style="background-color: {{ $color->hex }}; color: #fff;">{{ $color->nombre }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($prenda->estilos as $estilo)
+                                            <span class="badge">{{ $estilo->nombre }}</span>
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        <div style="display: flex; gap: 10px;">
+                                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="Frontal de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
+                                            <img src="{{ asset('img/prendas/' . $prenda->img_trasera) }}" alt="Trasera de {{ $prenda->nombre }}" style="width: 80px; height: auto;">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.ropa.edit', $prenda->id_prenda) }}" class="edit-btn">✏️</a>
+                                        <a class="delete-btn" onclick="confirmDelete({{ $prenda->id_prenda }})">🗑️</a>
+                                        <form id="delete-form-{{ $prenda->id_prenda }}" action="{{ route('admin.ropa.destroy', $prenda->id_prenda) }}" method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
-            <!-- Paginación -->
-            <div class="pagination-container">
-                {{ $prendas->links('pagination.custom') }}
+                <div class="pagination-container">
+                    {{ $prendas->appends(request()->except('page'))->links('pagination.custom') }}
+                </div>
             </div>
 <br>
             <!-- Formulario para descarga en PDF -->
@@ -310,6 +311,47 @@
                     }
                 });
             });
+
+            // Función para manejar la paginación con filtros
+            $(document).on('click', '.pagination-container .pagination a', function (e) {
+    e.preventDefault();
+    let url = $(this).attr('href');
+    let nombre = $('#filtro-nombre').val();
+    let estilos = $('#filtro-estilos').val();
+    let etiquetas = $('#filtro-etiquetas').val();
+    let colores = $('#filtro-colores').val();
+
+    // Construir la URL con los filtros actuales
+    let params = [];
+    if (nombre) params.push('nombre=' + encodeURIComponent(nombre));
+    if (estilos) params.push('estilos=' + encodeURIComponent(estilos));
+    if (etiquetas) params.push('etiquetas=' + encodeURIComponent(etiquetas));
+    if (colores) params.push('colores=' + encodeURIComponent(colores));
+
+    if (params.length > 0) {
+        url = url.split('?')[0] + '?' + params.join('&') + '&page=' + (getUrlParameter('page', url) || 1);
+    }
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (response) {
+            $('#prendas-table').html($(response).find('#prendas-table').html());
+            $('.pagination-container').html($(response).find('.pagination-container').html());
+        },
+        error: function (error) {
+            console.error('Error:', error);
+        }
+    });
+});
+
+// Helper para obtener parámetros de la URL
+function getUrlParameter(name, url) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    let results = regex.exec(url);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+}
 
             const links = document.querySelectorAll(".tabs a, .logout-form button");
             const spinner = document.getElementById("loading-spinner");
