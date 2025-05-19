@@ -158,7 +158,7 @@ Route::middleware(['auth'])->group(
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::put('/perfil/update', [PerfilController::class, 'update'])->name('perfil.update');
         Route::post('/perfil/eliminar-foto', [PerfilController::class, 'deleteProfilePicture'])->name('perfil.delete-picture');
-
+        Route::post('/perfil/delete-profile-picture', [PerfilController::class, 'deleteProfilePicture'])->name('perfil.deleteProfilePicture');
 
         // ENTRAR A PERFIL DE OTRO USUARIO
         Route::get('/perfil/publico/{id}', [PerfilController::class, 'showPublicProfile'])->name('perfil.publico');
@@ -173,15 +173,15 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitudes/rechazar/{id}', [PerfilController::class, 'rechazar'])->name('solicitudes.rechazar');
 
         // DESDE DENTRO DE PERFIL DEJAR DE SEGUIR O QUITAR SEGUIDOR
-        
+
         // Quitar a un seguidor
         Route::delete('perfil/follower/{id}', [PerfilController::class, 'removeFollower'])->name('perfil.removeFollower');
-        
+
         // Dejar de seguir
         Route::delete('/perfil/unfollow/{id}', [PerfilController::class, 'unfollow'])->name('perfil.unfollow');
 
         // CHAT ENTRE SEGUIDOS UNICAMENTE
-        
+
         // Bandeja de chats (sin conversación abierta)
         Route::get('/chat', [ChatController::class, 'inbox'])->name('chat.inbox');
 
@@ -191,7 +191,7 @@ Route::middleware(['auth'])->group(
         Route::post('chat/{otroUsuario}/mensajes', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
 
         // RUTAS PARA SOLICITUDES DE ROPA
-        
+
         // Mostrar formulario para crear una solicitud
         Route::get('/solicitar-ropa', [SolicitudRopaController::class, 'create'])->name('solicitudes.create');
 
