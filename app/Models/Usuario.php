@@ -154,5 +154,9 @@ class Usuario extends Authenticatable
         ->withTimestamps();
     }
 
+    public function outfitsFavoritos()
+    {
+        return $this->belongsToMany(\App\Models\Outfit::class, 'favoritos_outfits', 'id_usuario', 'id_outfit');
+    }
 
 }

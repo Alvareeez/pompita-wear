@@ -22,6 +22,7 @@ class PerfilController extends Controller
         $numeroSeguidos     = $user->siguiendo()->count();
         $outfitsPublicados  = $user->outfits;
         $favorites          = $user->favoritosPrendas;
+        $favOutfits         = $user->outfitsFavoritos()->with('prendas')->get(); // <-- Añadido
         $pendientes         = $user->solicitudesRecibidas()
                                     ->where('status', 'pendiente')
                                     ->with('emisor')
@@ -33,6 +34,7 @@ class PerfilController extends Controller
             'numeroSeguidos',
             'outfitsPublicados',
             'favorites',
+            'favOutfits', // <-- Añadido
             'pendientes'
         ));
     }
