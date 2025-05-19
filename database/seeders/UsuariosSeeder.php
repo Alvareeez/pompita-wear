@@ -50,7 +50,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'AdrianV',
                 'email'          => 'adrian@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -61,7 +61,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Orii',
                 'email'          => 'oriol@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -72,7 +72,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Eric Alca',
                 'email'          => 'eric@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -83,7 +83,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Daniel B',
                 'email'          => 'daniel@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -94,7 +94,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Christiann',
                 'email'          => 'christian@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -105,7 +105,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'JuanCa',
                 'email'          => 'juanCarlos@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -116,7 +116,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Alexito',
                 'email'          => 'alex@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -127,7 +127,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'David Álvarez',
                 'email'          => 'david@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -138,7 +138,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Marc DobleM',
                 'email'          => 'marc@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -149,7 +149,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Sergiii',
                 'email'          => 'sergi@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -160,7 +160,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'David H',
                 'email'          => 'hompanera@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -171,7 +171,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Fatima',
                 'email'          => 'fatima@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -182,7 +182,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Alberto De Santos',
                 'email'          => 'alberto@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
@@ -193,7 +193,7 @@ class UsuariosSeeder extends Seeder
                 'updated_at'     => now(),
             ],
             [
-                'nombre'         => 'Cliente Secundario',
+                'nombre'         => 'Agnes User',
                 'email'          => 'agnes@pompitawear.com',
                 'password'       => Hash::make('qweQWE123'),
                 'id_rol'         => 2,
