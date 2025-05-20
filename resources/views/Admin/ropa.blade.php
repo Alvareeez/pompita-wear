@@ -264,115 +264,83 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Función para limpiar filtros
-            $('#clear-filters-btn').on('click', function () {
-                $('#filtro-nombre').val('');
-                $('#filtro-estilos').val('');
-                $('#filtro-etiquetas').val('');
-                $('#filtro-colores').val('');
+    // Limpiar filtros
+    document.getElementById('clear-filters-btn').addEventListener('click', function () {
+        document.getElementById('filtro-nombre').value = '';
+        document.getElementById('filtro-estilos').value = '';
+        document.getElementById('filtro-etiquetas').value = '';
+        document.getElementById('filtro-colores').value = '';
 
-                // Realizar la solicitud AJAX sin filtros
-                $.ajax({
-                    url: '{{ route('admin.ropa.index') }}',
-                    method: 'GET',
-                    data: {},
-                    success: function (response) {
-                        $('#prendas-table').html($(response).find('#prendas-table').html());
-                        $('.pagination-container').html($(response).find('.pagination-container').html());
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            });
+        // Realizar la solicitud Fetch sin filtros
+        fetchPrendas({});
+    });
 
-            // Función para aplicar filtros automáticamente al cambiar los valores
-            $('#filtro-nombre, #filtro-estilos, #filtro-etiquetas, #filtro-colores').on('input', function () {
-                const nombre = $('#filtro-nombre').val();
-                const estilos = $('#filtro-estilos').val();
-                const etiquetas = $('#filtro-etiquetas').val();
-                const colores = $('#filtro-colores').val();
+    // Aplicar filtros automáticamente al cambiar los valores
+    ['filtro-nombre', 'filtro-estilos', 'filtro-etiquetas', 'filtro-colores'].forEach(id => {
+        document.getElementById(id).addEventListener('input', function () {
+            const nombre = document.getElementById('filtro-nombre').value;
+            const estilos = document.getElementById('filtro-estilos').value;
+            const etiquetas = document.getElementById('filtro-etiquetas').value;
+            const colores = document.getElementById('filtro-colores').value;
+            fetchPrendas({ nombre, estilos, etiquetas, colores });
+        });
+    });
 
-                $.ajax({
-                    url: '{{ route('admin.ropa.index') }}',
-                    method: 'GET',
-                    data: {
-                        nombre: nombre,
-                        estilos: estilos,
-                        etiquetas: etiquetas,
-                        colores: colores,
-                    },
-                    success: function (response) {
-                        $('#prendas-table').html($(response).find('#prendas-table').html());
-                        $('.pagination-container').html($(response).find('.pagination-container').html());
-                    },
-                    error: function (error) {
-                        console.error('Error:', error);
-                    }
-                });
-            });
+    // Paginación con Fetch
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.pagination-container .pagination a')) {
+            e.preventDefault();
+            const link = e.target.closest('a');
+            const url = new URL(link.href);
+            const nombre = document.getElementById('filtro-nombre').value;
+            const estilos = document.getElementById('filtro-estilos').value;
+            const etiquetas = document.getElementById('filtro-etiquetas').value;
+            const colores = document.getElementById('filtro-colores').value;
 
-            // Función para manejar la paginación con filtros
-            $(document).on('click', '.pagination-container .pagination a', function (e) {
-    e.preventDefault();
-    let url = $(this).attr('href');
-    let nombre = $('#filtro-nombre').val();
-    let estilos = $('#filtro-estilos').val();
-    let etiquetas = $('#filtro-etiquetas').val();
-    let colores = $('#filtro-colores').val();
+            if (nombre) url.searchParams.set('nombre', nombre);
+            if (estilos) url.searchParams.set('estilos', estilos);
+            if (etiquetas) url.searchParams.set('etiquetas', etiquetas);
+            if (colores) url.searchParams.set('colores', colores);
 
-    // Construir la URL con los filtros actuales
-    let params = [];
-    if (nombre) params.push('nombre=' + encodeURIComponent(nombre));
-    if (estilos) params.push('estilos=' + encodeURIComponent(estilos));
-    if (etiquetas) params.push('etiquetas=' + encodeURIComponent(etiquetas));
-    if (colores) params.push('colores=' + encodeURIComponent(colores));
-
-    if (params.length > 0) {
-        url = url.split('?')[0] + '?' + params.join('&') + '&page=' + (getUrlParameter('page', url) || 1);
-    }
-
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function (response) {
-            $('#prendas-table').html($(response).find('#prendas-table').html());
-            $('.pagination-container').html($(response).find('.pagination-container').html());
-        },
-        error: function (error) {
-            console.error('Error:', error);
+            fetchPrendas({}, url.toString());
         }
     });
-});
 
-// Helper para obtener parámetros de la URL
-function getUrlParameter(name, url) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    let results = regex.exec(url);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
+    function fetchPrendas(data = {}, customUrl = null) {
+        let url = customUrl || '{{ route('admin.ropa.index') }}';
+        if (!customUrl) {
+            const params = new URLSearchParams();
+            if (data.nombre) params.append('nombre', data.nombre);
+            if (data.estilos) params.append('estilos', data.estilos);
+            if (data.etiquetas) params.append('etiquetas', data.etiquetas);
+            if (data.colores) params.append('colores', data.colores);
+            url += '?' + params.toString();
+        }
 
-            const links = document.querySelectorAll(".tabs a, .logout-form button");
-            const spinner = document.getElementById("loading-spinner");
-
-            links.forEach(link => {
-                link.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    spinner.style.display = "flex";
-
-                    const href = link.tagName === "A" ? link.href : link.closest("form").action;
-
-                    setTimeout(() => {
-                        if (link.tagName === "A") {
-                            window.location.href = href;
-                        } else {
-                            link.closest("form").submit();
-                        }
-                    }, 1000); 
-                });
-            });
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            // Extraer solo la tabla y la paginación del HTML recibido
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            const newTable = tempDiv.querySelector('#prendas-table');
+            const newPagination = tempDiv.querySelector('.pagination-container');
+            if (newTable) {
+                document.getElementById('prendas-table').innerHTML = newTable.innerHTML;
+            }
+            if (newPagination) {
+                document.querySelector('.pagination-container').innerHTML = newPagination.innerHTML;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+    }
+});
 
     </script>
 </body>

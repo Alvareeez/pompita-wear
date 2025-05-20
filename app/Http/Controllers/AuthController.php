@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -17,8 +18,8 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:usuarios',
             'password' => 'required|string|min:8|confirmed',
         ]);
-    
-        Usuario::create([
+
+        $usuario = Usuario::create([
             'nombre'     => $request->nombre,
             'email'      => $request->email,
             'password'   => Hash::make($request->password),
@@ -26,11 +27,13 @@ class AuthController extends Controller
             'estado'     => 'activo',    // estado activo por defecto
             'is_private' => true,        // cuenta privada por defecto
         ]);
-    
+
+        Mail::to($usuario->email)->send(new \App\Mail\BienvenidaMail($usuario));
+
         return redirect('/login')
-               ->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
+            ->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
     }
-    
+
 
     // Login de usuario
     public function login(Request $request)
@@ -88,4 +91,3 @@ class AuthController extends Controller
         }
     }
 }
-
