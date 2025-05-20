@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class AuthController extends Controller
 {
@@ -28,7 +29,9 @@ class AuthController extends Controller
             'is_private' => true,        // cuenta privada por defecto
         ]);
 
-        Mail::to($usuario->email)->send(new \App\Mail\BienvenidaMail($usuario));
+        // Enviar el correo de bienvenida
+        Mail::to($usuario->email)
+        ->send(new WelcomeMail($usuario));
 
         return redirect('/login')
             ->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
