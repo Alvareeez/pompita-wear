@@ -16,9 +16,6 @@ body {
 
 .password-toggle-container {
     position: relative;
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px; /* Espacio entre el campo y el mensaje de error */
 }
 
 .password-toggle-container input {
@@ -80,6 +77,12 @@ body {
     width: 400px;
     max-width: 100%;
 }
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+    list-style: none; /* por si acaso algún estilo de lista */
+  }
 
 .title-container {
     text-align: center;
