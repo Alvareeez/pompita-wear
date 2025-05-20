@@ -163,6 +163,28 @@ body {
     /* Permite que el texto ocupe el espacio restante */
 }
 
+.prenda-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.prenda-stack img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform .2s;
+}
+
+.prenda-stack img:hover {
+    transform: scale(1.2);
+}
+
 
 /* Estilo de los botones de Estilos */
 

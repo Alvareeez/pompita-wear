@@ -17,12 +17,13 @@ class DetailsOutfitsController extends Controller
     public function show($id)
     {
         $outfit = Outfit::with([
-                'prendas.tipo',
-                'usuario',
-                'comentarios.usuario',
-                'valoraciones.usuario'
-            ])
-            ->findOrFail($id);
+            'prendas' => function(){},
+            'prendas.tipo',
+            'usuario',
+            'comentarios.usuario',
+            'valoraciones.usuario'
+        ])
+        ->findOrFail($id);
 
         $precioTotal       = $outfit->prendas->sum('precio');
         $puntuacionPromedio = $outfit->puntuacionPromedio();

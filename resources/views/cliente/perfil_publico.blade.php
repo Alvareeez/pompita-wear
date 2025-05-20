@@ -16,6 +16,7 @@
 @endsection
 
 @section('scripts')
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   @parent
   <script src="{{ asset('js/perfilUsuariosCarousel.js') }}"></script>
   <script src="{{ asset('js/solicitudesAJAX.js') }}"></script>
@@ -70,22 +71,6 @@
 
   {{-- Donde insertaremos el botón “Chatear” desde JS --}}
   <div id="chat-btn-container" class="mt-2"></div>
-
-  {{-- Modal para ver la foto ampliada --}}
-  <div class="modal fade" id="perfilModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content bg-transparent border-0">
-        <div class="modal-body text-center position-relative p-0">
-          <button type="button"
-                  class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
-                  data-bs-dismiss="modal"></button>
-          <img src="{{ $user->foto_perfil ? asset($user->foto_perfil) : asset('img/default-profile.png') }}"
-               class="img-fluid"
-               style="max-width:80%; object-fit:contain; border-radius:8px;">
-        </div>
-      </div>
-    </div>
-  </div>
 
   {{-- Outfits o aviso de privado --}}
   <div id="outfits-section">
