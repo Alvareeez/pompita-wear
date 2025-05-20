@@ -1,5 +1,7 @@
 body {
     font-family: 'Ubuntu', sans-serif;
+    margin: 0%;
+    padding: 0%;
 }
 
 .profile-picture-container {
@@ -523,4 +525,41 @@ body {
     height: auto;
     border-bottom: 2px solid #ddd;
     object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .carousel2 {
+        height: 300px;
+        margin-top: 30px;
+    }
+    .carousel__item {
+        width: 130px;
+        height: 260px;
+        left: 22%;
+    }
+    .carousel-control {
+        width: 40px;
+        height: 40px;
+    }
+    .carousel-control.prev {
+        left: 5px;
+    }
+    .carousel-control.next {
+        right: 45px;
+    }
+    .outfit-card {
+        width: 100px;
+        height: 230px;
+        padding: 5px;
+    }
+    .profile-name {
+        font-size: 12px;
+    }
+    .outfit-card .prenda-column img {
+        width: 37px;
+        height: 37px;
+    }
+    .perfil-p {
+        margin-top: 70px;
+    }
 }
