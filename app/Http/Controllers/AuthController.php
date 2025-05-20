@@ -28,8 +28,6 @@ class AuthController extends Controller
             'is_private' => true,        // cuenta privada por defecto
         ]);
 
-        Mail::to($usuario->email)->send(new \App\Mail\BienvenidaMail($usuario));
-
         return redirect('/login')
             ->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
     }
