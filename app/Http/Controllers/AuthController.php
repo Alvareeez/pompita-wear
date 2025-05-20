@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         // 3) Redirigimos al login con mensaje de éxito
         return redirect('/login')
-            ->with('success', 'Usuario registrado correctamente. Por favor, revisa tu correo y luego inicia sesión.');
+            ->with('success', 'Usuario registrado correctamente.');
     }
 
 
