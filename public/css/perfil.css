@@ -524,3 +524,57 @@ body {
     border-bottom: 2px solid #ddd;
     object-fit: cover;
 }
+
+/* Ajustes para móvil */
+@media (max-width: 767.98px) {
+
+    /* Ajustes para las tarjetas en móvil */
+    .outfit-link {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    .outfit-card {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    /* Ajustes para las prendas favoritas */
+    .col-md-4 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* Mejorar el espaciado en móvil */
+    .container-fluid {
+        padding: 10px !important;
+    }
+
+    /* Asegurar que los contenedores de outfits no tengan demasiado espacio */
+    .outfits-container {
+        gap: 15px !important;
+    }
+
+    /* Ajustar el tamaño de la foto de perfil en móvil */
+    .profile-picture-container {
+        width: 120px !important;
+        height: 120px !important;
+    }
+
+    /* Estilos para los contadores de seguidores/seguidos en móvil */
+    .d-md-none .d-flex.justify-content-around {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .d-md-none h5 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .d-md-none strong {
+        font-size: 1.3rem;
+    }
+}
