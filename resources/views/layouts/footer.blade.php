@@ -181,12 +181,8 @@ Estos términos se rigen e interpretan de acuerdo con las leyes de [España]. Cu
         background-color: #002f6c;
         color: white;
         padding: 50px 0 30px 0; /* MÁS espacio arriba y abajo */
-        width: 100vw;
         margin: 0;
         position: relative;
-        left: 50%;
-        right: 50%;
-        transform: translateX(-50%);
         box-sizing: border-box;
         min-height: 220px; /* Asegura altura mínima */
     }
