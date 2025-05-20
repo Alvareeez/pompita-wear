@@ -3,7 +3,6 @@
 
     <div class="carousel-container mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="section-title">Prendas de {{ $parte }}</div>
             <div>
                 @if(request("color_$parteKey"))
                     <span class="badge bg-info">Color</span>

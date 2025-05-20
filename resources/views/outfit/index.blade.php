@@ -98,7 +98,6 @@
                 id="nombre_outfit"
                 class="form-control"
                 placeholder="Introduce un nombre para tu outfit"
-                required
             >
         </div>
 
