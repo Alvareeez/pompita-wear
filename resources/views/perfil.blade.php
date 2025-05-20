@@ -135,81 +135,107 @@
                 @endif
 
                 <div class="d-flex justify-content-around text-center mb-4">
-                    <div>
-                        <h5>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#followersModal"
-                                class="text-decoration-none text-dark">
-                                Seguidores
-                            </a>
-                        </h5>
-                        <p><strong>{{ $numeroSeguidores }}</strong></p>
-                    </div>
-                    <div>
-                        <h5>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal"
-                                class="text-decoration-none text-dark">
-                                Seguidos
-                            </a>
-                        </h5>
-                        <p><strong>{{ $numeroSeguidos }}</strong></p>
-                    </div>
-                </div>
+                  <div>
+                      <h5>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#followersModal"
+                            class="text-decoration-none text-dark">
+                              Seguidores
+                          </a>
+                      </h5>
+                      <p>
+                          <strong id="count-followers">{{ $numeroSeguidores }}</strong>
+                      </p>
+                  </div>
+                  <div>
+                      <h5>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#followingModal"
+                            class="text-decoration-none text-dark">
+                              Seguidos
+                          </a>
+                      </h5>
+                      <p>
+                          <strong id="count-following">{{ $numeroSeguidos }}</strong>
+                      </p>
+                  </div>
+              </div>
+
 
                 {{-- Modal Seguidores --}}
                 <div class="modal fade" id="followersModal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Seguidores de {{ $user->nombre }}</h5>
-                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                  <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Seguidores de {{ $user->nombre }}</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div class="modal-body">
+                        @forelse($user->seguidores as $f)
+                          <div 
+                            class="d-flex align-items-center justify-content-between mb-2"
+                            data-id="{{ $f->id_usuario }}"
+                          >
+                            <div class="d-flex align-items-center">
+                              <img
+                                src="{{ $f->foto_perfil ? asset($f->foto_perfil) : asset('img/default-profile.png') }}"
+                                width="40" height="40"
+                                class="rounded-circle me-2"
+                                alt="Avatar de {{ $f->nombre }}"
+                              >
+                              <a href="{{ route('perfil.publico', $f->id_usuario) }}">
+                                {{ $f->nombre }}
+                              </a>
                             </div>
-                            <div class="modal-body">
-                                @forelse($user->seguidores as $f)
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ $f->foto_perfil ? asset($f->foto_perfil) : asset('img/default-profile.png') }}"
-                                                width="40" height="40" class="rounded-circle me-2">
-                                            <a
-                                                href="{{ route('perfil.publico', $f->id_usuario) }}">{{ $f->nombre }}</a>
-                                        </div>
-                                        <button class="btn btn-sm btn-danger remove-follower-btn">Eliminar</button>
-                                    </div>
-                                @empty
-                                    <p class="text-muted">Sin seguidores.</p>
-                                @endforelse
-                            </div>
-                        </div>
+                            <button class="btn btn-sm btn-danger remove-follower-btn">
+                              Eliminar
+                            </button>
+                          </div>
+                        @empty
+                          <p class="text-muted">Sin seguidores.</p>
+                        @endforelse
+                      </div>
                     </div>
+                  </div>
                 </div>
+
+
 
                 {{-- Modal Seguidos --}}
                 <div class="modal fade" id="followingModal" tabindex="-1">
-                    <div class="modal-dialog modal-dialog-scrollable">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Usuarios que sigue {{ $user->nombre }}</h5>
-                                <button class="btn-close" data-bs-dismiss="modal"></button>
+                  <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Usuarios que sigue {{ $user->nombre }}</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div class="modal-body">
+                        @forelse($user->siguiendo as $s)
+                          <div 
+                            class="d-flex align-items-center justify-content-between mb-2"
+                            data-id="{{ $s->id_usuario }}"
+                          >
+                            <div class="d-flex align-items-center">
+                              <img
+                                src="{{ $s->foto_perfil ? asset($s->foto_perfil) : asset('img/default-profile.png') }}"
+                                width="40" height="40"
+                                class="rounded-circle me-2"
+                                alt="Avatar de {{ $s->nombre }}"
+                              >
+                              <a href="{{ route('perfil.publico', $s->id_usuario) }}">
+                                {{ $s->nombre }}
+                              </a>
                             </div>
-                            <div class="modal-body">
-                                @forelse($user->siguiendo as $s)
-                                    <div class="d-flex align-items-center justify-content-between mb-2">
-                                        <div class="d-flex align-items-center">
-                                            <img src="{{ $s->foto_perfil ? asset($s->foto_perfil) : asset('img/default-profile.png') }}"
-                                                width="40" height="40" class="rounded-circle me-2">
-                                            <a
-                                                href="{{ route('perfil.publico', $s->id_usuario) }}">{{ $s->nombre }}</a>
-                                        </div>
-                                        <button class="btn btn-sm btn-warning unfollow-btn">Dejar de seguir</button>
-                                    </div>
-                                @empty
-                                    <p class="text-muted">No sigues a nadie.</p>
-                                @endforelse
-                            </div>
-                        </div>
+                            <button class="btn btn-sm btn-warning unfollow-btn">
+                              Dejar de seguir
+                            </button>
+                          </div>
+                        @empty
+                          <p class="text-muted">No sigues a nadie.</p>
+                        @endforelse
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+
 
         <hr class="my-5">
 
