@@ -7,15 +7,6 @@
     <link rel="stylesheet" href="{{ asset('css/stylesRegistro.css') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <style>
-      .btn-google {
-        display: flex; align-items: center; justify-content: center;
-        background: #db4437; color: #fff; padding: 10px; border-radius: 4px;
-        text-decoration: none; font-weight: bold; margin-bottom: 15px;
-      }
-      .btn-google i { margin-right: 8px; }
-      .divider { text-align: center; margin: 10px 0; color: #999; }
-    </style>
 </head>
 <body>
   <div class="container">
