@@ -28,6 +28,7 @@ body {
     font-size: 2.2rem;
     margin-bottom: 30px;
     color: #222;
+    margin-left: 35%;
 }
 
 
@@ -667,6 +668,17 @@ body {
 /* Responsive */
 
 @media (max-width: 768px) {
+    h2 {
+        margin-left: 10px;
+    }
+    .btn-like {
+        padding: 10px 78px;
+    }
+    .btn-favorito {
+        padding: 10px 35px;
+        margin-left: 0 !important;
+        margin-top: 15px;
+    }
     .prenda-detalle {
         flex-direction: column;
         align-items: flex-start;
@@ -676,6 +688,131 @@ body {
         height: 100px;
     }
     .total-outfit {
+        text-align: center;
+    }
+    .valoraciones-columna {
+        padding-left: 0px;
+        border-right: 0px solid #000;
+    }
+    .valoraciones-section {
+        padding: 0px;
+        margin-right: 4%;
+        margin-left: 4%;
+    }
+    .form-control {
+        padding: 10px 12px;
+        min-height: 80px;
+    }
+    .btn-comentar {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        margin-left: 3%;
+    }
+    .comentario-form-container {
+        padding: 0px;
+    }
+    .comentarios-valoraciones-container {
+        flex-direction: column;
+    }
+    .comentarios-columna,
+    .valoraciones-columna {
+        width: 100%;
+    }
+    .comentario-card {
+        flex-direction: column;
+        display: flex;
+        gap: 15px;
+        padding: 10px;
+        margin-bottom: 15px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0px 6px rgba(0, 0, 0, 0.281);
+        margin-left: 10px;
+        margin-right: 3%;
+    }
+    .contador-caracteres {
+        text-align: right;
+        margin-right: 4%;
+    }
+    .foto-comentario-container {
+        margin-bottom: 10px;
+    }
+    .valoraciones-section {
+        padding: 15px;
+    }
+    .rating label {
+        font-size: 1.5rem;
+    }
+    .promedio-numero {
+        font-size: 2rem;
+    }
+    .stars-promedio i {
+        font-size: 1.1rem;
+    }
+    .descripcion {
+        margin-right: 20px;
+    }
+    .custom-textarea {
+        width: 90%;
+        margin-left: 10px;
+    }
+    .title-container {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 30px;
+    }
+    .center-title_outfit {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+    }
+    .outfit-detalle {
+        padding: 30px;
+    }
+    .outfit-title {
+        font-size: 1.4rem;
+    }
+    .prenda-detalle {
+        flex-direction: column;
+        align-items: center;
+    }
+    .prenda-detalle img {
+        width: 100%;
+        height: auto;
+        max-width: 150px;
+        margin-bottom: 10px;
+        height: 140px;
+    }
+    .d-flex.align-items-center.mb-3 {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .form-control,
+    .custom-textarea {
+        width: 98%;
+        margin-left: 10px;
+    }
+    .comentario-card {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .cabecera-comentario {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-like-comentario {
+        margin-left: 0;
+        margin-top: 5px;
+    }
+    .center-title_outfit {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        margin-left: 5%;
+    }
+    .volver-btn {
+        padding: 10px 10px;
+    }
+    .volver-btn-container {
+        margin-top: 5px;
         text-align: center;
     }
 }
