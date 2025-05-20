@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Debounce para evitar muchas solicitudes
     let timeout;
 
     function handleFilterChange() {
