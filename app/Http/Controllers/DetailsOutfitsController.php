@@ -17,10 +17,7 @@ class DetailsOutfitsController extends Controller
     public function show($id)
     {
         $outfit = Outfit::with([
-            'prendas' => function($query) {
-                $query->orderBy('tipo_prenda', 'asc') // Ordenar por tipo de prenda
-                      ->orderBy('nombre', 'asc');      // Y luego por nombre
-            },
+            'prendas' => function(){},
             'prendas.tipo',
             'usuario',
             'comentarios.usuario',
