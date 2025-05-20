@@ -1,4 +1,4 @@
-@foreach ($etiquetas as $etiqueta)
+@forelse ($etiquetas as $etiqueta)
     @php
         // ¿Esta etiqueta es la única de alguna prenda?
         $esUnica = \DB::table('prenda_etiquetas')
@@ -20,4 +20,8 @@
             </form>
         </td>
     </tr>
-@endforeach
+@empty
+    <tr id="no-results">
+        <td colspan="3" style="text-align:center;">No se encontraron resultados.</td>
+    </tr>
+@endforelse
