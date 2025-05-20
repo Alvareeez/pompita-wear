@@ -16,7 +16,10 @@
                 @foreach ($topPrendas as $prenda)
                     <div class="prenda">
                         <a href="{{ route('prendas.show', $prenda->id_prenda) }}">
-                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="{{ $prenda->descripcion }}">
+                            <img
+                              src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                              alt="{{ $prenda->descripcion }}"
+                            >
                         </a>
                         <p><strong>{{ $prenda->nombre }}</strong></p>
                         <p><strong>Likes:</strong> {{ $prenda->likes_count }}</p>
@@ -30,7 +33,7 @@
         <h1 class="center-title">Todas las Prendas</h1>
     </div>
 
-    {{--  FILTROS  --}}
+    {{-- FILTROS --}}
     <div class="filter-container">
         <form id="filter-form" method="GET" action="{{ route('prendas.index') }}">
             <input
@@ -86,11 +89,10 @@
         </form>
     </div>
 
-    {{--  LISTA DE PRENDAS Y PAGINACIÓN  --}}
+    {{-- RESULTADOS Y PAGINACIÓN AJAX --}}
     <div id="results">
         @include('prendas.partials.product-list')
     </div>
-
 @endsection
 
 @section('scripts')
