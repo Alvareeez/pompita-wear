@@ -1,46 +1,54 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const nombreFilter = document.getElementById('nombreFilter');
-    const creadorFilter = document.getElementById('creadorFilter');
+    const nombreFilter    = document.getElementById('nombreFilter');
+    const creadorFilter   = document.getElementById('creadorFilter');
     const outfitsContainer = document.getElementById('outfitsContainer');
-
-    function applyFilters() {
-        const nombre = nombreFilter.value;
-        const creador = creadorFilter.value;
-
-        const params = new URLSearchParams({
-            nombre: nombre || '',
-            creador: creador || ''
+  
+    // Realiza fetch de la URL (paginación o filtros) y reengancha paginación
+    function fetchAndRender(url) {
+      fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(res => {
+          if (!res.ok) throw new Error('Network response was not ok');
+          return res.text();
+        })
+        .then(html => {
+          outfitsContainer.innerHTML = html;
+          attachPaginationLinks();
+        })
+        .catch(err => {
+          console.error(err);
+          outfitsContainer.innerHTML = `<div class="alert alert-danger">Error al cargar los datos</div>`;
         });
-
-        fetch(`/outfits/filtrar?${params.toString()}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'text/html',
-                }
-            })
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
-                }
-                return response.text();
-            })
-            .then(function(html) {
-                outfitsContainer.innerHTML = html;
-            })
-            .catch(function(error) {
-                console.error('Error:', error);
-                outfitsContainer.innerHTML = '<div class="error">Error al cargar los resultados</div>';
-            });
     }
-
-    // Debounce para evitar muchas solicitudes
+  
+    // Monta el listener en los enlaces de paginación
+    function attachPaginationLinks() {
+      document.querySelectorAll('#pagination-links a.page-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          fetchAndRender(this.href);
+        });
+      });
+    }
+  
+    // Aplica filtros: construye la URL con query params
+    function applyFilters() {
+      const params = new URLSearchParams({
+        nombre:  nombreFilter.value.trim(),
+        creador: creadorFilter.value.trim(),
+      });
+      fetchAndRender(`/outfits?${params.toString()}`);
+    }
+  
+    // Debounce de 500ms en inputs
     let timeout;
-
-    function handleFilterChange() {
+    [nombreFilter, creadorFilter].forEach(input => {
+      input.addEventListener('keyup', () => {
         clearTimeout(timeout);
         timeout = setTimeout(applyFilters, 500);
-    }
-
-    nombreFilter.addEventListener('keyup', handleFilterChange);
-    creadorFilter.addEventListener('keyup', handleFilterChange);
-});
+      });
+    });
+  
+    // Inicial: engancha paginación si ya la hay
+    attachPaginationLinks();
+  });
+  
