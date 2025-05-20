@@ -180,17 +180,30 @@ Estos términos se rigen e interpretan de acuerdo con las leyes de [España]. Cu
     .footer {
         background-color: #002f6c;
         color: white;
-        padding: 20px 0;
-        margin-top: 30px;
+        padding: 50px 0 30px 0; /* MÁS espacio arriba y abajo */
+        width: 100vw;
+        margin: 0;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        transform: translateX(-50%);
+        box-sizing: border-box;
+        min-height: 220px; /* Asegura altura mínima */
     }
     
     .footer .container {
         max-width: 1200px;
+        width: 100%;
         margin: 0 auto;
         padding: 0 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
     }
     
     .footer-content {
+        width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -204,11 +217,10 @@ Estos términos se rigen e interpretan de acuerdo con las leyes de [España]. Cu
     }
     
     .footer-links {
-        list-style: none;
+        display: flex;
+        gap: 25px;
         padding: 0;
         margin: 0;
-        display: flex;
-        gap: 15px;
     }
     
     .footer-links li {
@@ -230,7 +242,9 @@ Estos términos se rigen e interpretan de acuerdo con las leyes de [España]. Cu
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 15px;
+        gap: 25px;
+        margin: 0;
+        padding: 0;
     }
     
     .icon-content {

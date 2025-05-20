@@ -434,15 +434,26 @@ body {
 
 /* Sección del clima mejorada */
 
+/* Fondo animado para la sección del clima */
 .weather-section {
     margin-top: 30px;
-    padding: 20px;
-    background: linear-gradient(135deg, #6dd5ed, #2193b0);
-    border-radius: 15px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    padding: 40px 0 60px 0;
+    background: linear-gradient(120deg, #232526, #414345, #283e51, #485563, #232526);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
     color: white;
     text-align: center;
     font-family: 'Ubuntu', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
 }
 
 .weather-info {
