@@ -56,6 +56,54 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalTitle       = document.getElementById('modal-day-title');
     const modalDetails     = document.getElementById('modal-day-details');
   
+    // Mostrar/ocultar clima
+    const card = document.getElementById('weather-card-trigger');
+    const closeBtn = document.getElementById('close-weather');
+    if (card && weatherContent && closeBtn) {
+        card.addEventListener('click', function() {
+            card.style.display = 'none';
+            weatherContent.classList.remove('hidden');
+        });
+        closeBtn.addEventListener('click', function() {
+            weatherContent.classList.add('hidden');
+            card.style.display = 'inline-block';
+        });
+    }
+  
+    // Actualiza la tarjeta con la fecha y hora actual
+    function updateWeatherCardDate() {
+        const days = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+        const now = new Date();
+        document.getElementById('weather-card-day').textContent = days[now.getDay()];
+        document.getElementById('weather-card-date').textContent = now.toLocaleDateString();
+        document.getElementById('weather-card-hour').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+    updateWeatherCardDate();
+    setInterval(updateWeatherCardDate, 60000);
+  
+    // Cuando tengas los datos reales del clima, actualiza la tarjeta animada:
+    function updateWeatherCardWithRealData(data) {
+        // data: objeto con info del clima actual
+        if (!data) return;
+        // Icono
+        const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+        document.getElementById('weather-card-icon').innerHTML = `<img src="${iconUrl}" alt="icono" style="width:40px;height:40px;">`;
+        // Temperatura y descripción
+        document.getElementById('weather-card-day').textContent = data.dayName || '';
+        document.getElementById('weather-card-date').textContent = data.dateString || '';
+        document.getElementById('weather-card-hour').textContent = data.hourString || '';
+    }
+  
+    // Ejemplo: cuando recibas los datos reales, llama a esta función:
+    // updateWeatherCardWithRealData({
+    //     weather: [{icon: '01d'}],
+    //     dayName: 'martes',
+    //     dateString: '20/05/2025',
+    //     hourString: '14:00'
+    // });
+  
+    // Si ya tienes fetch de clima, llama a updateWeatherCardWithRealData con los datos actuales.
+  
     // Mostrar/ocultar sección de clima
     if (toggleBtn && weatherContent) {
       toggleBtn.addEventListener('click', () => {
@@ -165,4 +213,3 @@ document.addEventListener('DOMContentLoaded', function() {
       alert('La geolocalización no está disponible en este navegador.');
     }
   });
-  

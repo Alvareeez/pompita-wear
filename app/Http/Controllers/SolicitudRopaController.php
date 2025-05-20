@@ -59,6 +59,7 @@ class SolicitudRopaController extends Controller
             'estilos.array' => 'El campo estilos debe ser un arreglo.',
             'estilos.min' => 'Debes seleccionar al menos un estilo.',
             'estilos.*.exists' => 'Uno de los estilos seleccionados no es válido.',
+            'descripcion.min' => 'La descripción debe tener al menos 10 caracteres.',
         ]);
 
         // Iniciar una transacción
