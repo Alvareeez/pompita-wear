@@ -13,21 +13,16 @@ class WelcomeMail extends Mailable
 
     public $usuario;
 
-    /**
-     * Create a new message instance.
-     */
     public function __construct(Usuario $usuario)
     {
         $this->usuario = $usuario;
     }
 
-    /**
-     * Build the message.
-     */
     public function build()
     {
         return $this
-            ->subject('¡Bienvenido a PompitaWear!')
-            ->markdown('emails.welcome');
+            ->subject('¡Bienvenido a Pompita Wear!')
+            // indicamos que use nuestra vista HTML
+            ->view('emails.welcome');
     }
 }

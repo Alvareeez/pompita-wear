@@ -15,11 +15,12 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:usuarios',
+            'nombre'   => 'required|string|max:255',
+            'email'    => 'required|string|email|max:255|unique:usuarios',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
+        // 1) Creamos el usuario
         $usuario = Usuario::create([
             'nombre'     => $request->nombre,
             'email'      => $request->email,
@@ -29,13 +30,15 @@ class AuthController extends Controller
             'is_private' => true,        // cuenta privada por defecto
         ]);
 
-        // Enviar el correo de bienvenida
+        // 2) Enviamos el mail de bienvenida
         Mail::to($usuario->email)
-        ->send(new WelcomeMail($usuario));
+            ->send(new WelcomeMail($usuario));
 
+        // 3) Redirigimos al login con mensaje de éxito
         return redirect('/login')
-            ->with('success', 'Usuario registrado correctamente. Por favor, inicia sesión.');
+            ->with('success', 'Usuario registrado correctamente. Por favor, revisa tu correo y luego inicia sesión.');
     }
+
 
 
     // Login de usuario
