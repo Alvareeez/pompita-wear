@@ -1,31 +1,32 @@
 @extends('layouts.header')
 
-@section('title', 'Mis Outfits')
+@section('title', 'Outfits')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/showOutfits.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/showOutfits.css') }}">
 @endsection
-@section('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('js/filtrosShowOutfits.js') }}"></script>
-@endsection
+
 @section('content')
-<div class="title-container">
-    <h1 class="center-title_outfit">Todos los Outfits</h1>
-</div>
-<div class="filter-container">
-    <div class="filter-group">
-        <input type="text" id="nombreFilter" placeholder="Buscar por nombre de outfit" class="filter-input">
-    </div>
-    <div class="filter-group">
-        <input type="text" id="creadorFilter" placeholder="Buscar por creador" class="filter-input">
-    </div>
-</div>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Todos los Outfits</h1>
 
-<div class="centered-container">
-    <div class="outfits" id="outfitsContainer">
-        @include('outfit.partials.outfits_list', ['outfits' => $outfits])
+    {{-- Filtros --}}
+    <div class="row gx-2 mb-4">
+      <div class="col-sm-6">
+        <input type="text" id="nombreFilter" class="form-control" placeholder="Buscar por nombre" value="{{ request('nombre') }}">
+      </div>
+      <div class="col-sm-6">
+        <input type="text" id="creadorFilter" class="form-control" placeholder="Buscar por creador" value="{{ request('creador') }}">
+      </div>
     </div>
-</div>
 
+    {{-- Contenedor donde inyectamos listado + paginación --}}
+    <div id="outfitsContainer">
+      @include('outfit.partials.outfits_list', ['outfits' => $outfits])
+    </div>
+  </div>
+@endsection
+
+@section('scripts')
+  <script src="{{ asset('js/filtrosShowOutfits.js') }}"></script>
 @endsection
