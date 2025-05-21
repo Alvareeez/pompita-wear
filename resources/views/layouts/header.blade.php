@@ -34,7 +34,7 @@
                 <div class="d-flex w-100 align-items-center justify-content-between flex-wrap flex-lg-nowrap">
                     <!-- Izquierda: Buscador -->
                     @auth
-                    <div class="search-container ms-lg-5 me-lg-3 order-1 order-lg-0">
+                    <div style="margin-left: 0px" class="search-container ms-lg-5 me-lg-3 order-1 order-lg-0">
                         <input type="text" id="user-search" placeholder="Buscar usuarios…" autocomplete="off" />
                             <div id="search-results" class="search-results"></div>
                         </div>

@@ -158,69 +158,52 @@
                     </div>
                 </form>
 
-                {{-- Outfits publicados --}}
-                <h4 class="mt-5">Outfits publicados</h4>
-                <div class="outfits-container">
-                    @forelse($outfitsPublicados as $outfit)
-                        <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
-                            <div class="outfit-card">
-                                <p class="fw-bold">{{ $outfit->nombre }}</p>
-                                <div class="prenda-column">
-                                    @foreach ($outfit->prendas as $prenda)
-                                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
-                                            alt="{{ $prenda->nombre }}">
-                                    @endforeach
-                                </div>
-                            </div>
-                        </a>
-                    @empty
-                        <div class="alert alert-info">No tienes outfits publicados aún.</div>
-                    @endforelse
-                </div>
-
-                {{-- Outfits favoritos --}}
-                <h4 class="mt-5">Outfits favoritos</h4>
-                <div class="outfits-container">
-                    @forelse($favOutfits->sortByDesc('created_at') as $outfit)
-                        <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
-                            <div class="outfit-card">
-                                <p class="fw-bold">{{ $outfit->nombre }}</p>
-                                <div class="prenda-column">
-                                    @foreach ($outfit->prendas as $prenda)
-                                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
-                                            alt="{{ $prenda->nombre }}">
-                                    @endforeach
-                                </div>
-                            </div>
-                        </a>
-                    @empty
-                        <div class="alert alert-info">No tienes outfits favoritos aún.</div>
-                    @endforelse
-                </div>
-
                 {{-- Prendas favoritas --}}
                 <h4 class="mt-5">Prendas favoritas</h4>
-                <div class="row">
-                    @forelse($favorites as $fav)
-                        <div class="col-md-4 mb-4">
-                            <div class="card text-center">
-                                <a href="{{ route('prendas.show', $fav->id_prenda) }}">
-                                    <img src="{{ asset('img/prendas/' . $fav->img_frontal) }}" class="card-img-top"
-                                        alt="{{ $fav->nombre }}">
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $fav->nombre }}</h5>
-                                    <p class="card-text text-muted">{{ $fav->tipo->tipo }}</p>
+                @if ($favorites->count() > 2)
+                    <div class="favorites-garments-slider">
+                        <button class="favorites-garments-control prev"><i class="fas fa-chevron-left"></i></button>
+                        <div class="favorites-garments-container">
+                            @foreach ($favorites as $fav)
+                                <div class="favorites-garment-card">
+                                    <div class="card text-center">
+                                        <a href="{{ route('prendas.show', $fav->id_prenda) }}">
+                                            <img src="{{ asset('img/prendas/' . $fav->img_frontal) }}"
+                                                class="card-img-top" alt="{{ $fav->nombre }}">
+                                        </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $fav->nombre }}</h5>
+                                            <p class="card-text text-muted">{{ $fav->tipo->tipo }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <button class="favorites-garments-control next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                @else
+                    <div class="row">
+                        @forelse($favorites as $fav)
+                            <div class="col-md-4 mb-4">
+                                <div class="card text-center">
+                                    <a href="{{ route('prendas.show', $fav->id_prenda) }}">
+                                        <img src="{{ asset('img/prendas/' . $fav->img_frontal) }}" class="card-img-top"
+                                            alt="{{ $fav->nombre }}">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $fav->nombre }}</h5>
+                                        <p class="card-text text-muted">{{ $fav->tipo->tipo }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @empty
-                        <div class="alert alert-info">No tienes prendas favoritas aún.</div>
-                    @endforelse
-                </div>
+                        @empty
+                            <div class="alert alert-info">No tienes prendas favoritas aún.</div>
+                        @endforelse
+                    </div>
+                @endif
             </div>
 
-            {{-- Columna derecha: seguidores/seguidos + solicitudes (solo visible en desktop) --}}
+            {{-- Columna derecha: seguidores/seguidos + solicitudes + outfits publicados (solo visible en desktop) --}}
             <div class="col-md-6 d-none d-md-block">
                 <div class="d-flex justify-content-around text-center mb-4">
                     <div>
@@ -308,8 +291,94 @@
                         </button>
                     </form>
                 @endif
+
+                {{-- Outfits favoritos --}}
+                <h4 class="mt-5">Outfits favoritos</h4>
+                @if ($favOutfits->count() > 2)
+                    <div class="favorites-outfits-slider">
+                        <button class="favorites-slider-control prev"><i class="fas fa-chevron-left"></i></button>
+                        <div class="favorites-outfits-container">
+                            @foreach ($favOutfits->sortByDesc('created_at') as $outfit)
+                                <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
+                                    <div class="outfit-card favorites-outfit-card">
+                                        <p class="fw-bold">{{ $outfit->nombre }}</p>
+                                        <div class="prenda-column">
+                                            @foreach ($outfit->prendas as $prenda)
+                                                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                                                    alt="{{ $prenda->nombre }}">
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+                        </div>
+                        <button class="favorites-slider-control next"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                @else
+                    <div class="outfits-container">
+                        @forelse($favOutfits->sortByDesc('created_at') as $outfit)
+                            <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
+                                <div class="outfit-card">
+                                    <p class="fw-bold">{{ $outfit->nombre }}</p>
+                                    <div class="prenda-column">
+                                        @foreach ($outfit->prendas as $prenda)
+                                            <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                                                alt="{{ $prenda->nombre }}">
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </a>
+                        @empty
+                            <div class="alert alert-info">No tienes outfits favoritos aún.</div>
+                        @endforelse
+                    </div>
+                @endif
             </div>
         </div>
+    </div>
+
+    <div class="d-md-none mb-4">
+        {{-- Outfits favoritos --}}
+        <h4 class="mt-5">Outfits favoritos</h4>
+        @if ($favOutfits->count() > 2)
+            <div class="favorites-outfits-slider">
+                <button class="favorites-slider-control prev"><i class="fas fa-chevron-left"></i></button>
+                <div class="favorites-outfits-container">
+                    @foreach ($favOutfits->sortByDesc('created_at') as $outfit)
+                        <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
+                            <div class="outfit-card favorites-outfit-card">
+                                <p class="fw-bold">{{ $outfit->nombre }}</p>
+                                <div class="prenda-column">
+                                    @foreach ($outfit->prendas as $prenda)
+                                        <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                                            alt="{{ $prenda->nombre }}">
+                                    @endforeach
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+                <button class="favorites-slider-control next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        @else
+            <div class="outfits-container">
+                @forelse($favOutfits->sortByDesc('created_at') as $outfit)
+                    <a href="{{ route('outfit.show', $outfit->id_outfit) }}" class="outfit-link">
+                        <div class="outfit-card">
+                            <p class="fw-bold">{{ $outfit->nombre }}</p>
+                            <div class="prenda-column">
+                                @foreach ($outfit->prendas as $prenda)
+                                    <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
+                                        alt="{{ $prenda->nombre }}">
+                                @endforeach
+                            </div>
+                        </div>
+                    </a>
+                @empty
+                    <div class="alert alert-info">No tienes outfits favoritos aún.</div>
+                @endforelse
+            </div>
+        @endif
     </div>
     {{-- Modal Seguidores --}}
     <div class="modal fade" id="followersModal" tabindex="-1">
