@@ -23,4 +23,24 @@ class EmpresaController extends Controller
         $prendas = Prenda::all();
         return view('empresas.select-prenda', compact('plan','prendas'));
     }
+
+    public function prendasAjax(Request $request)
+    {
+        $q = Prenda::query();
+    
+        if ($request->filled('q')) {
+            $q->where('nombre', 'like', '%'.$request->q.'%');
+        }
+    
+        $prendas = $q->get();
+    
+        // Si es AJAX, devolvemos sólo el HTML del partial
+        if ($request->ajax()) {
+            return view('empresa.partials.prendas-cards', compact('prendas'))
+                   ->render();
+        }
+    
+        abort(404);
+    }
+    
 }

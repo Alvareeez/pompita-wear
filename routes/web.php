@@ -226,6 +226,9 @@ Route::middleware(['auth'])->group(
         Route::get('/paypal/cancel',   [PaymentController::class, 'cancelOrder'])
         ->name('paypal.cancel');
 
+        Route::get('/empresa/prendas/ajax', [EmpresaController::class,'prendasAjax'])
+        ->name('empresa.prendas.ajax');
+
 
 // RUTAS DE SEGURIZADAS GESTORES ---------------------------------------------------------------------------
 
