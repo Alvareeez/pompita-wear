@@ -87,39 +87,42 @@ class PaymentController extends Controller
      */
     public function captureOrder(Request $request)
     {
-        $token       = $request->query('token');        // Order ID
+        $token       = $request->query('token');
         $highlightId = session('highlight_id');
-
+    
+        // PayPal
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
-
         $response = $provider->capturePaymentOrder($token);
-        Log::debug('PayPal captureOrder response:', $response);
-
+    
+        // Solo si el pago fue completado...
         $status = $response['result']['status'] 
                ?? $response['status'] 
                ?? null;
-
+    
         if ($status === 'COMPLETED' && $highlightId) {
             $sol = SolicitudDestacado::findOrFail($highlightId);
+    
+            // 1) NO cambiar el estado: dejamos 'pendiente'
+            // 2) Guardamos la fecha de pago (o 'approved_at') y expiración
             $sol->update([
-                'estado'      => 'aprobada',
-                'aprobada_en' => Carbon::now(),
-                'expira_en'   => Carbon::now()->addDays($sol->plan->duracion_dias),
+                'aprobada_en'  => now(),
+                'expira_en'    => now()->addDays($sol->plan->duracion_dias),
             ]);
+    
             session()->forget('highlight_id');
-
+    
             return redirect()
                 ->route('empresas.index')
-                ->with('success', 'Pago completado y plan activado.');
+                ->with('success', 'Pago completado. Esperando aprobación del gestor.');
         }
-
-        Log::error('PayPal captureOrder: pago no completado.', $response);
+    
         return redirect()
             ->route('empresas.index')
             ->with('error', 'El pago no se completó.');
     }
+    
 
     /**
      * 4b) Cancelación del pago.

@@ -1,3 +1,4 @@
+{{-- resources/views/gestor/index.blade.php --}}
 @extends('layouts.header')
 
 @section('title', 'Panel de Gestión')
@@ -15,6 +16,13 @@
   <div class="container my-5">
     <h2 class="section-title text-center mb-4">Gestión de Solicitudes</h2>
 
+    {{-- Botón para CRUD de destacados --}}
+    <div class="d-flex justify-content-end mb-4">
+      <a href="{{ route('gestor.destacados') }}" class="btn btn-outline-secondary">
+        Administrar Destacados
+      </a>
+    </div>
+
     {{-- Flash messages --}}
     @if(session('success'))
       <div class="alert alert-success text-center my-3">
@@ -25,13 +33,34 @@
     {{-- Nav tabs --}}
     <ul class="nav nav-tabs justify-content-center mb-4" id="gestorTabs" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="pendientes-tab" data-bs-toggle="tab" data-bs-target="#pendientes" type="button" role="tab">Pendientes ({{ $pendientes->count() }})</button>
+        <button class="nav-link active"
+                id="pendientes-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#pendientes"
+                type="button"
+                role="tab">
+          Pendientes ({{ $pendientes->count() }})
+        </button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="aprobadas-tab" data-bs-toggle="tab" data-bs-target="#aprobadas" type="button" role="tab">Aprobadas ({{ $aceptadas->count() }})</button>
+        <button class="nav-link"
+                id="aprobadas-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#aprobadas"
+                type="button"
+                role="tab">
+          Aprobadas ({{ $aceptadas->count() }})
+        </button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="rechazadas-tab" data-bs-toggle="tab" data-bs-target="#rechazadas" type="button" role="tab">Rechazadas ({{ $rechazadas->count() }})</button>
+        <button class="nav-link"
+                id="rechazadas-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#rechazadas"
+                type="button"
+                role="tab">
+          Rechazadas ({{ $rechazadas->count() }})
+        </button>
       </li>
     </ul>
 
@@ -46,7 +75,7 @@
                   <h5 class="card-title">{{ $sol->prenda->nombre }}</h5>
                   <p><strong>Empresa:</strong> {{ $sol->empresa->nombre }}</p>
                   <p><strong>Plan:</strong> {{ $sol->plan->nombre }}</p>
-                  <img src="{{ asset('img/prendas/'.$sol->prenda->img_frontal) }}"
+                  <img src="{{ asset('img/prendas/' . $sol->prenda->img_frontal) }}"
                        alt="{{ $sol->prenda->nombre }}"
                        class="img-fluid mb-3 flex-grow-1">
                   <div class="d-flex">
@@ -78,7 +107,7 @@
                   <h5 class="card-title">{{ $sol->prenda->nombre }}</h5>
                   <p><strong>Empresa:</strong> {{ $sol->empresa->nombre }}</p>
                   <p><strong>Plan:</strong> {{ $sol->plan->nombre }}</p>
-                  <img src="{{ asset('img/prendas/'.$sol->prenda->img_frontal) }}"
+                  <img src="{{ asset('img/prendas/' . $sol->prenda->img_frontal) }}"
                        alt="{{ $sol->prenda->nombre }}"
                        class="img-fluid mb-3 flex-grow-1">
                   @if(! $sol->prenda->destacada)
@@ -108,7 +137,7 @@
                   <h5 class="card-title">{{ $sol->prenda->nombre }}</h5>
                   <p><strong>Empresa:</strong> {{ $sol->empresa->nombre }}</p>
                   <p><strong>Plan:</strong> {{ $sol->plan->nombre }}</p>
-                  <img src="{{ asset('img/prendas/'.$sol->prenda->img_frontal) }}"
+                  <img src="{{ asset('img/prendas/' . $sol->prenda->img_frontal) }}"
                        alt="{{ $sol->prenda->nombre }}"
                        class="img-fluid mb-3 flex-grow-1">
                   <span class="badge bg-danger mt-auto">Rechazada</span>

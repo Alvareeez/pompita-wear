@@ -243,6 +243,13 @@ Route::middleware(['auth'])->group(
     Route::post('/gestor/reject/{solicitud}',  [GestorController::class,'reject'])
          ->name('gestor.reject');
 
+
+    // CRUD de destacados
+    Route::get('/gestor/destacados', [GestorController::class,'manageDestacados'])
+        ->name('gestor.destacados');
+   Route::post('/gestor/destacados/{prenda}/update', [GestorController::class,'updateDestacado'])
+        ->name('gestor.destacados.update');
+
     }
     
 );
