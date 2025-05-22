@@ -267,8 +267,16 @@ main {
     padding: 20px;
 }
 
-/* Responsive */
-@media (max-width: 992px) {
+/* Desktop styles */
+.desktop-content {
+    display: none;
+}
+
+@media (min-width: 992px) {
+    .desktop-content {
+        display: flex;
+    }
+
     .navbar-collapse {
         position: static;
         max-height: none;
@@ -276,25 +284,6 @@ main {
         padding: 0;
         box-shadow: none;
         background-color: transparent;
-    }
-
-    .navbar-collapse.show {
-        padding: 0;
-    }
-
-    .mobile-search,
-    .mobile-user-section {
-        display: none !important;
-    }
-}
-
-@media (max-width: 991px) {
-    .navbar-nav {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        width: 100%;
-        margin-top: 1rem;
     }
 
     .navbar-collapse.show {
@@ -332,21 +321,26 @@ main {
 
 /* Puedes poner esto en styleHeader.css */
 .toggle-switch {
-  position: relative;
-  width: 60px;
-  height: 32px;
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  width: 100px;
+  height: 50px;
   --light: #d8dbe0;
   --dark: #28292c;
+  --link: rgb(27, 129, 112);
+  --link-hover: rgb(24, 94, 82);
 }
 
 .switch-label {
   position: absolute;
   width: 100%;
-  height: 32px;
+  height: 50px;
   background-color: var(--dark);
-  border-radius: 16px;
+  border-radius: 25px;
   cursor: pointer;
-  border: 2px solid var(--dark);
+  border: 3px solid var(--dark);
 }
 
 .checkbox {
@@ -358,7 +352,7 @@ main {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 16px;
+  border-radius: 25px;
   transition: 0.3s;
 }
 
@@ -369,18 +363,18 @@ main {
 .slider::before {
   content: "";
   position: absolute;
-  top: 5px;
-  left: 5px;
-  width: 22px;
-  height: 22px;
+  top: 10px;
+  left: 10px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  box-shadow: inset 8px -3px 0px 0px var(--light);
+  box-shadow: inset 12px -4px 0px 0px var(--light);
   background-color: var(--dark);
   transition: 0.3s;
 }
 
 .checkbox:checked ~ .slider::before {
-  transform: translateX(28px);
+  transform: translateX(50px);
   background-color: var(--dark);
   box-shadow: none;
 }
