@@ -24,12 +24,16 @@
                 <a class="navbar-brand" href="{{ route('home') }}">
                     <img src="{{ asset('img/pompita-negro.png') }}" alt="Logo" class="logo-img">
                 </a>
-
+                        <div class="toggle-switch ms-4 my-3">
+                            <label class="switch-label mb-0">
+                                <input type="checkbox" class="checkbox" id="theme-toggle">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                 <!-- Hamburguesa -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <!-- Contenido del menú -->
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <!-- Versión móvil (dropdown) -->
@@ -118,7 +122,7 @@
                                 <div id="search-results" class="search-results"></div>
                             </div>
                         @endauth
-
+                        <!-- Switch modo oscuro al principio del header -->
                         <ul class="navbar-nav mx-auto order-2 text-center flex-grow-1 justify-content-center">
                             <li class="nav-item"><a class="nav-link" href="{{ url('/prendas') }}">Prendas</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url('/outfit') }}">Crear Outfit</a></li>
@@ -201,6 +205,25 @@
         window.Laravel.searchRoute = "{{ route('users.search') }}";
     </script>
     <script src="{{ asset('js/header.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('theme-toggle');
+            // Aplica el modo guardado al cargar
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+                toggle.checked = true;
+            }
+            toggle.addEventListener('change', function () {
+                if (this.checked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
