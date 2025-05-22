@@ -6,9 +6,22 @@ use App\Models\Estilo;
 use App\Models\Prenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class EstiloController extends Controller
 {
+
+    public function __construct()
+    {
+        // Sólo admin (id_rol === 1) puede acceder; si no, aborta con 403
+        abort_unless(
+            Auth::check() && Auth::user()->id_rol === 1,
+            403,
+            'Acceso denegado'
+        );
+    }
+    
     public function index(Request $request)
     {
         $query = Estilo::query();
