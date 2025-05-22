@@ -209,19 +209,75 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-
-    // // Inicializar los carruseles
-    // @if ($outfitsPublicados -> count() > 0)
-    //     new bootstrap.Carousel(document.getElementById('outfitsCarousel'), {
-    //         interval: 5000,
-    //         wrap: true
-    //     });
-    // @endif
-
-    // @if ($favorites -> count() > 0)
-    //     new bootstrap.Carousel(document.getElementById('favoritesCarousel'), {
-    //         interval: 5000,
-    //         wrap: true
-    //     });
-    // @endif
+    initFavoritesGarmentsSlider();
+    initFavoritesOutfitsSlider();
 });
+// Slider para prendas favoritas
+function initFavoritesGarmentsSlider() {
+    const sliderContainer = document.querySelector('.favorites-garments-container');
+    const prevBtn = document.querySelector('.favorites-garments-control.prev');
+    const nextBtn = document.querySelector('.favorites-garments-control.next');
+
+    if (!sliderContainer || !prevBtn || !nextBtn) return;
+
+    const cardWidth = document.querySelector('.favorites-garment-card')?.offsetWidth || 200;
+    const gap = 20;
+    const scrollAmount = cardWidth + gap;
+
+    prevBtn.addEventListener('click', () => {
+        sliderContainer.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    nextBtn.addEventListener('click', () => {
+        sliderContainer.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    sliderContainer.addEventListener('scroll', () => {
+        const { scrollLeft, scrollWidth, clientWidth } = sliderContainer;
+        prevBtn.style.display = scrollLeft <= 0 ? 'none' : 'flex';
+        nextBtn.style.display = scrollLeft >= scrollWidth - clientWidth - 1 ? 'none' : 'flex';
+    });
+
+    sliderContainer.dispatchEvent(new Event('scroll'));
+}
+// Slider para outfits favoritos
+function initFavoritesOutfitsSlider() {
+    const sliderContainer = document.querySelector('.favorites-outfits-container');
+    const prevBtn = document.querySelector('.favorites-slider-control.prev');
+    const nextBtn = document.querySelector('.favorites-slider-control.next');
+
+    if (!sliderContainer || !prevBtn || !nextBtn) return;
+
+    const cardWidth = document.querySelector('.favorites-outfit-card')?.offsetWidth || 250;
+    const gap = 20;
+    const scrollAmount = cardWidth + gap;
+
+    prevBtn.addEventListener('click', () => {
+        sliderContainer.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    nextBtn.addEventListener('click', () => {
+        sliderContainer.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    sliderContainer.addEventListener('scroll', () => {
+        const { scrollLeft, scrollWidth, clientWidth } = sliderContainer;
+        prevBtn.style.display = scrollLeft <= 0 ? 'none' : 'flex';
+        nextBtn.style.display = scrollLeft >= scrollWidth - clientWidth - 1 ? 'none' : 'flex';
+    });
+
+    // Trigger initial check
+    sliderContainer.dispatchEvent(new Event('scroll'));
+}
