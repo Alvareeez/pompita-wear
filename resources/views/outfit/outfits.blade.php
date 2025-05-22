@@ -25,6 +25,7 @@
       @include('outfit.partials.outfits_list', ['outfits' => $outfits])
     </div>
   </div>
+@include('layouts.footer')
 @endsection
 
 @section('scripts')
