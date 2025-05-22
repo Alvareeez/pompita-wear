@@ -176,15 +176,50 @@ Estos términos se rigen e interpretan de acuerdo con las leyes de [España]. Cu
     li {
         list-style: none;
     }
+     main {
+    padding: 0px;
+}
     
+     html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+    /* Modifica el estilo del footer */
     .footer {
         background-color: #002f6c;
         color: white;
-        padding: 50px 0 30px 0; /* MÁS espacio arriba y abajo */
+        padding: 50px 0 30px 0;
         margin: 0;
+        width: 100%; /* Asegura que ocupe todo el ancho */
         position: relative;
         box-sizing: border-box;
-        min-height: 220px; /* Asegura altura mínima */
+        min-height: 220px;
+        margin-bottom: -50px !important;
+   }
+    
+    /* Asegúrate de que el contenedor principal no tenga márgenes no deseados */
+    .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    
+    /* Elimina cualquier margen o padding adicional en el body */
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    
+    /* Si estás usando un layout principal, asegúrate de que el contenido empuje el footer hacia abajo */
+    .main-content {
+        flex: 1 0 auto;
     }
     
     .footer .container {

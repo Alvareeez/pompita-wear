@@ -140,4 +140,6 @@
         <button id="btn-close" class="btn-close"></button>
     </div>
     <div id="modal-overlay" class="modal-overlay"></div>
+
+@include('layouts.footer')
 @endsection

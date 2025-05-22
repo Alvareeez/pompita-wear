@@ -1,5 +1,7 @@
 body {
     font-family: 'Ubuntu', sans-serif;
+    margin: 0%;
+    padding: 0%;
 }
 
 .profile-picture-container {
@@ -525,7 +527,9 @@ body {
     object-fit: cover;
 }
 
+
 /* === Estilos para el slider de prendas favoritas === */
+
 .favorites-garments-slider {
     position: relative;
     padding: 0 40px;
@@ -579,7 +583,9 @@ body {
     right: 0;
 }
 
+
 /* === Estilos para el slider de outfits favoritos === */
+
 .favorites-outfits-slider {
     position: relative;
     padding: 0 40px;
@@ -634,60 +640,79 @@ body {
 }
 
 @media (max-width: 767.98px) {
-
+    .carousel2 {
+        height: 300px;
+        margin-top: 30px;
+    }
+    .carousel__item {
+        width: 130px;
+        height: 260px;
+        left: 30%;
+    }
+    .carousel-control {
+        width: 40px;
+        height: 40px;
+    }
+    .carousel-control.prev {
+        left: 5px;
+    }
+    .carousel-control.next {
+        right: 45px;
+    }
     .favorites-outfit-card {
         flex: 0 0 80%;
     }
-
     .favorites-slider-control {
         width: 30px;
         height: 30px;
         font-size: 14px;
     }
-
     .favorites-garment-card {
         flex: 0 0 80%;
     }
-
     .favorites-garments-control {
         width: 30px;
         height: 30px;
         font-size: 14px;
     }
-
     /* Ajustes para las tarjetas en móvil */
     .outfit-link {
         flex: 0 0 100% !important;
         max-width: 100% !important;
     }
-
     .outfit-card {
-        width: 100% !important;
-        margin-left: 0 !important;
+        width: 100px;
+        height: 230px;
+        padding: 5px;
     }
-
+    .profile-name {
+        font-size: 12px;
+    }
+    .outfit-card .prenda-column img {
+        width: 37px;
+        height: 37px;
+    }
+    .perfil-p {
+        margin-top: 70px;
+    }
     /* Ajustes para las prendas favoritas */
     .col-md-4 {
         flex: 0 0 100% !important;
         max-width: 100% !important;
     }
-
     /* Mejorar el espaciado en móvil */
     .container-fluid {
         padding: 10px !important;
     }
-
     /* Asegurar que los contenedores de outfits no tengan demasiado espacio */
     .outfits-container {
         gap: 15px !important;
     }
-
     /* Ajustar el tamaño de la foto de perfil en móvil */
     .profile-picture-container {
         width: 120px !important;
         height: 120px !important;
     }
-
     /* Estilos para los contadores de seguidores/seguidos en móvil */
     .d-md-none .d-flex.justify-content-around {
         background: #f8f9fa;
@@ -695,12 +720,10 @@ body {
         border-radius: 10px;
         margin-bottom: 15px;
     }
-
     .d-md-none h5 {
         font-size: 1.1rem;
         margin-bottom: 5px;
     }
-
     .d-md-none strong {
         font-size: 1.3rem;
     }
