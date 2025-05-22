@@ -28,10 +28,8 @@ class AuthController extends Controller
         ]);
 
         DB::transaction(function() use ($request) {
-            // Obtener el rol
             $rol = Rol::where('nombre', $request->rol)->firstOrFail();
 
-            // Crear usuario
             $usuario = Usuario::create([
                 'nombre'     => $request->nombre,
                 'email'      => $request->email,
@@ -41,7 +39,6 @@ class AuthController extends Controller
                 'is_private' => $request->rol === 'cliente',
             ]);
 
-            // Si es empresa, crear registro en empresas
             if ($request->rol === 'empresa') {
                 Empresa::create([
                     'usuario_id'   => $usuario->id_usuario,
@@ -51,7 +48,6 @@ class AuthController extends Controller
                 ]);
             }
 
-            // Enviar correo de bienvenida en cola
             Mail::to($usuario->email)->queue(new WelcomeMail($usuario));
         });
 
@@ -82,6 +78,13 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            $usuario = Auth::user();
+
+            if ($usuario->rol->nombre === 'empresa') {
+                return redirect()->route('empresas.index')
+                                 ->with('success', 'Bienvenido, '.$usuario->nombre.' (Empresa).');
+            }
+
             return redirect()->route('home')
                              ->with('success', 'Has iniciado sesión correctamente.');
         }
