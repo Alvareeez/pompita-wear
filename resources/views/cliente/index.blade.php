@@ -17,9 +17,9 @@
     <!-- Carrusel -->
     <div class="carousel-container">
         <div class="carousel">
-            <img src="{{ asset('img/carrousel1.png') }}" alt="Imagen 1" class="carousel-image active">
+            <img src="{{ asset('img/carrousel3.png') }}" alt="Imagen 1" class="carousel-image">
             <img src="{{ asset('img/carrousel2.png') }}" alt="Imagen 2" class="carousel-image">
-            <img src="{{ asset('img/carrousel3.png') }}" alt="Imagen 3" class="carousel-image">
+            <img src="{{ asset('img/carrousel1.png') }}" alt="Imagen 3" class="carousel-image">
             <img src="{{ asset('img/carrousel4.png') }}" alt="Imagen 4" class="carousel-image">
         </div>
     </div>
@@ -94,10 +94,40 @@
     </div>
 </div>
 
-<!-- Sección del clima -->
-<div class="weather-section">
-    <button id="toggle-weather" class="weather-button">Ver el tiempo</button>
-    <div id="weather-content" class="weather-content hidden">
+<!-- Sección del clima mejorada -->
+<div class="weather-section" >
+    <div id="weather-card-trigger" style="display: inline-block; cursor: pointer;">
+        <div class="card-time-cloud" id="weather-card">
+            <div class="card-time-cloud-front"></div>
+            <div class="card-time-cloud-back">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        fill="#FFFFFF"
+                        d="M32.4,-41C45.2,-42.2,61,-38.6,63.9,-29.9C66.8,-21.2,56.8,-7.2,47.5,1.7C38.2,10.6,29.6,14.4,26.3,28.4C22.9,42.3,24.7,66.4,18.4,73C12,79.7,-2.5,68.8,-19.2,64.4C-35.9,60,-54.8,61.9,-56.2,52.9C-57.7,43.8,-41.7,23.7,-37.5,9.4C-33.3,-5,-41,-13.6,-44.4,-26.2C-47.8,-38.7,-47,-55.2,-38.9,-56.2C-30.7,-57.2,-15.4,-42.7,-2.8,-38.3C9.8,-34,19.6,-39.8,32.4,-41Z"
+                        transform="translate(100 100)"
+                    ></path>
+                </svg>
+            </div>
+            <div class="card-time-cloud-rain-group">
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+                <div class="card-time-cloud-rain"></div>
+            </div>
+            <p class="card-time-cloud-day" id="weather-card-day">--</p>
+            <p class="card-time-cloud-day-number" id="weather-card-date">--/--/----</p>
+            <p class="card-time-cloud-hour" id="weather-card-hour">--:--</p>
+            <div class="card-time-cloud-icon" id="weather-card-icon"></div>
+        </div>
+        <p style="margin-top:10px;color:#888;font-size:15px;">Haz clic para ver el pronóstico</p>
+    </div>
+    <div id="weather-content" class="weather-content hidden" style="margin-top: 30px;">
         <div class="weather-info">
             <div class="left-side">
                 <div class="icon">
@@ -117,6 +147,7 @@
             </div>
         </div>
         <div class="forecast" id="forecast-container"></div>
+        <button id="close-weather" class="weather-button" style="margin-top: 20px;">Cerrar</button>
     </div>
 </div>
 
@@ -128,6 +159,7 @@
         <div id="modal-day-details"></div>
     </div>
 </div>
+<br>
 @include('layouts.footer')
 <x-cookie-banner />
 @endsection

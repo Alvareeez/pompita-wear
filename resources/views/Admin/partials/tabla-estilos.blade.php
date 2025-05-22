@@ -1,4 +1,4 @@
-@foreach ($estilos as $estilo)
+@forelse ($estilos as $estilo)
     @php
         // ¿Este estilo es el único de alguna prenda?
         $esUnico = \DB::table('prenda_estilos')
@@ -20,4 +20,8 @@
             </form>
         </td>
     </tr>
-@endforeach
+@empty
+    <tr id="no-results">
+        <td colspan="3" style="text-align:center;">No se encontraron resultados.</td>
+    </tr>
+@endforelse

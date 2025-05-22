@@ -4,12 +4,12 @@
             <th>Nombre</th>
             <th>Correo</th>
             <th>Rol</th>
-            <th>Estado</th> <!-- Nueva columna -->
+            <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($usuarios as $usuario)
+        @forelse ($usuarios as $usuario)
             <tr>
                 <td>{{ $usuario->nombre }}</td>
                 <td>{{ $usuario->email }}</td>
@@ -30,6 +30,10 @@
                     </form>
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr id="no-results">
+                <td colspan="5" style="text-align:center;">No se encontraron resultados.</td>
+            </tr>
+        @endforelse
     </tbody>
 </table>
