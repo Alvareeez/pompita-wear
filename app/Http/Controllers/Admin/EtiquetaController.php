@@ -5,10 +5,22 @@ use App\Http\Controllers\Controller;
 use App\Models\Etiqueta;
 use App\Models\Prenda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class EtiquetaController extends Controller
 {
+
+    public function __construct()
+    {
+        // Sólo admin (id_rol === 1) puede acceder; si no, aborta con 403
+        abort_unless(
+            Auth::check() && Auth::user()->id_rol === 1,
+            403,
+            'Acceso denegado'
+        );
+    }
+    
     public function index(Request $request)
     {
         $query = Etiqueta::query();
