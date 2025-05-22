@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             PrendaEtiquetasSeeder::class,
             OutfitSeeder::class,
             SolicitudesSeeder::class,
+            PlanesSeeder::class,
         ]);
     }
     
