@@ -50,8 +50,15 @@
                     </ul>
 
                     <!-- Derecha: Usuario -->
+<div class="toggle-switch ms-3">
+  <label class="switch-label">
+    <input type="checkbox" class="checkbox" id="theme-toggle">
+    <span class="slider"></span>
+  </label>
+</div>
                     <div class="user-section d-flex align-items-center gap-2 order-3 ms-lg-auto">
                         @auth
+                        
                             <!-- Notificaciones -->
                             <div class="input me-2">
                                 <button class="value" id="notification-button">
@@ -92,7 +99,6 @@
                                         : asset(auth()->user()->foto_perfil ?? 'img/default-profile.png') }}" alt="Perfil">
                                 </a>
                             </div>
-
                             <!-- Logout -->
                             <form action="{{ route('logout') }}" method="POST" style="display:inline;">
                                 @csrf
@@ -107,6 +113,7 @@
         </div>
     </nav>
 </header>
+
 
 <main>@yield('content')</main>
 
@@ -168,6 +175,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    const toggle = document.getElementById('theme-toggle');
+    // Aplica el modo guardado al cargar
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        toggle.checked = true;
+    }
+    toggle.addEventListener('change', function () {
+        if (this.checked) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light');
+        }
+    });
 });
 </script>
 

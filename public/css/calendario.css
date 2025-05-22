@@ -292,3 +292,9 @@
     margin-bottom: 20px;
     font-size: 14px;
 }
+
+body.dark-mode .fc-daygrid-day-number,
+body.dark-mode .fc-col-header-cell-cushion,
+body.dark-mode .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    color: #fff !important;
+}
