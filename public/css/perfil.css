@@ -640,6 +640,25 @@ body {
 }
 
 @media (max-width: 767.98px) {
+    .carousel2 {
+        height: 300px;
+        margin-top: 30px;
+    }
+    .carousel__item {
+        width: 130px;
+        height: 260px;
+        left: 30%;
+    }
+    .carousel-control {
+        width: 40px;
+        height: 40px;
+    }
+    .carousel-control.prev {
+        left: 5px;
+    }
+    .carousel-control.next {
+        right: 45px;
+    }
     .favorites-outfit-card {
         flex: 0 0 80%;
     }
@@ -662,8 +681,19 @@ body {
         max-width: 100% !important;
     }
     .outfit-card {
-        width: 100% !important;
-        margin-left: 0 !important;
+        width: 100px;
+        height: 230px;
+        padding: 5px;
+    }
+    .profile-name {
+        font-size: 12px;
+    }
+    .outfit-card .prenda-column img {
+        width: 37px;
+        height: 37px;
+    }
+    .perfil-p {
+        margin-top: 70px;
     }
     /* Ajustes para las prendas favoritas */
     .col-md-4 {
