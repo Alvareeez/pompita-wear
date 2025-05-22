@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Solicitud;
 use App\Models\Usuario;
+use App\Notifications\SolicitudNotification;
 
 class SolicitudController extends Controller
 {
@@ -37,6 +38,15 @@ class SolicitudController extends Controller
         // Asigna el status según privacidad del receptor
         $solicitud->status = $receptor->is_private ? 'pendiente' : 'aceptada';
         $solicitud->save();
+
+        // Notificación al receptor
+        if ($solicitud->status === 'pendiente') {
+            $receptor->notify(new SolicitudNotification("{$emisor->nombre} te ha enviado una solicitud de seguimiento."));
+        } else {
+            $receptor->notify(new SolicitudNotification("{$emisor->nombre} ha comenzado a seguirte."));
+            // Notifica al emisor que la solicitud fue aceptada automáticamente
+            $emisor->notify(new SolicitudNotification("Has comenzado a seguir a {$receptor->nombre}."));
+        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -95,5 +105,26 @@ class SolicitudController extends Controller
         return response()->json([
             'mutual' => ($meSigue && $otroMeSigue)
         ]);
+    }
+
+    /**
+     * Acepta una solicitud pendiente de seguimiento.
+     */
+    public function accept(Request $request, Solicitud $solicitud)
+    {
+        // Solo el receptor puede aceptar
+        if ($solicitud->id_receptor != Auth::user()->id_usuario) {
+            return back()->with('error', 'No autorizado.');
+        }
+
+        $solicitud->status = 'aceptada';
+        $solicitud->save();
+
+        // Notifica al emisor que su solicitud fue aceptada
+        $solicitud->emisor->notify(new SolicitudNotification(
+            "{$solicitud->receptor->nombre} ha aceptado tu solicitud de seguimiento."
+        ));
+
+        return back()->with('success', 'Solicitud aceptada.');
     }
 }

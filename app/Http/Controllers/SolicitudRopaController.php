@@ -95,6 +95,11 @@ class SolicitudRopaController extends Controller
             // Confirmar la transacción
             DB::commit();
 
+            // Notificar al usuario que su solicitud fue enviada
+            auth()->user()->notify(new \App\Notifications\SolicitudRopaNotification(
+                "Tu solicitud de ropa '{$solicitud->nombre}' ha sido enviada y está pendiente de revisión."
+            ));
+
             return redirect()->route('home')->with('success', 'Solicitud enviada correctamente.');
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error
@@ -137,9 +142,18 @@ class SolicitudRopaController extends Controller
 
             // Actualizar el estado de la solicitud
             $solicitud->update(['estado' => 'aceptada']);
+
+            // Notificar al usuario que fue aceptada
+            $solicitud->usuario->notify(new \App\Notifications\SolicitudRopaNotification(
+                "¡Tu solicitud de ropa '{$solicitud->nombre}' ha sido aceptada y la prenda ha sido creada!"
+            ));
         } elseif ($request->action === 'rechazar') {
-            // Actualizar el estado de la solicitud
             $solicitud->update(['estado' => 'rechazada']);
+
+            // Notificar al usuario que fue rechazada
+            $solicitud->usuario->notify(new \App\Notifications\SolicitudRopaNotification(
+                "Tu solicitud de ropa '{$solicitud->nombre}' ha sido rechazada."
+            ));
         }
 
         return redirect()->route('admin.solicitudes.index')->with('success', 'Solicitud actualizada correctamente.');
