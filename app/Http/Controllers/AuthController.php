@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Usuario;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Models\Usuario;
+use App\Models\Rol;
+use App\Models\Empresa;
 use App\Mail\WelcomeMail;
 
 class AuthController extends Controller
@@ -15,48 +19,62 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nombre'   => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:usuarios',
-            'password' => 'required|string|min:8|confirmed',
+            'nombre'           => 'required|string|max:255',
+            'email'            => 'required|string|email|max:255|unique:usuarios,email',
+            'password'         => 'required|string|min:8|confirmed',
+            'rol'              => 'required|in:cliente,empresa',
+            'razon_social'     => 'required_if:rol,empresa|string|max:255',
+            'nif'              => 'nullable|string|max:20',
         ]);
 
-        // 1) Creamos el usuario
-        $usuario = Usuario::create([
-            'nombre'     => $request->nombre,
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password),
-            'id_rol'     => 2,           // rol cliente por defecto
-            'estado'     => 'activo',    // estado activo por defecto
-            'is_private' => true,        // cuenta privada por defecto
-        ]);
+        DB::transaction(function() use ($request) {
+            // Obtener el rol
+            $rol = Rol::where('nombre', $request->rol)->firstOrFail();
 
-        // 2) Enviamos el mail de bienvenida
-        Mail::to($usuario->email)
-            ->send(new WelcomeMail($usuario));
+            // Crear usuario
+            $usuario = Usuario::create([
+                'nombre'     => $request->nombre,
+                'email'      => $request->email,
+                'password'   => Hash::make($request->password),
+                'id_rol'     => $rol->id_rol,
+                'estado'     => 'activo',
+                'is_private' => $request->rol === 'cliente',
+            ]);
 
-        // 3) Redirigimos al login con mensaje de éxito
-        return redirect('/login')
-            ->with('success', 'Usuario registrado correctamente.');
+            // Si es empresa, crear registro en empresas
+            if ($request->rol === 'empresa') {
+                Empresa::create([
+                    'usuario_id'   => $usuario->id_usuario,
+                    'slug'         => Str::slug($request->razon_social),
+                    'razon_social' => $request->razon_social,
+                    'nif'          => $request->nif,
+                ]);
+            }
+
+            // Enviar correo de bienvenida en cola
+            Mail::to($usuario->email)->queue(new WelcomeMail($usuario));
+        });
+
+        return redirect()->route('login')
+                         ->with('success', 'Registro completado. Por favor, inicia sesión.');
     }
-
-
 
     // Login de usuario
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email'    => 'required|email',
             'password' => 'required',
         ]);
 
         $usuario = Usuario::where('email', $request->email)->first();
 
-        if (!$usuario) {
-            return back()->withErrors(['email' => 'El correo electrónico no está registrado.']);
+        if (! $usuario) {
+            return back()->withErrors(['email' => 'El correo no está registrado.']);
         }
 
         if ($usuario->estado === 'baneado') {
-            return back()->withErrors(['email' => 'Tu cuenta ha sido baneada. Contacta con el administrador.']);
+            return back()->withErrors(['email' => 'Tu cuenta ha sido baneada. Contacta con soporte.']);
         }
 
         if ($usuario->estado === 'inactivo') {
@@ -64,36 +82,35 @@ class AuthController extends Controller
         }
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect('/')->with('success', 'Sesión iniciada correctamente.');
+            return redirect()->route('home')
+                             ->with('success', 'Has iniciado sesión correctamente.');
         }
 
-        return back()->withErrors(['email' => 'Las credenciales proporcionadas son incorrectas.']);
+        return back()->withErrors(['password' => 'Contraseña incorrecta.']);
     }
 
+    // Logout de usuario
     public function logout(Request $request)
     {
-        // Cerrar la sesión del usuario
         Auth::logout();
-
-        // Invalidar la sesión actual
         $request->session()->invalidate();
-
-        // Regenerar el token CSRF para mayor seguridad
         $request->session()->regenerateToken();
 
-        return redirect('/login'); // Cambia '/login' por la ruta que prefieras
+        return redirect()->route('login');
     }
 
+    // Reactivar cuenta
     public function reactivarCuenta(Request $request)
     {
-        try {
-            $usuario = Usuario::findOrFail($request->id_usuario);
-            $usuario->estado = 'activo';
-            $usuario->save();
+        $request->validate([
+            'id_usuario' => 'required|exists:usuarios,id_usuario',
+        ]);
 
-            return redirect()->route('login')->with('success', 'Tu cuenta ha sido reactivada. Ahora puedes iniciar sesión.');
-        } catch (\Exception $e) {
-            return back()->withErrors(['error' => 'Ocurrió un error al reactivar tu cuenta.']);
-        }
+        $usuario = Usuario::findOrFail($request->id_usuario);
+        $usuario->estado = 'activo';
+        $usuario->save();
+
+        return redirect()->route('login')
+                         ->with('success', 'Tu cuenta ha sido reactivada.');
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Controllers\DetailsOutfitsController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\EmpresaController;
 
 
 
@@ -197,5 +198,12 @@ Route::middleware(['auth'])->group(
 
         // Guardar una nueva solicitud
         Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
+
+
+// RUTAS DE SEGURIZADAS EMPRESAS ---------------------------------------------------------------------------
+
+        Route::get('/empresa', [EmpresaController::class, 'index'])->name('empresas.index');
+
     }
+    
 );
