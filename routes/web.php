@@ -15,6 +15,7 @@ use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\GestorController;
 
 
 
@@ -224,6 +225,18 @@ Route::middleware(['auth'])->group(
         ->name('paypal.return');
         Route::get('/paypal/cancel',   [PaymentController::class, 'cancelOrder'])
         ->name('paypal.cancel');
+
+
+// RUTAS DE SEGURIZADAS GESTORES ---------------------------------------------------------------------------
+
+    // Panel principal del gestor
+    Route::get('/gestor', [GestorController::class, 'index'])
+         ->name('gestor.index');
+
+    // Acción para marcar una prenda como destacada
+    Route::post('/gestor/highlight/{solicitud}', [GestorController::class, 'highlight'])
+         ->name('gestor.highlight');
+
     }
     
 );

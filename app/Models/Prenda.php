@@ -18,7 +18,9 @@ class Prenda extends Model
         'id_tipoPrenda',
         'descripcion',
         'img_frontal',
-        'img_trasera'
+        'img_trasera',
+        'destacada',         
+        'destacado_hasta',
     ];
 
     public function tipoPrenda()
@@ -97,4 +99,15 @@ class Prenda extends Model
 {
     return $this->likes()->count();
 }
+
+    // Scope para prendas destacadas activas
+    public function scopeDestacadas($query)
+    {
+        return $query->where('destacada', true)
+                     ->where(function($q) {
+                         $q->whereNull('destacado_hasta')
+                           ->orWhere('destacado_hasta', '>=', now()->toDateString());
+                     });
+    }
+    
 }

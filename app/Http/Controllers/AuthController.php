@@ -19,12 +19,12 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nombre'           => 'required|string|max:255',
-            'email'            => 'required|string|email|max:255|unique:usuarios,email',
-            'password'         => 'required|string|min:8|confirmed',
-            'rol'              => 'required|in:cliente,empresa',
-            'razon_social'     => 'required_if:rol,empresa|string|max:255',
-            'nif'              => 'nullable|string|max:20',
+            'nombre'       => 'required|string|max:255',
+            'email'        => 'required|string|email|max:255|unique:usuarios,email',
+            'password'     => 'required|string|min:8|confirmed',
+            'rol'          => 'required|in:cliente,empresa,gestor',
+            'razon_social' => 'required_if:rol,empresa|string|max:255',
+            'nif'          => 'nullable|string|max:20',
         ]);
 
         DB::transaction(function() use ($request) {
@@ -79,12 +79,19 @@ class AuthController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $usuario = Auth::user();
+            $rolNombre = $usuario->rol->nombre;
 
-            if ($usuario->rol->nombre === 'empresa') {
+            if ($rolNombre === 'empresa') {
                 return redirect()->route('empresas.index')
                                  ->with('success', 'Bienvenido, '.$usuario->nombre.' (Empresa).');
             }
 
+            if ($rolNombre === 'gestor') {
+                return redirect()->route('gestor.index')
+                                 ->with('success', 'Bienvenido, '.$usuario->nombre.' (Gestor).');
+            }
+
+            // Por defecto cliente u otros roles
             return redirect()->route('home')
                              ->with('success', 'Has iniciado sesión correctamente.');
         }
