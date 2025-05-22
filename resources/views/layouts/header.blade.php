@@ -51,7 +51,7 @@
                         <!-- Mover el toggle switch aquí -->
                         <div class="toggle-switch ms-3">
                             <label class="switch-label mb-0">
-                                <input type="checkbox" class="checkbox" id="theme-toggle">
+                                <input type="checkbox" class="checkbox" id="theme-toggle-mobile">
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -126,7 +126,7 @@
                             <!-- Mover el toggle switch aquí -->
                             <div class="toggle-switch ms-3">
                                 <label class="switch-label mb-0">
-                                    <input type="checkbox" class="checkbox" id="theme-toggle">
+                                    <input type="checkbox" class="checkbox" id="theme-toggle-desktop">
                                     <span class="slider"></span>
                                 </label>
                             </div>
@@ -216,21 +216,39 @@
     <script src="{{ asset('js/header.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('theme-toggle');
-            // Aplica el modo guardado al cargar
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-mode');
-                toggle.checked = true;
-            }
-            toggle.addEventListener('change', function() {
-                if (this.checked) {
+            // Funcionalidad para ambos interruptores
+            function setupThemeToggle(toggleId) {
+                const toggle = document.getElementById(toggleId);
+                if (!toggle) return;
+
+                // Aplica el modo guardado al cargar
+                if (localStorage.getItem('theme') === 'dark') {
                     document.body.classList.add('dark-mode');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                    localStorage.setItem('theme', 'light');
+                    toggle.checked = true;
                 }
-            });
+
+                toggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        document.body.classList.add('dark-mode');
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                        localStorage.setItem('theme', 'light');
+                    }
+
+                    // Sincroniza el estado del otro interruptor
+                    const otherToggleId = toggleId === 'theme-toggle-mobile' ? 'theme-toggle-desktop' :
+                        'theme-toggle-mobile';
+                    const otherToggle = document.getElementById(otherToggleId);
+                    if (otherToggle) {
+                        otherToggle.checked = this.checked;
+                    }
+                });
+            }
+
+            // Configura ambos interruptores
+            setupThemeToggle('theme-toggle-mobile');
+            setupThemeToggle('theme-toggle-desktop');
         });
     </script>
 </body>
