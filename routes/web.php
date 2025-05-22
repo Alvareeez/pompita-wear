@@ -14,6 +14,8 @@ use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\SolicitudController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\PaymentController;
+
 
 
 
@@ -202,8 +204,26 @@ Route::middleware(['auth'])->group(
 
 // RUTAS DE SEGURIZADAS EMPRESAS ---------------------------------------------------------------------------
 
-        Route::get('/empresa', [EmpresaController::class, 'index'])->name('empresas.index');
 
+        // 1) Panel y lista de planes
+        Route::get('/empresa', [EmpresaController::class, 'index'])
+        ->name('empresas.index');
+
+        // 2) Tras elegir plan, seleccionar prenda
+        Route::get('/empresa/planes/{plan}/destacar', 
+        [EmpresaController::class, 'selectPrenda'])
+        ->name('empresa.destacar');
+
+        // 3) Checkout PayPal
+        Route::post('/paypal/checkout', 
+        [PaymentController::class, 'createOrder'])
+        ->name('paypal.checkout');
+
+        // 4) Callbacks PayPal
+        Route::get('/paypal/return',   [PaymentController::class, 'captureOrder'])
+        ->name('paypal.return');
+        Route::get('/paypal/cancel',   [PaymentController::class, 'cancelOrder'])
+        ->name('paypal.cancel');
     }
     
 );

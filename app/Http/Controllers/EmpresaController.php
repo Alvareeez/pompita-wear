@@ -1,17 +1,26 @@
 <?php
+// app/Http/Controllers/EmpresaController.php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Plan;
+use App\Models\Prenda;
 
 class EmpresaController extends Controller
 {
+    // 1) Mostrar panel con lista de planes
     public function index()
     {
-        // Traemos los planes para ofrecer
         $planes = Plan::all();
-
         return view('empresas.index', compact('planes'));
+    }
+
+    // 2) Elegir prenda tras seleccionar plan
+    public function selectPrenda(Plan $plan)
+    {
+        // Obtén todas las prendas (o filtra según tu lógica)
+        $prendas = Prenda::all();
+        return view('empresas.select-prenda', compact('plan','prendas'));
     }
 }

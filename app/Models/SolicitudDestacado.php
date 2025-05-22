@@ -13,6 +13,7 @@ class SolicitudDestacado extends Model
         'prenda_id',
         'plan_id',
         'estado',
+        'solicitada_en',
         'aprobada_en',
         'expira_en',
     ];
