@@ -210,8 +210,9 @@ main {
 
 /* Nombre del outfit siempre con letra negra */
 #nombre_outfit {
-    color: #111 !important;
-    background: #fff !important;
+    color: #fff !important;
+    background-color: #23272b !important;
+    border: 1px solid #444 !important;
 }
 
 /* Responsive */
@@ -517,9 +518,22 @@ body.dark-mode .rating input:hover ~ label i {
     transition: color 0.2s;
 }
 
-/* Si usas el selector inverso para el hover y checked */
-body.dark-mode .rating input[type="radio"]:not(:checked) ~ label i {
-    color: #adb5bd !important; /* Gris Bootstrap */
+/* Estrellas interactivas modo oscuro para inputs de 5 a 1 (input después del label) */
+body.dark-mode .rating input[type="radio"]:checked + label i,
+body.dark-mode .rating input[type="radio"]:checked + label ~ label i {
+    color: #ffc107 !important;
+}
+
+/* Las no seleccionadas en gris */
+body.dark-mode .rating label i {
+    color: #adb5bd !important;
+    transition: color 0.2s;
+}
+
+/* Hover: estrellas a la izquierda y actual en amarillo */
+body.dark-mode .rating label:hover ~ label i,
+body.dark-mode .rating label:hover i {
+    color: #ffc107 !important;
 }
 
 /* Mejoras para el panel de filtros en modo oscuro */
@@ -701,4 +715,21 @@ body.dark-mode .fa-star.text-warning {
 .fa-star.text-secondary,
 body.dark-mode .fa-star.text-secondary {
     color: #adb5bd !important;
+}
+
+/* Tiempo en blanco en modo oscuro */
+body.dark-mode .text-muted,
+body.dark-mode .tiempo-comentario {
+    color: #fff !important;
+}
+
+/* Descripción de prendas en blanco en modo oscuro */
+body.dark-mode .descripcion {
+    color: #fff !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #fff !important;
+    opacity: 1 !important;
 }
