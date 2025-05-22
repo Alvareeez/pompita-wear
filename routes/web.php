@@ -237,6 +237,12 @@ Route::middleware(['auth'])->group(
     Route::post('/gestor/highlight/{solicitud}', [GestorController::class, 'highlight'])
          ->name('gestor.highlight');
 
+    // Acciones para aprobar o rechazar una solicitu
+    Route::post('/gestor/approve/{solicitud}', [GestorController::class,'approve'])
+         ->name('gestor.approve');
+    Route::post('/gestor/reject/{solicitud}',  [GestorController::class,'reject'])
+         ->name('gestor.reject');
+
     }
     
 );
