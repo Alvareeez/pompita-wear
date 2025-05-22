@@ -7,21 +7,13 @@ use Illuminate\Support\Facades\DB;
 
 class RolesSeeder extends Seeder
 {
-    /**
-     * Ejecutar la siembra de la base de datos.
-     *
-     * @return void
-     */
     public function run()
     {
-        // Insertar los roles
         DB::table('roles')->insert([
-            [
-                'nombre' => 'admin',
-            ],
-            [
-                'nombre' => 'cliente',
-            ],
+            ['nombre' => 'admin'],
+            ['nombre' => 'cliente'],
+            ['nombre' => 'empresa'],   // nuevo
+            ['nombre' => 'gestor'],    // nuevo
         ]);
     }
 }
