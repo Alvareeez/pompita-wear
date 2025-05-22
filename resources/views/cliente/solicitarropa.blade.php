@@ -111,6 +111,7 @@
         <button type="submit" class="submit-btn">Enviar Solicitud</button>
     </form>
 </div>
+@include('layouts.footer')
 @endsection
 
 @section('js')

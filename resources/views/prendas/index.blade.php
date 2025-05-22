@@ -93,6 +93,7 @@
     <div id="results">
         @include('prendas.partials.product-list')
     </div>
+@include('layouts.footer')
 @endsection
 
 @section('scripts')
