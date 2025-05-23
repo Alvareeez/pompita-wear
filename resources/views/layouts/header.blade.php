@@ -72,6 +72,14 @@
                                 </li>
                             @endif
 
+                            @if(optional(auth()->user()->rol)->nombre === 'analista')
+                            <li class="nav-item">
+                                <a class="nav-link text-warning" href="{{ route('analista.index') }}">
+                                <i class="fas fa-chart-line"></i> Modo Analista
+                                </a>
+                            </li>
+                            @endif
+
                         </ul>
                         <!-- Mover el toggle switch aquí -->
                         <div class="toggle-switch ms-3">
@@ -190,7 +198,16 @@
                                     </a>
                                 </li>
                             @endif
-                            
+
+                            @if(optional(auth()->user()->rol)->nombre === 'analista')
+                            <li class="nav-item">
+                                <a class="nav-link text-warning" href="{{ route('analista.index') }}">
+                                <i class="fas fa-chart-line"></i> Modo Analista
+                                </a>
+                            </li>
+                            @endif
+
+
                         </ul>
                         @auth
                             <div class="user-section d-flex align-items-center gap-2 order-3 ms-lg-auto">
