@@ -11,6 +11,7 @@
 @section('scripts')
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.17/index.global.min.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const calendarEl = document.getElementById('calendar');
@@ -87,27 +88,39 @@
             };
 
             window.deleteOutfit = function (date) {
-                if (confirm('¿Estás seguro de que deseas eliminar este outfit?')) {
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = `/outfits/delete`;
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: 'Esta acción eliminará el outfit del calendario.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545', // Color del botón de confirmación
+                    cancelButtonColor: '#6c757d', // Color del botón de cancelar
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Crear y enviar el formulario para eliminar el outfit
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = `/outfits/delete`;
 
-                    const csrfInput = document.createElement('input');
-                    csrfInput.type = 'hidden';
-                    csrfInput.name = '_token';
-                    csrfInput.value = '{{ csrf_token() }}';
+                        const csrfInput = document.createElement('input');
+                        csrfInput.type = 'hidden';
+                        csrfInput.name = '_token';
+                        csrfInput.value = '{{ csrf_token() }}';
 
-                    const dateInput = document.createElement('input');
-                    dateInput.type = 'hidden';
-                    dateInput.name = 'fecha';
-                    dateInput.value = date;
+                        const dateInput = document.createElement('input');
+                        dateInput.type = 'hidden';
+                        dateInput.name = 'fecha';
+                        dateInput.value = date;
 
-                    form.appendChild(csrfInput);
-                    form.appendChild(dateInput);
+                        form.appendChild(csrfInput);
+                        form.appendChild(dateInput);
 
-                    document.body.appendChild(form);
-                    form.submit();
-                }
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                });
             };
         });
     </script>
@@ -140,6 +153,4 @@
         <button id="btn-close" class="btn-close"></button>
     </div>
     <div id="modal-overlay" class="modal-overlay"></div>
-
-@include('layouts.footer')
 @endsection
