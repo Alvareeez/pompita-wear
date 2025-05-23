@@ -55,6 +55,23 @@
                                     </a>
                                 </li>
                             @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'gestor')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('gestor.index') }}">
+                                        <i class="fas fa-tasks"></i> Modo Gestor
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'programador')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('programador.index') }}">
+                                        <i class="fas fa-laptop-code"></i> Modo Programador
+                                    </a>
+                                </li>
+                            @endif
+
                         </ul>
                         <!-- Mover el toggle switch aquí -->
                         <div class="toggle-switch ms-3">
@@ -157,6 +174,23 @@
                                     </a>
                                 </li>
                             @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'gestor')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('gestor.index') }}">
+                                        <i class="fas fa-tasks"></i> Modo Gestor
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'programador')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('programador.index') }}">
+                                        <i class="fas fa-laptop-code"></i> Modo Programador
+                                    </a>
+                                </li>
+                            @endif
+                            
                         </ul>
                         @auth
                             <div class="user-section d-flex align-items-center gap-2 order-3 ms-lg-auto">
