@@ -11,20 +11,29 @@ class Plantilla extends Model
     protected $fillable = [
         'empresa_id',
         'programador_id',
+        'slug',
         'nombre',
-        'config',
+        'foto',
+        'enlace',
+        'colores',
         'estado',
     ];
 
     protected $casts = [
-        'config' => 'array',
+        'colores' => 'array',
     ];
 
+    /**
+     * La empresa que solicitó la plantilla.
+     */
     public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'empresa_id');
     }
 
+    /**
+     * El programador asignado.
+     */
     public function programador()
     {
         return $this->belongsTo(Usuario::class, 'programador_id', 'id_usuario');
