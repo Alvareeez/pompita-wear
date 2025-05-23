@@ -6,9 +6,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Plan;
 use App\Models\Prenda;
+use Illuminate\Support\Facades\Auth;
+
 
 class EmpresaController extends Controller
 {
+
+    public function __construct()
+    {
+        // Sólo gestor (id_rol === 3) puede acceder; si no, aborta con 403
+        abort_unless(
+            Auth::check() && Auth::user()->id_rol === 3,
+            403,
+            'Acceso denegado'
+        );
+    }
+
+
     // 1) Mostrar panel con lista de planes
     public function index()
     {
