@@ -17,6 +17,7 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GestorController;
 use App\Http\Controllers\ProgramadorController;
+use App\Http\Controllers\AnalistaController;
 
 
 
@@ -266,6 +267,17 @@ Route::middleware(['auth'])->group(
     ->name('programador.plantillas.aprobar');
     Route::post('/plantillas/{plantilla}/rechazar', [ProgramadorController::class, 'rechazar'])
     ->name('programador.plantillas.rechazar');
+
+
+
+// RUTAS DE SEGURIZADAS GESTORES ---------------------------------------------------------------------------
+
+    Route::get('/analista', [AnalistaController::class,'index'])
+    ->name('analista.index');
+
+    Route::get('/analista/prendas/{prenda}', [AnalistaController::class,'show'])
+    ->name('analista.prendas.show');
+
     }
     
 );
