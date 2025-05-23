@@ -1,4 +1,3 @@
-<!-- resources/views/registro/registro.blade.php -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,24 +21,24 @@
       </a>
       <p class="divider">— o —</p>
 
-      <form action="{{ route('register') }}" method="POST">
+      <form action="{{ route('register') }}" method="POST" id="registerForm">
         @csrf
 
         <div class="form-group">
           <input type="text" name="nombre" placeholder="Nombre completo"
-                 value="{{ old('nombre') }}" required>
+                 value="{{ old('nombre') }}" >
           <span class="error">@error('nombre'){{ $message }}@enderror</span>
         </div>
 
         <div class="form-group">
           <input type="email" name="email" placeholder="Correo electrónico"
-                 value="{{ old('email') }}" required>
+                 value="{{ old('email') }}" >
           <span class="error">@error('email'){{ $message }}@enderror</span>
         </div>
 
         <div class="form-group">
           <div class="password-toggle-container">
-            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+            <input type="password" name="password" id="password" placeholder="Contraseña" >
             <span class="toggle-password" data-target="password"><i class="fas fa-eye"></i></span>
           </div>
           <span class="error">@error('password'){{ $message }}@enderror</span>
@@ -48,7 +47,7 @@
         <div class="form-group">
           <div class="password-toggle-container">
             <input type="password" name="password_confirmation" id="password_confirmation"
-                   placeholder="Repetir contraseña" required>
+                   placeholder="Repetir contraseña" >
             <span class="toggle-password" data-target="password_confirmation"><i class="fas fa-eye"></i></span>
           </div>
           <span class="error">@error('password_confirmation'){{ $message }}@enderror</span>
@@ -56,7 +55,7 @@
 
         <div class="form-group">
           <label for="rol">Tipo de cuenta</label>
-          <select name="rol" id="rol" required>
+          <select name="rol" id="rol" >
             <option value="cliente" {{ old('rol')=='cliente' ? 'selected':'' }}>Cliente</option>
             <option value="empresa" {{ old('rol')=='empresa' ? 'selected':'' }}>Empresa</option>
           </select>
@@ -84,24 +83,6 @@
     </div>
   </div>
 
-  <script>
-    document.querySelectorAll('.toggle-password').forEach(toggle => {
-      const input = document.getElementById(toggle.dataset.target);
-      const icon  = toggle.querySelector('i');
-      toggle.addEventListener('click', () => {
-        const show = input.type === 'password';
-        input.type  = show ? 'text' : 'password';
-        icon.className = show ? 'fas fa-eye-slash' : 'fas fa-eye';
-      });
-    });
-
-    const rolSelect = document.getElementById('rol');
-    const datosEmpresa = document.getElementById('datos-empresa');
-    function toggleEmpresa() {
-      datosEmpresa.style.display = rolSelect.value === 'empresa' ? 'block' : 'none';
-    }
-    rolSelect.addEventListener('change', toggleEmpresa);
-    document.addEventListener('DOMContentLoaded', toggleEmpresa);
-  </script>
+  <script src="{{ asset('js/registro.js') }}"></script>
 </body>
 </html>
