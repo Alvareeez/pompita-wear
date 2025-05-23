@@ -1,4 +1,3 @@
-{{-- resources/views/empresas/index.blade.php --}}
 @extends('layouts.header')
 
 @section('title', 'Panel de Empresa')

@@ -1,4 +1,3 @@
-{{-- resources/views/analista/show.blade.php --}}
 @extends('layouts.header')
 
 @section('title', 'Detalle Analítica de Prenda')
