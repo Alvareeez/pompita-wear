@@ -16,6 +16,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GestorController;
+use App\Http\Controllers\ProgramadorController;
 
 
 
@@ -250,9 +251,21 @@ Route::middleware(['auth'])->group(
     // CRUD de destacados
     Route::get('/gestor/destacados', [GestorController::class,'manageDestacados'])
         ->name('gestor.destacados');
-   Route::post('/gestor/destacados/{prenda}/update', [GestorController::class,'updateDestacado'])
+    Route::post('/gestor/destacados/{prenda}/update', [GestorController::class,'updateDestacado'])
         ->name('gestor.destacados.update');
 
+
+// RUTAS DE SEGURIZADAS GESTORES ---------------------------------------------------------------------------
+
+    // Panel principal
+    Route::get('/programador', [ProgramadorController::class, 'index'])
+    ->name('programador.index');
+
+    // Aprobación ó rechazo de plantillas
+    Route::post('/plantillas/{plantilla}/aprobar', [ProgramadorController::class, 'aprobar'])
+    ->name('programador.plantillas.aprobar');
+    Route::post('/plantillas/{plantilla}/rechazar', [ProgramadorController::class, 'rechazar'])
+    ->name('programador.plantillas.rechazar');
     }
     
 );

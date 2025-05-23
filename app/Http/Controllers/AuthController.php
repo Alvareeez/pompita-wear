@@ -108,6 +108,11 @@ class AuthController extends Controller
                                  ->with('success', 'Bienvenido, '.$usuario->nombre.' (Gestor).');
             }
 
+            if ($rolNombre === 'programador') {
+                return redirect()->route('programador.index')
+                                 ->with('success', 'Bienvenido, '.$usuario->nombre.' (Programador).');
+            }
+
             // Por defecto cliente u otros roles
             return redirect()->route('home')
                              ->with('success', 'Has iniciado sesión correctamente.');

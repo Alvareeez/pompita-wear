@@ -10,16 +10,26 @@ class CrearTablaPlantillas extends Migration
     {
         Schema::create('plantillas', function (Blueprint $table) {
             $table->id();                                    // PK
-            $table->foreignId('empresa_id')                  // FK a empresas(id)
+
+            // FK a la tabla empresas
+            $table->foreignId('empresa_id')
                   ->constrained('empresas')
                   ->onDelete('cascade');
-            $table->foreignId('programador_id')              // FK a usuarios(id_usuario)
-                  ->constrained('usuarios','id_usuario')
+
+            // FK al usuario programador
+            $table->foreignId('programador_id')
+                  ->constrained('usuarios', 'id_usuario')
                   ->onDelete('cascade');
-            $table->string('nombre');                        // Nombre de la plantilla
-            $table->json('config');                          // Configuración JSON
-            $table->enum('estado',['pendiente','aprobada','rechazada'])
+
+            $table->string('slug')->unique();               // Para la URL pública
+            $table->string('nombre');                       // Nombre de la plantilla
+            $table->string('foto')->nullable();             // Ruta de la foto subida
+            $table->string('enlace')->nullable();           // Enlace externo
+            $table->json('colores')->nullable();            // Array de 3 colores
+
+            $table->enum('estado', ['pendiente','aprobada','rechazada'])
                   ->default('pendiente');
+
             $table->timestamps();
         });
     }

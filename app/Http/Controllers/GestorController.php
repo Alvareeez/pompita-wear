@@ -5,9 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SolicitudDestacado;
 use App\Models\Prenda;
+use Illuminate\Support\Facades\Auth;
+
 
 class GestorController extends Controller
 {
+
+    public function __construct()
+    {
+        // Sólo gestor (id_rol === 4) puede acceder; si no, aborta con 403
+        abort_unless(
+            Auth::check() && Auth::user()->id_rol === 4,
+            403,
+            'Acceso denegado'
+        );
+    }
+
     /**
      * Muestra el panel de gestión de solicitudes.
      */
