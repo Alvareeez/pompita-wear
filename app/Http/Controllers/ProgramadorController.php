@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\SolicitudPlantilla;
 use App\Models\Plantilla;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ProgramadorController extends Controller
 {
     public function __construct()
     {
-        // Sólo programador (id_rol === 5) puede acceder
+        // Sólo usuarios con rol programador (por ejemplo id_rol==5)
         abort_unless(
             Auth::check() && Auth::user()->id_rol === 5,
             403,
@@ -20,60 +20,53 @@ class ProgramadorController extends Controller
     }
 
     /**
-     * 1) Listado de plantillas pendientes de procesar
+     * 1) Listar todas las solicitudes pendientes de plantilla
      */
     public function index()
     {
-        // Plantillas con estado 'pendiente'
-        $pendientes = Plantilla::where('estado','pendiente')
-                               ->with('empresa')
-                               ->orderBy('created_at','desc')
-                               ->get();
-
-        return view('programador.index', compact('pendientes'));
+        $solicitudes = SolicitudPlantilla::where('estado', 'pendiente')->get();
+        return view('programador.index', compact('solicitudes'));
     }
 
     /**
-     * 2) Mostrar formulario para completar y aprobar plantilla
+     * 2) Mostrar detalles de una solicitud
      */
-    public function showPlantilla(Plantilla $plantilla)
+    public function showPlantilla(SolicitudPlantilla $plantilla)
     {
-        abort_unless($plantilla->estado === 'pendiente', 403);
-        return view('programador.plantillas.show', compact('plantilla'));
+        return view('programador.show-plantilla', compact('plantilla'));
     }
 
     /**
-     * 3) Procesar la plantilla: validar, actualizar y marcar aprobada
+     * 3) Procesar (aprobar o rechazar) la solicitud
      */
-    public function procesarPlantilla(Request $request, Plantilla $plantilla)
+    public function procesarPlantilla(Request $request, SolicitudPlantilla $plantilla)
     {
-        abort_unless($plantilla->estado === 'pendiente', 403);
-
         $request->validate([
-            'slug'      => 'required|alpha_dash|unique:plantillas,slug,'.$plantilla->id,
-            'nombre'    => 'required|string|max:255',
-            'foto'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
-            'enlace'    => 'nullable|url',
-            'colores'   => 'required|array|size:3',
-            'colores.*' => ['required','regex:/^#[0-9A-Fa-f]{6}$/'],
+            'action' => 'required|in:aprobar,rechazar'
         ]);
 
-        // Subir nueva foto si viene, o conservar la anterior
-        if ($request->hasFile('foto')) {
-            $plantilla->foto = 'storage/'.$request->file('foto')->store('plantillas','public');
+        if ($request->action === 'rechazar') {
+            $plantilla->update(['estado' => 'rechazada', 'procesada_en' => now()]);
+            return redirect()->route('programador.index')
+                             ->with('error', 'Has rechazado la solicitud.');
         }
 
-        // Actualizar campos
-        $plantilla->slug           = $request->slug;
-        $plantilla->nombre         = $request->nombre;
-        $plantilla->enlace         = $request->enlace;
-        $plantilla->colores        = $request->colores;
-        $plantilla->programador_id = Auth::user()->id_usuario;
-        $plantilla->estado         = 'aprobada';
-        $plantilla->save();
+        // Si es aprobar, creamos la plantilla definitiva
+        $plantilla->update(['estado' => 'aprobada', 'procesada_en' => now()]);
 
-        return redirect()
-               ->route('programador.index')
-               ->with('success','Plantilla aprobada y actualizada correctamente.');
+        Plantilla::create([
+            'empresa_id'       => $plantilla->empresa_id,
+            'programador_id'   => Auth::id(),
+            'slug'             => $plantilla->slug,
+            'nombre'           => $plantilla->nombre,
+            'foto'             => $plantilla->foto,
+            'enlace'           => $plantilla->enlace,
+            'color_primario'   => $plantilla->color_primario,
+            'color_secundario' => $plantilla->color_secundario,
+            'color_terciario'  => $plantilla->color_terciario,
+        ]);
+
+        return redirect()->route('programador.index')
+                         ->with('success', 'Solicitud aprobada y plantilla creada.');
     }
 }

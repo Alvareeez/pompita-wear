@@ -18,6 +18,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\GestorController;
 use App\Http\Controllers\ProgramadorController;
 use App\Http\Controllers\AnalistaController;
+use App\Http\Controllers\PlantillaController;
 
 
 
@@ -267,19 +268,17 @@ Route::middleware(['auth'])->group(
 // RUTAS DE SEGURIZADAS PROGRAMADOR ---------------------------------------------------------------------------
 
 
-    // Listar pendientes
+    // Panel de programador
     Route::get('/programador', [ProgramadorController::class, 'index'])
-        ->name('programador.index');
+         ->name('programador.index');
 
-    // Ver y completar cada plantilla
+    // Ver una solicitud concreta
     Route::get('/programador/plantillas/{plantilla}', [ProgramadorController::class, 'showPlantilla'])
-        ->name('programador.plantillas.show');
+         ->name('programador.plantillas.show');
 
-    // Procesar la plantilla (POST)
+    // Procesar la solicitud: aprobar o rechazar
     Route::post('/programador/plantillas/{plantilla}', [ProgramadorController::class, 'procesarPlantilla'])
-        ->name('programador.plantillas.procesar');
-
-
+         ->name('programador.plantillas.procesar');
 
 
 // RUTAS DE SEGURIZADAS ANALISTA ---------------------------------------------------------------------------
@@ -290,6 +289,19 @@ Route::middleware(['auth'])->group(
     Route::get('/analista/prendas/{prenda}', [AnalistaController::class,'show'])
     ->name('analista.prendas.show');
 
+
+// RUTAS DE COMPRA DE DOMINIO ---------------------------------------------------------------------------
+
+    // Para poder mostrar las ropas que el usuario ha solicitado y han estdo aceptadas
+    Route::get('/producto/{solicitud}', [App\Http\Controllers\SolicitudRopaController::class, 'show'])
+    ->name('producto.show');
+
+
+
+    // Esta ruta captura cualquier URL de 1 segmento (p.ej. /mi-tienda) tras resolver las anteriores:
+    Route::get('/{slug}', [PlantillaController::class, 'show'])
+    ->where('slug', '[A-Za-z0-9_-]+')
+    ->name('plantillas.show');
     }
     
 );

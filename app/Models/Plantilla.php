@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Plantilla extends Model
 {
+    use HasFactory;
+
     protected $table = 'plantillas';
 
     protected $fillable = [
@@ -15,16 +18,13 @@ class Plantilla extends Model
         'nombre',
         'foto',
         'enlace',
-        'colores',
-        'estado',
-    ];
-
-    protected $casts = [
-        'colores' => 'array',
+        'color_primario',
+        'color_secundario',
+        'color_terciario',
     ];
 
     /**
-     * La empresa que solicitó la plantilla.
+     * La empresa que pidió esta plantilla.
      */
     public function empresa()
     {
@@ -32,10 +32,11 @@ class Plantilla extends Model
     }
 
     /**
-     * El programador asignado.
+     * El programador que la aprobó.
      */
     public function programador()
     {
+        // Usuario modelo se llama Usuario con PK id_usuario
         return $this->belongsTo(Usuario::class, 'programador_id', 'id_usuario');
     }
 }

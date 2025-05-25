@@ -25,10 +25,11 @@ class CrearTablaPlantillas extends Migration
             $table->string('nombre');                       // Nombre de la plantilla
             $table->string('foto')->nullable();             // Ruta de la foto subida
             $table->string('enlace')->nullable();           // Enlace externo
-            $table->json('colores')->nullable();            // Array de 3 colores
 
-            $table->enum('estado', ['pendiente','aprobada','rechazada'])
-                  ->default('pendiente');
+            // Tres colores individuales
+            $table->string('color_primario')->nullable();
+            $table->string('color_secundario')->nullable();
+            $table->string('color_terciario')->nullable();
 
             $table->timestamps();
         });
