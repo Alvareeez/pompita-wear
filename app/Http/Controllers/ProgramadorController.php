@@ -34,21 +34,4 @@ class ProgramadorController extends Controller
         return view('programador.index', compact('pendientes'));
     }
 
-    /**
-     * Aprobar una plantilla.
-     */
-    public function aprobar(Plantilla $plantilla)
-    {
-        $plantilla->update(['estado'=>'aprobada']);
-        return back()->with('success','Plantilla aprobada.');
-    }
-
-    /**
-     * Rechazar una plantilla.
-     */
-    public function rechazar(Plantilla $plantilla)
-    {
-        $plantilla->update(['estado'=>'rechazada']);
-        return back()->with('error','Plantilla rechazada.');
-    }
 }
