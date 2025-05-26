@@ -225,6 +225,28 @@ class UsuariosSeeder extends Seeder
                 'created_at'     => now(),
                 'updated_at'     => now(),
             ],
+            [
+                'nombre'         => 'Analista',
+                'email'          => 'analista@pompitawear.com',
+                'password'       => Hash::make('qweQWE123'),
+                'id_rol'         => 6,
+                'foto_perfil'    => null,
+                'estado'         => 'activo',
+                'is_private'     => false,
+                'created_at'     => now(),
+                'updated_at'     => now(),
+            ],
+            [
+                'nombre'         => 'Programador',
+                'email'          => 'programador@pompitawear.com',
+                'password'       => Hash::make('qweQWE123'),
+                'id_rol'         => 5,
+                'foto_perfil'    => null,
+                'estado'         => 'activo',
+                'is_private'     => false,
+                'created_at'     => now(),
+                'updated_at'     => now(),
+            ],
         ]);
     }
 }

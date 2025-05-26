@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Plantilla extends Model
+class SolicitudPlantilla extends Model
 {
     use HasFactory;
 
-    protected $table = 'plantillas';
+    protected $table = 'solicitudes_plantilla';
 
     protected $fillable = [
         'empresa_id',
-        'programador_id',
+        'plan_id',
         'slug',
         'nombre',
         'foto',
@@ -21,10 +21,17 @@ class Plantilla extends Model
         'color_primario',
         'color_secundario',
         'color_terciario',
+        'estado',
+        'solicitada_en',
+    ];
+
+    protected $casts = [
+        'solicitada_en' => 'datetime',
+        'procesada_en'  => 'datetime',
     ];
 
     /**
-     * La empresa que pidió esta plantilla.
+     * La empresa que realizó la solicitud.
      */
     public function empresa()
     {
@@ -32,11 +39,10 @@ class Plantilla extends Model
     }
 
     /**
-     * El programador que la aprobó.
+     * El plan asociado a la solicitud.
      */
-    public function programador()
+    public function plan()
     {
-        // Usuario modelo se llama Usuario con PK id_usuario
-        return $this->belongsTo(Usuario::class, 'programador_id', 'id_usuario');
+        return $this->belongsTo(Plan::class, 'plan_id');
     }
 }

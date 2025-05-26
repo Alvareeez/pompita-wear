@@ -134,14 +134,16 @@ class PerfilController extends Controller
     }
 
     /**
-     * Búsqueda AJAX de usuarios por nombre, excluyendo baneados.
+     * Búsqueda AJAX de usuarios por nombre, excluyendo baneados
+     * y filtrando solo roles 2 y 3.
      */
     public function search(Request $request)
     {
         $q = $request->get('query', '');
 
         $users = Usuario::where('nombre', 'LIKE', "%{$q}%")
-                        ->where('estado', '!=', 'baneado')    // <-- filtramos qe no sean = baneado
+                        ->where('estado', '!=', 'baneado')
+                        ->whereIn('id_rol', [2, 3])      // <-- solo roles 2 y 3
                         ->take(5)
                         ->get(['id_usuario', 'nombre', 'foto_perfil']);
 
@@ -156,6 +158,7 @@ class PerfilController extends Controller
 
         return response()->json($users);
     }
+
 
 
     /**

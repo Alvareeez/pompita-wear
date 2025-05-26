@@ -1,38 +1,37 @@
 <?php
-// app/Http/Controllers/PaymentController.php
 
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use App\Models\SolicitudDestacado;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\SolicitudPlantilla;
+use App\Models\Plan;
 
 class PaymentController extends Controller
 {
     /**
      * 3) Crear orden y redirigir a PayPal.
-     *     Pre-registra la solicitud pero no la guarda hasta la captura.
      */
     public function createOrder(Request $request)
     {
         $request->validate([
             'plan_id'   => 'required|exists:planes,id',
-            'prenda_id' => 'required|exists:prendas,id_prenda',
+            'prenda_id' => 'required_if:plan_id,1,2|exists:prendas,id_prenda',
         ]);
 
-        // Guardamos en sesión datos para crear la solicitud solo al capturar
-        session([
-            'highlight.plan_id'   => $request->plan_id,
-            'highlight.prenda_id' => $request->prenda_id,
-        ]);
+        Session::put('payment.plan_id', $request->plan_id);
+        Session::put('payment.prenda_id', $request->prenda_id);
 
-        // SDK PayPal
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
+
+        $plan = Plan::findOrFail($request->plan_id);
 
         $response = $provider->createOrder([
             'intent' => 'CAPTURE',
@@ -53,7 +52,7 @@ class PaymentController extends Controller
             ]
         ]);
 
-        Log::debug('PayPal createOrder response:', $response);
+        Log::debug('PayPal createOrder:', $response);
 
         $links = $response['result']['links']
             ?? $response['links']
@@ -75,29 +74,54 @@ class PaymentController extends Controller
     }
 
     /**
-     * 4) Capturar el pago y crear la solicitud.
+     * 4) Callback: capturar y crear la solicitud.
      */
     public function captureOrder(Request $request)
     {
-        $token = $request->query('token');
-        $planId   = session('highlight.plan_id');
-        $prendaId = session('highlight.prenda_id');
+        $token    = $request->query('token');
+        $planId   = Session::get('payment.plan_id');
+        $prendaId = Session::get('payment.prenda_id');
 
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
 
         $response = $provider->capturePaymentOrder($token);
-        Log::debug('PayPal captureOrder response:', $response);
+        Log::debug('PayPal captureOrder:', $response);
 
         $status = $response['result']['status']
             ?? $response['status']
             ?? null;
 
-        // Solo si el pago fue completado
-        if ($status === 'COMPLETED' && $planId && $prendaId) {
-            $solicitud = SolicitudDestacado::create([
-                'empresa_id'    => Auth::id(),
+        // Obtener el ID de la empresa real
+        $empresaId = Auth::user()->empresa->id;
+
+        if ($status === 'COMPLETED' && $planId == 3) {
+            $datos = Session::get('plantilla', []);
+
+            SolicitudPlantilla::create([
+                'empresa_id'      => $empresaId,
+                'plan_id'         => $datos['plan_id'],
+                'slug'            => $datos['slug'],
+                'nombre'          => $datos['nombre'],
+                'foto'            => $datos['foto'],
+                'enlace'          => $datos['enlace'],
+                'color_primario'   => $datos['color_primario'],
+                'color_secundario' => $datos['color_secundario'],
+                'color_terciario'  => $datos['color_terciario'],
+                'estado'          => 'pendiente',
+                'solicitada_en'   => now(),
+            ]);
+
+            Session::forget(['payment.plan_id','payment.prenda_id','plantilla']);
+
+            return redirect()->route('empresas.index')
+                             ->with('success','Pago completado. Tu solicitud de plantilla está pendiente.');
+        }
+
+        if ($status === 'COMPLETED' && in_array($planId, [1,2])) {
+            SolicitudDestacado::create([
+                'empresa_id'    => $empresaId,
                 'prenda_id'     => $prendaId,
                 'plan_id'       => $planId,
                 'estado'        => 'pendiente',
@@ -105,18 +129,18 @@ class PaymentController extends Controller
             ]);
             session()->forget(['highlight.plan_id', 'highlight.prenda_id']);
 
+            Session::forget(['payment.plan_id','payment.prenda_id']);
+
             // Redirige con el ID de la solicitud para mostrar el modal
             return redirect()->route('empresas.index')
-                ->with(['factura_id' => $solicitud->id]);
+                ->with(['factura_id' => $solicitud de destacado->id]);
         }
 
-        // En otros casos, lo tratamos como cancelación
         return $this->cancelOrder();
     }
 
     /**
-     * 4b) Cancelación o fallo del pago.
-     *     Eliminamos cualquier dato pendiente en sesión.
+     * 4b) Cancelación o fallo.
      */
     public function cancelOrder()
     {

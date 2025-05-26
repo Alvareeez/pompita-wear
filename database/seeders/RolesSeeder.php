@@ -15,6 +15,7 @@ class RolesSeeder extends Seeder
             ['nombre' => 'empresa'],
             ['nombre' => 'gestor'],
             ['nombre' => 'programador'],
+            ['nombre' => 'analista'],
         ]);
     }
 }

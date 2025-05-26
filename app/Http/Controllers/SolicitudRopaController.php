@@ -158,4 +158,9 @@ class SolicitudRopaController extends Controller
 
         return redirect()->route('admin.solicitudes.index')->with('success', 'Solicitud actualizada correctamente.');
     }
+    public function show(SolicitudRopa $solicitud)
+    {
+    return view('solicitudes_ropa.show', compact('solicitud'));
+    }
+
 }

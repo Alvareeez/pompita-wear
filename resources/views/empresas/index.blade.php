@@ -38,13 +38,21 @@
                                 <h5 class="card-title">{{ $plan->nombre }}</h5>
                                 <p class="card-text flex-grow-1">{{ $plan->descripcion }}</p>
                                 <p class="h4 mb-4">{{ number_format($plan->precio, 2, ',', '.') }} €</p>
-                                <a href="{{ route('empresa.destacar', $plan) }}" class="btn btn-primary mt-auto">
-                                    Seleccionar prenda
-                                </a>
+
+                                @if ($plan->id === 3)
+                                    <a href="{{ route('empresa.plantilla.form') }}" class="btn btn-success mt-auto">
+                                        Crear plantilla
+                                    </a>
+                                @else
+                                    <a href="{{ route('empresa.destacar', $plan) }}" class="btn btn-primary mt-auto">
+                                        Seleccionar prenda
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
                 @endforeach
+
             </div>
         </div>
     </div>

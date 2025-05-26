@@ -47,6 +47,39 @@
                             <li class="nav-item"><a class="nav-link" href="{{ url('/calendario') }}">Calendario</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ url('/solicitar-ropa') }}">Solicitar
                                     Ropa</a></li>
+
+                            @if(optional(auth()->user()->rol)->nombre === 'empresa')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('empresas.index') }}">
+                                        <i class="fas fa-building"></i> Modo Empresa
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'gestor')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('gestor.index') }}">
+                                        <i class="fas fa-tasks"></i> Modo Gestor
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'programador')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('programador.index') }}">
+                                        <i class="fas fa-laptop-code"></i> Modo Programador
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'analista')
+                            <li class="nav-item">
+                                <a class="nav-link text-warning" href="{{ route('analista.index') }}">
+                                <i class="fas fa-chart-line"></i> Modo Analista
+                                </a>
+                            </li>
+                            @endif
+
                         </ul>
                         <!-- Mover el toggle switch aquí -->
                         <div class="toggle-switch ms-3">
@@ -141,6 +174,40 @@
                             </li>
                             <li class="nav-item"><a class="nav-link" href="{{ url('/solicitar-ropa') }}">Solicitar
                                     Ropa</a></li>
+
+                            @if(optional(auth()->user()->rol)->nombre === 'empresa')
+                               <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('empresas.index') }}">
+                                        <i class="fas fa-building"></i> Modo Empresa
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'gestor')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('gestor.index') }}">
+                                        <i class="fas fa-tasks"></i> Modo Gestor
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'programador')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('programador.index') }}">
+                                        <i class="fas fa-laptop-code"></i> Modo Programador
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if(optional(auth()->user()->rol)->nombre === 'analista')
+                            <li class="nav-item">
+                                <a class="nav-link text-warning" href="{{ route('analista.index') }}">
+                                <i class="fas fa-chart-line"></i> Modo Analista
+                                </a>
+                            </li>
+                            @endif
+
+
                         </ul>
                         @auth
                             <div class="user-section d-flex align-items-center gap-2 order-3 ms-lg-auto">
