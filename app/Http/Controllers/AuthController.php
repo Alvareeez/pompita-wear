@@ -18,33 +18,49 @@ class AuthController extends Controller
     // Registro de usuario
     public function register(Request $request)
     {
-        $request->validate([
+        $rules = [
             'nombre'       => 'required|string|max:255',
             'email'        => 'required|string|email|max:255|unique:usuarios,email',
             'password'     => 'required|string|min:8|confirmed',
             'rol'          => 'required|in:cliente,empresa,gestor',
             'razon_social' => 'required_if:rol,empresa|string|max:255',
             'nif'          => 'nullable|string|max:20',
-        ]);
+        ];
 
-        DB::transaction(function() use ($request) {
-            $rol = Rol::where('nombre', $request->rol)->firstOrFail();
+        $messages = [
+            'nombre.required' => 'El nombre completo es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El correo electrónico no es válido.',
+            'email.unique' => 'Este correo electrónico ya está registrado.',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+            'rol.required' => 'Debes seleccionar un tipo de cuenta.',
+            'rol.in' => 'El tipo de cuenta seleccionado no es válido.',
+            'razon_social.required_if' => 'El nombre de la marca es obligatorio para empresas.',
+            'nif.max' => 'El NIF no puede superar los 20 caracteres.',
+        ];
+
+        $validatedData = $request->validate($rules, $messages);
+
+        DB::transaction(function() use ($validatedData) {
+            $rol = Rol::where('nombre', $validatedData['rol'])->firstOrFail();
 
             $usuario = Usuario::create([
-                'nombre'     => $request->nombre,
-                'email'      => $request->email,
-                'password'   => Hash::make($request->password),
+                'nombre'     => $validatedData['nombre'],
+                'email'      => $validatedData['email'],
+                'password'   => Hash::make($validatedData['password']),
                 'id_rol'     => $rol->id_rol,
                 'estado'     => 'activo',
-                'is_private' => $request->rol === 'cliente',
+                'is_private' => $validatedData['rol'] === 'cliente',
             ]);
 
-            if ($request->rol === 'empresa') {
+            if ($validatedData['rol'] === 'empresa') {
                 Empresa::create([
                     'usuario_id'   => $usuario->id_usuario,
-                    'slug'         => Str::slug($request->razon_social),
-                    'razon_social' => $request->razon_social,
-                    'nif'          => $request->nif,
+                    'slug'         => Str::slug($validatedData['razon_social']),
+                    'razon_social' => $validatedData['razon_social'],
+                    'nif'          => $validatedData['nif'] ?? null,
                 ]);
             }
 
@@ -54,6 +70,7 @@ class AuthController extends Controller
         return redirect()->route('login')
                          ->with('success', 'Registro completado. Por favor, inicia sesión.');
     }
+
 
     // Login de usuario
     public function login(Request $request)

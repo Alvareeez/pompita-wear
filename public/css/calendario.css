@@ -1,77 +1,58 @@
 .calendar-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-#calendar {
-    margin-top: 20px;
-}
+        #calendar {
+            margin-top: 20px;
+        }
 
+        /* Estilos del modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 10px 15px; /* Reduce el padding */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 80%; /* Ancho relativo */
+            max-width: 350px; /* Ancho máximo */
+            max-height: 180px; /* Altura máxima */
+            overflow-y: auto; /* Habilita el scroll si el contenido excede la altura */
+        }
 
-/* Estilos del modal */
+        .modal.active {
+            display: block;
+        }
 
-.modal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 10px 15px;
-    /* Reduce el padding */
-    border-radius: 8px;
-    /* Bordes redondeados */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    width: 80%;
-    /* Ancho relativo */
-    max-width: 350px;
-    /* Ancho máximo */
-    max-height: 180px;
-    /* Altura máxima */
-    overflow-y: auto;
-    /* Habilita el scroll si el contenido excede la altura */
-}
-
-.modal.active {
-    display: block;
-}
-
-
-/* Título del modal */
-
+        /* Título del modal */
 .modal h3 {
-    font-size: 18px;
-    /* Tamaño del título */
-    margin-bottom: 15px;
-    /* Espaciado inferior */
+    font-size: 18px; /* Tamaño del título */
+    margin-bottom: 15px; /* Espaciado inferior */
     text-align: center;
     font-weight: bold;
 }
 
-
 /* Botones dentro del modal */
-
 .modal-buttons {
     display: flex;
     justify-content: space-between;
-    gap: 10px;
-    /* Espaciado entre botones */
-    margin-top: 15px;
-    /* Espaciado superior */
+    gap: 10px; /* Espaciado entre botones */
+    margin-top: 15px; /* Espaciado superior */
 }
 
 .modal-buttons button {
-    padding: 10px 15px;
-    /* Tamaño de los botones */
-    font-size: 14px;
-    /* Tamaño de la fuente */
-    border-radius: 5px;
-    /* Bordes redondeados */
+    padding: 10px 15px; /* Tamaño de los botones */
+    font-size: 14px; /* Tamaño de la fuente */
+    border-radius: 5px; /* Bordes redondeados */
     cursor: pointer;
     border: none;
 }
@@ -91,9 +72,7 @@
     color: white;
 }
 
-
 /* Botón de cerrar (X) */
-
 .btn-close {
     position: absolute;
     top: 10px;
@@ -108,13 +87,10 @@
 }
 
 .btn-close:hover {
-    color: #000;
-    /* Cambia a negro al pasar el mouse */
+    color: #000; /* Cambia a negro al pasar el mouse */
 }
 
-
 /* Fondo del modal */
-
 .modal-overlay {
     display: none;
     position: fixed;
@@ -122,127 +98,100 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Fondo semitransparente */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
     z-index: 999;
 }
 
 .modal-overlay.active {
     display: block;
 }
+        .header {
+            background-color: #002D68 !important;
+            position: fixed !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+        }
 
-.header {
-    background-color: #002D68 !important;
-    position: fixed !important;
-    top: 0 !important;
-    z-index: 1000 !important;
-}
+        .notification-panel {
+            position: absolute;
+            top: 50px;
+            right: 100px; /* Mueve el panel más a la izquierda */
+            width: 320px; /* Aumenta el ancho si es necesario */
+            background-color: #0D1117;
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            display: none;
+            z-index: 1001;
+        }
 
-.notification-panel {
-    position: absolute;
-    top: 50px;
-    right: 100px;
-    /* Mueve el panel más a la izquierda */
-    width: 320px;
-    /* Aumenta el ancho si es necesario */
-    background-color: #0D1117;
-    color: white;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 15px;
-    display: none;
-    z-index: 1001;
-}
+        .notification-panel.active {
+            display: block;
+        }
 
-.notification-panel.active {
-    display: block;
-}
+        .notification-panel ul li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #21262C;
+            word-wrap: break-word; /* Permitir que el texto se ajuste */
+        }
 
-.notification-panel ul li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 0;
-    border-bottom: 1px solid #21262C;
-    word-wrap: break-word;
-    /* Permitir que el texto se ajuste */
-}
+        .notification-panel ul li:last-child {
+            border-bottom: none;
+        }
 
-.notification-panel ul li:last-child {
-    border-bottom: none;
-}
+        .mark-read-button {
+            background-color: #2F81F7;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            white-space: nowrap; /* Evitar que el texto se corte */
+        }
 
-.mark-read-button {
-    background-color: #2F81F7;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-    white-space: nowrap;
-    /* Evitar que el texto se corte */
-}
+        .mark-read-button:hover {
+            background-color: #1A73E8;
+        }
 
-.mark-read-button:hover {
-    background-color: #1A73E8;
-}
+        .profile-large {
+            right: 70px !important;
+        }
 
-.profile-large {
-    right: 70px !important;
-}
+        /* Cambiar el color de los días del calendario a negro y quitar el subrayado */
+        .fc-daygrid-day-number {
+            color: black; /* Cambia el color del texto a negro */
+            text-decoration: none; /* Quita el subrayado */
+            font-weight: normal; /* Ajusta el peso de la fuente */
+        }
 
+        /* Asegurar que el color no cambie al pasar el mouse */
+        .fc-daygrid-day-number:hover {
+            color: black; /* Mantén el color negro al pasar el mouse */
+            text-decoration: none; /* Mantén el texto sin subrayado */
+        }
 
-/* Cambiar el color de los días del calendario a negro y quitar el subrayado */
+        /* Estilo general para los días del calendario */
+        .fc-daygrid-day {
+            color: black; /* Asegura que el texto de los días sea negro */
+        }
 
-.fc-daygrid-day-number {
-    color: black;
-    /* Cambia el color del texto a negro */
-    text-decoration: none;
-    /* Quita el subrayado */
-    font-weight: normal;
-    /* Ajusta el peso de la fuente */
-}
+        /* Día actual (hoy) */
+        .fc-daygrid-day.fc-day-today {
+            background-color: #f8f9fa; /* Fondo claro para el día actual */
+            color: black; /* Texto negro para el día actual */
+        }
 
-
-/* Asegurar que el color no cambie al pasar el mouse */
-
-.fc-daygrid-day-number:hover {
-    color: black;
-    /* Mantén el color negro al pasar el mouse */
-    text-decoration: none;
-    /* Mantén el texto sin subrayado */
-}
-
-
-/* Estilo general para los días del calendario */
-
-.fc-daygrid-day {
-    color: black;
-    /* Asegura que el texto de los días sea negro */
-}
-
-
-/* Día actual (hoy) */
-
-.fc-daygrid-day.fc-day-today {
-    background-color: #f8f9fa;
-    /* Fondo claro para el día actual */
-    color: black;
-    /* Texto negro para el día actual */
-}
-
-
-/* Hover en los días */
-
-.fc-daygrid-day:hover {
-    background-color: #e9ecef;
-    /* Fondo más claro al pasar el mouse */
-}
-
+        /* Hover en los días */
+        .fc-daygrid-day:hover {
+            background-color: #e9ecef; /* Fondo más claro al pasar el mouse */
+        }
 
 /* Estilo para el contenedor del formulario */
-
 .form-container {
     background-color: #f8f9fa;
     padding: 20px;
@@ -251,9 +200,7 @@
     margin-top: 20px;
 }
 
-
 /* Título del formulario */
-
 .form-container h2 {
     font-size: 24px;
     font-weight: bold;
@@ -262,9 +209,7 @@
     color: #002D68;
 }
 
-
 /* Estilo para las etiquetas del formulario */
-
 .form-container label {
     font-size: 16px;
     font-weight: bold;
@@ -273,9 +218,7 @@
     display: block;
 }
 
-
 /* Estilo para los select */
-
 .form-container .form-select {
     width: 100%;
     padding: 10px;
@@ -286,18 +229,14 @@
     margin-bottom: 15px;
 }
 
-
 /* Hover y focus en el select */
-
 .form-container .form-select:focus {
     border-color: #002D68;
     box-shadow: 0 0 5px rgba(0, 45, 104, 0.5);
     outline: none;
 }
 
-
 /* Botón de enviar */
-
 .form-container .btn-primary {
     background-color: #002D68;
     color: white;
@@ -309,16 +248,12 @@
     transition: background-color 0.3s ease;
 }
 
-
 /* Hover en el botón de enviar */
-
 .form-container .btn-primary:hover {
     background-color: #004a9f;
 }
 
-
 /* Botón de volver al calendario */
-
 .redirect-button {
     display: inline-block;
     margin-top: 20px;
@@ -331,16 +266,12 @@
     transition: background-color 0.3s ease;
 }
 
-
 /* Hover en el botón de volver */
-
 .redirect-button:hover {
     background-color: #5a6268;
 }
 
-
 /* Mensaje de éxito */
-
 .alert-success {
     background-color: #d4edda;
     color: #155724;
@@ -351,9 +282,7 @@
     font-size: 14px;
 }
 
-
 /* Mensaje de error */
-
 .alert-error {
     background-color: #f8d7da;
     color: #721c24;

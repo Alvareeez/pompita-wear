@@ -1,4 +1,3 @@
-{{-- resources/views/empresa/selectPrenda.blade.php --}}
 @extends('layouts.header')
 
 @section('title', 'Seleccionar Prenda')
