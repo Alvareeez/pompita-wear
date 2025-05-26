@@ -2,7 +2,9 @@
 @extends('layouts.header')
 
 @section('title', 'Procesar Solicitud de Plantilla')
-
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/programador.css') }}">
+@endsection
 @section('content')
 <div class="container my-5">
   <h2 class="mb-4">Procesar Solicitud #{{ $plantilla->id }}</h2>

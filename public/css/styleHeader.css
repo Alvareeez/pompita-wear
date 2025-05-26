@@ -26,7 +26,9 @@ body {
     transform: scale(1.05);
 }
 
+
 /* Navegación */
+
 .navbar-nav .nav-link {
     color: white !important;
     font-weight: 500;
@@ -40,7 +42,9 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+
 /* Contenido del menú desplegable */
+
 .navbar-collapse {
     background-color: #002D68;
     padding: 0 20px;
@@ -60,7 +64,9 @@ body {
     padding: 20px;
 }
 
+
 /* Buscador */
+
 .search-container {
     position: relative;
     flex-shrink: 0;
@@ -116,7 +122,9 @@ body {
     margin-right: 8px;
 }
 
+
 /* Usuario / botones */
+
 .user-section {
     display: flex;
     align-items: center;
@@ -161,12 +169,16 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+
 /* Quitar subrayado en el botón Panel Admin */
+
 .admin-button {
     text-decoration: none !important;
 }
 
+
 /* Notificaciones */
+
 .notification-panel {
     position: relative;
     width: 100%;
@@ -211,7 +223,9 @@ body {
     border-bottom: none;
 }
 
+
 /* Input estilo */
+
 .input .value {
     background-color: transparent;
     border: none;
@@ -236,7 +250,9 @@ body {
     align-items: center;
 }
 
+
 /* Perfil */
+
 .profile-large {
     width: 50px;
     height: 50px;
@@ -261,13 +277,17 @@ body {
     cursor: pointer;
 }
 
+
 /* Contenido debajo del header */
+
 main {
     margin-top: 100px;
     padding: 20px;
 }
 
+
 /* Desktop styles */
+
 .desktop-content {
     display: none;
 }
@@ -276,7 +296,6 @@ main {
     .desktop-content {
         display: flex;
     }
-
     .navbar-collapse {
         position: static;
         max-height: none;
@@ -285,11 +304,9 @@ main {
         box-shadow: none;
         background-color: transparent;
     }
-
     .navbar-collapse.show {
         padding: 0;
     }
-
     .mobile-search,
     .mobile-user-section {
         display: none !important;
@@ -300,26 +317,24 @@ main {
     .navbar-nav {
         flex-direction: column;
     }
-
     .navbar-nav .nav-link {
         margin: 5px 0;
     }
-
     .profile-large {
         width: 45px;
         height: 45px;
     }
-
     .logout-icon {
         font-size: 16px;
     }
-
     .notification-panel h3 {
         font-size: 16px;
     }
 }
 
+
 /* Puedes poner esto en styleHeader.css */
+
 .toggle-switch {
     top: 1rem;
     right: 1rem;
@@ -378,7 +393,9 @@ main {
     box-shadow: none;
 }
 
+
 /* Modo oscuro */
+
 body.dark-mode {
     background-color: #181a1b !important;
     color: #fff !important;
@@ -507,7 +524,9 @@ body.dark-mode .alert-error {
     border: 1px solid #c62828 !important;
 }
 
+
 /* Buscador en modo oscuro */
+
 body.dark-mode #user-search {
     background: #23272b !important;
     color: #fff !important;
@@ -530,7 +549,9 @@ body.dark-mode .search-item:hover {
     color: #fff !important;
 }
 
+
 /* Unificar estilos de valoraciones y comentarios en show outfit */
+
 body.dark-mode .valoraciones-section,
 body.dark-mode .valoraciones-columna,
 body.dark-mode .valoracion-header,
@@ -555,7 +576,9 @@ body.dark-mode .comentario-card .texto-comentario {
     color: #fff !important;
 }
 
+
 /* Estrellas de valoración en modo oscuro */
+
 body.dark-mode .fa-star.text-warning {
     color: #ffc107 !important;
     /* Amarillo Bootstrap */
@@ -566,7 +589,9 @@ body.dark-mode .fa-star.text-secondary {
     /* Gris Bootstrap */
 }
 
+
 /* Estrellas interactivas (input radio + label) en modo oscuro */
+
 body.dark-mode .rating label i,
 body.dark-mode .rating input:checked~label i,
 body.dark-mode .rating input:hover~label i {
@@ -575,25 +600,33 @@ body.dark-mode .rating input:hover~label i {
     transition: color 0.2s;
 }
 
+
 /* Estrellas interactivas modo oscuro para inputs de 5 a 1 (input después del label) */
+
 body.dark-mode .rating input[type="radio"]:checked+label i,
 body.dark-mode .rating input[type="radio"]:checked+label~label i {
     color: #ffc107 !important;
 }
 
+
 /* Las no seleccionadas en gris */
+
 body.dark-mode .rating label i {
     color: #adb5bd !important;
     transition: color 0.2s;
 }
 
+
 /* Hover: estrellas a la izquierda y actual en amarillo */
+
 body.dark-mode .rating label:hover~label i,
 body.dark-mode .rating label:hover i {
     color: #ffc107 !important;
 }
 
+
 /* Mejoras para el panel de filtros en modo oscuro */
+
 body.dark-mode .filter-panel {
     background: #181a1b !important;
     color: #fff !important;
@@ -636,7 +669,9 @@ body.dark-mode .btn.btn-outline-secondary:hover {
     border-color: #007bff !important;
 }
 
+
 /* Tarjetas de outfits en modo oscuro */
+
 body.dark-mode .outfit-card,
 body.dark-mode .outfit-list-card,
 body.dark-mode .outfit-card-container {
@@ -656,14 +691,18 @@ body.dark-mode .outfit-list-card p {
     color: #fff !important;
 }
 
+
 /* Si usas Bootstrap cards para outfits */
+
 body.dark-mode .card {
     background: #181a1b !important;
     color: #fff !important;
     border: 1px solid #23272b !important;
 }
 
+
 /* Botón "Crear Outfit" oscuro en modo oscuro */
+
 body.dark-mode .btn-success.create-outfit-btn {
     background: #23272b !important;
     color: #fff !important;
@@ -676,14 +715,18 @@ body.dark-mode .btn-success.create-outfit-btn:hover {
     border-color: #007bff !important;
 }
 
+
 /* Texto "Creado por ..." en blanco en modo oscuro */
+
 body.dark-mode .card .text-muted,
 body.dark-mode .outfit-creator,
 body.dark-mode .card .outfit-creator {
     color: #fff !important;
 }
 
+
 /* Modo oscuro para botones personalizados en show.blade.php */
+
 body.dark-mode .btn-like,
 body.dark-mode .btn-favorito,
 body.dark-mode .btn-valorar,
@@ -705,7 +748,9 @@ body.dark-mode .btn-like-comentario:hover {
     border-color: #007bff !important;
 }
 
+
 /* Modo oscuro para contenedores de comentarios y valoraciones */
+
 body.dark-mode .comentarios-section,
 body.dark-mode .comentario-form-container,
 body.dark-mode .comentario-card,
@@ -723,7 +768,9 @@ body.dark-mode .valoracion-card {
     border-color: #222 !important;
 }
 
+
 /* Texto de comentarios y valoraciones en blanco */
+
 body.dark-mode .comentario-card strong,
 body.dark-mode .comentario-card a,
 body.dark-mode .comentario-card .texto-comentario,
@@ -731,7 +778,9 @@ body.dark-mode .valoracion-card strong {
     color: #fff !important;
 }
 
+
 /* Modo oscuro para prenda-detalle y info-prenda */
+
 body.dark-mode .prenda-detalle,
 body.dark-mode .info-prenda {
     background: #23272b !important;
@@ -739,17 +788,23 @@ body.dark-mode .info-prenda {
     border-color: #333 !important;
 }
 
+
 /* Si hay bordes claros, oscurecerlos */
+
 body.dark-mode .prenda-detalle {
     border: 1px solid #333 !important;
 }
 
+
 /* Si usas .prendas como contenedor */
+
 body.dark-mode .prendas {
     background: transparent !important;
 }
 
+
 /* Fondo oscuro para el contenedor principal del outfit */
+
 body.dark-mode .centered-container,
 body.dark-mode .outfit-detalle {
     background: #181a1b !important;
@@ -757,31 +812,41 @@ body.dark-mode .outfit-detalle {
     border-color: #222 !important;
 }
 
+
 /* Nombre del outfit en blanco en modo oscuro */
+
 body.dark-mode .outfit-title,
 body.dark-mode .center-title_outfit {
     color: #fff !important;
 }
 
+
 /* Estrellas SIEMPRE amarillas */
+
 .fa-star.text-warning,
 body.dark-mode .fa-star.text-warning {
     color: #ffc107 !important;
 }
 
+
 /* Estrellas grises secundarias */
+
 .fa-star.text-secondary,
 body.dark-mode .fa-star.text-secondary {
     color: #adb5bd !important;
 }
 
+
 /* Tiempo en blanco en modo oscuro */
+
 body.dark-mode .text-muted,
 body.dark-mode .tiempo-comentario {
     color: #fff !important;
 }
 
+
 /* Descripción de prendas en blanco en modo oscuro */
+
 body.dark-mode .descripcion {
     color: #fff !important;
 }

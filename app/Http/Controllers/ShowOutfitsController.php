@@ -47,4 +47,23 @@ class ShowOutfitsController extends Controller
         // Si no, la vista completa
         return view('outfit.outfits', compact('outfits'));
     }
+    public function filtrar(Request $request)
+{
+    $query = Outfit::with(['prendas', 'usuario']);
+
+    // Filtros
+    if ($request->has('nombre') && !empty($request->nombre)) {
+        $query->where('nombre', 'like', '%'.$request->nombre.'%');
+    }
+
+    if ($request->has('creador') && !empty($request->creador)) {
+        $query->whereHas('usuario', function($q) use ($request) {
+            $q->where('nombre', 'like', '%'.$request->creador.'%');
+        });
+    }
+
+    $outfits = $query->paginate(10);
+
+    return view('outfit.partials.outfits_list', compact('outfits'))->render();
+}
 }
