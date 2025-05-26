@@ -38,39 +38,25 @@ class PaymentController extends Controller
             'purchase_units' => [[
                 'amount' => [
                     'currency_code' => 'EUR',
-                    'value' => number_format(
-                        \App\Models\Plan::find($request->plan_id)->precio,
-                        2,
-                        '.',
-                        ''
-                    )
-                ]
+                    'value'        => number_format($plan->precio, 2, '.', '')
+                ],
             ]],
             'application_context' => [
                 'return_url' => route('paypal.return'),
                 'cancel_url' => route('paypal.cancel'),
-            ]
+            ],
         ]);
 
         Log::debug('PayPal createOrder:', $response);
 
-        $links = $response['result']['links']
-            ?? $response['links']
-            ?? null;
-
-        if (!is_array($links)) {
-            return redirect()->route('empresas.index')
-                ->with('error', 'No se pudo iniciar el pago en PayPal.');
-        }
-
-        foreach ($links as $link) {
+        foreach (($response['result']['links'] ?? $response['links'] ?? []) as $link) {
             if (($link['rel'] ?? '') === 'approve') {
                 return redirect($link['href']);
             }
         }
 
         return redirect()->route('empresas.index')
-            ->with('error', 'No se encontró el enlace de aprobación.');
+            ->with('error', 'No se pudo iniciar el pago en PayPal.');
     }
 
     /**
@@ -113,27 +99,26 @@ class PaymentController extends Controller
                 'solicitada_en'   => now(),
             ]);
 
-            Session::forget(['payment.plan_id','payment.prenda_id','plantilla']);
+            Session::forget(['payment.plan_id', 'payment.prenda_id', 'plantilla']);
 
             return redirect()->route('empresas.index')
-                             ->with('success','Pago completado. Tu solicitud de plantilla está pendiente.');
+                ->with('success', 'Pago completado. Tu solicitud de plantilla está pendiente.');
         }
 
-        if ($status === 'COMPLETED' && in_array($planId, [1,2])) {
-            SolicitudDestacado::create([
+        if ($status === 'COMPLETED' && in_array($planId, [1, 2])) {
+            $solicitud = SolicitudDestacado::create([
                 'empresa_id'    => $empresaId,
                 'prenda_id'     => $prendaId,
                 'plan_id'       => $planId,
                 'estado'        => 'pendiente',
                 'solicitada_en' => now(),
             ]);
-            session()->forget(['highlight.plan_id', 'highlight.prenda_id']);
 
-            Session::forget(['payment.plan_id','payment.prenda_id']);
+            Session::forget(['payment.plan_id', 'payment.prenda_id']);
 
             // Redirige con el ID de la solicitud para mostrar el modal
             return redirect()->route('empresas.index')
-                ->with(['factura_id' => $solicitud de destacado->id]);
+                ->with(['factura_id' => $solicitud->id]);
         }
 
         return $this->cancelOrder();
@@ -144,8 +129,7 @@ class PaymentController extends Controller
      */
     public function cancelOrder()
     {
-        session()->forget(['highlight.plan_id', 'highlight.prenda_id']);
-
+        Session::forget(['payment.plan_id', 'payment.prenda_id', 'plantilla']);
         return redirect()->route('empresas.index')
             ->with('error', 'Has cancelado el pago.');
     }
@@ -154,7 +138,7 @@ class PaymentController extends Controller
         $solicitud = SolicitudDestacado::with([
             'plan',
             'prenda',
-            'empresa.datosFiscales' // <--- importante
+            'empresa.datosFiscales' // <--- correcto
         ])->findOrFail($solicitudId);
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('empresas.invoice', [

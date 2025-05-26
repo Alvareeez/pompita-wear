@@ -19,10 +19,25 @@ return new class extends Migration
             $table->string('pais');
             $table->timestamps();
         });
+
+        // Si la tabla empresas ya existe, añade la columna y la clave foránea
+        if (Schema::hasTable('empresas')) {
+            Schema::table('empresas', function (Blueprint $table) {
+                $table->unsignedBigInteger('datos_fiscales_id')->nullable()->after('nif');
+                $table->foreign('datos_fiscales_id')->references('id')->on('datos_fiscales')->onDelete('set null');
+            });
+        }
     }
 
     public function down()
     {
+        // Elimina la clave foránea y la columna de empresas si existe
+        if (Schema::hasTable('empresas')) {
+            Schema::table('empresas', function (Blueprint $table) {
+                $table->dropForeign(['datos_fiscales_id']);
+                $table->dropColumn('datos_fiscales_id');
+            });
+        }
         Schema::dropIfExists('datos_fiscales');
     }
 };
