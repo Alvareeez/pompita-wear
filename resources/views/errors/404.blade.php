@@ -61,7 +61,7 @@
 
   <!-- Mensaje inicial -->
   <div class="message">
-    <h1>403 — ¡Acceso Prohibido!</h1>
+    <h1>404 — ¡Acceso Prohibido!</h1>
     <p>Pulsa ESPACIO para comenzar a jugar como Batman</p>
   </div>
 
