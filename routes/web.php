@@ -184,6 +184,14 @@ Route::middleware(['auth'])->group(
         // Dejar de seguir
         Route::delete('/perfil/unfollow/{id}', [PerfilController::class, 'unfollow'])->name('perfil.unfollow');
 
+        // Factura
+        Route::get('/empresas/factura/{id}', [PaymentController::class, 'downloadInvoice'])->name('empresas.factura');
+
+        // Ruta para guardar datos fiscales
+        Route::post('/empresa/guardar-datos-fiscales', [EmpresaController::class, 'guardarDatosFiscales'])
+            ->middleware('auth')
+            ->name('empresa.guardar-datos-fiscales');
+
         // CHAT ENTRE SEGUIDOS UNICAMENTE
 
         // Bandeja de chats (sin conversación abierta)
@@ -203,56 +211,59 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
 
 
-// RUTAS DE SEGURIZADAS EMPRESAS ---------------------------------------------------------------------------
+        // RUTAS DE SEGURIZADAS EMPRESAS ---------------------------------------------------------------------------
 
 
         // 1) Panel y lista de planes
         Route::get('/empresa', [EmpresaController::class, 'index'])
-        ->name('empresas.index');
+            ->name('empresas.index');
 
         // 2) Tras elegir plan, seleccionar prenda
-        Route::get('/empresa/planes/{plan}/destacar', 
-        [EmpresaController::class, 'selectPrenda'])
-        ->name('empresa.destacar');
+        Route::get(
+            '/empresa/planes/{plan}/destacar',
+            [EmpresaController::class, 'selectPrenda']
+        )
+            ->name('empresa.destacar');
 
         // 3) Checkout PayPal
-        Route::post('/paypal/checkout', 
-        [PaymentController::class, 'createOrder'])
-        ->name('paypal.checkout');
+        Route::post(
+            '/paypal/checkout',
+            [PaymentController::class, 'createOrder']
+        )
+            ->name('paypal.checkout');
 
         // 4) Callbacks PayPal
         Route::get('/paypal/return',   [PaymentController::class, 'captureOrder'])
-        ->name('paypal.return');
+            ->name('paypal.return');
         Route::get('/paypal/cancel',   [PaymentController::class, 'cancelOrder'])
-        ->name('paypal.cancel');
+            ->name('paypal.cancel');
 
-        Route::get('/empresa/prendas/ajax', [EmpresaController::class,'prendasAjax'])
-        ->name('empresa.prendas.ajax');
-
-
-// RUTAS DE SEGURIZADAS GESTORES ---------------------------------------------------------------------------
-
-    // Panel principal del gestor
-    Route::get('/gestor', [GestorController::class, 'index'])
-         ->name('gestor.index');
-
-    // Acción para marcar una prenda como destacada
-    Route::post('/gestor/highlight/{solicitud}', [GestorController::class, 'highlight'])
-         ->name('gestor.highlight');
-
-    // Acciones para aprobar o rechazar una solicitu
-    Route::post('/gestor/approve/{solicitud}', [GestorController::class,'approve'])
-         ->name('gestor.approve');
-    Route::post('/gestor/reject/{solicitud}',  [GestorController::class,'reject'])
-         ->name('gestor.reject');
+        Route::get('/empresa/prendas/ajax', [EmpresaController::class, 'prendasAjax'])
+            ->name('empresa.prendas.ajax');
 
 
-    // CRUD de destacados
-    Route::get('/gestor/destacados', [GestorController::class,'manageDestacados'])
-        ->name('gestor.destacados');
-   Route::post('/gestor/destacados/{prenda}/update', [GestorController::class,'updateDestacado'])
-        ->name('gestor.destacados.update');
+        // RUTAS DE SEGURIZADAS GESTORES ---------------------------------------------------------------------------
 
+        // Panel principal del gestor
+        Route::get('/gestor', [GestorController::class, 'index'])
+            ->name('gestor.index');
+
+        // Acción para marcar una prenda como destacada
+        Route::post('/gestor/highlight/{solicitud}', [GestorController::class, 'highlight'])
+            ->name('gestor.highlight');
+
+        // Acciones para aprobar o rechazar una solicitu
+        Route::post('/gestor/approve/{solicitud}', [GestorController::class, 'approve'])
+            ->name('gestor.approve');
+        Route::post('/gestor/reject/{solicitud}',  [GestorController::class, 'reject'])
+            ->name('gestor.reject');
+
+
+        // CRUD de destacados
+        Route::get('/gestor/destacados', [GestorController::class, 'manageDestacados'])
+            ->name('gestor.destacados');
+        Route::post('/gestor/destacados/{prenda}/update', [GestorController::class, 'updateDestacado'])
+            ->name('gestor.destacados.update');
     }
-    
+
 );

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use App\Models\SolicitudDestacado;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PaymentController extends Controller
 {
@@ -36,39 +37,41 @@ class PaymentController extends Controller
         $response = $provider->createOrder([
             'intent' => 'CAPTURE',
             'purchase_units' => [[
-                'amount'=>[
-                    'currency_code'=>'EUR',
-                    'value'=> number_format(
+                'amount' => [
+                    'currency_code' => 'EUR',
+                    'value' => number_format(
                         \App\Models\Plan::find($request->plan_id)->precio,
-                        2, '.', ''
+                        2,
+                        '.',
+                        ''
                     )
                 ]
             ]],
-            'application_context'=>[
-                'return_url'=> route('paypal.return'),
-                'cancel_url'=> route('paypal.cancel'),
+            'application_context' => [
+                'return_url' => route('paypal.return'),
+                'cancel_url' => route('paypal.cancel'),
             ]
         ]);
 
         Log::debug('PayPal createOrder response:', $response);
 
-        $links = $response['result']['links'] 
-               ?? $response['links'] 
-               ?? null;
+        $links = $response['result']['links']
+            ?? $response['links']
+            ?? null;
 
         if (!is_array($links)) {
             return redirect()->route('empresas.index')
-                ->with('error','No se pudo iniciar el pago en PayPal.');
+                ->with('error', 'No se pudo iniciar el pago en PayPal.');
         }
 
-        foreach($links as $link){
-            if(($link['rel']??'')==='approve'){
+        foreach ($links as $link) {
+            if (($link['rel'] ?? '') === 'approve') {
                 return redirect($link['href']);
             }
         }
 
         return redirect()->route('empresas.index')
-            ->with('error','No se encontró el enlace de aprobación.');
+            ->with('error', 'No se encontró el enlace de aprobación.');
     }
 
     /**
@@ -87,25 +90,24 @@ class PaymentController extends Controller
         $response = $provider->capturePaymentOrder($token);
         Log::debug('PayPal captureOrder response:', $response);
 
-        $status = $response['result']['status'] 
-               ?? $response['status'] 
-               ?? null;
+        $status = $response['result']['status']
+            ?? $response['status']
+            ?? null;
 
         // Solo si el pago fue completado
         if ($status === 'COMPLETED' && $planId && $prendaId) {
-            // Crear solicitud en PENDIENTE
-            SolicitudDestacado::create([
+            $solicitud = SolicitudDestacado::create([
                 'empresa_id'    => Auth::id(),
                 'prenda_id'     => $prendaId,
                 'plan_id'       => $planId,
                 'estado'        => 'pendiente',
                 'solicitada_en' => now(),
             ]);
-            // Limpiar sesión
-            session()->forget(['highlight.plan_id','highlight.prenda_id']);
+            session()->forget(['highlight.plan_id', 'highlight.prenda_id']);
 
+            // Redirige con el ID de la solicitud para mostrar el modal
             return redirect()->route('empresas.index')
-                             ->with('success','Pago completado. Solicitud pendiente.');
+                ->with(['factura_id' => $solicitud->id]);
         }
 
         // En otros casos, lo tratamos como cancelación
@@ -118,9 +120,23 @@ class PaymentController extends Controller
      */
     public function cancelOrder()
     {
-        session()->forget(['highlight.plan_id','highlight.prenda_id']);
+        session()->forget(['highlight.plan_id', 'highlight.prenda_id']);
 
         return redirect()->route('empresas.index')
-                         ->with('error','Has cancelado el pago.');
+            ->with('error', 'Has cancelado el pago.');
+    }
+    public function downloadInvoice($solicitudId)
+    {
+        $solicitud = SolicitudDestacado::with([
+            'plan',
+            'prenda',
+            'empresa.datosFiscales' // <--- importante
+        ])->findOrFail($solicitudId);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('empresas.invoice', [
+            'solicitud' => $solicitud,
+        ]);
+
+        return $pdf->download('factura_' . $solicitud->id . '.pdf');
     }
 }

@@ -13,7 +13,7 @@ class Empresa extends Model
         'slug',
         'razon_social',
         'nif',
-        'datos_fiscales',
+        'datos_fiscales_id',
     ];
 
     public function usuario()
@@ -29,5 +29,9 @@ class Empresa extends Model
     public function facturas()
     {
         return $this->hasMany(Factura::class, 'empresa_id');
+    }
+    public function datosFiscales()
+    {
+        return $this->belongsTo(\App\Models\DatosFiscales::class, 'datos_fiscales_id');
     }
 }
