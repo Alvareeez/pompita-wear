@@ -5,6 +5,9 @@
 @section('css')
   <link rel="stylesheet" href="{{ asset('css/showOutfits.css') }}">
 @endsection
+@section('scripts')
+  <script src="{{ asset('js/filtrosShowOutfits.js') }}"></script>
+@endsection
 
 @section('content')
   <div class="container mt-5">
@@ -28,6 +31,4 @@
 @include('layouts.footer')
 @endsection
 
-@section('scripts')
-  <script src="{{ asset('js/filtrosShowOutfits.js') }}"></script>
-@endsection
+

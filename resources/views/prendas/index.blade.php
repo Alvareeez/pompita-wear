@@ -5,6 +5,21 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/prendasEstilos.css') }}">
 @endsection
+@section('scripts')
+    <script src="{{ asset('js/filtrarPrendasAjax.js') }}"></script>
+    <script>
+    // Lógica simple para las flechas del slider
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('destacadas-container');
+      document.getElementById('slide-left').addEventListener('click', () => {
+        container.scrollBy({ left: -200, behavior: 'smooth' });
+      });
+      document.getElementById('slide-right').addEventListener('click', () => {
+        container.scrollBy({ left:  200, behavior: 'smooth' });
+      });
+    });
+  </script>
+@endsection
 
 @section('content')
 
@@ -116,18 +131,3 @@
 @include('layouts.footer')
 @endsection
 
-@section('scripts')
-    <script src="{{ asset('js/filtrarPrendasAjax.js') }}"></script>
-    <script>
-    // Lógica simple para las flechas del slider
-    document.addEventListener('DOMContentLoaded', () => {
-      const container = document.getElementById('destacadas-container');
-      document.getElementById('slide-left').addEventListener('click', () => {
-        container.scrollBy({ left: -200, behavior: 'smooth' });
-      });
-      document.getElementById('slide-right').addEventListener('click', () => {
-        container.scrollBy({ left:  200, behavior: 'smooth' });
-      });
-    });
-  </script>
-@endsection
