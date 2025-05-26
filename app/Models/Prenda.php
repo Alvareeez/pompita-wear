@@ -23,6 +23,22 @@ class Prenda extends Model
         'destacado_hasta',
     ];
 
+    public function vistas()
+    {
+        return $this->hasMany(PrendaVista::class, 'prenda_id', 'id_prenda');
+    }
+    
+    /**
+     * Cuenta vistas en los últimos 30 días.
+     */
+    public function vistasLast30Days()
+    {
+        return $this->vistas()
+                    ->where('created_at', '>=', now()->subDays(30))
+                    ->count();
+    }
+    
+
     public function tipoPrenda()
     {
         return $this->belongsTo(TipoPrenda::class, 'id_tipoPrenda');
@@ -109,5 +125,5 @@ class Prenda extends Model
                            ->orWhere('destacado_hasta', '>=', now()->toDateString());
                      });
     }
-    
+
 }

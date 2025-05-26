@@ -70,12 +70,18 @@ class PrendaController extends Controller
             ->limit(5)
             ->get();
 
+        $destacadas = Prenda::destacadas()
+        ->orderByDesc('destacado_hasta')
+        ->get();
+
+
         return view('prendas.index', compact(
             'prendas',
             'estilos',
             'colores',
             'tiposPrenda',
-            'topPrendas'
+            'topPrendas',
+            'destacadas'
         ));
     }
 
@@ -94,17 +100,34 @@ class PrendaController extends Controller
 
     public function show($id)
     {
-        $prenda = Prenda::with(['comentarios.usuario', 'comentarios.likes', 'valoraciones.usuario'])
-            ->findOrFail($id);
-
-        return view('prendas.show', [
-            'prenda' => $prenda,
-            'puntuacionPromedio' => $prenda->promedioValoraciones(),
-            'puntuacionUsuario'  => $prenda->valoraciones()
-                                             ->where('id_usuario', auth()->id())
-                                             ->first(),
+        // 1) Recuperamos la prenda
+        $prenda = Prenda::with([
+                    'comentarios.usuario',
+                    'comentarios.likes',
+                    'valoraciones.usuario'
+                ])->findOrFail($id);
+    
+        // 2) Registramos la visita en la tabla prenda_vistas
+        $prenda->vistas()->create([
+            'id_usuario' => auth()->id(), // o null si invitado
         ]);
+    
+        // 3) Preparamos datos de puntuación
+        $puntuacionPromedio = $prenda->promedioValoraciones();
+        $puntuacionUsuario  = $prenda->valoraciones()
+                                    ->where('id_usuario', auth()->id())
+                                    ->first();
+    
+        // 4) Listado de comentarios y valoraciones ya viene en la relación
+    
+        return view('prendas.show', compact(
+            'prenda',
+            'puntuacionPromedio',
+            'puntuacionUsuario'
+        ));
     }
+    
+    
 
     public function toggleLike(Request $request, $id)
     {

@@ -107,6 +107,11 @@ class Usuario extends Authenticatable
         )->withTimestamps();
     }
 
+    public function empresa()
+    {
+    return $this->hasOne(Empresa::class, 'usuario_id', 'id_usuario');
+    }
+
     // SEGUIMIENTO
 
     public function solicitudesEnviadas()
