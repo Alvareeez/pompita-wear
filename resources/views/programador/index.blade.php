@@ -1,6 +1,9 @@
 @extends('layouts.header')
 
 @section('title', 'Panel Programador')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/programador.css') }}">
+@endsection
 
 @section('content')
 <div class="container my-5">
@@ -16,7 +19,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>#</th>
+          <th>Id</th>
           <th>Empresa</th>
           <th>Slug</th>
           <th>Solicitada en</th>
