@@ -23,6 +23,7 @@ use App\Http\Controllers\PlantillaController;
 
 
 
+
 use App\Http\Controllers\Admin\EstiloController;
 use App\Http\Controllers\Admin\EtiquetaController;
 use App\Http\Controllers\OutfitController2;
@@ -187,6 +188,13 @@ Route::middleware(['auth'])->group(
         // Dejar de seguir
         Route::delete('/perfil/unfollow/{id}', [PerfilController::class, 'unfollow'])->name('perfil.unfollow');
 
+        // Factura
+        Route::get('/empresas/factura/{id}', [PaymentController::class, 'downloadInvoice'])->name('empresas.factura');
+
+        // Ruta para guardar datos fiscales
+        Route::post('/empresa/datos-fiscales', [EmpresaController::class, 'guardarDatosFiscales'])
+            ->name('empresa.datos-fiscales.store');
+
         // CHAT ENTRE SEGUIDOS UNICAMENTE
 
         // Bandeja de chats (sin conversación abierta)
@@ -206,102 +214,107 @@ Route::middleware(['auth'])->group(
         Route::post('/solicitar-ropa', [SolicitudRopaController::class, 'store'])->name('solicitudes.store');
 
 
-// RUTAS DE SEGURIZADAS EMPRESAS ---------------------------------------------------------------------------
+        // RUTAS DE SEGURIZADAS EMPRESAS ---------------------------------------------------------------------------
 
 
         // 1) Panel y lista de planes
         Route::get('/empresa', [EmpresaController::class, 'index'])
-        ->name('empresas.index');
+            ->name('empresas.index');
 
         // 2) Tras elegir plan, seleccionar prenda
-        Route::get('/empresa/planes/{plan}/destacar', 
-        [EmpresaController::class, 'selectPrenda'])
-        ->name('empresa.destacar');
+        Route::get(
+            '/empresa/planes/{plan}/destacar',
+            [EmpresaController::class, 'selectPrenda']
+        )
+            ->name('empresa.destacar');
 
         // 3) Checkout PayPal
-        Route::match(['get','post'], '/paypal/checkout', [PaymentController::class, 'createOrder'])
-        ->name('paypal.checkout');
+        Route::post(
+            '/paypal/checkout',
+            [PaymentController::class, 'createOrder']
+        )
+            ->name('paypal.checkout');
 
         // 4) Callbacks PayPal
         Route::get('/paypal/return',   [PaymentController::class, 'captureOrder'])
-        ->name('paypal.return');
+            ->name('paypal.return');
         Route::get('/paypal/cancel',   [PaymentController::class, 'cancelOrder'])
-        ->name('paypal.cancel');
+            ->name('paypal.cancel');
 
-        Route::get('/empresa/prendas/ajax', [EmpresaController::class,'prendasAjax'])
-        ->name('empresa.prendas.ajax');
+        Route::get('/empresa/prendas/ajax', [EmpresaController::class, 'prendasAjax'])
+            ->name('empresa.prendas.ajax');
 
 
         // 1) Mostrar formulario de solicitud de plantilla
-        Route::get('/empresa/plantilla/solicitar', [EmpresaController::class,'showPlantillaForm'])
+        Route::get('/empresa/plantilla/solicitar', [EmpresaController::class, 'showPlantillaForm'])
             ->name('empresa.plantilla.form');
 
         // 2) Procesar formulario → ir a PayPal
-        Route::post('/empresa/plantilla/solicitar', [EmpresaController::class,'submitPlantillaForm'])
+        Route::post('/empresa/plantilla/solicitar', [EmpresaController::class, 'submitPlantillaForm'])
             ->name('empresa.plantilla.submit');
 
 
-// RUTAS DE SEGURIZADAS GESTORES ---------------------------------------------------------------------------
+        // RUTAS DE SEGURIZADAS GESTORES ---------------------------------------------------------------------------
 
-    // Panel principal del gestor
-    Route::get('/gestor', [GestorController::class, 'index'])
-         ->name('gestor.index');
+        // Panel principal del gestor
+        Route::get('/gestor', [GestorController::class, 'index'])
+            ->name('gestor.index');
 
-    // Acción para marcar una prenda como destacada
-    Route::post('/gestor/highlight/{solicitud}', [GestorController::class, 'highlight'])
-         ->name('gestor.highlight');
+        // Acción para marcar una prenda como destacada
+        Route::post('/gestor/highlight/{solicitud}', [GestorController::class, 'highlight'])
+            ->name('gestor.highlight');
 
-    // Acciones para aprobar o rechazar una solicitu
-    Route::post('/gestor/approve/{solicitud}', [GestorController::class,'approve'])
-         ->name('gestor.approve');
-    Route::post('/gestor/reject/{solicitud}',  [GestorController::class,'reject'])
-         ->name('gestor.reject');
-
-
-    // CRUD de destacados
-    Route::get('/gestor/destacados', [GestorController::class,'manageDestacados'])
-        ->name('gestor.destacados');
-    Route::post('/gestor/destacados/{prenda}/update', [GestorController::class,'updateDestacado'])
-        ->name('gestor.destacados.update');
+        // Acciones para aprobar o rechazar una solicitu
+        Route::post('/gestor/approve/{solicitud}', [GestorController::class, 'approve'])
+            ->name('gestor.approve');
+        Route::post('/gestor/reject/{solicitud}',  [GestorController::class, 'reject'])
+            ->name('gestor.reject');
 
 
-// RUTAS DE SEGURIZADAS PROGRAMADOR ---------------------------------------------------------------------------
+        // CRUD de destacados
+        Route::get('/gestor/destacados', [GestorController::class, 'manageDestacados'])
+            ->name('gestor.destacados');
+        Route::post('/gestor/destacados/{prenda}/update', [GestorController::class, 'updateDestacado'])
+            ->name('gestor.destacados.update');
 
 
-    // Panel de programador
-    Route::get('/programador', [ProgramadorController::class, 'index'])
-         ->name('programador.index');
-
-    // Ver una solicitud concreta
-    Route::get('/programador/plantillas/{plantilla}', [ProgramadorController::class, 'showPlantilla'])
-         ->name('programador.plantillas.show');
-
-    // Procesar la solicitud: aprobar o rechazar
-    Route::post('/programador/plantillas/{plantilla}', [ProgramadorController::class, 'procesarPlantilla'])
-         ->name('programador.plantillas.procesar');
+        // RUTAS DE SEGURIZADAS PROGRAMADOR ---------------------------------------------------------------------------
 
 
-// RUTAS DE SEGURIZADAS ANALISTA ---------------------------------------------------------------------------
+        // Panel de programador
+        Route::get('/programador', [ProgramadorController::class, 'index'])
+            ->name('programador.index');
 
-    Route::get('/analista', [AnalistaController::class,'index'])
-    ->name('analista.index');
+        // Ver una solicitud concreta
+        Route::get('/programador/plantillas/{plantilla}', [ProgramadorController::class, 'showPlantilla'])
+            ->name('programador.plantillas.show');
 
-    Route::get('/analista/prendas/{prenda}', [AnalistaController::class,'show'])
-    ->name('analista.prendas.show');
-
-
-// RUTAS DE COMPRA DE DOMINIO ---------------------------------------------------------------------------
-
-    // Para poder mostrar las ropas que el usuario ha solicitado y han estdo aceptadas
-    Route::get('/producto/{solicitud}', [App\Http\Controllers\SolicitudRopaController::class, 'show'])
-    ->name('producto.show');
+        // Procesar la solicitud: aprobar o rechazar
+        Route::post('/programador/plantillas/{plantilla}', [ProgramadorController::class, 'procesarPlantilla'])
+            ->name('programador.plantillas.procesar');
 
 
+        // RUTAS DE SEGURIZADAS ANALISTA ---------------------------------------------------------------------------
 
-    // Esta ruta captura cualquier URL de 1 segmento (p.ej. /mi-tienda) tras resolver las anteriores:
-    Route::get('/{slug}', [PlantillaController::class, 'show'])
-    ->where('slug', '[A-Za-z0-9_-]+')
-    ->name('plantillas.show');
+        Route::get('/analista', [AnalistaController::class, 'index'])
+            ->name('analista.index');
+
+        Route::get('/analista/prendas/{prenda}', [AnalistaController::class, 'show'])
+            ->name('analista.prendas.show');
+
+
+        // RUTAS DE COMPRA DE DOMINIO ---------------------------------------------------------------------------
+
+        // Para poder mostrar las ropas que el usuario ha solicitado y han estdo aceptadas
+        Route::get('/producto/{solicitud}', [App\Http\Controllers\SolicitudRopaController::class, 'show'])
+            ->name('producto.show');
+
+
+
+        // Esta ruta captura cualquier URL de 1 segmento (p.ej. /mi-tienda) tras resolver las anteriores:
+        Route::get('/{slug}', [PlantillaController::class, 'show'])
+            ->where('slug', '[A-Za-z0-9_-]+')
+            ->name('plantillas.show');
     }
-    
+
 );
