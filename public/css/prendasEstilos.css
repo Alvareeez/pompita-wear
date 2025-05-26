@@ -377,6 +377,47 @@ input[type="search"]:focus {
     background-color: #F6A894;
     color: #333;
   }
+
+        /* Slider de destacadas */
+        .destacadas-slider {
+            position: relative;
+            margin: 2rem 0;
+          }
+          .destacadas-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 1rem;
+            padding-bottom: 1rem;
+          }
+          .destacadas-container::-webkit-scrollbar {
+            height: 6px;
+          }
+          .destacadas-container::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,.2);
+            border-radius: 3px;
+          }
+          .destacada-item {
+            flex: 0 0 auto;
+            width: 180px;
+          }
+          .destacada-item img {
+            width: 100%;
+            border-radius: .25rem;
+          }
+          .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,.8);
+            border: none;
+            font-size: 1.5rem;
+            padding: .25rem .5rem;
+            cursor: pointer;
+            z-index: 10;
+          }
+          .slider-arrow.left { left: -10px; }
+          .slider-arrow.right { right: -10px; }
   
 
 /* Estilos responsivos */

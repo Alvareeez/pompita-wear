@@ -70,12 +70,18 @@ class PrendaController extends Controller
             ->limit(5)
             ->get();
 
+        $destacadas = Prenda::destacadas()
+        ->orderByDesc('destacado_hasta')
+        ->get();
+
+
         return view('prendas.index', compact(
             'prendas',
             'estilos',
             'colores',
             'tiposPrenda',
-            'topPrendas'
+            'topPrendas',
+            'destacadas'
         ));
     }
 
