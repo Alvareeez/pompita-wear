@@ -17,7 +17,7 @@
   </div>
 
   <div class="container my-5">
-    <h2 style="color: {{ $plantilla->color_secundario }}">Productos Destacados</h2>
+    <h2 style="color: {{ $plantilla->color_secundario }}">PRENDAS</h2>
 
     @if($prendas->isEmpty())
       <p>No hay productos aceptados todavía.</p>

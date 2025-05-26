@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Error 404 </title>
+  <title>Error 404</title>
   <style>
     body {
       margin: 0;
@@ -61,7 +61,7 @@
 
   <!-- Mensaje inicial -->
   <div class="message">
-    <h1>404 — ¡QUE ESTÁS BUSCANDO!</h1>
+    <h1>403 — ¡Acceso Prohibido!</h1>
     <p>Pulsa ESPACIO para comenzar a jugar como Batman</p>
   </div>
 
