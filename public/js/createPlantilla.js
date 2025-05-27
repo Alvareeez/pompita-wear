@@ -1,16 +1,16 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     console.log('createPlantilla.js iniciado');
-    const form             = document.getElementById('plantillaForm');
+    const form = document.getElementById('plantillaForm');
     if (!form) return;
 
-    const slug             = document.getElementById('slug');
-    const nombre           = document.getElementById('nombre');
-    const foto             = document.getElementById('foto');
-    const enlace           = document.getElementById('enlace');
-    const colorPrimario    = document.getElementById('color_primario');
-    const colorSecundario  = document.getElementById('color_secundario');
-    const colorTerciario   = document.getElementById('color_terciario');
-    const csrfToken        = document.querySelector('meta[name="csrf-token"]').content;
+    const slug = document.getElementById('slug');
+    const nombre = document.getElementById('nombre');
+    const foto = document.getElementById('foto');
+    const enlace = document.getElementById('enlace');
+    const colorPrimario = document.getElementById('color_primario');
+    const colorSecundario = document.getElementById('color_secundario');
+    const colorTerciario = document.getElementById('color_terciario');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
     function showError(input, msg) {
         clearError(input);
@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fb.textContent = msg;
         input.parentNode.appendChild(fb);
     }
+
     function clearError(input) {
         input.classList.remove('is-invalid');
         const fb = input.parentNode.querySelector('.invalid-feedback');
@@ -29,76 +30,93 @@ document.addEventListener('DOMContentLoaded', function () {
     function validateSlugFormat() {
         clearError(slug);
         const v = slug.value.trim();
-        if (!v) { showError(slug,'Slug obligatorio.'); return false; }
+        if (!v) { showError(slug, 'Slug obligatorio.'); return false; }
         if (!/^[a-zA-Z0-9\-]+$/.test(v)) {
-            showError(slug,'Solo letras, números y guiones.'); return false;
+            showError(slug, 'Solo letras, números y guiones.');
+            return false;
         }
         return true;
     }
     async function checkSlugUnique() {
         if (!validateSlugFormat()) return false;
         const res = await fetch(window.checkSlugUrl, {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
-                'X-CSRF-TOKEN':csrfToken
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
             },
             body: JSON.stringify({ slug: slug.value.trim() })
         });
         const { exists } = await res.json();
-        if (exists) { showError(slug,'Slug ya registrado.'); return false; }
+        if (exists) { showError(slug, 'Slug ya registrado.'); return false; }
         return true;
     }
 
     function validateNombreFormat() {
         clearError(nombre);
         const v = nombre.value.trim();
-        if (!v) { showError(nombre,'Nombre obligatorio.'); return false; }
-        if (v.length<3) { showError(nombre,'Mínimo 3 caracteres.'); return false; }
+        if (!v) { showError(nombre, 'Nombre obligatorio.'); return false; }
+        if (v.length < 3) { showError(nombre, 'Mínimo 3 caracteres.'); return false; }
         return true;
     }
     async function checkNombreUnique() {
         if (!validateNombreFormat()) return false;
         const res = await fetch(window.checkNombreUrl, {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json',
-                'X-CSRF-TOKEN':csrfToken
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
             },
             body: JSON.stringify({ nombre: nombre.value.trim() })
         });
         const { exists } = await res.json();
-        if (exists) { showError(nombre,'Nombre ya registrado.'); return false; }
+        if (exists) { showError(nombre, 'Nombre ya registrado.'); return false; }
         return true;
     }
 
     function validateFoto() {
         clearError(foto);
-        if (foto.value) {
-            const ok = ['image/jpeg','image/png','image/webp']
-                .includes(foto.files[0].type);
-            if (!ok) { showError(foto,'Solo JPG, PNG, WEBP.'); return false; }
+
+        if (!foto.files.length || foto.files.length === 0) {
+            showError(foto, 'Debes seleccionar una imagen de marca.');
+            return false;
+        }
+
+        const file = foto.files[0];
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        const maxSizeInBytes = 2 * 1024 * 1024; // 2 MB
+        if (!allowedTypes.includes(file.type)) {
+            showError(foto, 'Formato no válido. Solo se permiten JPG, PNG o WEBP.');
+            return false;
+        }
+        if (file.size > maxSizeInBytes) {
+            showError(foto, 'La imagen excede el tamaño máximo permitido (2 MB).');
+            return false;
         }
         return true;
     }
+
     function validateEnlace() {
         clearError(enlace);
         const v = enlace.value.trim();
         if (v && !/^https?:\/\/.+\..+/.test(v)) {
-            showError(enlace,'URL inválida.'); return false;
+            showError(enlace, 'URL inválida.');
+            return false;
         }
         return true;
     }
+
     function validateColor(input) {
         clearError(input);
-        if (!input.value) { showError(input,'Color obligatorio.'); return false; }
+        if (!input.value) { showError(input, 'Color obligatorio.'); return false; }
         return true;
     }
 
     // onblur / onchange
-    slug.addEventListener('blur',   () => checkSlugUnique());
+    slug.addEventListener('blur', () => checkSlugUnique());
     nombre.addEventListener('blur', () => checkNombreUnique());
-    foto.addEventListener('change', validateFoto);
+
+    foto.addEventListener('blur', validateFoto);
     enlace.addEventListener('blur', validateEnlace);
     colorPrimario.addEventListener('change', () => validateColor(colorPrimario));
     colorSecundario.addEventListener('change', () => validateColor(colorSecundario));
@@ -108,13 +126,13 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         let ok = true;
-        if (!await checkSlugUnique())        ok = false;
-        if (!await checkNombreUnique())      ok = false;
-        if (!validateFoto())                 ok = false;
-        if (!validateEnlace())               ok = false;
-        if (!validateColor(colorPrimario))   ok = false;
+        if (!await checkSlugUnique()) ok = false;
+        if (!await checkNombreUnique()) ok = false;
+        if (!validateFoto()) ok = false;
+        if (!validateEnlace()) ok = false;
+        if (!validateColor(colorPrimario)) ok = false;
         if (!validateColor(colorSecundario)) ok = false;
-        if (!validateColor(colorTerciario))  ok = false;
+        if (!validateColor(colorTerciario)) ok = false;
 
         if (!ok) {
             Swal.fire({
