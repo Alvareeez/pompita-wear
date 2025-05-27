@@ -4,9 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Outfit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class ShowOutfitsController extends Controller
 {
+
+    public function __construct()
+    {
+        // Si el usuario está baneado, aborta con 403
+        abort_if(
+            Auth::check() && Auth::user()->estado === 'baneado',
+            403,
+            'Tu cuenta ha sido baneada.'
+        );
+    }
+    
     protected $perPage = 15;
 
     public function index(Request $request)

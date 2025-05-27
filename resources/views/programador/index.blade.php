@@ -16,8 +16,8 @@
   @if($solicitudes->isEmpty())
     <p>No hay solicitudes pendientes.</p>
   @else
-    <table class="table table-striped">
-      <thead>
+    <table class="table table-hover table-bordered align-middle">
+      <thead class="table-dark">
         <tr>
           <th>Id</th>
           <th>Empresa</th>

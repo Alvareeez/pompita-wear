@@ -10,6 +10,18 @@ use App\Notifications\SolicitudNotification;
 
 class SolicitudController extends Controller
 {
+
+    public function __construct()
+    {
+        // Si el usuario está baneado, aborta con 403
+        abort_if(
+            Auth::check() && Auth::user()->estado === 'baneado',
+            403,
+            'Tu cuenta ha sido baneada.'
+        );
+    }
+    
+    
     /**
      * Envía una nueva solicitud de seguimiento o actualiza el estado
      * (aceptada si la cuenta es pública, pendiente si es privada).
