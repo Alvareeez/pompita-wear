@@ -32,7 +32,13 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\SolicitudRopaController;
 use App\Http\Controllers\Admin\ColorController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // RUTAS PARA LOGIN SOCIAL CON GOOGLE (deben ir antes de cualquier ruta /login o /auth)
 Route::get('auth/google/redirect', [SocialController::class, 'redirect'])
@@ -239,8 +245,8 @@ Route::middleware(['auth'])->group(
 
         // 3) Checkout PayPal
         Route::post('/paypal/checkout', [PaymentController::class, 'createOrder']);
-        Route::match(['get','post'], '/paypal/checkout', [PaymentController::class, 'createOrder'])
-        ->name('paypal.checkout');;
+        Route::match(['get', 'post'], '/paypal/checkout', [PaymentController::class, 'createOrder'])
+            ->name('paypal.checkout');;
 
         // 4) Callbacks PayPal
         Route::get('/paypal/return',   [PaymentController::class, 'captureOrder'])
@@ -318,10 +324,10 @@ Route::middleware(['auth'])->group(
 
         // VALIDACIONES AJAX PARA PLANTILLAS
         Route::post('/plantilla/check-slug', [PlantillaController::class, 'checkSlug'])
-        ->name('plantilla.checkSlug');
-       
+            ->name('plantilla.checkSlug');
+
         Route::post('/plantilla/check-nombre', [PlantillaController::class, 'checkNombre'])
-        ->name('plantilla.checkNombre');
+            ->name('plantilla.checkNombre');
 
 
 
