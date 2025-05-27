@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="{{ asset('img/pompitaLogo.png') }}" alt="Logo" class="logo" />
+            <img src="{{ asset('img/Pompita-blanco.png') }}" alt="Logo" class="logo" />
         </div>
 
         <div class="form-container">
