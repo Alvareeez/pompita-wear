@@ -30,4 +30,18 @@ class PlantillaController extends Controller
 
         return view('plantillas.show', compact('plantilla','prendas'));
     }
+
+    public function checkSlug(Request $request)
+    {
+        $slug = $request->input('slug');
+        $exists = Plantilla::where('slug', $slug)->exists();
+        return response()->json(['exists' => $exists]);
+    }
+
+    public function checkNombre(Request $request)
+    {
+        $nombre = $request->input('nombre');
+        $exists = Plantilla::where('nombre', $nombre)->exists();
+        return response()->json(['exists' => $exists]);
+    }
 }
