@@ -11,7 +11,7 @@
 <body>
   <div class="container">
     <div class="logo-container">
-      <img src="{{ asset('img/pompitaLogo.png') }}" alt="Pompita Wear" class="logo">
+      <img src="{{ asset('img/Pompita-blanco.png') }}" alt="Pompita Wear" class="logo">
     </div>
     <div class="form-container">
       <h2 class="title-container">Registro</h2>

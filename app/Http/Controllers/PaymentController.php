@@ -85,7 +85,7 @@ class PaymentController extends Controller
         if ($status === 'COMPLETED' && $planId == 3) {
             $datos = Session::get('plantilla', []);
 
-            SolicitudPlantilla::create([
+            $solicitud = SolicitudPlantilla::create([
                 'empresa_id'      => $empresaId,
                 'plan_id'         => $datos['plan_id'],
                 'slug'            => $datos['slug'],
@@ -102,7 +102,7 @@ class PaymentController extends Controller
             Session::forget(['payment.plan_id', 'payment.prenda_id', 'plantilla']);
 
             return redirect()->route('empresas.index')
-                ->with('success', 'Pago completado. Tu solicitud de plantilla está pendiente.');
+                ->with(['factura_id' => $solicitud->id]);
         }
 
         if ($status === 'COMPLETED' && in_array($planId, [1, 2])) {
@@ -135,14 +135,27 @@ class PaymentController extends Controller
     }
     public function downloadInvoice($solicitudId)
     {
+        // Intenta buscar primero en SolicitudDestacado (planes 1 y 2)
         $solicitud = SolicitudDestacado::with([
             'plan',
             'prenda',
-            'empresa.datosFiscales' // <--- correcto
-        ])->findOrFail($solicitudId);
+            'empresa.datosFiscales'
+        ])->find($solicitudId);
+
+        $esPlan3 = false;
+
+        // Si no existe, busca en SolicitudPlantilla (plan 3)
+        if (!$solicitud) {
+            $solicitud = SolicitudPlantilla::with([
+                'plan',
+                'empresa.datosFiscales'
+            ])->findOrFail($solicitudId);
+            $esPlan3 = true;
+        }
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('empresas.invoice', [
             'solicitud' => $solicitud,
+            'esPlan3' => $esPlan3
         ]);
 
         return $pdf->download('factura_' . $solicitud->id . '.pdf');

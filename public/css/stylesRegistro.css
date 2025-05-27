@@ -135,10 +135,12 @@ body {
     margin-top: 10px !important;
     margin-bottom: 10px !important;
     font-size: 1rem;
+    color: #fff !important;
 }
 
 .btn-google i {
     margin-right: 8px;
+    color: #fff !important;
 }
 
 .divider {

@@ -16,7 +16,7 @@
 <body>
     <header class="admin-header">
         <div class="logo">
-            <img src="{{ asset('img/pompitaLogo.png') }}" alt="Pompita Wear">
+            <img src="{{ asset('img/Pompita-blanco.png') }}" alt="Pompita Wear">
         </div>
                 <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
     <span class="hamburger-line"></span>
