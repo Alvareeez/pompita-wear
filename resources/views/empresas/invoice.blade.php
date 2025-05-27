@@ -40,7 +40,20 @@
     <div class="datos">
         <strong>Plan:</strong> {{ $solicitud->plan->nombre }}<br>
         <strong>Precio:</strong> {{ number_format($solicitud->plan->precio, 2, ',', '.') }} €<br>
-        <strong>Prenda:</strong> {{ $solicitud->prenda->nombre ?? '' }}
+        @if ($esPlan3)
+            <strong>Tipo de servicio:</strong> Plantilla Web Básica<br>
+            <strong>Slug:</strong> {{ $solicitud->slug }}<br>
+            <strong>Nombre de la plantilla:</strong> {{ $solicitud->nombre }}<br>
+            @if ($solicitud->enlace)
+                <strong>Enlace externo:</strong> {{ $solicitud->enlace }}<br>
+            @endif
+            <strong>Colores:</strong>
+            Primario: {{ $solicitud->color_primario }},
+            Secundario: {{ $solicitud->color_secundario }},
+            Terciario: {{ $solicitud->color_terciario }}<br>
+        @else
+            <strong>Prenda:</strong> {{ $solicitud->prenda->nombre ?? '' }}
+        @endif
     </div>
     <hr>
     <p>Gracias por su compra.</p>

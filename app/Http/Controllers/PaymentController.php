@@ -135,14 +135,27 @@ class PaymentController extends Controller
     }
     public function downloadInvoice($solicitudId)
     {
+        // Intenta buscar primero en SolicitudDestacado (planes 1 y 2)
         $solicitud = SolicitudDestacado::with([
             'plan',
             'prenda',
-            'empresa.datosFiscales' // <--- correcto
-        ])->findOrFail($solicitudId);
+            'empresa.datosFiscales'
+        ])->find($solicitudId);
+
+        $esPlan3 = false;
+
+        // Si no existe, busca en SolicitudPlantilla (plan 3)
+        if (!$solicitud) {
+            $solicitud = SolicitudPlantilla::with([
+                'plan',
+                'empresa.datosFiscales'
+            ])->findOrFail($solicitudId);
+            $esPlan3 = true;
+        }
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('empresas.invoice', [
             'solicitud' => $solicitud,
+            'esPlan3' => $esPlan3
         ]);
 
         return $pdf->download('factura_' . $solicitud->id . '.pdf');
