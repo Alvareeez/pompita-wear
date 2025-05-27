@@ -12,6 +12,17 @@ use App\Models\Prenda;
 
 class SolicitudDestacadoController extends Controller
 {
+
+    public function __construct()
+    {
+        // Si el usuario está baneado, aborta con 403
+        abort_if(
+            Auth::check() && Auth::user()->estado === 'baneado',
+            403,
+            'Tu cuenta ha sido baneada.'
+        );
+    }
+    
     public function store(Request $request, Plan $plan)
     {
         $request->validate([
