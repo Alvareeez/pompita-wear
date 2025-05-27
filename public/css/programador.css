@@ -215,6 +215,72 @@ a[target="_blank"]:hover {
 }
 
 
+/* Contenedor de la tabla */
+.table {
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezados de la tabla */
+.table thead th {
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Filas de la tabla */
+.table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa; /* Fondo claro al pasar el ratón */
+}
+
+/* Celdas de la tabla */
+.table td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 12px;
+}
+
+/* Botón de acción */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+/* Bordes de la tabla */
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered td,
+.table-bordered th {
+  border: 1px solid #dee2e6;
+}
+
+/* Encabezado oscuro */
+.table-dark {
+  background-color: #343a40;
+  color: #fff;
+}
+
+/* Alternar colores de filas */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}
+
 /* Responsividad para la tabla */
 
 @media (max-width: 768px) {
