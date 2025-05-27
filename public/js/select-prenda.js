@@ -29,8 +29,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    inputSearch.addEventListener('input', aplicarFiltro);
-    btnFilter.addEventListener('click', aplicarFiltro);
+    // Solo añade listeners si existen los elementos
+    if (inputSearch && btnFilter && select) {
+        inputSearch.addEventListener('input', aplicarFiltro);
+        btnFilter.addEventListener('click', aplicarFiltro);
+    }
 
     // SweetAlert para dirección fiscal
     btnFiscal.addEventListener('click', function () {

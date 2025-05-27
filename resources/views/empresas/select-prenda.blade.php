@@ -1,4 +1,3 @@
-{{-- resources/views/empresa/selectPrenda.blade.php --}}
 @php
     $datosFiscales = $empresa && $empresa->datosFiscales ? $empresa->datosFiscales : null;
 @endphp

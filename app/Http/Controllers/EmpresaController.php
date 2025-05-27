@@ -64,7 +64,9 @@ class EmpresaController extends Controller
      */
     public function showPlantillaForm()
     {
-        return view('empresas.create-plantilla');
+        $empresa = \App\Models\Empresa::where('usuario_id', Auth::id())->first();
+        $datosFiscales = $empresa && $empresa->datosFiscales ? $empresa->datosFiscales : null;
+        return view('empresas.create-plantilla', compact('empresa', 'datosFiscales'));
     }
 
     /**

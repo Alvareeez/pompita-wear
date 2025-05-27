@@ -85,7 +85,7 @@ class PaymentController extends Controller
         if ($status === 'COMPLETED' && $planId == 3) {
             $datos = Session::get('plantilla', []);
 
-            SolicitudPlantilla::create([
+            $solicitud = SolicitudPlantilla::create([
                 'empresa_id'      => $empresaId,
                 'plan_id'         => $datos['plan_id'],
                 'slug'            => $datos['slug'],
@@ -102,7 +102,7 @@ class PaymentController extends Controller
             Session::forget(['payment.plan_id', 'payment.prenda_id', 'plantilla']);
 
             return redirect()->route('empresas.index')
-                ->with('success', 'Pago completado. Tu solicitud de plantilla está pendiente.');
+                ->with(['factura_id' => $solicitud->id]);
         }
 
         if ($status === 'COMPLETED' && in_array($planId, [1, 2])) {
