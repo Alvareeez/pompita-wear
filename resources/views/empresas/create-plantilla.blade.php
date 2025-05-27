@@ -28,7 +28,7 @@
       </div>
       <!-- Foto -->
       <div class="mb-3">
-        <label for="foto" class="form-label">Imagen de cabecera (opcional)</label>
+        <label for="foto" class="form-label">Imagen de Marca</label>
         <input type="file" name="foto" id="foto" class="form-control">
       </div>
       <!-- Enlace -->
