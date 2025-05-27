@@ -74,8 +74,16 @@ document.addEventListener('DOMContentLoaded', function () {
             showCancelButton: true,
             confirmButtonText: 'Guardar',
             cancelButtonText: 'Cancelar',
+            customClass: {
+                popup: 'swal-dark-popup',
+                title: 'swal-dark-title',
+                htmlContainer: 'swal-dark-html',
+                confirmButton: 'swal-dark-confirm',
+                cancelButton: 'swal-dark-cancel',
+                input: 'swal-dark-input'
+            },
             didOpen: () => {
-                // Event listeners para validación en tiempo real y prevención de caracteres especiales
+                // Validaciones en tiempo real
                 document.getElementById('swal-razon').addEventListener('input', function (e) {
                     this.value = this.value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s]/g, '');
                     validarRazonSocial();
@@ -86,10 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     validarNIF();
                 });
 
-                // Dirección permite caracteres especiales (no aplicamos replace)
                 document.getElementById('swal-direccion').addEventListener('input', validarDireccion);
-
-                // CP es numérico (ya está como type="number")
                 document.getElementById('swal-cp').addEventListener('input', validarCP);
 
                 document.getElementById('swal-ciudad').addEventListener('input', function (e) {
@@ -108,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             },
             preConfirm: () => {
-                // Validación final al enviar el formulario
+                // Validación final
                 const razon = document.getElementById('swal-razon').value.trim();
                 const nif = document.getElementById('swal-nif').value.trim();
                 const direccion = document.getElementById('swal-direccion').value.trim();
@@ -155,16 +160,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(res => res.json())
                     .then(data => {
                         if (data.success) {
-                            Swal.fire('¡Guardado!',
-                                'Dirección fiscal guardada correctamente.',
-                                'success')
+                            Swal.fire('¡Guardado!', 'Dirección fiscal guardada correctamente.', 'success')
                                 .then(() => {
                                     btnPagar.disabled = false;
-                                    // location.reload(); // Si quieres recargar la página
-                                });
+                            });
                         } else {
-                            Swal.fire('Error', data.message || 'No se pudo guardar.',
-                                'error');
+                            Swal.fire('Error', data.message || 'No se pudo guardar.', 'error');
                         }
                     })
                     .catch(() => {

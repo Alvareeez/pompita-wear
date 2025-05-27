@@ -19,6 +19,7 @@ use App\Http\Controllers\GestorController;
 use App\Http\Controllers\ProgramadorController;
 use App\Http\Controllers\AnalistaController;
 use App\Http\Controllers\PlantillaController;
+use App\Http\Controllers\Admin\PlantillaController2;
 
 
 
@@ -103,6 +104,14 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/colores/{id}/edit', [ColorController::class, 'edit'])->name('admin.colores.edit');
     Route::put('/colores/{id}', [ColorController::class, 'update'])->name('admin.colores.update');
     Route::delete('/colores/{id}', [ColorController::class, 'destroy'])->name('admin.colores.destroy');
+
+    // Rutas para gestionar plantillas
+    Route::get('/plantillas', [PlantillaController2::class, 'index'])->name('admin.plantillas.index');
+    Route::get('/plantillas/create', [PlantillaController2::class, 'create'])->name('admin.plantillas.create');
+    Route::post('/plantillas', [PlantillaController2::class, 'store'])->name('admin.plantillas.store');
+    Route::get('/plantillas/{id}/edit', [PlantillaController2::class, 'edit'])->name('admin.plantillas.edit');
+    Route::put('/plantillas/{id}', [PlantillaController2::class, 'update'])->name('admin.plantillas.update');
+    Route::delete('/plantillas/{id}', [PlantillaController2::class, 'destroy'])->name('admin.plantillas.destroy');
 });
 
 // RUTAS DE SEGURIZADAS CLIENTES ---------------------------------------------------------------------------

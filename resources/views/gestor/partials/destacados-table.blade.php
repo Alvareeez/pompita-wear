@@ -1,12 +1,12 @@
-<div class="table-responsive">
-  <table class="table table-hover align-middle">
+<div class="table-container">
+  <table class="custom-table">
     <thead>
       <tr>
         <th>ID</th>
         <th>Nombre</th>
         <th>Destacada</th>
         <th>Expira En</th>
-        <th class="text-center">Acciones</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -16,19 +16,17 @@
           <td>{{ $prenda->nombre }}</td>
           <td>
             @if($prenda->destacada)
-              <span class="badge bg-success">Sí</span>
+              <span class="badge-success">Sí</span>
             @else
-              <span class="badge bg-secondary">No</span>
+              <span class="badge-secondary">No</span>
             @endif
           </td>
           <td>{{ $prenda->destacado_hasta ?? '—' }}</td>
-          <td class="text-center">
-            <button class="btn btn-sm btn-outline-primary btn-toggle" 
-                    data-destacada="{{ $prenda->destacada ? 0 : 1 }}">
+          <td>
+            <button class="btn-toggle" data-destacada="{{ $prenda->destacada ? 0 : 1 }}">
               {{ $prenda->destacada ? 'Quitar' : 'Marcar' }}
             </button>
-            <input type="date" class="form-control form-control-sm d-inline-block mx-2 inp-hasta"
-                   value="{{ $prenda->destacado_hasta }}">
+            <input type="date" class="input-date" value="{{ $prenda->destacado_hasta }}">
           </td>
         </tr>
       @endforeach

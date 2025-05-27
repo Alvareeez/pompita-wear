@@ -143,24 +143,35 @@ class UsuarioController extends Controller
     public function destroy($id)
     {
         DB::transaction(function() use ($id) {
-            // 1) Solicitudes
+            // 1) Verificar si el usuario es una empresa
+            $usuario = Usuario::findOrFail($id);
+
+            if ($usuario->id_rol === 3) { // 3 = Empresa
+                // Eliminar datos relacionados con empresas
+                DB::table('facturas')->where('empresa_id', $id)->delete();
+                DB::table('plantillas')->where('empresa_id', $id)->delete();
+                DB::table('solicitudes_destacado')->where('empresa_id', $id)->delete();
+                DB::table('solicitudes_plantilla')->where('empresa_id', $id)->delete();
+            }
+
+            // 2) Solicitudes
             Solicitud::where('id_emisor', $id)
                      ->orWhere('id_receptor', $id)
                      ->delete();
 
-            // 2) Chats
+            // 3) Chats
             Mensaje::where('emisor_id', $id)->delete();
             Conversacion::where('user1_id', $id)
                         ->orWhere('user2_id', $id)
                         ->delete();
 
-            // 3) Notificaciones
+            // 4) Notificaciones
             DB::table('notifications')
                 ->where('notifiable_type', Usuario::class)
                 ->where('notifiable_id', $id)
                 ->delete();
 
-            // 4) Solicitudes de ropa y pivotes
+            // 5) Solicitudes de ropa y pivotes
             $solRopaIds = DB::table('solicitudes_ropa')
                             ->where('id_usuario', $id)
                             ->pluck('id');
@@ -169,7 +180,7 @@ class UsuarioController extends Controller
             DB::table('solicitud_estilo')->whereIn('id_solicitud', $solRopaIds)->delete();
             DB::table('solicitudes_ropa')->where('id_usuario', $id)->delete();
 
-            // 5) Prendas: comentarios, likes, valoraciones, favoritos
+            // 6) Prendas: comentarios, likes, valoraciones, favoritos
             $comentPrendaIds = DB::table('comentarios_prendas')
                                  ->where('id_usuario', $id)
                                  ->pluck('id_comentario');
@@ -181,7 +192,7 @@ class UsuarioController extends Controller
             DB::table('likes_prendas')->where('id_usuario', $id)->delete();
             DB::table('favoritos_prendas')->where('id_usuario', $id)->delete();
 
-            // 6) Outfits completos
+            // 7) Outfits completos
             $misOutfits = Outfit::where('id_usuario', $id)->pluck('id_outfit');
             foreach ($misOutfits as $outfitId) {
                 $comentOutIds = DB::table('comentarios_outfits')
@@ -198,7 +209,7 @@ class UsuarioController extends Controller
                 Outfit::where('id_outfit', $outfitId)->delete();
             }
 
-            // 7) Borrar usuario
+            // 8) Borrar usuario
             Usuario::where('id_usuario', $id)->delete();
         });
 

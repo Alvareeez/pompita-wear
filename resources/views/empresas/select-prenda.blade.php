@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <label for="prenda_id">Prenda a destacar:</label>
-                <select name="prenda_id" id="prenda_id" class="form-control" required>
+                <select name="prenda_id" id="prenda_id" class="form-control">
                     <option value="">— Selecciona una prenda —</option>
                     @foreach ($prendas as $prenda)
                         <option value="{{ $prenda->id_prenda }}" {{ $prenda->destacada ? 'disabled' : '' }}>
@@ -79,4 +79,5 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/select-prenda.js') }}"></script>
+    <script src="{{ asset('js/selectPrendaValidacion.js') }}"></script>
 @endsection
