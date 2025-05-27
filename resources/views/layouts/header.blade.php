@@ -22,7 +22,7 @@
             <div class="container-fluid">
                 <!-- Logo -->
                 <a class="navbar-brand" href="{{ route('home') }}">
-                    <img src="{{ asset('img/pompita-negro.png') }}" alt="Logo" class="logo-img">
+                    <img src="{{ asset('img/Pompita-blanco.png') }}" alt="Logo" class="logo-img">
                 </a>
                 <!-- Hamburguesa -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
