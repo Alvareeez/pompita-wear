@@ -46,24 +46,25 @@
     
     {{-- Slider de destacadas --}}
     @if($destacadas->count())
-      <section class="destacadas-slider container">
-        <h2 class="center-title mb-3">Prendas Destacadas</h2>
+    <div class="destacadas-slider">
+        <h2 class="center-title">Prendas Destacadas</h2>
         <button class="slider-arrow left" id="slide-left">&lsaquo;</button>
         <div class="destacadas-container" id="destacadas-container">
-          @foreach($destacadas as $prenda)
-            <div class="destacada-item text-center">
-              <a href="{{ route('prendas.show', $prenda->id_prenda) }}">
-                <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}"
-                     alt="{{ $prenda->nombre }}">
-                <p class="mt-2 small">{{ Str::limit($prenda->nombre, 20) }}</p>
-              </a>
+            @foreach($destacadas as $prenda)
+            <div class="destacada-item">
+                <a href="{{ route('prendas.show', $prenda->id_prenda) }}">
+                    <span class="destacada-badge">Destacada</span> 
+                    <img src="{{ asset('img/prendas/' . $prenda->img_frontal) }}" alt="{{ $prenda->nombre }}">
+                    <div class="destacada-item-content">
+                        <p><strong>{{ $prenda->nombre }}</strong></p>
+                    </div>
+                </a>
             </div>
-          @endforeach
+            @endforeach
         </div>
         <button class="slider-arrow right" id="slide-right">&rsaquo;</button>
-      </section>
-    @endif
-    
+    </div>
+    @endif    
     <div class="title-container">
         <h1 class="center-title">Todas las Prendas</h1>
     </div>
