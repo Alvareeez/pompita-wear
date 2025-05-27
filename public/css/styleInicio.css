@@ -1,6 +1,7 @@
 /* General */
 
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -46,9 +47,6 @@ body {
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
-
-
 
 .carousel {
     position: relative;
@@ -184,6 +182,13 @@ body {
 .likes {
     color: #ff4757;
     font-weight: bold;
+}
+
+.imagen-G {
+    width: 180px;
+    height: auto;
+    align-items: center;
+    margin-left: 23%;
 }
 
 
@@ -458,7 +463,9 @@ body {
 
 /* Sección del clima mejorada */
 
+
 /* Fondo animado para la sección del clima */
+
 .weather-section {
     margin-top: 30px;
     padding: 40px 0 60px 0;
@@ -475,9 +482,15 @@ body {
 }
 
 @keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .weather-info {
