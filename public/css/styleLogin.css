@@ -139,9 +139,11 @@ body {
             text-decoration: none;
             font-weight: bold;
             margin-bottom: 15px;
+            color: #fff !important;
         }
         .btn-google i {
             margin-right: 8px;
+            color: #fff !important;
         }
         .divider {
             text-align: center;

@@ -48,7 +48,7 @@
                             <li class="nav-item"><a class="nav-link" href="{{ url('/solicitar-ropa') }}">Solicitar
                                     Ropa</a></li>
 
-                            @if(optional(auth()->user()->rol)->nombre === 'empresa')
+                            @if (optional(auth()->user()->rol)->nombre === 'empresa')
                                 <li class="nav-item">
                                     <a class="nav-link text-warning" href="{{ route('empresas.index') }}">
                                         <i class="fas fa-building"></i> Modo Empresa
@@ -56,7 +56,7 @@
                                 </li>
                             @endif
 
-                            @if(optional(auth()->user()->rol)->nombre === 'gestor')
+                            @if (optional(auth()->user()->rol)->nombre === 'gestor')
                                 <li class="nav-item">
                                     <a class="nav-link text-warning" href="{{ route('gestor.index') }}">
                                         <i class="fas fa-tasks"></i> Modo Gestor
@@ -64,7 +64,7 @@
                                 </li>
                             @endif
 
-                            @if(optional(auth()->user()->rol)->nombre === 'programador')
+                            @if (optional(auth()->user()->rol)->nombre === 'programador')
                                 <li class="nav-item">
                                     <a class="nav-link text-warning" href="{{ route('programador.index') }}">
                                         <i class="fas fa-laptop-code"></i> Modo Programador
@@ -72,12 +72,12 @@
                                 </li>
                             @endif
 
-                            @if(optional(auth()->user()->rol)->nombre === 'analista')
-                            <li class="nav-item">
-                                <a class="nav-link text-warning" href="{{ route('analista.index') }}">
-                                <i class="fas fa-chart-line"></i> Modo Analista
-                                </a>
-                            </li>
+                            @if (optional(auth()->user()->rol)->nombre === 'analista')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('analista.index') }}">
+                                        <i class="fas fa-chart-line"></i> Modo Analista
+                                    </a>
+                                </li>
                             @endif
 
                         </ul>
@@ -152,7 +152,8 @@
                         @auth
                             <div style="margin-left: 0px"
                                 class="search-container ms-lg-5 me-lg-3 order-1 order-lg-0 d-flex align-items-center">
-                                <input type="text" id="user-search" placeholder="Buscar usuarios…" autocomplete="off" />
+                                <input type="text" id="user-search" placeholder="Buscar usuarios…"
+                                    autocomplete="off" />
                                 <div id="search-results" class="search-results"></div>
 
                             </div>
@@ -175,15 +176,15 @@
                             <li class="nav-item"><a class="nav-link" href="{{ url('/solicitar-ropa') }}">Solicitar
                                     Ropa</a></li>
 
-                            @if(optional(auth()->user()->rol)->nombre === 'empresa')
-                               <li class="nav-item">
+                            @if (optional(auth()->user()->rol)->nombre === 'empresa')
+                                <li class="nav-item">
                                     <a class="nav-link text-warning" href="{{ route('empresas.index') }}">
                                         <i class="fas fa-building"></i> Modo Empresa
                                     </a>
                                 </li>
                             @endif
 
-                            @if(optional(auth()->user()->rol)->nombre === 'gestor')
+                            @if (optional(auth()->user()->rol)->nombre === 'gestor')
                                 <li class="nav-item">
                                     <a class="nav-link text-warning" href="{{ route('gestor.index') }}">
                                         <i class="fas fa-tasks"></i> Modo Gestor
@@ -191,7 +192,7 @@
                                 </li>
                             @endif
 
-                            @if(optional(auth()->user()->rol)->nombre === 'programador')
+                            @if (optional(auth()->user()->rol)->nombre === 'programador')
                                 <li class="nav-item">
                                     <a class="nav-link text-warning" href="{{ route('programador.index') }}">
                                         <i class="fas fa-laptop-code"></i> Modo Programador
@@ -199,12 +200,12 @@
                                 </li>
                             @endif
 
-                            @if(optional(auth()->user()->rol)->nombre === 'analista')
-                            <li class="nav-item">
-                                <a class="nav-link text-warning" href="{{ route('analista.index') }}">
-                                <i class="fas fa-chart-line"></i> Modo Analista
-                                </a>
-                            </li>
+                            @if (optional(auth()->user()->rol)->nombre === 'analista')
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning" href="{{ route('analista.index') }}">
+                                        <i class="fas fa-chart-line"></i> Modo Analista
+                                    </a>
+                                </li>
                             @endif
 
 

@@ -38,7 +38,8 @@ class EmpresaController extends Controller
             return redirect()->route('empresa.plantilla.form');
         }
         $prendas = Prenda::all();
-        return view('empresas.select-prenda', compact('plan','prendas'));
+        $empresa = \App\Models\Empresa::where('usuario_id', Auth::id())->first();
+        return view('empresas.select-prenda', compact('plan', 'prendas', 'empresa'));
     }
 
     /**
@@ -48,7 +49,7 @@ class EmpresaController extends Controller
     {
         $q = Prenda::query();
         if ($request->filled('q')) {
-            $q->where('nombre', 'like', '%'.$request->q.'%');
+            $q->where('nombre', 'like', '%' . $request->q . '%');
         }
         $prendas = $q->get();
 
@@ -63,7 +64,9 @@ class EmpresaController extends Controller
      */
     public function showPlantillaForm()
     {
-        return view('empresas.create-plantilla');
+        $empresa = \App\Models\Empresa::where('usuario_id', Auth::id())->first();
+        $datosFiscales = $empresa && $empresa->datosFiscales ? $empresa->datosFiscales : null;
+        return view('empresas.create-plantilla', compact('empresa', 'datosFiscales'));
     }
 
     /**
@@ -76,18 +79,18 @@ class EmpresaController extends Controller
             'nombre'           => 'required|string|max:255',
             'foto'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
             'enlace'           => 'nullable|url',
-            'color_primario'   => ['required','regex:/^#[0-9A-Fa-f]{6}$/'],
-            'color_secundario' => ['required','regex:/^#[0-9A-Fa-f]{6}$/'],
-            'color_terciario'  => ['required','regex:/^#[0-9A-Fa-f]{6}$/'],
+            'color_primario'   => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'color_secundario' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
+            'color_terciario'  => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
         ]);
 
         // 5.1) Subir foto si la hay
         $fotoPath = null;
         if ($request->hasFile('foto')) {
             $file     = $request->file('foto');
-            $filename = time().'_'.preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $filename = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
             $file->move(public_path('img/plantillas'), $filename);
-            $fotoPath = 'img/plantillas/'.$filename;
+            $fotoPath = 'img/plantillas/' . $filename;
         }
 
         // 5.2) Guardar TODO en sesión
@@ -107,5 +110,37 @@ class EmpresaController extends Controller
             'plan_id' => 3,
             // prenda_id no es necesario para plan 3
         ]);
+    }
+    public function guardarDatosFiscales(Request $request)
+    {
+        $request->validate([
+            'razon'     => 'required|string',
+            'nif'       => 'required|string',
+            'direccion' => 'required|string',
+            'cp'        => 'required|string',
+            'ciudad'    => 'required|string',
+            'provincia' => 'required|string',
+            'pais'      => 'required|string',
+        ]);
+
+        $empresa = \App\Models\Empresa::where('usuario_id', Auth::id())->first();
+        if (!$empresa) {
+            return response()->json(['success' => false, 'message' => 'Empresa no encontrada.']);
+        }
+
+        $datosFiscales = \App\Models\DatosFiscales::create([
+            'razon_social' => $request->razon,
+            'nif'          => $request->nif,
+            'direccion'    => $request->direccion,
+            'cp'           => $request->cp,
+            'ciudad'       => $request->ciudad,
+            'provincia'    => $request->provincia,
+            'pais'         => $request->pais,
+        ]);
+
+        $empresa->datos_fiscales_id = $datosFiscales->id;
+        $empresa->save();
+
+        return response()->json(['success' => true]);
     }
 }

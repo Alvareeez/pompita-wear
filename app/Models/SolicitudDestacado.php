@@ -20,7 +20,7 @@ class SolicitudDestacado extends Model
 
     public function empresa()
     {
-        return $this->belongsTo(Usuario::class, 'empresa_id', 'id_usuario');
+        return $this->belongsTo(\App\Models\Empresa::class, 'empresa_id');
     }
 
     public function prenda()

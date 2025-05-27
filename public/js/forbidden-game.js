@@ -53,7 +53,7 @@ function initGame() {
         },
         vy: 0,
         gravity: 0.8,
-        jump: -16,
+        jump: -20,
         speedX: W * 0.005
     };
 
