@@ -37,6 +37,7 @@
             <a href="{{ route('admin.etiquetas.index') }}"><button>Etiquetas</button></a>
             <a href="{{ route('admin.colores.index') }}"><button class="active">Colores</button></a>
             <a href="{{ route('admin.solicitudes.index') }}"><button>Solicitudes</button></a>
+            <a href="{{ route('admin.plantillas.index') }}"><button>Plantillas</button></a>
         </div>
 
         <div class="actions-container">

@@ -50,6 +50,8 @@
             <a href="{{ route('admin.solicitudes.index') }}">
                 <button>Solicitudes</button>
             </a>
+            <a href="{{ route('admin.plantillas.index') }}"><button>Plantillas</button></a>
+
         </div>
 
         <div class="actions-container">
