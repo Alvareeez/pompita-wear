@@ -856,3 +856,296 @@ body {
         /* Uno por fila en pantallas muy pequeñas */
     }
 }
+
+/* Modo oscuro para el cuerpo */
+body.dark-mode {
+    background-color: #181a1b !important; /* Fondo oscuro */
+    color: #fff !important; /* Texto blanco */
+}
+
+/* Contenedor principal */
+body.dark-mode .container {
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Encabezados */
+body.dark-mode h2,
+body.dark-mode .section-title {
+    color: #fff !important; /* Texto blanco */
+    border-bottom: 1px solid #444 !important; /* Línea divisoria gris oscuro */
+    padding-bottom: 10px;
+}
+
+/* Botón "Volver a Solicitudes" */
+body.dark-mode .btn-outline-secondary {
+    background-color: transparent !important;
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+    background-color: #444 !important; /* Fondo gris oscuro */
+    color: #fff !important;
+}
+
+/* Inputs de filtros */
+body.dark-mode input[type="date"],
+body.dark-mode .form-control {
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+    border-radius: 5px;
+}
+
+body.dark-mode input[type="date"]:focus,
+body.dark-mode .form-control:focus {
+    border-color: #007bff !important; /* Borde azul en foco */
+    box-shadow: 0 0 5px #007bff55 !important; /* Sombra azul */
+}
+
+/* Botón de filtro */
+body.dark-mode .btn-primary {
+    background-color: #007bff !important; /* Fondo azul */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #007bff !important;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #0056b3 !important; /* Azul más oscuro */
+    border-color: #004085 !important;
+}
+
+/* Tabla */
+body.dark-mode .table {
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+}
+
+/* Encabezados de la tabla */
+body.dark-mode .table thead th {
+    background-color: #181a1b !important; /* Fondo más oscuro para encabezados */
+    color: #fff !important; /* Texto blanco */
+    border-bottom: 2px solid #444 !important; /* Borde gris oscuro */
+    text-align: center;
+}
+
+/* Filas alternadas */
+body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #2c2f33 !important; /* Fondo gris más oscuro para filas impares */
+}
+
+body.dark-mode .table-striped tbody tr:nth-of-type(even) {
+    background-color: #23272b !important; /* Fondo gris oscuro para filas pares */
+}
+
+/* Hover en filas */
+body.dark-mode .table-hover tbody tr:hover {
+    background-color: #2c2f33 !important; /* Fondo gris más oscuro al pasar el ratón */
+}
+
+/* Celdas de la tabla */
+body.dark-mode .table tbody td {
+    color: #fff !important; /* Texto blanco */
+    vertical-align: middle; /* Alineación vertical */
+}
+
+/* Bordes de las celdas */
+body.dark-mode .table tbody td,
+body.dark-mode .table thead th {
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+}
+
+/* Botones dentro de la tabla */
+body.dark-mode .btn-outline-primary {
+    background-color: transparent !important;
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #007bff !important; /* Borde azul */
+}
+
+body.dark-mode .btn-outline-primary:hover {
+    background-color: #007bff !important; /* Fondo azul */
+    color: #fff !important; /* Texto blanco */
+    border-color: #0056b3 !important; /* Azul más oscuro */
+}
+
+/* Inputs dentro de la tabla */
+body.dark-mode .form-control {
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+    border-radius: 5px;
+}
+
+body.dark-mode .form-control:focus {
+    border-color: #007bff !important; /* Borde azul en foco */
+    box-shadow: 0 0 5px #007bff55 !important; /* Sombra azul */
+}
+
+/* Etiquetas "Sí" y "No" */
+body.dark-mode .badge.bg-success {
+    background-color: #28a745 !important; /* Verde */
+    color: #fff !important; /* Texto blanco */
+}
+
+body.dark-mode .badge.bg-secondary {
+    background-color: #6c757d !important; /* Gris */
+    color: #fff !important; /* Texto blanco */
+}
+
+/* Paginación */
+body.dark-mode .pagination .page-link {
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+}
+
+body.dark-mode .pagination .page-link:hover,
+body.dark-mode .pagination .page-item.active .page-link {
+    background-color: #007bff !important; /* Fondo azul */
+    color: #fff !important; /* Texto blanco */
+    border-color: #007bff !important; /* Azul */
+}
+
+/* Contenedor de la tabla */
+.table-container {
+  overflow-x: auto;
+  margin: 20px 0;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Tabla personalizada (modo claro) */
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff; /* Fondo blanco */
+  color: #333; /* Texto oscuro */
+  font-size: 14px;
+  border: 1px solid #ddd; /* Bordes claros */
+}
+
+/* Encabezados de la tabla (modo claro) */
+.custom-table thead th {
+  background-color: #f4f4f4; /* Fondo gris claro */
+  color: #333; /* Texto oscuro */
+  padding: 10px;
+  text-align: left;
+  border-bottom: 2px solid #ddd; /* Línea divisoria */
+}
+
+/* Filas de la tabla (modo claro) */
+.custom-table tbody tr {
+  background-color: #fff; /* Fondo blanco */
+  border-bottom: 1px solid #ddd; /* Línea divisoria */
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background-color: #f9f9f9; /* Fondo alternado */
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f1f1f1; /* Fondo al pasar el ratón */
+}
+
+/* Celdas de la tabla */
+.custom-table td {
+  padding: 10px;
+  vertical-align: middle;
+  border-right: 1px solid #ddd; /* Línea divisoria */
+}
+
+.custom-table td:last-child {
+  border-right: none; /* Sin borde en la última celda */
+}
+
+/* Modo oscuro */
+body.dark-mode .custom-table {
+  background-color: #23272b; /* Fondo gris oscuro */
+  color: #fff; /* Texto blanco */
+  border: 1px solid #444; /* Bordes oscuros */
+}
+
+body.dark-mode .custom-table thead th {
+  background-color: #181a1b; /* Fondo más oscuro */
+  color: #fff; /* Texto blanco */
+  border-bottom: 2px solid #444; /* Línea divisoria */
+}
+
+body.dark-mode .custom-table tbody tr {
+  background-color: #23272b; /* Fondo gris oscuro */
+  border-bottom: 1px solid #444; /* Línea divisoria */
+}
+
+body.dark-mode .custom-table tbody tr:nth-child(odd) {
+  background-color: #2c2f33; /* Fondo alternado */
+}
+
+body.dark-mode .custom-table tbody tr:hover {
+  background-color: #3a3f44; /* Fondo al pasar el ratón */
+}
+
+body.dark-mode .custom-table td {
+  border-right: 1px solid #444; /* Línea divisoria */
+}
+
+body.dark-mode .custom-table td:last-child {
+  border-right: none; /* Sin borde en la última celda */
+}
+
+/* Botones */
+.btn-toggle {
+  background-color: #007bff; /* Azul */
+  color: #fff; /* Texto blanco */
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-toggle:hover {
+  background-color: #0056b3; /* Azul más oscuro */
+}
+
+/* Inputs */
+.input-date {
+  background-color: #f9f9f9; /* Fondo claro */
+  color: #333; /* Texto oscuro */
+  border: 1px solid #ddd; /* Borde claro */
+  border-radius: 5px;
+  padding: 5px;
+  width: 150px;
+}
+
+body.dark-mode .input-date {
+  background-color: #2c2f33; /* Fondo gris oscuro */
+  color: #fff; /* Texto blanco */
+  border: 1px solid #444; /* Borde oscuro */
+}
+
+.input-date:focus {
+  border-color: #007bff; /* Borde azul en foco */
+  box-shadow: 0 0 5px #007bff55; /* Sombra azul */
+}
+
+/* Etiquetas "Sí" y "No" */
+.badge-success {
+  background-color: #28a745; /* Verde */
+  color: #fff; /* Texto blanco */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.badge-secondary {
+  background-color: #6c757d; /* Gris */
+  color: #fff; /* Texto blanco */
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}

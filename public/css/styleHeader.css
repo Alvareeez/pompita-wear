@@ -449,16 +449,18 @@ body.dark-mode .section-title {
 body.dark-mode input,
 body.dark-mode select,
 body.dark-mode textarea {
-    background-color: #23272b !important;
-    color: #fff !important;
-    border: 1px solid #444 !important;
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+    border-radius: 5px;
+    padding: 10px;
 }
 
 body.dark-mode input:focus,
 body.dark-mode select:focus,
 body.dark-mode textarea:focus {
-    border-color: #007bff !important;
-    box-shadow: 0 0 5px #007bff55 !important;
+    border-color: #007bff !important; /* Borde azul en foco */
+    box-shadow: 0 0 5px #007bff55 !important; /* Sombra azul */
 }
 
 body.dark-mode .filter-button,
@@ -530,9 +532,9 @@ body.dark-mode .empresa-banner {
 }
 
 body.dark-mode .card {
-    background-color: #23272b !important;
-    color: #fff !important;
-    border: 1px solid #444 !important;
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -1038,4 +1040,103 @@ body.dark-mode .form-container label {
 .swal-dark-cancel:hover {
     background-color: #555 !important; /* Gris más claro al pasar el ratón */
     border-color: #666 !important;
+}
+
+/* Modo oscuro para el contenedor principal */
+body.dark-mode .container {
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Modo oscuro para los encabezados */
+body.dark-mode h2 {
+    color: #fff !important; /* Texto blanco */
+    border-bottom: 1px solid #444 !important; /* Línea divisoria gris oscuro */
+    padding-bottom: 10px;
+}
+
+/* Modo oscuro para los párrafos */
+body.dark-mode p {
+    color: #ddd !important; /* Texto gris claro */
+}
+
+/* Modo oscuro para tablas */
+body.dark-mode .table {
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+}
+
+/* Encabezados de la tabla */
+body.dark-mode .table thead th {
+    background-color: #181a1b !important; /* Fondo más oscuro para encabezados */
+    color: #fff !important; /* Texto blanco */
+    border-bottom: 2px solid #444 !important; /* Borde gris oscuro */
+    text-align: center;
+}
+
+/* Filas alternadas */
+body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: #2c2f33 !important; /* Fondo gris más oscuro para filas impares */
+}
+
+body.dark-mode .table-striped tbody tr:nth-of-type(even) {
+    background-color: #23272b !important; /* Fondo gris oscuro para filas pares */
+}
+
+/* Hover en filas */
+body.dark-mode .table-hover tbody tr:hover {
+    background-color: #2c2f33 !important; /* Fondo gris más oscuro al pasar el ratón */
+}
+
+/* Celdas de la tabla */
+body.dark-mode .table tbody td {
+    color: #fff !important; /* Texto blanco */
+    vertical-align: middle; /* Alineación vertical */
+}
+
+/* Bordes de las celdas */
+body.dark-mode .table tbody td,
+body.dark-mode .table thead th {
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+}
+
+/* Botones dentro de la tabla */
+body.dark-mode .btn-outline-primary {
+    background-color: transparent !important;
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #007bff !important; /* Borde azul */
+}
+
+body.dark-mode .btn-outline-primary:hover {
+    background-color: #007bff !important; /* Fondo azul */
+    color: #fff !important; /* Texto blanco */
+    border-color: #0056b3 !important; /* Azul más oscuro */
+}
+
+/* Inputs dentro de la tabla */
+body.dark-mode .form-control {
+    background-color: #23272b !important; /* Fondo gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+    border-radius: 5px;
+}
+
+body.dark-mode .form-control:focus {
+    border-color: #007bff !important; /* Borde azul en foco */
+    box-shadow: 0 0 5px #007bff55 !important; /* Sombra azul */
+}
+
+/* Etiquetas "Sí" y "No" */
+body.dark-mode .badge.bg-success {
+    background-color: #28a745 !important; /* Verde */
+    color: #fff !important; /* Texto blanco */
+}
+
+body.dark-mode .badge.bg-secondary {
+    background-color: #6c757d !important; /* Gris */
+    color: #fff !important; /* Texto blanco */
 }
