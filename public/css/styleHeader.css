@@ -524,6 +524,62 @@ body.dark-mode .alert-error {
     border: 1px solid #c62828 !important;
 }
 
+body.dark-mode .empresa-banner {
+    background-color: #111a1c !important;
+    color: #fff !important;
+}
+
+body.dark-mode .card {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border: 1px solid #444 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .card-title {
+    color: #fff !important;
+}
+
+body.dark-mode .card-text {
+    color: #ddd !important;
+}
+
+body.dark-mode .btn-success {
+    background-color: #28a745 !important;
+    color: #fff !important;
+    border: 1px solid #28a745 !important;
+}
+
+body.dark-mode .btn-success:hover {
+    background-color: #218838 !important;
+    border-color: #1e7e34 !important;
+}
+
+body.dark-mode .btn-primary {
+    background-color: #007bff !important;
+    color: #fff !important;
+    border: 1px solid #007bff !important;
+}
+
+body.dark-mode .btn-primary:hover {
+    background-color: #0056b3 !important;
+    border-color: #004085 !important;
+}
+
+body.dark-mode a {
+    color: #8bb6ff !important;
+}
+
+body.dark-mode a:hover {
+    color: #5a9cff !important;
+}
+
+body.dark-mode .cookie-banner {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border: 1px solid #444 !important;
+}
+
 
 /* Buscador en modo oscuro */
 
@@ -855,4 +911,131 @@ body.dark-mode input::placeholder,
 body.dark-mode textarea::placeholder {
     color: #fff !important;
     opacity: 1 !important;
+}
+
+/* Modo oscuro para la factura */
+body.dark-mode {
+    background-color: #181a1b !important;
+    color: #fff !important;
+}
+
+body.dark-mode h2 {
+    color: #fff !important;
+}
+
+body.dark-mode .header {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border: 1px solid #444 !important;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+body.dark-mode .datos {
+    background-color: #23272b !important;
+    color: #fff !important;
+    border: 1px solid #444 !important;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+body.dark-mode hr {
+    border-color: #444 !important;
+}
+
+body.dark-mode p {
+    color: #ddd !important;
+}
+
+/* Estilo para el recuadro en modo oscuro */
+body.dark-mode .form-container {
+    background-color: #23272b !important; /* Fondo negro */
+    color: #fff !important; /* Letra blanca */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+    padding: 20px;
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+/* Estilo para los inputs dentro del recuadro */
+body.dark-mode .form-container input,
+body.dark-mode .form-container select,
+body.dark-mode .form-container textarea {
+    background-color: #181a1b !important; /* Fondo negro */
+    color: #fff !important; /* Letra blanca */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Estilo para los inputs en foco */
+body.dark-mode .form-container input:focus,
+body.dark-mode .form-container select:focus,
+body.dark-mode .form-container textarea:focus {
+    border-color: #007bff !important; /* Borde azul en foco */
+    box-shadow: 0 0 5px #007bff55 !important; /* Sombra azul */
+}
+
+/* Estilo para los labels */
+body.dark-mode .form-container label {
+    color: #fff !important; /* Letra blanca */
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* SweetAlert Modo Oscuro */
+.swal-dark-popup {
+    background-color: #23272b !important; /* Fondo negro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.swal-dark-title {
+    color: #fff !important; /* Título blanco */
+    font-weight: bold;
+}
+
+.swal-dark-html {
+    color: #ddd !important; /* Texto del contenido */
+}
+
+.swal-dark-input {
+    background-color: #181a1b !important; /* Fondo negro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important; /* Borde gris oscuro */
+    border-radius: 5px;
+}
+
+.swal-dark-input:focus {
+    border-color: #007bff !important; /* Borde azul en foco */
+    box-shadow: 0 0 5px #007bff55 !important; /* Sombra azul */
+}
+
+.swal-dark-confirm {
+    background-color: #007bff !important; /* Botón azul */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #007bff !important;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.swal-dark-confirm:hover {
+    background-color: #0056b3 !important; /* Azul más oscuro al pasar el ratón */
+    border-color: #004085 !important;
+}
+
+.swal-dark-cancel {
+    background-color: #444 !important; /* Botón gris oscuro */
+    color: #fff !important; /* Texto blanco */
+    border: 1px solid #444 !important;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+.swal-dark-cancel:hover {
+    background-color: #555 !important; /* Gris más claro al pasar el ratón */
+    border-color: #666 !important;
 }

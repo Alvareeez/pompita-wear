@@ -31,13 +31,13 @@
 
     <main class="admin-container">
         <div class="tabs">
-            <a href="{{ route('admin.usuarios.index') }}"><button>Usuarios</button></a>
-            <a href="{{ route('admin.ropa.index') }}"><button>Ropa</button></a>
-            <a href="{{ route('admin.estilos.index') }}"><button>Estilos</button></a>
-            <a href="{{ route('admin.etiquetas.index') }}"><button>Etiquetas</button></a>
-            <a href="{{ route('admin.colores.index') }}"><button>Colores</button></a>
-            <a href="{{ route('admin.solicitudes.index') }}"><button>Solicitudes</button></a>
-            <a href="{{ route('admin.plantillas.index') }}"><button class="active">Plantillas</button></a>
+            <a href="{{ route('admin.usuarios.index') }}" onclick="showSpinner()"><button>Usuarios</button></a>
+            <a href="{{ route('admin.ropa.index') }}" onclick="showSpinner()"><button>Ropa</button></a>
+            <a href="{{ route('admin.estilos.index') }}" onclick="showSpinner()"><button>Estilos</button></a>
+            <a href="{{ route('admin.etiquetas.index') }}" onclick="showSpinner()"><button>Etiquetas</button></a>
+            <a href="{{ route('admin.colores.index') }}" onclick="showSpinner()"><button>Colores</button></a>
+            <a href="{{ route('admin.solicitudes.index') }}" onclick="showSpinner()"><button>Solicitudes</button></a>
+            <a href="{{ route('admin.plantillas.index') }}" onclick="showSpinner()"><button class="active">Plantillas</button></a>
         </div>
 
 
@@ -114,6 +114,10 @@
                     document.getElementById(`delete-form-${id}`).submit();
                 }
             });
+        }
+
+        function showSpinner() {
+            document.getElementById("loading-spinner").style.display = "flex";
         }
     </script>
 </body>
