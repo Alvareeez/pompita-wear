@@ -4,71 +4,91 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Error 404</title>
+
+  <!-- Google Fonts: Ubuntu -->
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+
   <style>
+    /* Ubuntu en todo */
+    body, .title-banner, .instructions {
+      font-family: 'Ubuntu', sans-serif;
+    }
+
     body {
       margin: 0;
       overflow: hidden;
-      background: #222;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #eee;
+      position: relative;
     }
 
-    /* Fondo GIF */
-    .background-gif {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+    /* Título 404 FUERA de la tele */
+    .title-banner {
+      margin-bottom: 20px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .tv-frame {
+      position: relative;
+      width: 80vw;
+      max-width: 800px;
+      aspect-ratio: 16/9;
+      background: #000;
+      border: 20px solid #333;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+      overflow: hidden;
+    }
+
+    .tv-frame .background-gif {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       background: url('/img/juego/Gotham.gif') no-repeat center center;
       background-size: cover;
-      z-index: -2; /* Detrás de todo */
+      z-index: 0;
     }
 
-    /* Overlay oscuro opcional para mejorar visibilidad */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5); /* Oscurece el fondo */
-      z-index: -1;
-    }
-
-    canvas {
-      display: block;
+    .tv-frame canvas {
       position: relative;
+      width: 100%;
+      height: 100%;
       z-index: 1;
+      display: block;
     }
 
-    .message {
-      position: absolute;
-      top: 20px;
-      width: 100%;
+    /* Instrucciones ABAJO de la tele */
+    .instructions {
+      margin-top: 20px;
       text-align: center;
-      font-family: Ubuntu, sans-serif;
-      color: #eee;
-      z-index: 2;
+      z-index: 5;
     }
   </style>
 </head>
 <body>
 
-  <!-- Fondo GIF -->
-  <div class="background-gif"></div>
+  <!-- Título 404: fuera de la tele -->
+  <div class="title-banner">
+    <h1>404 — ¡NO INTENTES BUSCAR!</h1>
+  </div>
 
-  <!-- Overlay opcional -->
-  <div class="overlay"></div>
+  <!-- Televisor con GIF y canvas -->
+  <div class="tv-frame">
+    <div class="background-gif"></div>
+    <canvas id="game"></canvas>
+  </div>
 
-  <!-- Mensaje inicial -->
-  <div class="message">
-    <h1>403 — ¡Acceso Prohibido!</h1>
+  <!-- Instrucciones: fuera y debajo -->
+  <div class="instructions">
     <p>Pulsa ESPACIO para comenzar a jugar como Batman</p>
   </div>
 
-  <!-- Canvas del juego -->
-  <canvas id="game"></canvas>
-
-  <!-- Script del juego -->
   <script src="{{ asset('js/forbidden-game.js') }}"></script>
 </body>
 </html>
