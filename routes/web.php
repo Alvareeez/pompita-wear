@@ -229,11 +229,9 @@ Route::middleware(['auth'])->group(
             ->name('empresa.destacar');
 
         // 3) Checkout PayPal
-        Route::post(
-            '/paypal/checkout',
-            [PaymentController::class, 'createOrder']
-        )
-            ->name('paypal.checkout');
+        Route::post('/paypal/checkout', [PaymentController::class, 'createOrder']);
+        Route::match(['get','post'], '/paypal/checkout', [PaymentController::class, 'createOrder'])
+        ->name('paypal.checkout');;
 
         // 4) Callbacks PayPal
         Route::get('/paypal/return',   [PaymentController::class, 'captureOrder'])
