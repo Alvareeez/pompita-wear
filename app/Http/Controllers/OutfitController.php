@@ -13,6 +13,17 @@ use App\Notifications\OutfitNotification;
 
 class OutfitController extends Controller
 {
+
+    public function __construct()
+    {
+        // Si el usuario está baneado, aborta con 403
+        abort_if(
+            Auth::check() && Auth::user()->estado === 'baneado',
+            403,
+            'Tu cuenta ha sido baneada.'
+        );
+    }
+    
     public function index(Request $request)
     {
         // Obtener todos los colores y estilos disponibles

@@ -8,9 +8,22 @@ use App\Models\LikeComentarioOutfit;
 use App\Models\ValoracionOutfit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class DetailsOutfitsController extends Controller
 {
+
+    public function __construct()
+    {
+        // Si el usuario está baneado, aborta con 403
+        abort_if(
+            Auth::check() && Auth::user()->estado === 'baneado',
+            403,
+            'Tu cuenta ha sido baneada.'
+        );
+    }
+    
     /**
      * Muestra los detalles de un outfit, incluyendo prendas, valoraciones y comentarios.
      */

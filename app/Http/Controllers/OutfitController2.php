@@ -10,6 +10,17 @@ use App\Notifications\OutfitNotification; // Importar la notificación
 
 class OutfitController2 extends Controller
 {
+
+    public function __construct()
+    {
+        // Si el usuario está baneado, aborta con 403
+        abort_if(
+            Auth::check() && Auth::user()->estado === 'baneado',
+            403,
+            'Tu cuenta ha sido baneada.'
+        );
+    }
+    
     /**
      * Muestra el calendario con los outfits.
      */
