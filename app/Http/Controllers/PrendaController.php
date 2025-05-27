@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Auth;
 
 class PrendaController extends Controller
 {
+    public function __construct()
+    {
+        // Si el usuario está baneado, aborta con 403
+        abort_if(
+            Auth::check() && Auth::user()->estado === 'baneado',
+            403,
+            'Tu cuenta ha sido baneada.'
+        );
+    }
+    
     public function index(Request $request)
     {
         // Obtener estilos, colores y tipos de prenda para los filtros

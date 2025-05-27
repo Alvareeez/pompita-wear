@@ -5,9 +5,23 @@ use App\Models\Plantilla;
 use App\Models\SolicitudRopa;
 use App\Models\Prenda;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class PlantillaController extends Controller
 {
+
+    public function __construct()
+    {
+        // Si el usuario está baneado, aborta con 403
+        abort_if(
+            Auth::check() && Auth::user()->estado === 'baneado',
+            403,
+            'Tu cuenta ha sido baneada.'
+        );
+    }
+    
+
     public function show($slug)
     {
         // 1) Carga la plantilla aprobada

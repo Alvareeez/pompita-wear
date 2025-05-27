@@ -1,98 +1,143 @@
 <?php
-// filepath: c:\wamp64\www\pompita-wear\app\Models\Usuario.php
-namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+namespace App\Http\Controllers;
 
-class Usuario extends Authenticatable
+use Illuminate\Http\Request;
+use App\Models\Seguimiento;
+use Illuminate\Support\Facades\Auth;
+
+class SeguimientoController extends Controller
 {
-    use Notifiable;
-    use HasFactory;
-    protected $table = 'usuarios';
-    protected $primaryKey = 'id_usuario';
-    public $timestamps = true;
-
-    protected $fillable = [
-        'nombre',
-        'email',
-        'password',
-        'id_rol',
-        'foto_perfil',
-    ];
-
-    protected $hidden = [
-        'password',
-    ];
-
-    public function rol()
+    // Enviar solicitud de seguimiento
+    public function enviarSolicitud($idSeguido)
     {
-        return $this->belongsTo(Rol::class, 'id_rol', 'id_rol');
+        $user = Auth::user();
+
+        // Verifica si ya existe una solicitud
+        $existe = Seguimiento::where('id_seguidor', $user->id_usuario)
+            ->where('id_seguido', $idSeguido)
+            ->first();
+
+        if ($existe) {
+            return response()->json(['message' => 'Ya existe una solicitud o relación.'], 400);
+        }
+
+        Seguimiento::create([
+            'id_seguidor' => $user->id_usuario,
+            'id_seguido' => $idSeguido,
+            'estado' => 'pendiente',
+        ]);
+
+        return response()->json(['message' => 'Solicitud enviada.']);
     }
 
-    public function outfits()
+    // Aceptar solicitud de seguimiento
+    public function aceptarSolicitud($idSeguimiento)
     {
-        return $this->hasMany(Outfit::class, 'id_usuario');
+        $seguimiento = Seguimiento::findOrFail($idSeguimiento);
+
+        if ($seguimiento->id_seguido != Auth::id()) {
+            return response()->json(['message' => 'No autorizado.'], 403);
+        }
+
+        $seguimiento->estado = 'aceptado';
+        $seguimiento->save();
+
+        return response()->json(['message' => 'Solicitud aceptada.']);
     }
 
-    public function favoritosOutfits(): BelongsToMany
+    // Rechazar solicitud de seguimiento
+    public function rechazarSolicitud($idSeguimiento)
     {
-        return $this->belongsToMany(Outfit::class, 'favoritos_outfits', 'id_usuario', 'id_outfit');
+        $seguimiento = Seguimiento::findOrFail($idSeguimiento);
+
+        if ($seguimiento->id_seguido != Auth::id()) {
+            return response()->json(['message' => 'No autorizado.'], 403);
+        }
+
+        $seguimiento->estado = 'rechazado';
+        $seguimiento->save();
+
+        return response()->json(['message' => 'Solicitud rechazada.']);
     }
 
-    public function favoritosPrendas(): BelongsToMany
+    // Listar seguidores
+    public function listarSeguidores()
     {
-        return $this->belongsToMany(Prenda::class, 'favoritos_prendas', 'id_usuario', 'id_prenda');
+        $user = Auth::user();
+        // Seguidores aceptados
+        $seguidores = $user->seguidores()->wherePivot('estado', 'aceptado')->get();
+
+        return view('seguidores', compact('seguidores'));
     }
 
-    public function comentariosOutfits()
+    public function listarSeguidos()
     {
-        return $this->hasMany(ComentarioOutfit::class, 'id_usuario');
+        $user = Auth::user();
+        // Usuarios que sigo (aceptados)
+        $seguidos = $user->seguidos()->wherePivot('estado', 'aceptado')->get();
+
+        return view('seguidos', compact('seguidos'));
+    }
+    // SeguimientoController.php
+    public function solicitudesPendientes()
+    {
+        $user = Auth::user();
+        $solicitudes = Seguimiento::where('id_seguido', $user->id_usuario)
+            ->where('estado', 'pendiente')
+            ->with('seguidor')
+            ->get();
+
+        return view('solicitudes', compact('solicitudes'));
     }
 
-    public function comentariosPrendas()
+    // Añade este nuevo método al controlador
+    public function toggleFollow(Request $request, $idSeguido)
     {
-        return $this->hasMany(ComentarioPrenda::class, 'id_usuario');
-    }
-
-    public function valoracionesOutfits()
-    {
-        return $this->hasMany(ValoracionOutfit::class, 'id_usuario');
-    }
-
-    public function valoracionesPrendas()
-    {
-        return $this->hasMany(ValoracionPrenda::class, 'id_usuario');
-    }
-
-    public function likesComentariosOutfits()
-    {
-        return $this->hasMany(LikeComentarioOutfit::class, 'id_usuario');
-    }
-
-    public function likesComentariosPrendas()
-    {
-        return $this->hasMany(LikeComentarioPrenda::class, 'id_usuario');
-    }
-    public function likes()
-    {
-        return $this->belongsToMany(Usuario::class, 'likes_prendas', 'id_prenda', 'id_usuario')
-            ->withTimestamps();
-    }
-    public function seguidores()
-    {
-        return $this->belongsToMany(Usuario::class, 'seguidores', 'id_seguido', 'id_seguidor')
-            ->withPivot('estado', 'id_seguimiento')
-            ->using(Seguimiento::class);
-    }
-
-    public function seguidos()
-    {
-        return $this->belongsToMany(Usuario::class, 'seguidores', 'id_seguidor', 'id_seguido')
-            ->withPivot('estado', 'id_seguimiento')
-            ->using(Seguimiento::class);
-    }
-}
+        $user = Auth::user();
+        
+        // Verificar si ya existe una relación
+        $seguimiento = Seguimiento::where('id_seguidor', $user->id_usuario)
+                                 ->where('id_seguido', $idSeguido)
+                                 ->first();
+    
+        if ($seguimiento) {
+            if ($seguimiento->estado == 'aceptado') {
+                // Dejar de seguir (eliminar relación)
+                $seguimiento->delete();
+                return response()->json([
+                    'success' => true,
+                    'action' => 'unfollow',
+                    'buttonText' => 'Seguir',
+                    'buttonState' => '',
+                    'message' => 'Has dejado de seguir a este usuario'
+                ]);
+            } else {
+                // Si está pendiente o rechazado, actualizar a aceptado
+                $seguimiento->estado = 'aceptado';
+                $seguimiento->save();
+                return response()->json([
+                    'success' => true,
+                    'action' => 'accept',
+                    'buttonText' => 'Siguiendo',
+                    'buttonState' => 'following',
+                    'message' => 'Ahora estás siguiendo a este usuario'
+                ]);
+            }
+        } else {
+            // Crear nueva solicitud
+            Seguimiento::create([
+                'id_seguidor' => $user->id_usuario,
+                'id_seguido' => $idSeguido,
+                'estado' => 'pendiente'
+            ]);
+    
+            return response()->json([
+                'success' => true,
+                'action' => 'request',
+                'buttonText' => 'Pendiente',
+                'buttonState' => 'pending',
+                'message' => 'Solicitud de seguimiento enviada'
+            ]);
+        }
+    }}
