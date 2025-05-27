@@ -316,6 +316,13 @@ Route::middleware(['auth'])->group(
         Route::get('/producto/{solicitud}', [App\Http\Controllers\SolicitudRopaController::class, 'show'])
             ->name('producto.show');
 
+        // VALIDACIONES AJAX PARA PLANTILLAS
+        Route::post('/plantilla/check-slug', [PlantillaController::class, 'checkSlug'])
+        ->name('plantilla.checkSlug');
+       
+        Route::post('/plantilla/check-nombre', [PlantillaController::class, 'checkNombre'])
+        ->name('plantilla.checkNombre');
+
 
 
         // Esta ruta captura cualquier URL de 1 segmento (p.ej. /mi-tienda) tras resolver las anteriores:
