@@ -4,6 +4,8 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/styleInicio.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/styleHeader.css') }}">
+
 @endsection
 
 @section('scripts')
