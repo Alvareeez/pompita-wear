@@ -77,7 +77,7 @@
                   <p><strong>Plan:</strong> {{ $sol->plan->nombre }}</p>
                   <img src="{{ asset('img/prendas/' . $sol->prenda->img_frontal) }}"
                        alt="{{ $sol->prenda->nombre }}"
-                       class="img-fluid mb-3 flex-grow-1">
+                       class=" imagen-G img-fluid mb-3 flex-grow-1">
                   <div class="d-flex">
                     <form action="{{ route('gestor.approve', $sol) }}" method="POST" class="me-2">
                       @csrf
@@ -109,7 +109,7 @@
                   <p><strong>Plan:</strong> {{ $sol->plan->nombre }}</p>
                   <img src="{{ asset('img/prendas/' . $sol->prenda->img_frontal) }}"
                        alt="{{ $sol->prenda->nombre }}"
-                       class="img-fluid mb-3 flex-grow-1">
+                       class=" imagen-G img-fluid mb-3 flex-grow-1">
                   @if(! $sol->prenda->destacada)
                     <form action="{{ route('gestor.highlight', $sol) }}" method="POST">
                       @csrf
@@ -139,7 +139,7 @@
                   <p><strong>Plan:</strong> {{ $sol->plan->nombre }}</p>
                   <img src="{{ asset('img/prendas/' . $sol->prenda->img_frontal) }}"
                        alt="{{ $sol->prenda->nombre }}"
-                       class="img-fluid mb-3 flex-grow-1">
+                       class="imagen-G img-fluid mb-3 flex-grow-1">
                   <span class="badge bg-danger mt-auto">Rechazada</span>
                 </div>
               </div>
