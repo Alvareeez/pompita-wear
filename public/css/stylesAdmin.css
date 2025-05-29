@@ -148,6 +148,114 @@ body {
     }
 }
 
+/* Responsive para móviles */
+@media (max-width: 576px) {
+    /* Contenedor principal */
+    .admin-container {
+        padding: 15px;
+        margin: 0 10px;
+    }
+
+    /* Header */
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .admin-header nav {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .admin-header nav a {
+        text-align: left;
+        padding: 10px 0;
+    }
+
+    /* Tabs de navegación */
+    .tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .tabs button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* Filtros */
+    .filter-container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .filter-container input,
+    .filter-container select,
+    .filter-container textarea {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Tabla */
+    .table-container {
+        overflow-x: auto;
+        padding: 5px;
+    }
+
+    table {
+        font-size: 12px;
+        min-width: 500px; /* Ajusta según las columnas */
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+    }
+
+    /* Paginación */
+    .pagination {
+        flex-wrap: wrap;
+        gap: 5px;
+        font-size: 12px;
+    }
+
+    .pagination a,
+    .pagination .active,
+    .pagination .disabled,
+    .pagination .dots {
+        padding: 5px 8px;
+        font-size: 12px;
+        min-width: 30px;
+    }
+
+    /* Botones */
+    .create-btn,
+    #clear-filters-btn {
+        font-size: 14px;
+        padding: 10px;
+        width: 100%; /* Botones ocupan todo el ancho */
+    }
+
+    /* Spinner */
+    .dot-spinner {
+        --uib-size: 2rem;
+    }
+
+    .dot-spinner__dot::before {
+        height: 15%;
+        width: 15%;
+    }
+
+    /* Select PDF */
+    .select-pdf {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
 /* Contenedor principal */
 .admin-container {
     padding: 30px;
@@ -1064,17 +1172,130 @@ select option {
     }
 }
 
-.select-pdf {
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 16px;
-    color: #333;
-    background-color: #f9f9fa;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px 15px;
-    width: 250px;
-    max-width: 250px;
-    min-width: 120px;
-    outline: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+/* Responsive para móviles */
+@media (max-width: 576px) {
+    /* Contenedor principal */
+    .admin-container {
+        padding: 15px;
+        margin: 0 10px;
+    }
+
+    /* Header */
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .admin-header nav {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .admin-header nav a {
+        text-align: left;
+        padding: 10px 0;
+    }
+
+    /* Tabs de navegación */
+    .tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .tabs button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    /* Filtros */
+    .filter-container {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .filter-container input,
+    .filter-container select,
+    .filter-container textarea {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Tabla */
+    .table-container {
+        overflow-x: auto;
+        padding: 5px;
+    }
+
+    table {
+        font-size: 12px;
+        min-width: 500px; /* Ajusta según las columnas */
+    }
+
+    table th,
+    table td {
+        padding: 8px;
+    }
+
+    /* Paginación */
+    .pagination {
+        flex-wrap: wrap;
+        gap: 5px;
+        font-size: 12px;
+    }
+
+    .pagination a,
+    .pagination .active,
+    .pagination .disabled,
+    .pagination .dots {
+        padding: 5px 8px;
+        font-size: 12px;
+        min-width: 30px;
+    }
+
+    /* Botones */
+    .create-btn,
+    #clear-filters-btn {
+        font-size: 14px;
+        padding: 10px;
+        width: 100%; /* Botones ocupan todo el ancho */
+    }
+
+    /* Spinner */
+    .dot-spinner {
+        --uib-size: 2rem;
+    }
+
+    .dot-spinner__dot::before {
+        height: 15%;
+        width: 15%;
+    }
+
+    /* Select PDF */
+    .select-pdf {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* Responsive para iPhone 14 Pro Max (430px de ancho) */
+@media (max-width: 430px) {
+    /* Ajustar posición de la hamburguesa */
+    .navbar-toggler {
+        position: absolute;
+        top: 10px; /* Ajusta según sea necesario */
+        right: 10px; /* Ajusta según sea necesario */
+    }
+}
+
+/* Responsive para móviles (576px de ancho) */
+@media (max-width: 576px) {
+    /* Ajustar posición de la hamburguesa */
+    .navbar-toggler {
+        position: absolute;
+        top: 15px; /* Ajusta según sea necesario */
+        right: 15px; /* Ajusta según sea necesario */
+    }
 }
